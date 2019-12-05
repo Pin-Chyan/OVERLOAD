@@ -8,8 +8,78 @@
 
     .shadow {
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24) !important;
+        padding: 15px;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .bgimage {
+        background: url(./images/wallpaper.png) no-repeat center center fixed;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: "Roboto", sans-serif;
+    }
+
+    .blank {
+        background: white;
     }
 </style>
+<script type="text/babel">
+    var Info = React.createClass({
+        render: function () {
+            return (
+                <article className="media center">
+                    <figure className="media-left">
+                        <figure className="image is-64x64">
+                            <img alt="Asuna" src="./images/profile.jpg" />
+                        </figure>
+                    </figure>
+                    <div className="media-content">
+                        <div className="content">
+                            <p>
+                                <strong>Asuna Yuuki</strong> <a>@Asuna_Yuuki</a><br />
+                                <span className="has-text-grey">SAO, player<br />
+                                    <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                            </p>
+                        </div>
+                    </div>
+                </article>);
+        }
+    });
+    ReactDOM.render(<Info />, document.getElementById('disp_name'));
+
+    var CellMate = React.createClass({
+        render: function () {
+            return (
+                <article className="media center">
+                    <figure className="media-left">
+                        <figure className="image is-64x64">
+                            <img alt="Asuna" src="./images/profile.jpg" />
+                        </figure>
+                    </figure>
+                    <div className="media-content">
+                        <div className="content">
+                            <p>
+                                <strong>Asuna Yuuki</strong> <a>@Asuna_Yuuki</a><br />
+                                <span className="has-text-grey">SAO, player<br />
+                                    <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                            </p>
+                        </div>
+                    </div>
+                </article>);
+        }
+    });
+    ReactDOM.render(<CellMate />, document.getElementById('disp_test'));
+</script>
 
 <head>
     <meta charset="utf-8">
@@ -17,19 +87,23 @@
     <title>Matcha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <script src="./js/react.min.js"></script>
+    <script src="./js/react-dom.min.js"></script>
+    <script src="./js/browser.min.js"></script>
     <!-- <link rel="stylesheet" href="styles/debug.css"> -->
 </head>
 
 <body>
     <section class="section">
-        <div class="container">
+        <div class="container blank">
             <div class="columns is-centered shadow">
                 <div class="column is-half">
                     <figure class="image is-3by4">
                         <img class="overflow" src="./images/profile.jpg" alt="Melton Hill Lake">
                     </figure>
-                    <div class="column is-centered">
-                        <p class="buttons">
+                    <div class="column center">
+                        <!--center in progress -->
+                        <p>
                             <button class="button is-warning">
                                 <span class="icon">
                                     <i class="fas fa-arrow-left"></i>
@@ -61,6 +135,10 @@
                                 </span>
                             </button>
                         </p>
+                    </div>
+                    <div class="column center">
+                        <div id="disp_name" class="center"></div>
+                        <div id="disp_test" class="center"></div>
                     </div>
                     <!-- <figure class="image is-3by4">
                         <img class="overflow" src="./images/zero_two.jpg" alt="Melton Hill Lake">
