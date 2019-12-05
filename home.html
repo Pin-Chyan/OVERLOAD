@@ -7,7 +7,7 @@
     }
 
     .shadow {
-        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24) !important;
+        /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
         padding: 15px;
     }
 
@@ -18,20 +18,14 @@
         text-align: center;
     }
 
-    .bgimage {
-        background: url(./images/wallpaper.png) no-repeat center center fixed;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        font-family: "Roboto", sans-serif;
+    .hero {
+        /* background: url(https://images3.alphacoders.com/557/thumb-1920-55735.jpg) center / cover; */
+        background-color: rgba(29, 25, 26);
     }
-
+/* 
     .blank {
         background: white;
-    }
+    } */
 </style>
 <script type="text/babel">
     var Info = React.createClass({
@@ -90,12 +84,35 @@
     <script src="./js/react.min.js"></script>
     <script src="./js/react-dom.min.js"></script>
     <script src="./js/browser.min.js"></script>
+	<link rel="stylesheet" href="styles/helpers.css">
     <!-- <link rel="stylesheet" href="styles/debug.css"> -->
 </head>
 
 <body>
-    <section class="section">
-        <div class="container blank">
+    <section class="section hero">
+            <div class="hero-head">
+                    <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                        <div class="column left">
+                            <figure class="navbar-item image">
+                                <img src="images/logo.png" style="width: 10rem; height: 2rem; object-fit: cover;">
+                            </figure>
+                        </div>
+                        <div class="column center_t desktop">
+                            <p class="navbar-item has-text-white">MODEL S </p>
+                            <p class="navbar-item has-text-white">MODEL X </p>
+                            <p class="navbar-item has-text-white">MODEL 3 </p>
+                            <p class="navbar-item has-text-white">ROADSTER</p>
+                            <p class="navbar-item has-text-white">ENERGY  </p>
+                        </div>
+                        <div class="column right">
+                            <p class="navbar-item has-text-white desktop">SIGN IN  </p>
+                            <figure class="navbar-item image has-text-white center">
+                                <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+        <div class="container">
             <div class="columns is-centered shadow">
                 <div class="column is-half">
                     <figure class="image is-3by4">
@@ -136,7 +153,7 @@
                             </button>
                         </p>
                     </div>
-                    <div class="column center">
+                    <div class="column center">                    
                         <div id="disp_name" class="center"></div>
                         <div id="disp_test" class="center"></div>
                     </div>
