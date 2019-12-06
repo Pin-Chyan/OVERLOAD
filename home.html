@@ -22,7 +22,8 @@
         /* background: url(https://images3.alphacoders.com/557/thumb-1920-55735.jpg) center / cover; */
         background-color: rgba(29, 25, 26);
     }
-/* 
+
+    /* 
     .blank {
         background: white;
     } */
@@ -84,30 +85,36 @@
     <script src="./js/react.min.js"></script>
     <script src="./js/react-dom.min.js"></script>
     <script src="./js/browser.min.js"></script>
-	<link rel="stylesheet" href="styles/helpers.css">
+    <link rel="stylesheet" href="styles/helpers.css">
     <!-- <link rel="stylesheet" href="styles/debug.css"> -->
 </head>
 
 <body>
     <section class="section hero">
-            <div class="hero-head">
-                    <div class="columns is-mobile is-marginless heading has-text-weight-bold">
-                        <div class="column left">
-                            <figure class="navbar-item image">
-                                <img src="images/logo.png" style="width: 10rem; height: 2rem; object-fit: cover;">
-                            </figure>
-                        </div>
-                        <!-- <div class="column center_t desktop">
+        <div class="hero-head">
+            <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                <div class="column left">
+                    <figure class="navbar-item image">
+                        <img src="images/logo.png" style="width: 10rem; height: 2rem; object-fit: cover;">
+                    </figure>
+                </div>
+                <!-- <div class="column center_t desktop">
                             <p class="navbar-item has-text-white">Settings</p>
                         </div> -->
-                        <div class="column right">
-                            <p class="navbar-item has-text-white desktop">SIGN IN  </p>
-                            <figure class="navbar-item image has-text-white center">
-                                <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
-                            </figure>
-                        </div>
+                <div class="column right">
+                    <div class="control is-small has-icons-right">
+                        <input class="input is-hovered is-small is-rounded" type="text" placeholder="Search">
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-search"></i>
+                        </span>
                     </div>
+                    <p class="navbar-item has-text-white desktop">SIGN IN </p>
+                    <figure class="navbar-item image has-text-white center">
+                        <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
+                    </figure>
                 </div>
+            </div>
+        </div>
         <div class="container">
             <div class="columns is-centered shadow">
                 <div class="column is-half">
@@ -149,7 +156,7 @@
                             </button>
                         </p>
                     </div>
-                    <div class="column center">                    
+                    <div class="column center">
                         <div id="disp_name" class="center"></div>
                         <div id="disp_test" class="center"></div>
                     </div>
