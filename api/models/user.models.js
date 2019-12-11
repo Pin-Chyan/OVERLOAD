@@ -55,12 +55,21 @@ const message = new Schema({
   message_body: String,
   message_status:{ type: Boolean, default: false},
   created_at: { type: Date, default: Date.now },
-})
+});
+
+const image = new Schema({
+  author : { type: String, required: true},
+  img: { data: Buffer, contentType: String },
+  created : { type: Date, default: Date.now}
+});
 
 const User = mongoose.model('User', userSchema);
 const Room = mongoose.model('Room', room);
 const Message = mongoose.model('Message', message);
 
+
 module.exports = User;
 module.exports = Room;
 module.exports = Message;
+module.exports = image;
+module.exports = userSchema;
