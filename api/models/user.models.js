@@ -34,13 +34,33 @@ const userSchema = new Schema({
   },
   sexual_pref: {
       type: String,
-      unique: true,
       required: true
   }
 }, {
   timestamps: true,
 });
 
+const room = new Schema({
+  name: { type: String, lowercase: true, unique: true },
+    users: ,
+    messages: ,
+    created_at: Date,
+    updated_at: { type:Date, default: Date.now},
+});
+
+const message = new Schema({
+  room: room,
+  user: user,
+  room_id: ,
+  message_body: String,
+  message_status:{ type: Boolean, default: false},
+  created_at: { type: Date, default: Date.now },
+})
+
 const User = mongoose.model('User', userSchema);
+const Room = mongoose.model('Room', room);
+const Message = mongoose.model('Message', message);
 
 module.exports = User;
+module.exports = Room;
+module.exports = Message;

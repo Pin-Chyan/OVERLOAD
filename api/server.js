@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,8 +10,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}
+// const uri = process.env.ATLAS_URI;
+mongoose.connect('mongodb://localhost:3630/senpai', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}
 );
 
 const connection = mongoose.connection;
