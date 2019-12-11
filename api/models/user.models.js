@@ -41,6 +41,11 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
-const User = mongoose.model('User', userSchema);
+const image = new Schema({
+  author : { type: String, required: true},
+  img: { data: Buffer, contentType: String },
+  created : { type: Date, default: Date.now}
+});
 
-module.exports = User;
+module.exports = image;
+module.exports = userSchema;
