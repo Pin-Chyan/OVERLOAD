@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const user = new Schema({
   name: {
     type: String,
     required: true,
@@ -42,16 +42,16 @@ const userSchema = new Schema({
 
 const room = new Schema({
   name: { type: String, lowercase: true, unique: true },
-    users: ,
-    messages: ,
-    created_at: Date,
-    updated_at: { type:Date, default: Date.now},
+  users: { type : String },
+  messages: { type : String },
+  created_at: Date,
+  updated_at: { type:Date, default: Date.now},
 });
 
 const message = new Schema({
   room: room,
   user: user,
-  room_id: ,
+  // room_id: ,
   message_body: String,
   message_status:{ type: Boolean, default: false},
   created_at: { type: Date, default: Date.now },
@@ -63,7 +63,7 @@ const image = new Schema({
   created : { type: Date, default: Date.now}
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', user);
 const Room = mongoose.model('Room', room);
 const Message = mongoose.model('Message', message);
 
@@ -72,4 +72,4 @@ module.exports = User;
 module.exports = Room;
 module.exports = Message;
 module.exports = image;
-module.exports = userSchema;
+module.exports = User;
