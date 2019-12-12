@@ -61,31 +61,16 @@
     var GetName = React.createClass({
         render: function () {
             return (
-                <div className="hero-head">
-            <div className="columns is-mobile is-marginless heading has-text-weight-bold">
-                <div className="column left">
-                    <figure className="navbar-item image">
-                        <img src="images/logo.png" className="logo_use" />
-                    </figure>
-                </div>
-                <div className="column right">
-                    <div className="control is-small has-icons-right">
-                        <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
-                        <span className="icon is-small is-right">
-                            <i className="fas fa-search"></i>
-                        </span>
+                <div className="field">
+                    <label className="label">Name</label>
+                    <div className="control">
+                        <input className="input" type="text" placeholder="Name" />
                     </div>
-                    <p className="navbar-item has-text-white desktop">SIGN IN </p>
-                    <figure className="navbar-item image has-text-white center">
-                        <i className="fas fa-bars"></i>
-                    </figure>
                 </div>
-            </div>
-        </div>
         );
         }
     });
-    ReactDOM.render(<GetName />, document.getElementById('disp_navbar'));
+    ReactDOM.render(<GetName />, document.getElementById('get_name'));
 </script>
 
 <head>
@@ -110,8 +95,18 @@
                 <div class="column is-half">
                     <div class="column center">
                         <!--center in progress -->
+
+                        <div id="get_name"></div>
+
                         <div class="field">
                             <label class="label">Name</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Surname</label>
                             <div class="control">
                                 <input class="input" type="text" placeholder="Name">
                             </div>
