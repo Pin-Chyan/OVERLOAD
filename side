@@ -1,0 +1,73 @@
+                                        <div class="column center">
+                        <!--center in progress -->
+                        <p>
+                            <button class="button is-warning">
+                                <span class="icon">
+                                    <i class="fas fa-arrow-left"></i>
+                                </span>
+                                <!-- <span>Twitter</span> -->
+                            </button>
+                            <button class="button is-danger">
+                                <span class="icon">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <!-- <span>GitHub</span> -->
+                            </button>
+                            <button class="button is-primary">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <!-- <span>Save</span> -->
+                            </button>
+                            <button class="button is-success">
+                                <!-- <span>Like</span> -->
+                                <span class="icon is-small">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                            </button>
+                            <button class="button is-hovered">
+                                <!-- <span>Report</span> -->
+                                <span class="icon is-small">
+                                    <i class="fas fa-exclamation"></i>
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+
+
+                                        <!-- <figure class="image is-3by4">
+                        <img class="overflow" src="./images/wallpaper.png" alt="Melton Hill Lake">
+                    </figure> -->
+
+
+                            <div class="hero-head">
+            <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                <div class="column left">
+                    <figure class="navbar-item image">
+                        <img src="images/logo.png" style="width: 10rem; height: 2rem; object-fit: cover;">
+                    </figure>
+                </div>
+                <!-- <div class="column center_t desktop">
+                            <p class="navbar-item has-text-white">Settings</p>
+                        </div> -->
+                <div class="column right">
+                    <div class="control is-small has-icons-right">
+                        <input class="input is-hovered is-small is-rounded" type="text" placeholder="Search">
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <p class="navbar-item has-text-white desktop">SIGN IN </p>
+                    <figure class="navbar-item image has-text-white center">
+                        <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        /// half of the code
+
