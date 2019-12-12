@@ -1,0 +1,24 @@
+.overflow {
+    object-fit: contain;
+}
+
+.shadow {
+    /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
+    padding: 15px;
+}
+
+.hero {
+    /* background: url(https://images3.alphacoders.com/557/thumb-1920-55735.jpg) center / cover; */
+    background-color: rgba(29, 25, 26);
+}
+
+.logo_use {
+    width: 10rem !important;
+    height: 2rem !important;
+    object-fit: cover !important;
+}
+
+.svg_icon {
+    width: 1rem !important;
+    height: 1rem !important;
+}

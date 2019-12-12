@@ -66,6 +66,31 @@
         </div>
 
 
+<div class="hero-head">
+            <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                <div class="column left">
+                    <figure class="navbar-item image">
+                        <img src="images/logo.png" style="width: 10rem; height: 2rem; object-fit: cover;">
+                    </figure>
+                </div>
+                <!-- <div class="column center_t desktop">
+                            <p class="navbar-item has-text-white">Settings</p>
+                        </div> -->
+                <div class="column right">
+                    <div class="control is-small has-icons-right">
+                        <input class="input is-hovered is-small is-rounded" type="text" placeholder="Search">
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <p class="navbar-item has-text-white desktop">SIGN IN </p>
+                    <figure class="navbar-item image has-text-white center">
+                        <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
 
 
 
