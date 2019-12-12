@@ -3,20 +3,16 @@ var fs = require('fs');
 let imgModels = require('../models/image.models.js');
 
 function base64_encode(file) {
-    // read binary data
     var bitmap = fs.readFileSync(file);
-    // convert binary data to base64 encoded string
-    return new Buffer(bitmap).toString('base64');
+    return bitmap.toString('base64');
 }
 
 router.route('/add').post( (req, res) => {
-	const user = req.body.name;
-	const img = base64_encode(req.body.path);
-	if (!img)
-		console.log("image not retrieved");
+	const username = req.body.username;
+	const img = 'data:image/' + req.body.imgType + ';base64, ' + base64_encode(req.body.path);
 	const imgType = req.body.imgType;
     const newimg = new imgModels({
-        user,
+        username,
         img,
         imgType,
     });
@@ -24,5 +20,20 @@ router.route('/add').post( (req, res) => {
     newimg.save().then( () => res.json(img) )
     .catch( err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/remove').post( (req, res) => {
+    if (req.body.id){
+        imgModels.findOneAndDelete({ _id: req.body.id }, function (err) {
+            if(err) res.json(err);
+            res.json("image deleted with id");  
+        });
+    }
+    else{
+        imgModels.findOneAndDelete({ username: req.body.username }, function (err) {
+            if(err) res.json(err);
+            res.json("image deleted using username");  
+        });
+    }
+})
 
 module.exports = router;

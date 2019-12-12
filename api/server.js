@@ -21,9 +21,11 @@ connection.once('open', () => {
 
 const userRoutes = require('./routes/user.routes.js');
 const imgRoutes = require('./routes/image.routes.js');
+const home = require('./routes/home.route.js');
 
 app.use('/users', userRoutes);
 app.use('/image', imgRoutes);
+app.use('/', home);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
