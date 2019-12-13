@@ -40,14 +40,6 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
-// const room = new Schema({
-//   name: { type: String, lowercase: true, unique: true },
-//     users: ,
-//     messages: ,
-//     created_at: Date,
-//     updated_at: { type:Date, default: Date.now},
-// });
-
 // const message = new Schema({
 //   room: room,
 //   user: user,
@@ -64,12 +56,11 @@ const image = new Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-// const Room = mongoose.model('Room', room);
+
 // const Message = mongoose.model('Message', message);
 
 
 module.exports = User;
-// module.exports = Room;
 // module.exports = Message;
 module.exports = image;
 module.exports = userSchema;

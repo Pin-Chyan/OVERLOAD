@@ -64,11 +64,25 @@
 				}
 
 				// Connect to socket.io
-				var socket = io.connect('http://127.0.0.1:4000');
+				var socket = io.connect('http://localhost:4000');
 
 				// Check for connection
 				if(socket !== undefined){
-					consol.log('Connected to socket...');
+					console.log('Connected to socket...');
+
+					socket.on('output', function(data){
+						console.log(data);
+						if(data.length){
+							for(var x = 0;x < data.length;x++){
+								// Build out message div
+								var message = document.createElement('div');
+								message.setAttribute('class', 'chat-message');
+								message.textContent = data[x].name+": "+data[x].message;
+								messages.appendChile(message);
+								messages.insertBefore(message, messages.firstChild);
+							}
+						}
+					});
 				}
 
 			})();

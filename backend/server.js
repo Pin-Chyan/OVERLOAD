@@ -1,17 +1,17 @@
 const express = require('express');
+const chats = require('./models/chats.models.js');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const client = require('socket.io').listen(4000).sockets;
 
 // require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-// const uri = process.env.ATLAS_URI;
+// const uri = process.env.ATLAS_URI; 
 mongoose.connect('mongodb://localhost:3630/senpai', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}
 );
 
@@ -21,22 +21,28 @@ connection.once('open', () => {
 })
 
 client.on('connection', function(socket) {
-  let chat = connection.collection('chats');
+  // let chat = connection.collection('chats');
 
   // create a function to send a status
   sendStatus = function(s){
     socket.emit('staus', s);
   }
-
+  
   // Get chats from the database
-  chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
-    if (err){
-      throw err;
-    }
+  connection.on('error', console.error.bind(console, 'connection error:'));
+  connection.once('connected', function () {
 
-    //Emit the messages
-    socket.emit('output', res);
+    connection.db.collection("chats", function(err, collection){
+      collection.find({}).toArray(function(err, data){
+        console.log(data);
+        
+        //Emit the messages
+        socket.emit('output', data);
+      })
+    });
   });
+
+  // chats.find({}, function(err, data) { console.log(err, data, data.length); });
 
   //Handle input events
   socket.on('input', function(data){
@@ -73,8 +79,10 @@ client.on('connection', function(socket) {
 });
 
 const userRoutes = require('./routes/user.routes.js');
+const chatRoutes = require('./routes/chat.routes.js');
 
 app.use('/users', userRoutes);
+app.use('/chats', chatRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
