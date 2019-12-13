@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import "../styles/overload.css";
+import "../styles/helpers.css";
 
 export default class Register extends Component {
     // constructor(props) {
