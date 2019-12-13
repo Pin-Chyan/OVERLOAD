@@ -1,10 +1,16 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import "./App.sass";
+
+import Register from "./components/register-component.js";
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <Router>
+      <div className="App">
+        <Route path="/" exact component={Register} />
+      </div>
+    </Router>
   );
 }
 
