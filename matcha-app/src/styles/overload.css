@@ -22,3 +22,8 @@
     width: 1rem !important;
     height: 1rem !important;
 }
+
+.bg_white {
+    background-color: white !important;
+    border-radius: 2%;
+}
