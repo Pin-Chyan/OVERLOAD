@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
+// import "../styles/debug.css";
 
 export default class Register extends Component {
     // constructor(props) {
@@ -34,7 +35,7 @@ export default class Register extends Component {
             <div class="container">
                 <div class="columns is-centered shadow">
                     <div class="column is-half bg_white">
-                         <figure class="image"> {/* is-3by4 */}
+                         <figure class="image is-3by4"> {/* is-3by4 */}
                             <img className="overflow" src={require('../images/profile.jpg')} alt="Asuna_img" />
                         </figure>
     
