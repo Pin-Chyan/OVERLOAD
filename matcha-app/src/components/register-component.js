@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
+import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 
 export default class Register extends Component {
@@ -10,96 +11,130 @@ export default class Register extends Component {
     // }
     render () {
         return (
-            <section class="section hero">
+        <section className="section hero">
             <div className="hero-head">
-            <div className="columns is-mobile is-marginless heading has-text-weight-bold">
-                <div className="column left">
-                    <figure className="navbar-item image">
-                        <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
-                    </figure>
-                </div>
-                <div className="column right">
-                    <div className="control is-small has-icons-right">
-                        <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
-                        <span className="icon is-small is-right">
-                            <i className="fas fa-search"></i>
-                        </span>
-                    </div>
-                    <p className="navbar-item has-text-white desktop">SIGN IN </p>
-                    <figure className="navbar-item image has-text-white center">
-                        <i className="fas fa-bars"></i>
-                    </figure>
-                </div>
-            </div>
-        </div>
-            <div class="container">
-                <div class="columns is-centered shadow">
-                    <div class="column is-half bg_white">
-                         <figure class="image is-3by4"> {/* is-3by4 */}
-                            <img className="overflow" src={require('../images/profile.jpg')} alt="Asuna_img" />
+                <div className="columns is-mobile is-marginless heading has-text-weight-bold">
+                    <div className="column left">
+                        <figure className="navbar-item image">
+                        <a href="./home-component.js">
+                            <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
+                        </a>
                         </figure>
-    
-                        <div className="column center_b">
-                        <p>
-                            <button className="button is-warning">
-                                <span className="icon">
-                                    <i className="fas fa-arrow-left"></i>
-                                </span>
-                            </button>
-                            <button className="button is-danger">
-                                <span className="icon">
-                                    <i className="fas fa-times"></i>
-                                </span>
-                            </button>
-                            <button className="button is-primary">
-                                <span className="icon is-small">
-                                    <i className="fas fa-star"></i>
-                                </span>
-                            </button>
-                            <button className="button is-success">
-                                <span className="icon is-small">
-                                    <i className="fas fa-heart"></i>
-                                </span>
-                            </button>
-                            <button className="button is-hovered">
-                                <span className="icon is-small">
-                                    <i className="fas fa-exclamation"></i>
-                                </span>
-                            </button>
-                        </p>
                     </div>
-    
-                        <div class="column center_b">
-                        <div class="column center">
-                <article className="media center">
-                    <figure className="media-left">
-                        <figure className="image is-64x64">
-                            <img alt="Asuna" src={require('../images/profile.jpg')} />
+                    <div className="column right">
+                        <div className="control is-small has-icons-right">
+                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
+                            <span className="icon is-small is-right">
+                                <i className="fa fa-search"></i>
+                            </span>
+                        </div>
+                        <p className="navbar-item has-text-white desktop">SIGN IN </p>
+                        <figure className="navbar-item image has-text-white center">
+                            <i className="fa fa-bars"></i>
                         </figure>
-                    </figure>
-                    <div className="media-content">
-                        <div className="content">
-                            <p>
-                                <strong>Asuna Yuuki</strong> <a>@Asuna_Yuuki</a><br />
-                                <span className="has-text-grey">SAO, player<br />
-                                <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
-                            </p>
-                        </div>
-                    </div>
-                </article>
-                <br />
-                <hr />
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
-                </p>
-            </div>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
-        </section>
+        {/* <div className="container"> */}
+            <div className="columns is-centered shadow">
+                <div className="column is-half bg_white">
+                    <div className="column center">
 
+                        <div className="field">
+                            <label className="label">Name</label>
+                            <div className="control">
+                                <input className="input" type="text" placeholder="Name" />
+                            </div>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Surname</label>
+                            <div className="control">
+                                <input className="input" type="text" placeholder="Name" />
+                            </div>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Age</label>
+                            <div className="control">
+                                <input className="input" type="text" placeholder="Age" />
+                            </div>
+                            <p>your age will be shown public.</p>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Password</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input is-success" type="text" placeholder="Text input" value="Password" />
+                                <span className="icon is-small is-left">
+                                    <i className="fa fa-user"></i>
+                                </span>
+                                <span className="icon is-small is-right">
+                                    <i className="fa fa-check"></i>
+                                </span>
+                            </div>
+                            <p className="help is-success">This username is available</p>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Email</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input is-danger" type="email" placeholder="Email input" value="Email" />
+                                <span className="icon is-small is-left">
+                                    <i className="fa fa-envelope"></i>
+                                </span>
+                                <span className="icon is-small is-right">
+                                    <i className="fa fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <p className="help is-danger">This email is invalid</p>
+                        </div>
+
+
+                        <div className="field">
+                            <label className="label">Gender</label>
+                            <div className="control">
+                                <label className="radio">
+                                    <input type="radio" name="question" />
+                                    Male
+                                </label>
+                                <label className="radio">
+                                    <input type="radio" name="question" />
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="file has-name is-fullwidth field is-right">
+                            <label className="file-label">
+                                <input className="file-input" type="file" name="resume" />
+                                <span className="file-cta">
+                                    <span className="file-icon">
+                                        <i className="fa fa-upload"></i>
+                                    </span>
+                                    <span className="file-label">
+                                        Choose a file…
+                                    </span>
+                                </span>
+                                <span className="file-name">
+                                    image...
+                                </span>
+                            </label>
+                        </div>
+
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button className="button is-link">Submit</button>
+                            </div>
+                            <div className="control">
+                                <button className="button is-link is-light">Cancel</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {/* </div> */}
+    </section>
         )
     }
 }
