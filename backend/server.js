@@ -1,48 +1,63 @@
 const express = require('express');
-const chats = require('./models/chats.models.js');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const client = require('socket.io').listen(4000).sockets;
+const msg_schem = require('./models/chats.models');
+const client = require('socket.io').listen(4001).sockets;
 
-// require('dotenv').config();
+require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
 
-// const uri = process.env.ATLAS_URI; 
-mongoose.connect('mongodb://localhost:3630/senpai', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}
+const uri = process.env.ATLAS_URI; 
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false}
 );
 
 const connection = mongoose.connection;
 connection.once('open', () => {
-  console.log("Connected to mongoDB Atlas");
+  console.log("Connected to mongoDB");
 })
 
+// // connect to socket.io
+// var socket = io.connect();
+// socket.on('connect', () => update());
+// function update() {
+//   var str = (windows.location).toString();
+//   socket.emit('update', {user: user.val(), id: socket.id, page:str});
+// }
+var prev = 'lol';
 client.on('connection', function(socket) {
-  // let chat = connection.collection('chats');
 
   // create a function to send a status
+  console.log(socket.id);
+  console.log(prev);
+  if (prev != socket.id){
+    connection.db.collection("chats", function(err, collection){
+      collection.find({}).toArray(function(err, data){
+        socket.emit('output', data);
+    });
+   });
+  }
+  prev = socket.id;
   sendStatus = function(s){
     socket.emit('staus', s);
   }
   
   // Get chats from the database
-  connection.on('error', console.error.bind(console, 'connection error:'));
-  connection.once('connected', function () {
-
+  //connection.on('error', console.error.bind(console, 'connection error:'));
+  connection.on('connected', function () {
+  
     connection.db.collection("chats", function(err, collection){
       collection.find({}).toArray(function(err, data){
-        console.log(data);
-        
-        //Emit the messages
-        socket.emit('output', data);
-      })
-    });
-  });
+        old = data;
 
-  // chats.find({}, function(err, data) { console.log(err, data, data.length); });
+    //Emit the messages
+    socket.emit('output', data);
+    });
+   });
+  });
 
   //Handle input events
   socket.on('input', function(data){
@@ -54,11 +69,13 @@ client.on('connection', function(socket) {
       sendStatus('Please enter a name and message');
     } else {
       // Insert into the db
-      chat.insert({name: name, message: message}, function(){
-        client.emit('output', [data]);
+      var newMsg = new msg_schem({name: name, message: message});
+      //connection.chats.insertOne({name: name, message: message}, function(){
+      newMsg.save(function(){
+      client.emit('output', [data]);
 
         // Send status object
-        sensStatus({
+        sendStatus({
           message: 'Message sent',
           clear: true
         });
