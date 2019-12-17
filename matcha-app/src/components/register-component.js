@@ -6,9 +6,114 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 
 export default class Register extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeSurname = this.onChangeSurname.bind(this);
+        this.onChangePwd = this.onChangePwd.bind(this);
+        this.onChangePwdCon = this.onChangePwdCon.bind(this);
+        this.onChangeAge = this.onChangeAge.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+
+        this.state = {
+            name: '',
+            surname: '',
+            age: 0,
+            pwd: '',
+            pwdCon: '',
+            email: '',
+            gender: '',
+            img: '',
+            registered: false,
+            pwdErr: '',
+            nameErr: '',
+            surnameErr: '',
+            ageErr: '',
+            emailErr: '',
+        };
+    }
+
+    onChangeName(e) {
+        this.setState({
+            name: e.target.value
+        });
+    }
+
+    onChangeSurname(e) {
+        this.setState({
+                surname: e.target.value
+            });
+    }
+
+    onChangePwd(e) {
+        this.setState({
+                pwd: e.target.value
+            });
+    }    
+
+    onChangeEmail(e) {
+        this.setState({
+                email: e.target.value
+            });
+    }
+
+    onChangePwdCon(e) {
+        this.setState({
+                pwdCon: e.target.value
+            });
+    }
+
+    onChangeGender(e) {
+        this.setState({
+                gender: e.target.value
+            });
+    }
+
+    onChangeAge(e) {
+        this.setState({
+                age: e.target.value
+            });
+    }
+    
+    onSubmit = async e => {
+            e.preventDefault();
+        
+
+            const data = {
+                name: this.state.name,
+                surname: this.state.surname,
+                pwd: this.state.pwd,
+                age: this.state.age,
+            };
+            console.log(data);
+            //const regStatus = 
+            //const errors = this.refs.form.showFieldErrors();
+            if (this.state.age < 13) {
+                this.setState({ageErr : 'You must be at least 13 to join'});
+            } else {
+                this.setState({ ageErr : ''})
+            }
+
+            if (this.state.pwd !== this.state.pwdCon) {
+                this.setState({pwdErr : "Passwords don't match"})
+            } else {
+                this.setState({ pwdErr : ''});
+            }
+
+            
+            // this.setState({
+            //         name: '',
+            //         surname: '',
+            //         pwd: '',
+            //         pwdCon: '',
+            //         email: '',
+            //         gender: '',
+            //         imgSet: '',
+            //         registered: true,
+            //     });
+        }
     render () {
         return (
         <section className="section hero">
@@ -16,7 +121,7 @@ export default class Register extends Component {
                 <div className="columns is-mobile is-marginless heading has-text-weight-bold">
                     <div className="column left">
                         <figure className="navbar-item image">
-                        <a href="./home-component.js">
+                        <a href="./">
                             <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
                         </a>
                         </figure>
@@ -43,29 +148,29 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Name</label>
                             <div className="control">
-                                <input className="input" type="text" placeholder="Name" />
+                                <input className="input" type="text" placeholder="Name" value={this.state.name} onChange={this.onChangeName} required/>
                             </div>
                         </div>
 
                         <div className="field">
                             <label className="label">Surname</label>
                             <div className="control">
-                                <input className="input" type="text" placeholder="Name" />
+                                <input className="input" type="text" placeholder="Surname" value={this.state.surname} onChange={this.onChangeSurname} required/>
                             </div>
                         </div>
 
                         <div className="field">
                             <label className="label">Age</label>
                             <div className="control">
-                                <input className="input" type="text" placeholder="Age" />
+                                <input className="input" type="text" placeholder="Age" value={this.state.age} onChange={this.onChangeAge} required/>
                             </div>
-                            <p className="help">your age will be shown public.</p>
+                            <p className="help is-danger">{this.state.ageErr}</p>
                         </div>
 
                         <div className="field">
                             <label className="label">Password</label>
                             <div className="control has-icons-left">
-                                <input className="input" type="text" placeholder="Text input" value="Password" />
+                                <input className="input" type="password" placeholder="Password" value={this.state.pwd} onChange={this.onChangePwd} required/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-user"></i>
                                 </span>
@@ -75,18 +180,18 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Password Comfirm</label>
                             <div className="control has-icons-left">
-                                <input className="input" type="text" placeholder="Text input" value="Password" />
+                                <input className="input" type="password" placeholder="Confirm Password" value={this.state.pwdCon} onChange={this.onChangePwdCon} required/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-user"></i>
                                 </span>
                             </div>
-                            <p className="help">Please Retype Password</p>
+                            <p className="help is-danger">{this.state.pwdErr}</p>
                         </div>
 
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="Email input" value="Email" />
+                                <input className="input" type="email" placeholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
@@ -94,7 +199,7 @@ export default class Register extends Component {
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
                             </div>
-                            <p className="help is-danger">This email is required</p>
+                            {/* <p className="help is-danger">This email is required</p> */}
                         </div>
 
 
@@ -106,7 +211,7 @@ export default class Register extends Component {
                                     Male
                                 </label>
                                 <label className="radio">
-                                    <input type="radio" name="question" />
+                                    <input type="radio" name="question"/>
                                     Female
                                 </label>
                             </div>
@@ -131,7 +236,7 @@ export default class Register extends Component {
 
                         <div className="field is-grouped">
                             <div className="control">
-                                <button className="button is-warning is-rounded">Submit</button>
+                                <button className="button is-warning is-rounded" onClick={this.onSubmit}>Submit</button>
                             </div>
                             <div className="control">
                                 <button className="button is-warning is-rounded is-light">Cancel</button>

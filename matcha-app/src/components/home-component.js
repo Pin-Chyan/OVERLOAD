@@ -5,7 +5,7 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 
-export default class Register extends Component {
+export default class Home extends Component {
     // constructor(props) {
     //     super(props);
     // }
