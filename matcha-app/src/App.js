@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.sass";
 
-import Register from "./components/register-component.js";
+import Register from "./components/user-component.js";
 
 function App() {
   return (

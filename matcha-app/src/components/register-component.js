@@ -59,27 +59,34 @@ export default class Register extends Component {
                             <div className="control">
                                 <input className="input" type="text" placeholder="Age" />
                             </div>
-                            <p>your age will be shown public.</p>
+                            <p className="help">your age will be shown public.</p>
                         </div>
 
                         <div className="field">
                             <label className="label">Password</label>
-                            <div className="control has-icons-left has-icons-right">
-                                <input className="input is-success" type="text" placeholder="Text input" value="Password" />
+                            <div className="control has-icons-left">
+                                <input className="input" type="text" placeholder="Text input" value="Password" />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-user"></i>
                                 </span>
-                                <span className="icon is-small is-right">
-                                    <i className="fa fa-check"></i>
+                            </div>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Password Comfirm</label>
+                            <div className="control has-icons-left">
+                                <input className="input" type="text" placeholder="Text input" value="Password" />
+                                <span className="icon is-small is-left">
+                                    <i className="fa fa-user"></i>
                                 </span>
                             </div>
-                            <p className="help is-success">This username is available</p>
+                            <p className="help">Please Retype Password</p>
                         </div>
 
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input is-danger" type="email" placeholder="Email input" value="Email" />
+                                <input className="input" type="email" placeholder="Email input" value="Email" />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
@@ -87,7 +94,7 @@ export default class Register extends Component {
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
                             </div>
-                            <p className="help is-danger">This email is invalid</p>
+                            <p className="help is-danger">This email is required</p>
                         </div>
 
 
@@ -124,10 +131,10 @@ export default class Register extends Component {
 
                         <div className="field is-grouped">
                             <div className="control">
-                                <button className="button is-link">Submit</button>
+                                <button className="button is-warning is-rounded">Submit</button>
                             </div>
                             <div className="control">
-                                <button className="button is-link is-light">Cancel</button>
+                                <button className="button is-warning is-rounded is-light">Cancel</button>
                             </div>
                         </div>
                         </div>
