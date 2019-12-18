@@ -27,3 +27,18 @@
     background-color: white !important;
     border-radius: 2%;
 }
+
+.img_carousel {
+    max-width: 480px;
+    max-height: auto;
+    margin: auto;
+    text-align: center;
+    display: block;
+    object-fit: fill !important;
+}
+
+.m_image {
+    width: 480px;
+    height: 640px;
+    object-fit: contain;
+}

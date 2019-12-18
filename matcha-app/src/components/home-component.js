@@ -4,6 +4,8 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
+import Carousel from "../Carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default class Home extends Component {
     // constructor(props) {
@@ -36,10 +38,9 @@ export default class Home extends Component {
             <div className="container">
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white">
-                         <figure class="image is-3by4"> {/* is-3by4 */}
-                            <img className="overflow" src={require('../images/profile.jpg')} alt="Asuna_img" />
+                        <figure class="image"> {/* is-3by4 */}
+                            <Carousel />
                         </figure>
-    
                         <div className="column center_b">
                         <p>
                             <button className="button is-warning">
