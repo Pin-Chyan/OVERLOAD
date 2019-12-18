@@ -4,12 +4,13 @@ const imgModels = require('../models/image.models.js');
 
 function base64_encode(file) {
     var bitmap = fs.readFileSync(file);
+    console.log(file);
     return bitmap.toString('base64');
 }
 
 router.route('/c').post( (req, res) => {
 	const username = req.body.username;
-	const img = 'this is the image bruh';//'data:image/' + req.body.imgType + ';base64, ' + base64_encode(req.body.path);
+	const img = 'data:image/' + req.body.imgType + ';base64, ' + base64_encode(req.body.path);
 	const imgType = req.body.imgType;
     const newimg = new imgModels({
         username,
@@ -17,19 +18,19 @@ router.route('/c').post( (req, res) => {
         imgType,
     });
 
-    newimg.save().then( () => res.json(img) )
+    newimg.save().then( () => res.json('image uploaded') )
     .catch( err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/r').post( (req , res) => {
     imgModels.find({"username" : req.body.username}).exec().then(docs => {
-        res.json({docs});
+        res.json(docs);
     })
 })
 
 router.route('/u').post( (req, res) => {
     imgModels.findOne({"username" : req.body.username}).exec().then(image => {
-        image.img = req.body.newimg;
+        image.img = 'data:image/' + req.body.imgType + ';base64, ' + base64_encode(req.body.path);
         image.save();
         res.json('image updated');
     });

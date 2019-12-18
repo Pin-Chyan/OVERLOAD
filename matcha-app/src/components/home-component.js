@@ -3,12 +3,38 @@ import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import axios from 'axios'; 
 // import "../styles/debug.css";
 
 export default class Home extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props){
+        super(props);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.state = {
+            name: '',
+            last: '',
+            display: ''
+        }
+    }
+
+    componentDidMount () {
+        var user = "CYKO";//this.state.signed;
+        axios.post('http://localhost:5001/users/get', {"name":user}).then(res => {
+            console.log(res.data[0]);
+            this.setState({
+                name: res.data[0].name,
+                last: res.data[0].last_name
+            });
+        });
+        axios.post('http://localhost:5001/img/r', {"username":user}).then(res2 => {
+            console.log(res2.data[0]);
+            this.setState({
+                display: res2.data[0].img,
+            });
+        });
+        console.log('updated');
+    }
+    
     render () {
         return (
             <section className="section hero">
@@ -37,7 +63,7 @@ export default class Home extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white">
                          <figure class="image is-3by4"> {/* is-3by4 */}
-                            <img className="overflow" src={require('../images/profile.jpg')} alt="Asuna_img" />
+                            <img className="overflow" src={this.state.display} alt="Asuna_img" />
                         </figure>
     
                         <div className="column center_b">
@@ -75,14 +101,14 @@ export default class Home extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={require('../images/profile.jpg')} />
+                            <img alt="Asuna" src={this.state.display} />
                         </figure>
                     </figure>
                     <div className="media-content">
                         <div className="content">
                             <p>
-                                <strong>Asuna Yuuki</strong> <a>@Asuna_Yuuki</a><br />
-                                <span className="has-text-grey">SAO, player<br />
+                                <strong>{this.state.name}</strong> <a>@{this.state.name}_{this.state.last}</a><br />
+                                <span className="has-text-grey">{this.state.tags}<br />
                                 <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
                             </p>
                         </div>

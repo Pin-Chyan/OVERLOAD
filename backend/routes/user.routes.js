@@ -24,8 +24,10 @@ router.route('/add').post( (req, res) => {
     .catch( err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').post( (req, res) => {
-    
+router.route('/get').post( (req, res) => {
+    UserModels.find({ "name": req.body.name}).exec().then(docs => {
+        res.json(docs);
+    })
 })
 
 module.exports = router;

@@ -49,11 +49,11 @@ const userSchema = new Schema({
 //   created_at: { type: Date, default: Date.now },
 // });
 
-const image = new Schema({
-  author : { type: String, required: true},
-  img: { data: Buffer, contentType: String },
-  created : { type: Date, default: Date.now}
-});
+// const image = new Schema({
+//   author : { type: String, required: true},
+//   img: { data: Buffer, contentType: String },
+//   created : { type: Date, default: Date.now}
+// });
 
 const User = mongoose.model('User', userSchema);
 
@@ -62,5 +62,5 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = User;
 // module.exports = Message;
-module.exports = image;
-module.exports = userSchema;
+//module.exports = image;
+// module.exports = userSchema;

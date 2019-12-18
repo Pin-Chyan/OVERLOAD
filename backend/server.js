@@ -27,9 +27,12 @@ client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, 
 
 const userRoutes = require('./routes/user.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
+const imgRoutes = require('./routes/image.routes.js');
 
 app.use('/users', userRoutes);
 app.use('/chats', chatRoutes);
+app.use('/img', imgRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
