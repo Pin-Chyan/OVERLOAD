@@ -1,5 +1,7 @@
 module.exports = {
-    sock : (socket, prev, connection, msg_schem, client) => {
+    sock : (socket, prev, connection, msg_schem, client, connected) => {
+
+    // connected users handler
 
     // create a function to send a status
     console.log(socket.id);
@@ -32,6 +34,13 @@ module.exports = {
     //Handle input events
         socket.on('input', function(data){
             let name = data.name;
+            var temp = 0;
+            connected.find(function(element) {if (element == name) temp = 1;});
+            if (temp == 1)
+                console.log('connected');
+            else
+                connected.push(name);
+            console.log(connected);
             let message = data.message;
   
             //Check for name and message

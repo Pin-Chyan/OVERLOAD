@@ -5,6 +5,7 @@ const msg_schem = require('./models/chats.models');
 const client = require('socket.io').listen(4001).sockets;
 const exp = require('./socket/socket');
 
+var connectedUsers = [];
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -22,7 +23,7 @@ connection.once('open', () => {
 })
 
 var prev = 'lol';
-client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, client));
+client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, client, connectedUsers));
 
 const userRoutes = require('./routes/user.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
