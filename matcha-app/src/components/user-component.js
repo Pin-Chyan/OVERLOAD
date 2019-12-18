@@ -37,7 +37,7 @@ export default class Register extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white">
                          <figure class="image is-3by4"> {/* is-3by4 */}
-                            <img className="overflow" src={require('../images/profile.jpg')} alt="Asuna_img" />
+                            <img className="overflow" src={require('../images/al.jpg')} alt="Asuna_img" />
                         </figure>
     
                         <div className="column center">
@@ -45,7 +45,7 @@ export default class Register extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={require('../images/profile.jpg')} />
+                            <img alt="Asuna" src={require('../images/al.jpg')} />
                         </figure>
                     </figure>
                     <div className="media-content">

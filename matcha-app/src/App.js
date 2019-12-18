@@ -5,6 +5,7 @@ import "./App.sass";
 import Register from "./components/register-component.js";
 import Home from "./components/home-component.js";
 import Login from "./components/login-component.js";
+import User from "./components/user-component.js";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
+        <Route path="/user" exact component={User} />
       </div>
     </Router>
   );
