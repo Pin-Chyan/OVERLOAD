@@ -42,3 +42,16 @@
     height: 640px;
     object-fit: contain;
 }
+
+.light-yellow {
+    background-color: rgb(245, 197, 67);
+}
+
+.light-yellow-p {
+    background-color: rgb(223, 163, 0);
+}
+
+.mid {
+    text-align: center;
+    margin: auto;
+}

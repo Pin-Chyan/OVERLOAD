@@ -20,7 +20,7 @@ export default class Home extends Component {
     }
 
     componentDidMount () {
-        var user = "CYKO";//this.state.signed;
+        var user = "PC";//this.state.signed;
         axios.post('http://localhost:5001/users/get', {"name":user}).then(res => {
             console.log(res.data[0]);
             this.setState({

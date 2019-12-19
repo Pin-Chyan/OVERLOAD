@@ -21,7 +21,7 @@ export default () => (
     </div>
     <div>
         <img alt="Asuna" className="m_image" src={require('./images/kawaii.jpg')} />
-        <p className="legend">Legend 4</p>
+        <p className="legend">Legend 5</p>
     </div>
   </Carousel>
 );
