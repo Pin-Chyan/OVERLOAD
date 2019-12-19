@@ -37,9 +37,19 @@ export default class Home extends Component {
         console.log('updated');
     }
     
+    function() {
+        var burger = document.querySelector('.burger');
+        var nav = document.querySelector('#'+burger.dataset.target);
+
+        burger.addEventListener('click', function(){
+            burger.classList.toggle('is-active');
+            nav.classList.toggle('is-active');
+        })
+    }
+    
     render () {
         return (
-            <section className="section hero">
+        <section className="section hero">
         <nav className="navbar hero-head">
             <div className="container">
                 <div className="navbar-brand">

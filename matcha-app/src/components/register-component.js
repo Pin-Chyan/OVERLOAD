@@ -200,29 +200,33 @@ export default class Register extends Component {
     render () {
         return (
         <section className="section hero">
-            <div className="hero-head">
-                <div className="columns is-mobile is-marginless heading has-text-weight-bold">
-                    <div className="column left">
-                        <figure className="navbar-item image">
-                        <a href="./">
-                            <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
-                        </a>
-                        </figure>
-                    </div>
-                    <div className="column right">
-                        <div className="control is-small has-icons-right">
+        <nav className="navbar hero-head">
+            <div className="container">
+                <div className="navbar-brand">
+                    <figure className="navbar-item image">
+                        <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
+                    </figure>
+                    <span className="navbar-burger burger" data-target="navMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </div>
+                <div id="navMenu" className="navbar-menu">
+                    <div className="navbar-end">
+                        <div className="control is-small has-icons-right search-margin">
                             <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
                             <span className="icon is-small is-right">
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
-                        <p className="navbar-item has-text-white desktop">SIGN IN </p>
-                        <figure className="navbar-item image has-text-white center">
-                            <i className="fa fa-bars"></i>
-                        </figure>
+                        <a href="#" className="navbar-item has-text-info">Home</a>
+                        <a href="#" className="navbar-item has-text-info">Profile</a>
+                        <a href="#" className="navbar-item has-text-info">Edited Profile</a>
                     </div>
                 </div>
             </div>
+        </nav>
         {/* <div className="container"> */}
             <div className="columns is-centered shadow">
                 <div className="column is-half bg_white">
