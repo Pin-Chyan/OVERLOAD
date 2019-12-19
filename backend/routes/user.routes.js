@@ -8,6 +8,7 @@ router.route('/add').post( (req, res) => {
     const gender = req.body.gender;
     const age = req.body.age;
     const email = req.body.email;
+    const verif = 0; 
     const sexual_pref = req.body.sexual_pref;
 
     const newUser = new UserModels({
@@ -17,6 +18,7 @@ router.route('/add').post( (req, res) => {
         gender,
         age,
         email,
+        verif,
         sexual_pref
     });
 
@@ -30,4 +32,11 @@ router.route('/get').post( (req, res) => {
     })
 })
 
+
+router.route('/email').post( (req, res) => {
+    UserModels.find({ "email": req.body.email}).exec().then(docs => {
+        // console.log(docs.length);
+        res.json({'present' : docs.length});
+    })
+})
 module.exports = router;

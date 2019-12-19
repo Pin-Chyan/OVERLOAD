@@ -32,6 +32,9 @@ const userSchema = new Schema({
       unique: true,
       required: true
   },
+  verif: {
+      type:  Number
+  },
   sexual_pref: {
       type: String,
       required: true
