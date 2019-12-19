@@ -13,20 +13,22 @@ export default class User extends Component {
         this.state = {
             name: '',
             last: '',
-            tags: '',
+            ag: 0,
+            tags: '#urmomlol',
             display: ''
         }
     }
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get', {"name":"shane"}).then(res => {
+        var name = "meave";
+        axios.post('http://localhost:5001/users/get', {"name":name}).then(res => {
             console.log(res.data[0]);
             this.setState({
                 name: res.data[0].name,
                 last: res.data[0].last_name
             });
         });
-        axios.post('http://localhost:5001/img/r', {"username":"shane"}).then(res2 => {
+        axios.post('http://localhost:5001/img/r', {"username":name}).then(res2 => {
             console.log(res2.data[0]);
             this.setState({
                 display: res2.data[0].img,
