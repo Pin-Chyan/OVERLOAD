@@ -23,9 +23,16 @@ router.route('/c').post( (req, res) => {
 });
 
 router.route('/r').post( (req , res) => {
-    imgModels.find({"username" : req.body.username}).exec().then(docs => {
-        res.json(docs);
-    })
+    if (req.body.mode == 1){
+        imgModels.find({"username" : req.body.username}).exec().then(docs => {
+            res.json(docs);
+        });
+    }
+    else {
+        imgModels.find({}).exec().then(docs => {
+            res.json(docs);
+        });
+    }
 })
 
 router.route('/u').post( (req, res) => {
