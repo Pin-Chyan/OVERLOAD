@@ -6,6 +6,7 @@ import Register from "./components/register-component.js";
 import Home from "./components/home-component.js";
 import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
+import Edit from "./components/edit-component.js";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/user" exact component={User} />
+        <Route path="/edit" exact component={Edit} />
       </div>
     </Router>
   );
