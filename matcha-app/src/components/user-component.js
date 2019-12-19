@@ -21,6 +21,7 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "meave";
+        var ok;
         axios.post('http://localhost:5001/users/get', {"name":name}).then(res => {
             console.log(res.data[0]);
             this.setState({
