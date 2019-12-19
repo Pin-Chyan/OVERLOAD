@@ -1,40 +1,71 @@
 import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios'; 
 // import "../styles/debug.css";
-import Carousel from "../Carousel";
+// import Carousel from "../Carousel"
+import { Carousel } from "react-responsive-carousel";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+const Image = props => (
+    <div>
+        <img alt="Asuna" className="m_image" src={props.image.img} />
+        <p className="legend">{props.image.username}</p>
+    </div>
+)
 
 export default class Home extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
+        //this.constructimg = this.constructimg.bind(this);
         this.state = {
             name: '',
             last: '',
-            display: ''
+            display: '',
+            images: [],
         }
     }
 
+//    constructimg () {
+//         console.log(this.img);
+//     } 
+
     componentDidMount () {
+        axios.post('http://localhost:5001/img/r', {"mode":2}).then(response => {
+            console.log(response.data);
+            var index = 0;
+            let a = this.state.images.slice();
+            while (index < response.data.length){
+            a[index] = response.data[index];
+            this.setState({images: a[index]});
+            }
+        });
+        console.log(this.state.images);
         var user = "PC";//this.state.signed;
         axios.post('http://localhost:5001/users/get', {"name":user}).then(res => {
-            console.log(res.data[0]);
+            //console.log(res.data[0]);
             this.setState({
                 name: res.data[0].name,
                 last: res.data[0].last_name
             });
         });
         axios.post('http://localhost:5001/img/r', {"username":user}).then(res2 => {
-            console.log(res2.data[0]);
+            //console.log(res2.data[0]);
             this.setState({
                 display: res2.data[0].img,
             });
         });
         console.log('updated');
+    }
+    imagelist() {
+        return this.state.images.map(currentimage => {
+            return <Image image={currentimage} />;
+        })
     }
     
     render () {
@@ -71,7 +102,9 @@ export default class Home extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white">
                         <figure class="image"> {/* is-3by4 */}
-                            <Carousel />
+                            <Carousel autoPlay className="image img_carousel">
+                                { this.imagelist() }
+                            </Carousel>
                         </figure>
                         <div className="column center_b">
                         <p>
@@ -114,7 +147,7 @@ export default class Home extends Component {
                     <div className="media-content">
                         <div className="content">
                             <p>
-                                <strong>{this.state.name}</strong> <a>@{this.state.name}_{this.state.last}</a><br />
+                                <strong>{this.state.name}</strong> <a>{this.state.name}_{this.state.last}</a><br />
                                 <span className="has-text-grey">{this.state.tags}<br />
                                 <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
                             </p>
