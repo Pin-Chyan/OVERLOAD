@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import { Link } from 'react-router-dom';
 // import "../styles/debug.css";
 
 export default class Register extends Component {
@@ -32,9 +33,9 @@ export default class Register extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
-                        <a href="#" className="navbar-item has-text-info">Home</a>
-                        <a href="#" className="navbar-item has-text-info">Profile</a>
-                        <a href="#" className="navbar-item has-text-info">Edited Profile</a>
+                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
+                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
                     </div>
                 </div>
             </div>
