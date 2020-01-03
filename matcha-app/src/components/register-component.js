@@ -87,7 +87,7 @@ export default class Register extends Component {
         if (values.name.trim() === "") {
             valid = false;
             this.setState({nameErr: 'Please fill in your name!'});    
-        } else if (!values.name.match(/^[A-Za-z]+$/)) {
+        } else if (!values.name.match(/^[A-Za-z\s]+$/)) {
             valid = false;
             this.setState({nameErr: 'Your name can only contain letters!'});   
         } else {
@@ -97,7 +97,7 @@ export default class Register extends Component {
         if (values.surname.trim() === "") {
             valid = false;
             this.setState({surnameErr: 'Please fill in your surname!'});    
-        } else if (!values.surname.match(/^[A-Za-z]+$/)) {
+        } else if (!values.surname.match(/^[A-Za-z\s]+$/)) {
             valid = false;
             this.setState({surnameErr: 'Your surname can only contain letters!'});   
         } else {
@@ -182,18 +182,25 @@ export default class Register extends Component {
     
     onSubmit = async e => {
             e.preventDefault();
-        
-
-            // const data = {
-            //     name: this.state.name,
-            //     surname: this.state.surname,
-            //     pwd: this.state.pwd,
-            //     age: this.state.age,
-            // };
-            // console.log(data);
 
             if (this.validateForm()) {
-                axios.get()
+                let email = { email: this.state.email };
+                axios.post('http://localhost:5001/users/email', email).then(res => { if (!res.data.present) {
+                        const dat = {
+                            name: this.state.name,
+                            last_name: this.state.surname,
+                            password: this.state.pwd,
+                            gender: this.state.gender,
+                            age: this.state.age,
+                            email: this.state.email,
+                            sexual_pref: "bi"
+                        }
+                        axios.post('http://localhost:5001/users/add', dat).then( window.location = '/login').catch(console.log("Error adding user"));
+                    } else {
+                        console.log("Email in use");
+                        this.setState({emailErr: 'Email already in use!'});
+                    }
+             });
             }
             //test is email is available
 

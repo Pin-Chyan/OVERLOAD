@@ -1,4 +1,5 @@
 #!/bin/bash
 npm install react-router-dom \
 	bulma \
-	font-awenpm startsome --save
+	bcrypt \
+	font-awesome --save
