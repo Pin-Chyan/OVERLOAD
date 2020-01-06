@@ -8,6 +8,7 @@ import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
 import Test from "./components/test-component.js";
+import upload from "./components/upload.js";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/user" exact component={User} />
         <Route path="/edit" exact component={Edit} />
         <Route path="/test" exact component={Test} />
+        <Route path="/upload" exact component={upload} />
       </div>
     </Router>
   );

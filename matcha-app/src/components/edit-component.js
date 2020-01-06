@@ -32,6 +32,10 @@ export default class Register extends Component {
             surnameErr: '',
             ageErr: '',
             emailErr: '',
+            img1: '',
+            img2: '',
+            img3: '',
+            img4: ''
         };
     }
 
@@ -88,19 +92,8 @@ export default class Register extends Component {
                 age: this.state.age,
             };
             console.log(data);
-            //const regStatus = 
-            //const errors = this.refs.form.showFieldErrors();
-            if (this.state.age < 13) {
-                this.setState({ageErr : 'You must be at least 13 to join'});
-            } else {
-                this.setState({ ageErr : ''})
-            }
 
-            if (this.state.pwd !== this.state.pwdCon) {
-                this.setState({pwdErr : "Passwords don't match"})
-            } else {
-                this.setState({ pwdErr : ''});
-            }
+            //const errors = this.refs.form.showFieldErrors();
 
             
             this.setState({
