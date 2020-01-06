@@ -1,7 +1,9 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 let UserModels = require('../models/user.models.js');
 
 router.route('/add').post( (req, res) => {
+
     const name = req.body.name;
     const last_name = req.body.last_name;
     const password = req.body.password;
@@ -22,8 +24,13 @@ router.route('/add').post( (req, res) => {
         sexual_pref
     });
 
-    newUser.save().then( () => res.json('User added') )
-    .catch( err => res.status(400).json('Error: ' + err));
+
+    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if(err) throw err;
+        newUser.password = hash;
+        newUser.save().then( () => res.json('User added') )
+        .catch( err => res.status(400).json('Error: ' + err));
+    }));
 });
 
 router.route('/get').post( (req, res) => {
