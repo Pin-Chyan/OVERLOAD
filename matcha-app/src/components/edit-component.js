@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import "../styles/overload.css";
+// import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
+import axios from 'axios'; 
+
+var lol = "why me!";
 
 export default class Register extends Component {
     constructor(props) {
@@ -83,25 +86,34 @@ export default class Register extends Component {
     
     onSubmit = async e => {
             e.preventDefault();
-        
 
-            const data = {
-                name: this.state.name,
-                surname: this.state.surname,
-                pwd: this.state.pwd,
-                age: this.state.age,
+            var data = {
+                "email" : "meave@gmail.com"
             };
-            console.log(data);
+
+            if (this.state.name){
+                data.name = this.state.name;
+            }
+            // if (this.state.email){
+            //     data.email = this.state.email;
+            // }
+            if (this.state.sexual_pref){
+                data.name = this.state.sexual_pref;
+            }
+
+            axios.post('http://localhost:5001/users/edit_spec', data)
+            .then(res => {
+                
+            });
 
             //const errors = this.refs.form.showFieldErrors();
-
             
             this.setState({
                     name: '',
                     surname: '',
                     pwd: '',
                     pwdCon: '',
-                    email: 'liam@gmail.com',
+                    email: '',
                     gender: '',
                     imgSet: '',
                     registered: true,
@@ -187,6 +199,7 @@ export default class Register extends Component {
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={require('../images/kawaii.jpg')} />
                               </figure>
+                              <span class="tag is-black">Black</span>
                             </article>
                           </div>
                           <div className="tile is-parent">
@@ -293,6 +306,13 @@ export default class Register extends Component {
                                 <span className="icon is-small is-right">
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
+                            </div>
+                            {/* <p className="help is-danger">This email is required</p> */}
+                        </div>
+                        <div className="field">
+                            <label className="label">Current Name: {this.state.name}</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input" type="email" placeholder="New Name" value={this.state.name} onChange={this.onChangeName} required />
                             </div>
                             {/* <p className="help is-danger">This email is required</p> */}
                         </div>
