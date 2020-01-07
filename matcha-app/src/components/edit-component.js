@@ -4,6 +4,7 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
+import axios from 'axios'; 
 
 var lol = "why me!";
 
@@ -85,19 +86,27 @@ export default class Register extends Component {
     
     onSubmit = async e => {
             e.preventDefault();
-        
 
-            const data = {
-                name: this.state.name,
-                email: this.state.email,
-                surname: this.state.surname,
-                pwd: this.state.pwd,
-                age: this.state.age,
+            var data = {
+                "email" : "meave@gmail.com"
             };
-            console.log(data);
+
+            if (this.state.name){
+                data.name = this.state.name;
+            }
+            // if (this.state.email){
+            //     data.email = this.state.email;
+            // }
+            if (this.state.sexual_pref){
+                data.name = this.state.sexual_pref;
+            }
+
+            axios.post('http://localhost:5001/users/edit_spec', data)
+            .then(res => {
+                
+            });
 
             //const errors = this.refs.form.showFieldErrors();
-
             
             this.setState({
                     name: '',
