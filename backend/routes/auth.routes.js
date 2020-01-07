@@ -1,15 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
+const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 
-const User = require('../models/user.models.js');
-
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        // successRedirect: '/',
-        // failureRedirect: 'login'
-    })(req, res, mext);
-});
+router.post('/getToken',(req, res) => {
+    const testUser = {
+        id: 1,
+        name: 'frank',
+        email: 'we@geemail.com'
+    }
+    jwt.sign({testUser}, 'sercret', (err, token) => {
+        res.json({
+             token
+        });
+    });
+})
 
 module.exports = router;

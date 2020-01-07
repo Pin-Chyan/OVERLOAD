@@ -4,12 +4,40 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; 
 // import "../styles/debug.css";
 
 export default class Register extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onSumbit = this.onSumbit.bind(this);
+        
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    onChangeEmail(e) {
+        this.setState({email: e.target.value});
+    }
+
+    onChangePassword(e) {
+        this.setState({password: e.target.value});
+    }
+
+    onSumbit = async e => {
+        e.preventDefault();
+
+        axios.post('http://localhost:5001/auth/getToken', {
+            email: this.state.email,
+            password: this.state.password
+        }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
+    }
+
     render () {
         return (
         <section className="section hero">
@@ -48,7 +76,7 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="Email input" value="Email" />
+                                <input className="input" type="email" placeholder="Email" value={this.state.email} onChange={this.onChangeEmail}/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
@@ -62,7 +90,7 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Password</label>
                             <div className="control has-icons-left">
-                                <input className="input" type="text" placeholder="Text input" value="Password" />
+                                <input className="input" type="password" placeholder="Password" value={this.state.password} onChange={this.onChangePassword}/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-user"></i>
                                 </span>
@@ -71,7 +99,7 @@ export default class Register extends Component {
 
                         <div className="field is-grouped">
                             <div className="control">
-                                <button className="button is-warning is-rounded">Submit</button>
+                                <button className="button is-warning is-rounded" onClick={this.onSumbit}>Submit</button>
                             </div>
                         </div>
 
