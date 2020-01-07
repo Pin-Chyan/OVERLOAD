@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "../styles/overload.css";
+// import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
@@ -190,6 +190,7 @@ export default class Register extends Component {
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={require('../images/kawaii.jpg')} />
                               </figure>
+                              <span class="tag is-black">Black</span>
                             </article>
                           </div>
                           <div className="tile is-parent">
