@@ -5,6 +5,8 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 
+var lol = "why me!";
+
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -87,6 +89,7 @@ export default class Register extends Component {
 
             const data = {
                 name: this.state.name,
+                email: this.state.email,
                 surname: this.state.surname,
                 pwd: this.state.pwd,
                 age: this.state.age,
@@ -101,7 +104,7 @@ export default class Register extends Component {
                     surname: '',
                     pwd: '',
                     pwdCon: '',
-                    email: 'liam@gmail.com',
+                    email: '',
                     gender: '',
                     imgSet: '',
                     registered: true,
@@ -293,6 +296,13 @@ export default class Register extends Component {
                                 <span className="icon is-small is-right">
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
+                            </div>
+                            {/* <p className="help is-danger">This email is required</p> */}
+                        </div>
+                        <div className="field">
+                            <label className="label">Current Name: {this.state.name}</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input" type="email" placeholder="New Name" value={this.state.name} onChange={this.onChangeName} required />
                             </div>
                             {/* <p className="help is-danger">This email is required</p> */}
                         </div>
