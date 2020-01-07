@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import "../styles/overload.css";
+// import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
+
+class user{
+    constructor(img1, name) {
+        this.profilepic = img1;
+        this.username = name;
+        // this.email = email;
+    }   
+}
+
+// user_array = new user();
 
 export default class Register extends Component {
     constructor(props) {
@@ -187,6 +197,7 @@ export default class Register extends Component {
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={require('../images/kawaii.jpg')} />
                               </figure>
+                              <span class="tag is-black">Black</span>
                             </article>
                           </div>
                           <div className="tile is-parent">
