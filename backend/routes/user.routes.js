@@ -19,7 +19,7 @@ router.route('/add').post( (req, res) => {
         age,
         email,
         verif,
-        sexual_pref
+        sexual_pref,
     });
 
     newUser.save().then( () => res.json('User added') )
@@ -70,7 +70,7 @@ router.route('/edit_spec').post( (req, res) => {
                 doc.img.img3 = req.body.img.img3;
             if (req.body.img.img4)
                 doc.img.img4 = req.body.img.img4;
-            if (req.body.img5)
+            if (req.body.img.img5)
                 doc.img.img5 = req.body.img.img5;
         }
         doc.save().catch(err => { res.json(err)});

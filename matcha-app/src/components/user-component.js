@@ -7,6 +7,8 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 // import "../styles/debug.css";
 
+var sesh = "meave@gmail.com";
+
 export default class User extends Component {
     constructor(props){
         super(props);
@@ -22,17 +24,12 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "Shane";
-        axios.post('http://localhost:5001/users/get', {"name":name}).then(res => {
+        axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":""}).then(res => {
             console.log(res.data[0]);
             this.setState({
                 name: res.data[0].name,
-                last: res.data[0].last_name
-            });
-        });
-        axios.post('http://localhost:5001/img/r', {"username":name}).then(res2 => {
-            console.log(res2.data[0]);
-            this.setState({
-                display: res2.data[0].img,
+                last: res.data[0].last,
+                display: res.data[0].img.img1
             });
         });
         console.log('updated');
