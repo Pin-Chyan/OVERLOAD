@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import "../styles/overload.css";
+import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
@@ -344,6 +344,15 @@ export default class Register extends Component {
                                 <button className="button is-warning is-rounded is-light">Cancel</button>
                             </div>
                         </div>
+                        <div class="bd-notification is-dark">
+                            <div class="field">
+                                <input class="is-checkradio is-white pad" id="exampleCheckboxWhite" type="checkbox" name="exampleCheckboxWhite" />
+                                <label for="exampleCheckboxWhite">#Gamer</label>
+
+                                <input class="is-checkradio is-white pad" id="exampleCheckboxWhite2" type="checkbox" name="exampleCheckboxWhite2" />
+                                <label for="exampleCheckboxWhite2">#Sports</label>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>

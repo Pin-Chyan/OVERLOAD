@@ -1,46 +1,42 @@
 import React, { Component } from 'react';
-import "../styles/overload.css";
-import "../styles/helpers.css";
-import "../styles/index.css";
-import "../styles/tags.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import { Link } from 'react-router-dom';
-// import "../styles/debug.css";
+// import "../styles/overload.css";
+// import "../styles/helpers.css";
+// import "../styles/index.css";
+// import React, { useState } from 'react';
+import { Button, ButtonGroup } from 'reactstrap';
 
-function App() {
-    const [tags, setTags] = React.useState(["NodeJs", "MongoDb"]);
-    const addTags = event => {
-        if (event.key === "Enter") {
-            setTags([... tags, event.target.value])
-            event.target.value = "";
-        }
-    };
-    console.log(tags);
-}
-export default class Register extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+const Example = (props) => {
+  const [cSelected, setCSelected] = useState([]);
+  const [rSelected, setRSelected] = useState(null);
 
-
-    render () {
-        return (
-            <div className="App">
-                <div className="tag-input">
-                    <ul>
-                        tags.map((tag, index) => (
-                            <li key={index}>
-                            <span>{tag}</span>
-                            <i className="material-icons" onClick={() => removeTags(index)}>close</i>
-                        </li>)
-                        <li>
-                            <span>Tag2</span>
-                                <i className="material-icons">close</i>
-                        </li>
-                    </ul>
-                    <input type="text" placeholder="press enter ot add tags" onKeyUp={addTags}/>
-                </div>
-            </div>
-        )
+  const onCheckboxBtnClick = (selected) => {
+    const index = cSelected.indexOf(selected);
+    if (index < 0) {
+      cSelected.push(selected);
+    } else {
+      cSelected.splice(index, 1);
     }
+    setCSelected([...cSelected]);
+  }
+  return (
+    <div>
+      <h5>Radio Buttons</h5>
+      <ButtonGroup>
+        <Button color="primary" onClick={() => setRSelected(1)} active={rSelected === 1}>One</Button>
+        <Button color="primary" onClick={() => setRSelected(2)} active={rSelected === 2}>Two</Button>
+        <Button color="primary" onClick={() => setRSelected(3)} active={rSelected === 3}>Three</Button>
+      </ButtonGroup>
+      <p>Selected: {rSelected}</p>
+
+      <h5>Checkbox Buttons</h5>
+      <ButtonGroup>
+        <Button color="primary" onClick={() => onCheckboxBtnClick(1)} active={cSelected.includes(1)}>One</Button>
+        <Button color="primary" onClick={() => onCheckboxBtnClick(2)} active={cSelected.includes(2)}>Two</Button>
+        <Button color="primary" onClick={() => onCheckboxBtnClick(3)} active={cSelected.includes(3)}>Three</Button>
+      </ButtonGroup>
+      <p>Selected: {JSON.stringify(cSelected)}</p>
+    </div>
+  );
 }
+
+export default Example;
