@@ -18,6 +18,10 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
+  token:{
+    type: String,
+    default: ''
+  },
   gender: {
     type: String,
     required: true,

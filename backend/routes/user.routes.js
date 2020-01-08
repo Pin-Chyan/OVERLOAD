@@ -27,12 +27,10 @@ router.route('/add').post( (req, res) => {
 });
 
 router.route('/get_spec').post( (req, res) => {
-    if (req.body.token == "admin")
-        UserModels.find({ "email": req.body.email},req.body.target).exec().then(docs => {
-            res.json(docs);
-        })
-    else
-        res.json("invalid token");
+    var target = req.body.target;
+    UserModels.find({ "email": req.body.email},target).exec().then(docs => {
+        res.json(docs);
+    })
 })
 
 router.route('/edit_spec').post( (req, res) => {
@@ -67,8 +65,7 @@ router.route('/edit_spec').post( (req, res) => {
             if (req.body.img.img5)
                 doc.img.img5 = req.body.img.img5;
         }
-        doc.save().catch(err => { res.json(err)});
-        res.json("done");
+        doc.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
     })
 })
 
