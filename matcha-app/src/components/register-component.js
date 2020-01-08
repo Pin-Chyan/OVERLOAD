@@ -188,7 +188,7 @@ export default class Register extends Component {
                 axios.post('http://localhost:5001/users/email', email).then(res => { if (!res.data.present) {
                         const dat = {
                             name: this.state.name,
-                            last_name: this.state.surname,
+                            last: this.state.surname,
                             password: this.state.pwd,
                             gender: this.state.gender,
                             age: this.state.age,
