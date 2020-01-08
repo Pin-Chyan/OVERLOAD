@@ -19,7 +19,7 @@ router.route('/add').post( (req, res) => {
         age,
         email,
         verif,
-        sexual_pref
+        sexual_pref,
     });
 
     newUser.save().then( () => res.json('User added') )
@@ -45,11 +45,11 @@ router.route('/edit_spec').post( (req, res) => {
             doc.gender = req.body.gender;
         if (req.body.age)
             doc.age = req.body.age;
-        if (req.email)
+        if (req.body.new_email)
             doc.email = req.body.new_email;
-        if (req.sexual_pref)
+        if (req.body.sexual_pref)
             doc.sexual_pref = req.body.sexual_pref;
-        if (req.tags){
+        if (req.body.tags){
             if (req.tags.img1)
                 doc.tags.img1 = req.body.tags.img1;
             if (req.tags.img2)
@@ -61,7 +61,7 @@ router.route('/edit_spec').post( (req, res) => {
             if (req.tags.img5)
                 doc.tags.img5 = req.body.tags.img5;
         }
-        if (req.img){
+        if (req.body.img){
             if (req.body.img.img1)
                 doc.img.img1 = req.body.img.img1;
             if (req.body.img.img2)
@@ -70,7 +70,7 @@ router.route('/edit_spec').post( (req, res) => {
                 doc.img.img3 = req.body.img.img3;
             if (req.body.img.img4)
                 doc.img.img4 = req.body.img.img4;
-            if (req.body.img5)
+            if (req.body.img.img5)
                 doc.img.img5 = req.body.img.img5;
         }
         doc.save().catch(err => { res.json(err)});
