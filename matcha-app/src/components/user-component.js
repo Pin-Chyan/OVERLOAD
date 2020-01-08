@@ -23,7 +23,6 @@ export default class User extends Component {
     }
 
     componentDidMount () {
-        var name = "Shane";
         axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":""}).then(res => {
             console.log(res.data[0]);
             this.setState({

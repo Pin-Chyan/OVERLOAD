@@ -6,7 +6,8 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios'; 
 
-var lol = "why me!";
+var sesh = "meave@gmail.com";
+var token = "admin";
 
 export default class Register extends Component {
     constructor(props) {
@@ -49,15 +50,20 @@ export default class Register extends Component {
     }
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get_spec', {"email": "meave@gmail.com", "target":""}).then(res => {
-            // console.log(res.data[0].img.img1);
-            this.setState({
-                img1: res.data[0].img.img1,
-                img2: res.data[0].img.img2,
-                img3: res.data[0].img.img3,
-                img4: res.data[0].img.img4,
-                img5: res.data[0].img.img5,
-            });
+        axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":"img", "token":token}).then(res => {
+            console.log(res);
+            if (res.data == "invalid token" || res.data == "token not present"){
+                return (window.location.href = "http://localhost:3000/login");
+            }
+            else {
+                this.setState({
+                    img1: res.data[0].img.img1,
+                    img2: res.data[0].img.img2,
+                    img3: res.data[0].img.img3,
+                    img4: res.data[0].img.img4,
+                    img5: res.data[0].img.img5,
+                });
+            }
         });
     }
 

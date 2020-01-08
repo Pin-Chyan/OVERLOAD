@@ -8,9 +8,10 @@ import axios from 'axios';
 // import "../styles/debug.css";
 // import Carousel from "../Carousel"
 import { Carousel } from "react-responsive-carousel";
-
-
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+var sesh = "meave@gmail.com";
+var token = "admin";
 
 const Image = props => (
     <div>
@@ -28,25 +29,31 @@ export default class Home extends Component {
             name: '',
             last: '',
             display: '',
-            images: [],
-        }
+            images: []
+        };
     }
 
 //    constructimg () {
-//         console.log(this.img);
+//         console.log("got here!");
 //     } 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get_spec', {"email":"meave@gmail.com","target":"name last img.img1"}).then(res => {
+        axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last img.img1","token":token}).then(res => {
             console.log(res);
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last,
-                display: res.data[0].img.img1
-            });
+            if (res.data === "invalid token" || res.data === "token not present"){
+                return (window.location.href = "http://localhost:3000/login");
+            }
+            else {
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1
+                });
+            }
         });
         console.log('updated');
     }
+
     imagelist() {
         return this.state.images.map(currentimage => {
             return <Image image={currentimage} />;
@@ -54,6 +61,7 @@ export default class Home extends Component {
     }
     
     render () {
+        console.log("why");
         return (
             <section className="section hero">
         <nav className="navbar hero-head">
