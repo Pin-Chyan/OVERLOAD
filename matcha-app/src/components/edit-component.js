@@ -19,6 +19,7 @@ export default class Register extends Component {
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
 
         this.state = {
             name: '',
@@ -28,6 +29,7 @@ export default class Register extends Component {
             pwdCon: '',
             email: '',
             gender: '',
+            sexual_pref: '',
             img: '',
             registered: false,
             pwdErr: '',
@@ -38,8 +40,13 @@ export default class Register extends Component {
             img1: '',
             img2: '',
             img3: '',
-            img4: ''
+            img4: '',
+            img5: ''
         };
+    }
+
+    onloadpage () {
+        
     }
 
     onChangeName(e) {
@@ -77,6 +84,12 @@ export default class Register extends Component {
                 gender: e.target.value
             });
     }
+    
+    onChangeSexual_pref(e) {
+        this.setState({
+                sexual_pref: e.target.value
+            });
+    }
 
     onChangeAge(e) {
         this.setState({
@@ -94,17 +107,14 @@ export default class Register extends Component {
             if (this.state.name){
                 data.name = this.state.name;
             }
-            // if (this.state.email){
-            //     data.email = this.state.email;
-            // }
+            if (this.state.email){
+                data.email = this.state.email;
+            }
             if (this.state.sexual_pref){
-                data.name = this.state.sexual_pref;
+                data.sexual_pref = this.state.sexual_pref;
             }
 
             axios.post('http://localhost:5001/users/edit_spec', data)
-            .then(res => {
-                
-            });
 
             //const errors = this.refs.form.showFieldErrors();
             
@@ -115,6 +125,7 @@ export default class Register extends Component {
                     pwdCon: '',
                     email: '',
                     gender: '',
+                    sexual_pref: '',
                     imgSet: '',
                     registered: true,
                 });
@@ -159,7 +170,6 @@ export default class Register extends Component {
                         <div className="tile">
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
-                              <p className="title has-text-white">PAN Images 1</p>
                                 <div className="file is-small">
                                     <a href="/" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
@@ -175,13 +185,12 @@ export default class Register extends Component {
                                     </label>
                                 </div>
                               <figure className="image is-4by3">
-                              <img alt="Asuna" className="m_image" src={require('../images/sup.jpg')} />
+                              <img alt="Asuna" className="m_image" src={this.state.img.img1} />
                               </figure>
                             </article>
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <p className="title has-text-white">PAN Images 2</p>
                               <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
@@ -199,12 +208,11 @@ export default class Register extends Component {
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={require('../images/kawaii.jpg')} />
                               </figure>
-                              <span class="tag is-black">Black</span>
+                              {/* <span class="tag is-black">Black</span> */}
                             </article>
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <p className="title has-text-white">PAN Images 3</p>
                               <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
@@ -228,7 +236,6 @@ export default class Register extends Component {
                         <div className="tile">
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
-                              <p className="title has-text-white">PAN Images 4</p>
                               <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
@@ -250,7 +257,6 @@ export default class Register extends Component {
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <p className="title has-text-white">PAN Images 5</p>
                               <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
@@ -270,7 +276,7 @@ export default class Register extends Component {
                               </figure>
                             </article>
                           </div>
-                          <div className="tile is-parent">
+                          {/* <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow-p">
                               <p className="title has-text-white">Profile Image</p>
                               <div className="file is-small">
@@ -291,7 +297,7 @@ export default class Register extends Component {
                                 <img alt="Asuna" className="m_image" src={require('../images/profile.jpg')} />
                               </figure>
                             </article>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -322,15 +328,15 @@ export default class Register extends Component {
                             <label className="label">Sexual Preference</label>
                             <div className="control">
                                 <label className="radio">
-                                    <input type="radio" name="question" />
+                                    <input type="radio" name="question" value="male" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'male'}/>
                                     Male
                                 </label>
                                 <label className="radio">
-                                    <input type="radio" name="question"/>
+                                    <input type="radio" name="question" value="female" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'female'}/>
                                     Female
                                 </label>
                                 <label className="radio">
-                                    <input type="radio" name="question"/>
+                                    <input type="radio" name="question" value="bisexual" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'bisexual'}/>
                                     Bisexual
                                 </label>
                             </div>
