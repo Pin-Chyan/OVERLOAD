@@ -50,7 +50,7 @@ export default class Register extends Component {
 
     componentDidMount () {
         axios.post('http://localhost:5001/users/get_spec', {"email": "meave@gmail.com", "target":""}).then(res => {
-            console.log(res.data[0].img.img1);
+            // console.log(res.data[0].img.img1);
             this.setState({
                 img1: res.data[0].img.img1,
                 img2: res.data[0].img.img2,
