@@ -17,6 +17,7 @@ export default class Register extends Component {
         this.onChangeSurname = this.onChangeSurname.bind(this);
         this.onChangePwd = this.onChangePwd.bind(this);
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
+        this.onChangebio = this.onChangebio.bind(this);
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
@@ -25,6 +26,7 @@ export default class Register extends Component {
         this.state = {
             name: '',
             surname: '',
+            bio: '',
             age: 0,
             pwd: '',
             pwdCon: '',
@@ -80,6 +82,12 @@ export default class Register extends Component {
     onChangeEmail(e) {
         this.setState({
                 email: e.target.value
+            });
+    }
+    
+    onChangebio(e) {
+        this.setState({
+                bio: e.target.value
             });
     }
 
@@ -197,6 +205,9 @@ export default class Register extends Component {
             if (this.state.sexual_pref){
                 data.sexual_pref = this.state.sexual_pref;
             }
+            if (this.state.bio){
+                data.bio = this.state.bio;
+            }
 
             axios.post('http://localhost:5001/users/edit_spec', data)
 
@@ -211,6 +222,7 @@ export default class Register extends Component {
                     gender: '',
                     sexual_pref: '',
                     imgSet: '',
+                    bio: '',
                     registered: true,
                 });
         }
@@ -409,7 +421,12 @@ export default class Register extends Component {
                             <div className="control has-icons-left has-icons-right">
                                 <input className="input" type="email" placeholder="New Name" value={this.state.name} onChange={this.onChangeName} required />
                             </div>
-                            {/* <p className="help is-danger">This email is required</p> */}
+                        </div>
+                        <div className="field">
+                            <label className="label">Current Bio {this.state.bio}</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input" type="text" placeholder="New bio" value={this.state.bio} onChange={this.onChangebio} required />
+                            </div>
                         </div>
 
 
