@@ -23,16 +23,13 @@ export default class Home extends Component {
     }
 
     fileUploadHandler = () => {
+        console.log(this.state.name);
         var reader = new FileReader();
         reader.readAsDataURL(this.state.selectedFile.files[0]);
         reader.onloadend = function() {
             var data = {};
             data.img = {};
-            data.img.img1 = reader.result;
-            data.img.img2 = reader.result;
             data.img.img3 = reader.result;
-            data.img.img4 = reader.result;
-            data.img.img5 = reader.result;
             data.email = logged;
             console.log(data);
             axios.post('http://localhost:5001/users/edit_spec', data);
@@ -43,7 +40,7 @@ export default class Home extends Component {
         return (
         <div className="App">
             <input type="file" onChange={this.fileSelectedHandler} />
-            <button onClick={this.fileUploadHandler}>Upload</button>
+            <button onClick={this.fileUploadHandler,this.state.name ="ok"}>Upload</button>
         </div>
         )
     }

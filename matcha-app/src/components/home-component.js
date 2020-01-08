@@ -37,28 +37,12 @@ export default class Home extends Component {
 //     } 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/img/r', {"mode":2}).then(response => {
-            console.log(response.data);
-            var index = 0;
-            let a = this.state.images.slice();
-            while (index < response.data.length){
-            a[index] = response.data[index];
-            this.setState({images: a[index]});
-            }
-        });
-        console.log(this.state.images);
-        var user = "PC";//this.state.signed;
-        axios.post('http://localhost:5001/users/get', {"name":user}).then(res => {
-            //console.log(res.data[0]);
+        axios.post('http://localhost:5001/users/get_spec', {"email":"meave@gmail.com","target":"name last img.img1"}).then(res => {
+            console.log(res);
             this.setState({
                 name: res.data[0].name,
-                last: res.data[0].last_name
-            });
-        });
-        axios.post('http://localhost:5001/img/r', {"username":user}).then(res2 => {
-            //console.log(res2.data[0]);
-            this.setState({
-                display: res2.data[0].img,
+                last: res.data[0].last,
+                display: res.data[0].img.img1
             });
         });
         console.log('updated');

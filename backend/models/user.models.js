@@ -37,18 +37,8 @@ const userSchema = new Schema({
     required: true
   },
   tags: {
-    img1:{type: String, default: ''},
-    img2:{type: String, default: ''},
-    img3:{type: String, default: ''},
-    img4:{type: String, default: ''},
-    img5:{type: String, default: ''}
-  },
-  post:{
-    img1:{type: Number, default: 0},
-    img2:{type: Number, default: 0},
-    img3:{type: Number, default: 0},
-    img4:{type: Number, default: 0},
-    img5:{type: Number, default: 0}
+    type: String,
+    default: ''
   },
   img: {
     img1:{type: String, default: ''},

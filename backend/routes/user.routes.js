@@ -49,18 +49,8 @@ router.route('/edit_spec').post( (req, res) => {
             doc.email = req.body.new_email;
         if (req.body.sexual_pref)
             doc.sexual_pref = req.body.sexual_pref;
-        if (req.body.tags){
-            if (req.body.tags.img1)
-                doc.tags.img1 = req.body.tags.img1;
-            if (req.body.tags.img2)
-                doc.tags.img2 = req.body.tags.img2;
-            if (req.body.tags.img3)
-                doc.tags.img3 = req.body.tags.img3;
-            if (req.body.tags.img4)
-                doc.tags.img4 = req.body.tags.img4;
-            if (req.body.tags.img5)
-                doc.tags.img5 = req.body.tags.img5;
-        }
+        if (req.body.tags)
+            doc.tags = req.body.tags;
         if (req.body.img){
             if (req.body.img.img1)
                 doc.img.img1 = req.body.img.img1;
