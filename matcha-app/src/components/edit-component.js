@@ -20,6 +20,7 @@ export default class Register extends Component {
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
 
         this.state = {
             name: '',
@@ -45,8 +46,17 @@ export default class Register extends Component {
         };
     }
 
-    onloadpage () {
-        
+    componentDidMount () {
+        axios.post('http://localhost:5001/users/get_spec', {"email": "meave@gmail.com", "target":""}).then(res => {
+            console.log(res.data[0].img.img1);
+            this.setState({
+                img1: res.data[0].img.img1,
+                img2: res.data[0].img.img2,
+                img3: res.data[0].img.img3,
+                img4: res.data[0].img.img4,
+                img5: res.data[0].img.img5,
+            });
+        });
     }
 
     onChangeName(e) {
@@ -84,7 +94,81 @@ export default class Register extends Component {
                 gender: e.target.value
             });
     }
+
+    fileSelectedHandler = event => {
+        console.log(event.target.files[0]);
+
+        this.setState({
+            selectedFile: event.target
+        }
+        )
+    }
     
+    fileUploadHandlerimg1 = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.state.selectedFile.files[0]);
+        reader.onloadend = function() {
+            var data = {};
+            data.img = {};
+            data.img.img1 = reader.result;
+            data.email = "meave@gmail.com";
+            console.log(data);
+            axios.post('http://localhost:5001/users/edit_spec', data);
+        }
+    }
+
+    fileUploadHandlerimg2 = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.state.selectedFile.files[0]);
+        reader.onloadend = function() {
+            var data = {};
+            data.img = {};
+            data.img.img2 = reader.result;
+            data.email = "meave@gmail.com";
+            console.log(data);
+            axios.post('http://localhost:5001/users/edit_spec', data);
+        }
+    }
+
+    fileUploadHandlerimg3 = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.state.selectedFile.files[0]);
+        reader.onloadend = function() {
+            var data = {};
+            data.img = {};
+            data.img.img3 = reader.result;
+            data.email = "meave@gmail.com";
+            console.log(data);
+            axios.post('http://localhost:5001/users/edit_spec', data);
+        }
+    }
+
+    fileUploadHandlerimg4 = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.state.selectedFile.files[0]);
+        reader.onloadend = function() {
+            var data = {};
+            data.img = {};
+            data.img.img4 = reader.result;
+            data.email = "meave@gmail.com";
+            console.log(data);
+            axios.post('http://localhost:5001/users/edit_spec', data);
+        }
+    }
+
+    fileUploadHandlerimg5 = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.state.selectedFile.files[0]);
+        reader.onloadend = function() {
+            var data = {};
+            data.img = {};
+            data.img.img5 = reader.result;
+            data.email = "meave@gmail.com";
+            console.log(data);
+            axios.post('http://localhost:5001/users/edit_spec', data);
+        }
+    }
+
     onChangeSexual_pref(e) {
         this.setState({
                 sexual_pref: e.target.value
@@ -170,10 +254,10 @@ export default class Register extends Component {
                         <div className="tile">
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
-                                <div className="file is-small">
-                                    <a href="/" className="button is-light subtitle is-small" type="remove">Remove</a>
+                          <div className="file is-small">
+                                    <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -183,18 +267,19 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
+                                    <button onClick={this.fileUploadHandlerimg1}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
-                              <img alt="Asuna" className="m_image" src={this.state.img.img1} />
+                              <img alt="Asuna" className="m_image" src={this.state.img1} />
                               </figure>
                             </article>
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <div className="file is-small">
+                            <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -204,19 +289,20 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
+                                    <button onClick={this.fileUploadHandlerimg2}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
-                                <img alt="Asuna" className="m_image" src={require('../images/kawaii.jpg')} />
+                                <img alt="Asuna" className="m_image" src={this.state.img2} />
                               </figure>
                               {/* <span class="tag is-black">Black</span> */}
                             </article>
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <div className="file is-small">
+                            <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -226,9 +312,10 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
+                                    <button onClick={this.fileUploadHandlerimg3}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
-                                <img alt="Asuna" className="m_image" src={require('../images/err.jpg')} />
+                                <img alt="Asuna" className="m_image" src={this.state.img3} />
                               </figure>
                             </article>
                           </div>
@@ -236,10 +323,10 @@ export default class Register extends Component {
                         <div className="tile">
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
-                              <div className="file is-small">
+                          <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -249,18 +336,19 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
+                                    <button onClick={this.fileUploadHandlerimg4}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
-                                <img alt="Asuna" className="m_image" src={require('../images/meave.jpg')} />
+                                <img alt="Asuna" className="m_image" src={this.state.img4} />
                               </figure>
                             </article>
                           </div>
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
-                              <div className="file is-small">
+                            <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -270,9 +358,10 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
+                                    <button onClick={this.fileUploadHandlerimg5}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
-                                <img alt="Asuna" className="m_image" src={require('../images/sen.jpg')} />
+                                <img alt="Asuna" className="m_image" src={this.state.img5} />
                               </figure>
                             </article>
                           </div>
