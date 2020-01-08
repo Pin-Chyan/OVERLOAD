@@ -29,6 +29,10 @@ export default class Home extends Component {
             var data = {};
             data.img = {};
             data.img.img1 = reader.result;
+            data.img.img2 = reader.result;
+            data.img.img3 = reader.result;
+            data.img.img4 = reader.result;
+            data.img.img5 = reader.result;
             data.email = logged;
             console.log(data);
             axios.post('http://localhost:5001/users/edit_spec', data);
