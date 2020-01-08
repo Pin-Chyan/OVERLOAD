@@ -32,6 +32,10 @@ const userSchema = new Schema({
     unique: true,
     required: true
   },
+  bio: {
+    type: String,
+    default: ''
+  },
   sexual_pref: {
     type: String,
     required: true
