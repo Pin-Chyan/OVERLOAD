@@ -423,7 +423,7 @@ export default class Register extends Component {
                             </div>
                         </div>
                         <div className="field">
-                            <label className="label">Current Bio {this.state.bio}</label>
+                            <label className="label">Update Bio</label>
                             <div className="control has-icons-left has-icons-right">
                                 <input className="input" type="text" placeholder="New bio" value={this.state.bio} onChange={this.onChangebio} required />
                             </div>
