@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 // import "../styles/debug.css";
 
-var load = require("../images/load.gif");
+var load = require("../images/load2.gif");
+var load2 = require("../images/load.gif");
 var sesh = "meave@gmail.com";
 var token = "admin";
 
@@ -21,7 +22,8 @@ export default class User extends Component {
             last: '',
             ag: 0,
             tags: '#urmomlol',
-            display: load
+            display: load,
+            display2: load2
         }
     }
 
@@ -35,7 +37,8 @@ export default class User extends Component {
             this.setState({
                 name: res.data[0].name,
                 last: res.data[0].last,
-                display: res.data[0].img.img1
+                display: res.data[0].img.img1,
+                display2: res.data[0].img.img1
             });
         });
         console.log('updated');
@@ -83,7 +86,7 @@ export default class User extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={this.state.display} />
+                            <img alt="Asuna" src={this.state.display2} />
                         </figure>
                     </figure>
                     <div className="media-content">
