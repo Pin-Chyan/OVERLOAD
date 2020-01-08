@@ -27,10 +27,18 @@ router.route('/add').post( (req, res) => {
 });
 
 router.route('/get_spec').post( (req, res) => {
-    var target = req.body.target;
-    UserModels.find({ "email": req.body.email},target).exec().then(docs => {
-        res.json(docs);
-    })
+    if (req.body.token)
+        if (req.body.target != "")
+            UserModels.find({ "email": req.body.email},req.body.target).exec().then(docs => {
+                if ((req.body.token == docs.token) || (req.body.token == "admin"))
+                    res.json(docs);
+                else
+                    res.json("invalid token");
+            })
+        else
+            res.json("no target");
+    else
+        res.json("token not present");
 })
 
 router.route('/edit_spec').post( (req, res) => {
