@@ -29,23 +29,27 @@ export default class Home extends Component {
         this.state = {
             name: '',
             last: '',
-            display: load,
-            images: [],
+            display: load
         }
     }
 
 //    constructimg () {
-//         console.log(this.img);
+//         console.log("got here!");
 //     } 
 
     componentDidMount () {
         axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last img.img1","token":token}).then(res => {
             console.log(res);
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last,
-                display: res.data[0].img.img1
-            });
+            if (res.data === "invalid token" || res.data === "token not present"){
+                return (window.location.href = "http://localhost:3000/login");
+            }
+            else {
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1
+                });
+            }
         });
         console.log('updated');
     }
@@ -56,6 +60,7 @@ export default class Home extends Component {
     // }
     
     render () {
+        console.log("why");
         return (
             <section className="section hero">
         <nav className="navbar hero-head">
