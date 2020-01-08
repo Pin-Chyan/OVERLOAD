@@ -9,5 +9,5 @@ const chats = new Schema({
     timestamps: true,
   });
 
-  const chats_model = mongoose.model('chats', chats, 'chats');
-  module.exports = chats_model;
+const chats_model = mongoose.model('chats', chats, 'chats');
+module.exports = chats_model;

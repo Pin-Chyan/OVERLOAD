@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const msg_schem = require('./models/chats.models');
 const client = require('socket.io').listen(4001).sockets;
 const exp = require('./socket/socket');
-const auth = require('./middleware/auth.js');
 
 var connectedUsers = [];
 require('dotenv').config();
@@ -28,15 +27,9 @@ client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, 
 
 const userRoutes = require('./routes/user.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
-const imgRoutes = require('./routes/image.routes.js');
-const authRoutes  = require('./routes/auth.routes.js');
 
-
-app.use('/auth', authRoutes);
-app.use('/users', auth.verifyToken , userRoutes);
+app.use('/users', userRoutes);
 app.use('/chats', chatRoutes);
-app.use('/img', imgRoutes);
-
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

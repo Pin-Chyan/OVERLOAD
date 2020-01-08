@@ -1,11 +1,9 @@
 const router = require('express').Router();
-const bcrypt = require('bcryptjs');
 let UserModels = require('../models/user.models.js');
 
 router.route('/add').post( (req, res) => {
-
     const name = req.body.name;
-    const last_name = req.body.last_name;
+    const last = req.body.last;
     const password = req.body.password;
     const gender = req.body.gender;
     const age = req.body.age;
@@ -15,7 +13,7 @@ router.route('/add').post( (req, res) => {
 
     const newUser = new UserModels({
         name,
-        last_name,
+        last,
         password,
         gender,
         age,
@@ -24,26 +22,66 @@ router.route('/add').post( (req, res) => {
         sexual_pref
     });
 
-
-    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if(err) throw err;
-        newUser.password = hash;
-        newUser.save().then( () => res.json('User added') )
-        .catch( err => res.status(400).json('Error: ' + err));
-    }));
+    newUser.save().then( () => res.json('User added') )
+    .catch( err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/get').post( (req, res) => {
-    UserModels.find({ "name": req.body.name}).exec().then(docs => {
+router.route('/get_spec').post( (req, res) => {
+    var target = req.body.target;
+    UserModels.find({ "email": req.body.email},target).exec().then(docs => {
         res.json(docs);
     })
 })
 
+router.route('/edit_spec').post( (req, res) => {
+    UserModels.findOne({'email':req.body.email}).exec().then(doc => {
+        if (req.body.name)
+            doc.name = req.body.name;
+        if (req.body.last)
+            doc.last = req.body.last;
+        if (req.body.password)
+            doc.password = req.body.password;
+        if (req.body.gender)
+            doc.gender = req.body.gender;
+        if (req.body.age)
+            doc.age = req.body.age;
+        if (req.email)
+            doc.email = req.body.new_email;
+        if (req.sexual_pref)
+            doc.sexual_pref = req.body.sexual_pref;
+        if (req.tags){
+            if (req.tags.img1)
+                doc.tags.img1 = req.body.tags.img1;
+            if (req.tags.img2)
+                doc.tags.img2 = req.body.tags.img2;
+            if (req.tags.img3)
+                doc.tags.img3 = req.body.tags.img3;
+            if (req.tags.img4)
+                doc.tags.img4 = req.body.tags.img4;
+            if (req.tags.img5)
+                doc.tags.img5 = req.body.tags.img5;
+        }
+        if (req.img){
+            if (req.body.img.img1)
+                doc.img.img1 = req.body.img.img1;
+            if (req.body.img.img2)
+                doc.img.img2 = req.body.img.img2;
+            if (req.body.img.img3)
+                doc.img.img3 = req.body.img.img3;
+            if (req.body.img.img4)
+                doc.img.img4 = req.body.img.img4;
+            if (req.body.img5)
+                doc.img.img5 = req.body.img.img5;
+        }
+        doc.save().catch(err => { res.json(err)});
+        res.json("done");
+    })
+})
 
 router.route('/email').post( (req, res) => {
     UserModels.find({ "email": req.body.email}).exec().then(docs => {
-        // console.log(docs.length);
         res.json({'present' : docs.length});
     })
 })
+
 module.exports = router;
