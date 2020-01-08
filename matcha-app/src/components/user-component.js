@@ -5,9 +5,12 @@ import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 // import "../styles/debug.css";
 
+var load = require("../images/load.gif");
 var sesh = "meave@gmail.com";
+var token = "admin";
 
 export default class User extends Component {
     constructor(props){
@@ -18,14 +21,17 @@ export default class User extends Component {
             last: '',
             ag: 0,
             tags: '#urmomlol',
-            display: ''
+            display: load
         }
     }
 
     componentDidMount () {
         var name = "Shane";
-        axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":""}).then(res => {
-            console.log(res.data[0]);
+        axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+            console.log(res);
+            if (res.data == "invalid token"){
+                return (window.location.href = "http://localhost:3000/home");
+            }
             this.setState({
                 name: res.data[0].name,
                 last: res.data[0].last,

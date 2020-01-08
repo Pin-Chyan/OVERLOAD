@@ -8,9 +8,11 @@ import axios from 'axios';
 // import "../styles/debug.css";
 // import Carousel from "../Carousel"
 import { Carousel } from "react-responsive-carousel";
-
-
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+var sesh = "meave@gmail.com";
+var token = "admin";
+var load = require("../images/load.gif");
 
 const Image = props => (
     <div>
@@ -27,7 +29,7 @@ export default class Home extends Component {
         this.state = {
             name: '',
             last: '',
-            display: '',
+            display: load,
             images: [],
         }
     }
@@ -37,7 +39,7 @@ export default class Home extends Component {
 //     } 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get_spec', {"email":"meave@gmail.com","target":"name last img.img1"}).then(res => {
+        axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last img.img1","token":token}).then(res => {
             console.log(res);
             this.setState({
                 name: res.data[0].name,
@@ -47,11 +49,11 @@ export default class Home extends Component {
         });
         console.log('updated');
     }
-    imagelist() {
-        return this.state.images.map(currentimage => {
-            return <Image image={currentimage} />;
-        })
-    }
+    // imagelist() {
+    //     return this.state.images.map(currentimage => {
+    //         return <Image image={currentimage} />;
+    //     })
+    // }
     
     render () {
         return (
@@ -87,9 +89,9 @@ export default class Home extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white">
                         <figure class="image"> {/* is-3by4 */}
-                            <Carousel autoPlay className="image img_carousel">
+                            {/* <Carousel autoPlay className="image img_carousel">
                                 { this.imagelist() }
-                            </Carousel>
+                            </Carousel> */}
                         </figure>
                         <div className="column center_b">
                         <p>
