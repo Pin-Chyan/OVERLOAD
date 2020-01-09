@@ -11,6 +11,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 var sesh = "meave@gmail.com";
 var token = "admin";
+var load = require("../images/load.gif");
 
 // const Image = props => (
 //     <div>
@@ -27,7 +28,7 @@ export default class Home extends Component {
         this.state = {
             name: '',
             last: '',
-            display: '',
+            display: load,
             bio: '',
             images: [],
             img1: '',
@@ -61,7 +62,7 @@ export default class Home extends Component {
             console.log("this "+ this.state.img5);
         });
     }
-
+    
     // imagelist() {
     //     return this.state.images.map(currentimage => {
     //         return <Image image={currentimage} />;

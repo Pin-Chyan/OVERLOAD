@@ -9,6 +9,8 @@ import axios from 'axios';
 
 var sesh = "meave@gmail.com";
 var token = "admin";
+var load = require("../images/load.gif");
+var load2 = require("../images/load2.gif");
 
 export default class Register extends Component {
     constructor(props) {
@@ -42,11 +44,11 @@ export default class Register extends Component {
             surnameErr: '',
             ageErr: '',
             emailErr: '',
-            img1: '',
-            img2: '',
-            img3: '',
-            img4: '',
-            img5: ''
+            img1: load2,
+            img2: load,
+            img3: load2,
+            img4: load2,
+            img5: load2
         };
     }
 
