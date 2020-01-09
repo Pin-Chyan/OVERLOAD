@@ -36,15 +36,16 @@ export default class User extends Component {
             if (res.data == "invalid token"){
                 return (window.location.href = ip+"/home");
             }
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last,
-                bio: res.data[0].bio,
-                display: res.data[0].img.img1,
-                display2: res.data[0].img.img1
-            });
+            else {
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio
+                });
+            }
+            console.log("this "+ this.state.img5);
         });
-        console.log('updated');
     }
 
     render () {
@@ -89,7 +90,7 @@ export default class User extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={this.state.display2} />
+                            <img alt="Asuna" src={this.state.display} />
                         </figure>
                     </figure>
                     <div className="media-content">

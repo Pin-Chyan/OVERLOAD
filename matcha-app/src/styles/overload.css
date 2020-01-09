@@ -26,7 +26,8 @@
 .bg_white {
     background-color: white !important;
     border-radius: 2%;
-    width: 50% !important;
+    /* width: 50% !important; */
+    flex: auto !important;
 }
 
 .img_carousel {
