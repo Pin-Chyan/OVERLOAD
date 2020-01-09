@@ -12,7 +12,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
-
+var load2 = require("../images/load2.gif");
 // const Image = props => (
 //     <div>
 //         <img alt="Asuna" className="m_image" src={props.image.img} />
@@ -31,11 +31,11 @@ export default class Home extends Component {
             display: load,
             bio: '',
             images: [],
-            img1: '',
-            img2: '',
-            img3: '',
-            img4: '',
-            img5: ''
+            img1: load2,
+            img2: load2,
+            img3: load2,
+            img4: load2,
+            img5: load2
         };
     }
 

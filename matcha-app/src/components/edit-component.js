@@ -113,7 +113,7 @@ export default class Register extends Component {
     }
 
     fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
+        console.log(event.target);
 
         this.setState({
             selectedFile: event.target
@@ -122,69 +122,96 @@ export default class Register extends Component {
     }
     
     fileUploadHandlerimg1 = () => {
-        var reader = new FileReader();
-        reader.readAsDataURL(this.state.selectedFile.files[0]);
-        reader.onloadend = function() {
-            var data = {};
-            data.img = {};
-            data.img.img1 = reader.result;
-            data.email = "meave@gmail.com";
-            console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
+        if (this.state.selectedFile){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.onloadend = async function() {
+                var data = {};
+                data.img = {};
+                data.img.img1 = reader.result;
+                data.email = sesh;
+                data.token = token
+                console.log("start upload");
+                this.setState({img1:load});
+                let req = await axios.post('http://localhost:5001/users/edit_spec', data);
+                if (req.status == 200)
+                    this.setState({img1:data.img.img1});
+            }.bind(this);
         }
     }
-
     fileUploadHandlerimg2 = () => {
-        var reader = new FileReader();
-        reader.readAsDataURL(this.state.selectedFile.files[0]);
-        reader.onloadend = function() {
-            var data = {};
-            data.img = {};
-            data.img.img2 = reader.result;
-            data.email = "meave@gmail.com";
-            console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
+        if (this.state.selectedFile){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.onloadend = async function() {
+                var data = {};
+                data.img = {};
+                data.img.img2 = reader.result;
+                data.email = sesh;
+                data.token = token
+                console.log("start upload");
+                this.setState({img2:load});
+                let req = await axios.post('http://localhost:5001/users/edit_spec', data);
+                if (req.status == 200)
+                    this.setState({img2:data.img.img2});
+            }.bind(this);
         }
     }
-
     fileUploadHandlerimg3 = () => {
-        var reader = new FileReader();
-        reader.readAsDataURL(this.state.selectedFile.files[0]);
-        reader.onloadend = function() {
-            var data = {};
-            data.img = {};
-            data.img.img3 = reader.result;
-            data.email = "meave@gmail.com";
-            console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
+        if (this.state.selectedFile){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.onloadend = async function() {
+                var data = {};
+                data.img = {};
+                data.img.img3 = reader.result;
+                data.email = sesh;
+                data.token = token
+                console.log("start upload");
+                this.setState({img3:load});
+                let req = await axios.post('http://localhost:5001/users/edit_spec', data);
+                if (req.status == 200)
+                    this.setState({img3:data.img.img3});
+            }.bind(this);
         }
     }
-
     fileUploadHandlerimg4 = () => {
+        if (this.state.selectedFile){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.onloadend = async function() {
+                var data = {};
+                data.img = {};
+                data.img.img4 = reader.result;
+                data.email = sesh;
+                data.token = token
+                console.log("start upload");
+                this.setState({img4:load});
+                let req = await axios.post('http://localhost:5001/users/edit_spec', data);
+                if (req.status == 200)
+                    this.setState({img4:data.img.img4});
+            }.bind(this);
+        }
+    }
+    fileUploadHandlerimg5 = () => {
+        if (this.state.selectedFile){
         var reader = new FileReader();
-        reader.readAsDataURL(this.state.selectedFile.files[0]);
-        reader.onloadend = function() {
-            var data = {};
-            data.img = {};
-            data.img.img4 = reader.result;
-            data.email = "meave@gmail.com";
-            console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
+            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.onloadend = async function() {
+                var data = {};
+                data.img = {};
+                data.img.img5 = reader.result;
+                data.email = sesh;
+                data.token = token
+                console.log("start upload");
+                this.setState({img5:load});
+                let req = await axios.post('http://localhost:5001/users/edit_spec', data);
+                if (req.status == 200)
+                    this.setState({img5:data.img.img5});
+            }.bind(this);
         }
     }
 
-    fileUploadHandlerimg5 = () => {
-        var reader = new FileReader();
-        reader.readAsDataURL(this.state.selectedFile.files[0]);
-        reader.onloadend = function() {
-            var data = {};
-            data.img = {};
-            data.img.img5 = reader.result;
-            data.email = "meave@gmail.com";
-            console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
-        }
-    }
 
     onChangeSexual_pref(e) {
         this.setState({
@@ -279,7 +306,7 @@ export default class Register extends Component {
                           <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input id="1" className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>

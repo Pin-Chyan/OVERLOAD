@@ -44,7 +44,7 @@ router.route('/get_spec').post( (req, res) => {
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
         UserModels.find({'email':req.body.email}).exec().then(doc => {
-            if ((req.body.token == doc.token || req.body.token == "admin")) {
+            if ((req.body.token == doc.token || req.body.token == "admin") && (req.body.token != "")) {
                 UserModels.findOne({'email':req.body.email}).exec().then(doc => {
                     if (req.body.name)
                         doc.name = req.body.name;
