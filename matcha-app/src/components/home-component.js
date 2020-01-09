@@ -6,19 +6,18 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios'; 
 // import "../styles/debug.css";
-// import Carousel from "../Carousel"
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 var sesh = "meave@gmail.com";
 var token = "admin";
 
-const Image = props => (
-    <div>
-        <img alt="Asuna" className="m_image" src={props.image.img} />
-        <p className="legend">{props.image.username}</p>
-    </div>
-)
+// const Image = props => (
+//     <div>
+//         <img alt="Asuna" className="m_image" src={props.image.img} />
+//         <p className="legend">{props.image.username}</p>
+//     </div>
+// )
 
 export default class Home extends Component {
     constructor(props){
@@ -29,16 +28,19 @@ export default class Home extends Component {
             name: '',
             last: '',
             display: '',
-            images: []
+            bio: '',
+            images: [],
+            img1: '',
+            img2: '',
+            img3: '',
+            img4: '',
+            img5: ''
         };
     }
 
-//    constructimg () {
-//         console.log("got here!");
-//     } 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last img.img1","token":token}).then(res => {
+        axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last bio img","token":token}).then(res => {
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
                 return (window.location.href = "http://localhost:3000/login");
@@ -47,21 +49,26 @@ export default class Home extends Component {
                 this.setState({
                     name: res.data[0].name,
                     last: res.data[0].last,
-                    display: res.data[0].img.img1
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio,
+                    img1: res.data[0].img.img1,
+                    img2: res.data[0].img.img2,
+                    img3: res.data[0].img.img3,
+                    img4: res.data[0].img.img4,
+                    img5: res.data[0].img.img5
                 });
             }
+            console.log("this "+ this.state.img5);
         });
-        console.log('updated');
     }
 
-    imagelist() {
-        return this.state.images.map(currentimage => {
-            return <Image image={currentimage} />;
-        })
-    }
+    // imagelist() {
+    //     return this.state.images.map(currentimage => {
+    //         return <Image image={currentimage} />;
+    //     })
+    // }
     
     render () {
-        console.log("why");
         return (
             <section className="section hero">
         <nav className="navbar hero-head">
@@ -96,7 +103,26 @@ export default class Home extends Component {
                     <div className="column is-half bg_white">
                         <figure class="image"> {/* is-3by4 */}
                             <Carousel autoPlay className="image img_carousel">
-                                { this.imagelist() }
+                                <div>
+                                    <img alt="image 1" className="m_image" src={this.state.img1} />
+                                    <p className="legend">Legend 1</p>
+                                </div>
+                                <div>
+                                    <img alt="image 2" className="m_image" src={this.state.img2} />
+                                    <p className="legend">Legend 2</p>
+                                </div>
+                                <div>
+                                    <img alt="image 3" className="m_image" src={this.state.img3} />
+                                    <p className="legend">Legend 3</p>
+                                </div>
+                                <div>
+                                    <img alt="image 4" className="m_image" src={this.state.img4} />
+                                    <p className="legend">Legend 4</p>
+                                </div>
+                                <div>
+                                    <img alt="image 5" className="m_image" src={this.state.img5} />
+                                    <p className="legend">Legend 5</p>
+                                </div>
                             </Carousel>
                         </figure>
                         <div className="column center_b">
@@ -150,7 +176,7 @@ export default class Home extends Component {
                 <br />
                 <hr />
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
+                    {this.state.bio}
                 </p>
             </div>
                         </div>
