@@ -13,6 +13,8 @@ var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
+var edit = "http://10.212.6.4:5001/users/edit_spec";
+var get = "http://10.212.6.4:5001/users/get_spec";
 // const Image = props => (
 //     <div>
 //         <img alt="Asuna" className="m_image" src={props.image.img} />
@@ -41,7 +43,7 @@ export default class Home extends Component {
 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/users/get_spec', {"email":sesh,"target":"name last bio img","token":token}).then(res => {
+        axios.post(get, {"email":sesh,"target":"name last bio img","token":token}).then(res => {
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
                 return (window.location.href = "http://localhost:3000/login");
@@ -176,6 +178,9 @@ export default class Home extends Component {
                 </article>
                 <br />
                 <hr />
+                {/* <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
+                </p> */}
                 <p>
                     {this.state.bio}
                 </p>

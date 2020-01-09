@@ -6,6 +6,9 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; 
 // import "../styles/debug.css";
+var edit = "http://10.212.6.4:5001/users/edit_spec";
+var get = "http://10.212.6.4:5001/users/get_spec";
+var auth = "http://10.212.6.4:5001/auth/getToken";
 
 export default class Register extends Component {
     constructor(props) {
@@ -32,7 +35,7 @@ export default class Register extends Component {
     onSumbit = async e => {
         e.preventDefault();
 
-        axios.post('http://localhost:5001/auth/getToken', {
+        axios.post(auth, {
             email: this.state.email,
             password: this.state.password
         }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));

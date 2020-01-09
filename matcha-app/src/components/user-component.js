@@ -12,6 +12,8 @@ var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
 var sesh = "meave@gmail.com";
 var token = "admin";
+// var edit = "http://10.212.6.4:5001/users/edit_spec";
+var get = "http://10.212.6.4:5001/users/get_spec";
 
 export default class User extends Component {
     constructor(props){
@@ -20,6 +22,7 @@ export default class User extends Component {
         this.state = {
             name: '',
             last: '',
+            bio: '',
             ag: 0,
             tags: '#urmomlol',
             display: load,
@@ -29,7 +32,7 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "Shane";
-        axios.post('http://localhost:5001/users/get_spec', {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+        axios.post(get, {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
             console.log(res);
             if (res.data == "invalid token"){
                 return (window.location.href = "http://localhost:3000/home");
@@ -37,6 +40,7 @@ export default class User extends Component {
             this.setState({
                 name: res.data[0].name,
                 last: res.data[0].last,
+                bio: res.data[0].bio,
                 display: res.data[0].img.img1,
                 display2: res.data[0].img.img1
             });
@@ -102,7 +106,7 @@ export default class User extends Component {
                 <br />
                 <hr />
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
+                    {this.state.bio}
                 </p>
             </div>
                         </div>
