@@ -5,14 +5,14 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
-import axios from 'axios'; 
+import axios from 'axios';
 
 var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
-var edit = "http://10.212.6.4:5001/users/edit_spec";
-var get = "http://10.212.6.4:5001/users/get_spec";
+// console.log(db);
+var ip = "http://10.212.6.4:5001";
 
 export default class Register extends Component {
     constructor(props) {
@@ -55,7 +55,7 @@ export default class Register extends Component {
     }
 
     componentDidMount () {
-        axios.post(get, {"email": sesh, "target":"img", "token":token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img", "token":token}).then(res => {
             console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){
                 return (window.location.href = "http://localhost:3000/login");
@@ -135,7 +135,7 @@ export default class Register extends Component {
                 data.token = token
                 console.log("start upload");
                 this.setState({img1:load});
-                let req = await axios.post(edit, data);
+                let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img1:data.img.img1});
             }.bind(this);
@@ -153,7 +153,7 @@ export default class Register extends Component {
                 data.token = token
                 console.log("start upload");
                 this.setState({img2:load});
-                let req = await axios.post(edit, data);
+                let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img2:data.img.img2});
             }.bind(this);
@@ -171,7 +171,7 @@ export default class Register extends Component {
                 data.token = token
                 console.log("start upload");
                 this.setState({img3:load});
-                let req = await axios.post(edit, data);
+                let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img3:data.img.img3});
             }.bind(this);
@@ -189,7 +189,7 @@ export default class Register extends Component {
                 data.token = token
                 console.log("start upload");
                 this.setState({img4:load});
-                let req = await axios.post(edit, data);
+                let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img4:data.img.img4});
             }.bind(this);
@@ -207,7 +207,7 @@ export default class Register extends Component {
                 data.token = token
                 console.log("start upload");
                 this.setState({img5:load});
-                let req = await axios.post(edit, data);
+                let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img5:data.img.img5});
             }.bind(this);
@@ -248,7 +248,7 @@ export default class Register extends Component {
                 data.bio = this.state.bio;
             }
 
-            axios.post(edit, data)
+            axios.post(ip+"/users/edit_spec", data)
 
             //const errors = this.refs.form.showFieldErrors();
             

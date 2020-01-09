@@ -20,8 +20,7 @@ import { Link } from 'react-router-dom';
     /* route user to home if already logged in */
     // var edit = "http://10.212.6.4:5001/users/edit_spec";
     // var get = "http://10.212.6.4:5001/users/get_spec";
-    var add = "http://10.212.6.4:5001/users/add";
-    var email_r = "http://10.212.6.4:5001/users/email";
+var ip = "http://10.212.6.4:5001";
 
 export default class Register extends Component {
     constructor(props) {
@@ -189,7 +188,7 @@ export default class Register extends Component {
 
             if (this.validateForm()) {
                 let email = { email: this.state.email };
-                axios.post(email_r, email).then(res => { if (!res.data.present) {
+                axios.post(ip+"/users/email", email).then(res => { if (!res.data.present) {
                         const dat = {
                             name: this.state.name,
                             last: this.state.surname,
@@ -199,7 +198,7 @@ export default class Register extends Component {
                             email: this.state.email,
                             sexual_pref: "bi"
                         }
-                        axios.post(add, dat).then( window.location = '/login').catch(console.log("Error adding user"));
+                        axios.post(ip+"/users/add", dat).then( window.location = '/login').catch(console.log("Error adding user"));
                     } else {
                         console.log("Email in use");
                         this.setState({emailErr: 'Email already in use!'});

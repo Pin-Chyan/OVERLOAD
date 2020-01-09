@@ -12,8 +12,7 @@ var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
 var sesh = "meave@gmail.com";
 var token = "admin";
-// var edit = "http://10.212.6.4:5001/users/edit_spec";
-var get = "http://10.212.6.4:5001/users/get_spec";
+var ip = "http://10.212.6.4:5001";
 
 export default class User extends Component {
     constructor(props){
@@ -32,10 +31,10 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "Shane";
-        axios.post(get, {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
             console.log(res);
             if (res.data == "invalid token"){
-                return (window.location.href = "http://localhost:3000/home");
+                return (window.location.href = ip+"/home");
             }
             this.setState({
                 name: res.data[0].name,
