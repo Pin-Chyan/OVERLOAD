@@ -58,7 +58,7 @@ export default class Register extends Component {
         axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img", "token":token}).then(res => {
             console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){
-                return (window.location.href = "http://localhost:3000/login");
+                return (window.location.href = ip+"/login");
             }
             else {
                 this.setState({
@@ -114,19 +114,26 @@ export default class Register extends Component {
             });
     }
 
-    fileSelectedHandler = event => {
-        console.log(event.target);
-
-        this.setState({
-            selectedFile: event.target
-        }
-        )
+    fileSelectedHandler1 = event => {
+        this.setState({selectedFile1: event.target})
+    }
+    fileSelectedHandler2 = event => {
+        this.setState({selectedFile2: event.target})
+    }
+    fileSelectedHandler3 = event => {
+        this.setState({selectedFile3: event.target})
+    }
+    fileSelectedHandler4 = event => {
+        this.setState({selectedFile4: event.target})
+    }
+    fileSelectedHandler5 = event => {
+        this.setState({selectedFile5: event.target})
     }
     
     fileUploadHandlerimg1 = () => {
-        if (this.state.selectedFile){
+        if (this.state.selectedFile1){
             var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.readAsDataURL(this.state.selectedFile1.files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
@@ -138,13 +145,14 @@ export default class Register extends Component {
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img1:data.img.img1});
+                this.setState({selectedFile1: ""});
             }.bind(this);
         }
     }
     fileUploadHandlerimg2 = () => {
-        if (this.state.selectedFile){
+        if (this.state.selectedFile2){
             var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.readAsDataURL(this.state.selectedFile2.files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
@@ -156,13 +164,14 @@ export default class Register extends Component {
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img2:data.img.img2});
+                this.setState({selectedFile2: ""});
             }.bind(this);
         }
     }
     fileUploadHandlerimg3 = () => {
-        if (this.state.selectedFile){
+        if (this.state.selectedFile3){
             var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.readAsDataURL(this.state.selectedFile3.files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
@@ -174,13 +183,14 @@ export default class Register extends Component {
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img3:data.img.img3});
+                this.setState({selectedFile3: ""});
             }.bind(this);
         }
     }
     fileUploadHandlerimg4 = () => {
-        if (this.state.selectedFile){
+        if (this.state.selectedFile4){
             var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.readAsDataURL(this.state.selectedFile4.files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
@@ -192,13 +202,14 @@ export default class Register extends Component {
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img4:data.img.img4});
+                this.setState({selectedFile4: ""});
             }.bind(this);
         }
     }
     fileUploadHandlerimg5 = () => {
-        if (this.state.selectedFile){
+        if (this.state.selectedFile5){
         var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile.files[0]);
+            reader.readAsDataURL(this.state.selectedFile5.files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
@@ -210,6 +221,7 @@ export default class Register extends Component {
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 if (req.status == 200)
                     this.setState({img5:data.img.img5});
+                this.setState({selectedFile5: ""});
             }.bind(this);
         }
     }
@@ -308,7 +320,7 @@ export default class Register extends Component {
                           <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input id="1" className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input id="1" className="file-input" type="file" onChange={this.fileSelectedHandler1} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -330,7 +342,7 @@ export default class Register extends Component {
                             <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler2} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -353,7 +365,7 @@ export default class Register extends Component {
                             <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler3} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -377,7 +389,7 @@ export default class Register extends Component {
                           <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler4} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -399,7 +411,7 @@ export default class Register extends Component {
                             <div className="file is-small">
                                     <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
                                         <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler} name="resume" />
+                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler5} name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
