@@ -31,21 +31,21 @@ export default class User extends Component {
     }
 
     componentDidMount () {
-        var name = "Shane";
-        axios.post(get, {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+        axios.post(get, {"email":sesh,"target":"name last bio img","token":token}).then(res => {
             console.log(res);
-            if (res.data == "invalid token"){
-                return (window.location.href = "http://localhost:3000/home");
+            if (res.data === "invalid token" || res.data === "token not present"){
+                return (window.location.href = "http://localhost:3000/login");
             }
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last,
-                bio: res.data[0].bio,
-                display: res.data[0].img.img1,
-                display2: res.data[0].img.img1
-            });
+            else {
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio
+                });
+            }
+            console.log("this "+ this.state.img5);
         });
-        console.log('updated');
     }
 
     render () {
@@ -90,7 +90,7 @@ export default class User extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={this.state.display2} />
+                            <img alt="Asuna" src={this.state.display} />
                         </figure>
                     </figure>
                     <div className="media-content">
