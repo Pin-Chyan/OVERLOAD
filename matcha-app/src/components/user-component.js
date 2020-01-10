@@ -80,7 +80,7 @@ export default class User extends Component {
         </nav>
             <div className="container">
                 <div className="columns is-centered shadow">
-                    <div className="column is-half bg_white">
+                    <div className="column is-half bg_white_1">
                          <figure class="image is-3by4"> {/* is-3by4 */}
                             <img className="overflow" src={this.state.display} alt="Asuna_img" />
                         </figure>
