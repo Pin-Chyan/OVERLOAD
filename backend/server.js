@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const msg_schem = require('./models/chats.models');
 const client = require('socket.io').listen(4001).sockets;
 const exp = require('./socket/socket');
-const auth = require('./middleware/auth.js');
+const auth = require('./auth/auth.middleware');
 const authRoutes  = require('./routes/auth.routes.js');
 
 var connectedUsers = [];
@@ -32,7 +32,7 @@ const userRoutes = require('./routes/user.routes.js');
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/users', auth.verifyToken , userRoutes);
+app.use('/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

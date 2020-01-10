@@ -6,7 +6,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; 
 // import "../styles/debug.css";
-var ip = "http://10.212.6.4:5001";
+var ip = require("../server.json").ip;
 
 export default class Register extends Component {
     constructor(props) {
@@ -18,7 +18,9 @@ export default class Register extends Component {
         
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            emailErr: '',
+            passwordErr: ''
         }
     }
 
@@ -32,11 +34,32 @@ export default class Register extends Component {
 
     onSumbit = async e => {
         e.preventDefault();
+        const user = { email: this.state.email, password: this.state.password};
+        this.setState({ emailErr: '', passwordErr: ''});      
 
-        axios.post(ip+"/auth/getToken", {
-            email: this.state.email,
-            password: this.state.password
-        }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
+        if (!(user.email === "" || user.password === "")) {
+            axios.post('http://localhost:5001/auth/getToken', user)
+            .then(res => {
+                //codes [0 : OK] [1 : Inccorect password or username]
+
+                if (res.data.resCode === 1) {
+                    this.setState({ emailErr: "Email or Password incorrect" });
+                } else {
+                    localStorage.setItem('token', res.data.token);
+                    this.props.history.push('/');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        } else {
+            (user.email === '') ? this.setState({ emailErr: 'Please fill in your email!'}) : this.setState({ emailErr: ''});
+            (user.password === '') ? this.setState({ passwordErr: 'Please fill in your password!'}) : this.setState({ passwordErr: ''});
+        }
+        // axios.post(ip+"/auth/getToken", {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
     }
 
     render () {
@@ -85,7 +108,7 @@ export default class Register extends Component {
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
                             </div>
-                            <p className="help is-danger">This email is required</p>
+                            <p className="help is-danger">{this.state.emailErr}</p>
                         </div>
                        
                         <div className="field">
@@ -96,6 +119,7 @@ export default class Register extends Component {
                                     <i className="fa fa-user"></i>
                                 </span>
                             </div>
+                            <p className="help is-danger">{this.state.passwordErr}</p>
                         </div>
 
                         <div className="field is-grouped">

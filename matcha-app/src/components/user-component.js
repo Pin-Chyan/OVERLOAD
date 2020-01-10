@@ -12,7 +12,7 @@ var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
 var sesh = "meave@gmail.com";
 var token = "admin";
-var ip = "http://10.212.6.4:5001";
+var ip = require("../server.json").ip;
 
 export default class User extends Component {
     constructor(props){

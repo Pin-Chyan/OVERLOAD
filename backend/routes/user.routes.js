@@ -1,5 +1,8 @@
 const router = require('express').Router();
 let UserModels = require('../models/user.models.js');
+const verifyToken = require('../auth/auth.middleware');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
@@ -40,6 +43,16 @@ router.route('/get_spec').post( (req, res) => {
     else
         res.json("token not present");
 })
+
+// router.post('/email', verifyToken, (req, res) => {
+//     jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+//         if (err) {
+//             res.sendStatus(403);
+//         } else {
+//             UserModels.find({ "email": decoded.email}).exec().then(docs => {
+//                 res.json({'present' : docs.length});
+//             })
+//         }
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
