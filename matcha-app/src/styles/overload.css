@@ -26,6 +26,8 @@
 .bg_white {
     background-color: white !important;
     border-radius: 2%;
+    /* width: 50% !important; */
+    flex: auto !important;
 }
 
 .img_carousel {
@@ -58,6 +60,10 @@
 
 .search-margin {
     margin-top: 2.5%;
+}
+
+.pad {
+    margin: 3px 0.5ex !important;
 }
 
 /*  */

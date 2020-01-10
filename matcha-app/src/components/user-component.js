@@ -5,7 +5,14 @@ import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 // import "../styles/debug.css";
+
+var load = require("../images/load2.gif");
+var load2 = require("../images/load.gif");
+var sesh = "meave@gmail.com";
+var token = "admin";
+var ip = "http://10.212.6.4:5001";
 
 export default class User extends Component {
     constructor(props){
@@ -14,28 +21,31 @@ export default class User extends Component {
         this.state = {
             name: '',
             last: '',
+            bio: '',
             ag: 0,
             tags: '#urmomlol',
-            display: ''
+            display: load,
+            display2: load2
         }
     }
 
     componentDidMount () {
         var name = "Shane";
-        axios.post('http://localhost:5001/users/get', {"name":name}).then(res => {
-            console.log(res.data[0]);
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last_name
-            });
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+            console.log(res);
+            if (res.data == "invalid token"){
+                return (window.location.href = ip+"/home");
+            }
+            else {
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio
+                });
+            }
+            console.log("this "+ this.state.img5);
         });
-        axios.post('http://localhost:5001/img/r', {"username":name}).then(res2 => {
-            console.log(res2.data[0]);
-            this.setState({
-                display: res2.data[0].img,
-            });
-        });
-        console.log('updated');
     }
 
     render () {
@@ -96,7 +106,7 @@ export default class User extends Component {
                 <br />
                 <hr />
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
+                    {this.state.bio}
                 </p>
             </div>
                         </div>

@@ -7,6 +7,10 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom'; 
 // import "../styles/debug.css";
 
+    // var edit = "http://10.212.6.4:5001/users/edit_spec";
+    // var get = "http://10.212.6.4:5001/users/get_spec";
+var ip = "http://10.212.6.4:5001";
+
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -173,17 +177,17 @@ export default class Register extends Component {
 
             if (this.validateForm()) {
                 let email = { email: this.state.email };
-                axios.post('http://localhost:5001/users/email', email).then(res => { if (!res.data.present) {
+                axios.post(ip+"/users/email", email).then(res => { if (!res.data.present) {
                         const dat = {
                             name: this.state.name,
-                            last_name: this.state.surname,
+                            last: this.state.surname,
                             password: this.state.pwd,
                             gender: this.state.gender,
                             age: this.state.age,
                             email: this.state.email,
                             sexual_pref: "bi"
                         }
-                        axios.post('http://localhost:5001/users/add', dat).then( window.location = '/login').catch(console.log("Error adding user"));
+                        axios.post(ip+"/users/add", dat).then( window.location = '/login').catch(console.log("Error adding user"));
                     } else {
                         console.log("Email in use");
                         this.setState({emailErr: 'Email already in use!'});

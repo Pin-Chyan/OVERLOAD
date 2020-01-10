@@ -6,6 +6,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; 
 // import "../styles/debug.css";
+var ip = "http://10.212.6.4:5001";
 
 export default class Register extends Component {
     constructor(props) {
@@ -55,6 +56,10 @@ export default class Register extends Component {
             (user.email === '') ? this.setState({ emailErr: 'Please fill in your email!'}) : this.setState({ emailErr: ''});
             (user.password === '') ? this.setState({ passwordErr: 'Please fill in your password!'}) : this.setState({ passwordErr: ''});
         }
+        // axios.post(ip+"/auth/getToken", {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
     }
 
     render () {

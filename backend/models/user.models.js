@@ -8,7 +8,7 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
-  last_name: {
+  last: {
     type: String,
     required: true,
     trim: true
@@ -18,52 +18,48 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
+  token:{
+    type: String,
+    default: ''
+  },
   gender: {
     type: String,
     required: true,
     trim: true
   },
   age: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   email: {
-      type:  String,
-      unique: true,
-      required: true
+    type:  String,
+    unique: true,
+    required: true
   },
-  verif: {
-      type:  Number
+  bio: {
+    type: String,
+    default: ''
   },
   sexual_pref: {
-      type: String,
-      required: true
+    type: String,
+    required: true
+  },
+  tags: {
+    type: String,
+    default: ''
+  },
+  img: {
+    img1:{type: String, default: ''},
+    img2:{type: String, default: ''},
+    img3:{type: String, default: ''},
+    img4:{type: String, default: ''},
+    img5:{type: String, default: ''}
   }
 }, {
   timestamps: true,
 });
 
-// const message = new Schema({
-//   room: room,
-//   user: user,
-//   room_id: ,
-//   message_body: String,
-//   message_status:{ type: Boolean, default: false},
-//   created_at: { type: Date, default: Date.now },
-// });
-
-// const image = new Schema({
-//   author : { type: String, required: true},
-//   img: { data: Buffer, contentType: String },
-//   created : { type: Date, default: Date.now}
-// });
-
 const User = mongoose.model('User', userSchema);
-
-// const Message = mongoose.model('Message', message);
 
 
 module.exports = User;
-// module.exports = Message;
-//module.exports = image;
-// module.exports = userSchema;
