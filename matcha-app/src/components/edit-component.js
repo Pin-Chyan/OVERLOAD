@@ -15,7 +15,15 @@ var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
-export default class Register extends Component {
+const items = [
+    'Gamer',
+    'Sports',
+    'Adventurer',
+    'Outdoor',
+    'Funny',
+    'Love',
+  ];
+export default class Edit extends Component {
     constructor(props) {
         super(props);
 
@@ -28,6 +36,7 @@ export default class Register extends Component {
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
+        this.onChangeTags = this.onChangeTags.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.rm1 = this.rm1.bind(this);
         this.rm2 = this.rm2.bind(this);
@@ -52,12 +61,25 @@ export default class Register extends Component {
             surnameErr: '',
             ageErr: '',
             emailErr: '',
+            tags: '',
             img1: load2,
             img2: load,
             img3: load2,
             img4: load2,
             img5: load2
         };
+    }
+    componentWillMount = () => {
+        this.selectedCheckboxes = new Set();
+    }
+
+    toggleCheckbox = label => {
+        if (this.selectedCheckboxes.has(label)) {
+            this.selectedCheckboxes.delete(label);
+        }
+        else {
+            this.selectedCheckboxes.add(label);
+        }
     }
 
     componentDidMount () {
@@ -120,11 +142,6 @@ export default class Register extends Component {
             });
     }
 
-    onChangeTags(e) {
-        this.setState({
-                tags:  e.target.value
-            });
-    }
 
     fileSelectedHandler1 = event => {
         this.setState({selectedFile1: event.target})
@@ -318,6 +335,13 @@ export default class Register extends Component {
     onChangeSexual_pref(e) {
         this.setState({
                 sexual_pref: e.target.value
+            });
+    }
+
+
+    onChangeTags = e => {
+        this.setState({
+                tags: e.target.value
             });
     }
 
@@ -550,7 +574,7 @@ export default class Register extends Component {
                             </div>
                         </div>
 
-
+{/* 
                         <div className="field">
                             <label className="label">Sexual Preference</label>
                             <div className="control">
@@ -567,6 +591,41 @@ export default class Register extends Component {
                                     Bisexual
                                 </label>
                             </div>
+                        </div> */}
+
+                        <div class="field">
+                            <label className="label">Selectable Tags:</label>
+                            <div className="control">
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === 'male'} />
+                                <label>
+                                    #Gamer
+                                </label>
+
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Sports'} />
+                                <label>
+                                    #Sports
+                                </label>
+
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Adventurer'} />
+                                <label>
+                                    #Adventurer
+                                </label>
+
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Funny'} />
+                                <label>
+                                    #Funny
+                                </label>
+
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Outside'} />
+                                <label>
+                                    #Outdoors
+                                </label>
+
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Love'} />
+                                <label>
+                                    #Love
+                                </label>
+                            </div>
                         </div>
 
                         <div className="field is-grouped">
@@ -577,27 +636,7 @@ export default class Register extends Component {
                                 <button className="button is-warning is-rounded is-light">Cancel</button>
                             </div>
                         </div>
-                        <div class="bd-notification is-dark">
-                            <div class="field">
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Gamer'} />
-                                <label for="exampleCheckboxWhite">#Gamer</label>
-
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Sports'} />
-                                <label for="exampleCheckboxWhite2">#Sports</label>
-
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Adventurer'} />
-                                <label for="exampleCheckboxWhite2">#Adventurer</label>
-
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Funny'} />
-                                <label for="exampleCheckboxWhite2">#Funny</label>
-
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Outside'} />
-                                <label for="exampleCheckboxWhite2">#Outdoors</label>
-
-                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Love'} />
-                                <label for="exampleCheckboxWhite2">#Love</label>
-                              </div>
-                            </div>
+                        
                         </div>
                     </div>
                 </div>
