@@ -6,7 +6,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios'; 
 
-var lol = "why me!";
+//var lol = "why me!";
 
 export default class Register extends Component {
     constructor(props) {

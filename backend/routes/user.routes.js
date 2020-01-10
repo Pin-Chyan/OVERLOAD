@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 let UserModels = require('../models/user.models.js');
+const verifyToken = require('../auth/auth.middleware');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.route('/add').post( (req, res) => {
 
@@ -39,11 +42,15 @@ router.route('/get').post( (req, res) => {
     })
 })
 
-
-router.route('/email').post( (req, res) => {
-    UserModels.find({ "email": req.body.email}).exec().then(docs => {
-        // console.log(docs.length);
-        res.json({'present' : docs.length});
+router.post('/email', verifyToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            UserModels.find({ "email": decoded.email}).exec().then(docs => {
+                res.json({'present' : docs.length});
+            })
+        }
     })
 })
 module.exports = router;

@@ -9,7 +9,7 @@ import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
 import Test from "./components/test-component.js";
 import upload from "./components/upload.js";
-import Authenticated from "./components/auth-component.js";
+import Authenticated from "./components/auth/auth-component.js";
 // import tags from "./components/tags-input.js";
 
 function App() {

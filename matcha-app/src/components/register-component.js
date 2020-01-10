@@ -7,18 +7,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom'; 
 // import "../styles/debug.css";
 
-/* check if image was uploaded */
-
-//display error is any field is invalid
-
-//Send post req to add user
-    /* display error if email is alredy in use */
-    /* display any other error */
-
-//goto login page
-    /* route user to login if registration was sucessfull */
-    /* route user to home if already logged in */
-
 export default class Register extends Component {
     constructor(props) {
         super(props);
