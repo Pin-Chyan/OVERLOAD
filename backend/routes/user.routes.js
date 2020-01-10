@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let UserModels = require('../models/user.models.js');
 const verifyToken = require('../auth/auth.middleware');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -25,8 +26,12 @@ router.route('/add').post( (req, res) => {
         sexual_pref,
     });
 
-    newUser.save().then( () => res.json('User added') )
-    .catch( err => res.status(400).json('Error: ' + err));
+    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if(err) throw err;
+        newUser.password = hash;
+        newUser.save().then( () => res.json('User added') )
+        .catch( err => res.status(400).json('Error: ' + err));
+    }));
 });
 
 router.route('/get_spec').post( (req, res) => {

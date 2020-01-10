@@ -14,6 +14,8 @@ export default class Authenticated extends Component {
     componentDidMount() {
         const jwt = getJwt();
 
+        console.log(jwt);
+
         if(!jwt) {
             this.props.history.push('/login');
         }
