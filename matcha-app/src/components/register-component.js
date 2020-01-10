@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
     // var edit = "http://10.212.6.4:5001/users/edit_spec";
     // var get = "http://10.212.6.4:5001/users/get_spec";
-var ip = "http://10.212.6.4:5001";
+var ip = "http://localhost:5001";
 
 export default class Register extends Component {
     constructor(props) {
