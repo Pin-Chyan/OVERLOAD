@@ -13,7 +13,7 @@ var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
-var ip = "http://localhost:5001";
+var ip = require("../server.json").ip;
 // const Image = props => (
 //     <div>
 //         <img alt="Asuna" className="m_image" src={props.image.img} />
@@ -47,7 +47,7 @@ export default class Home extends Component {
             if (res.data === "invalid token" || res.data === "token not present"){
                 return (window.location.href = ip+"/login");
             }
-            else if (res.name){
+            else if (res.data[0].name){
                 this.setState({
                     name: res.data[0].name,
                     last: res.data[0].last,
@@ -60,7 +60,7 @@ export default class Home extends Component {
                     img5: res.data[0].img.img5
                 });
             }
-            console.log("this "+ this.state.img5);
+            //console.log("this "+ this.state.img5);
         });
     }
     
