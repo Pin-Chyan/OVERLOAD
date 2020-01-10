@@ -13,13 +13,7 @@ var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
-<<<<<<< HEAD
-var nll = require("../images/nll.png");
-// console.log(db);
-var ip = "http://10.212.6.4:5001";
-=======
 var nll = require("../images/err.jpg");
->>>>>>> a984419505b8a08b05fae7f643fe8e1619f55c88
 
 export default class Register extends Component {
     constructor(props) {
@@ -128,7 +122,7 @@ export default class Register extends Component {
 
     onChangeTags(e) {
         this.setState({
-                tags:  e.target.value;
+                tags:  e.target.value
             });
     }
 
