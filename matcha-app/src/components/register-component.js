@@ -7,17 +7,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom'; 
 // import "../styles/debug.css";
 
-/* check if image was uploaded */
-
-//display error is any field is invalid
-
-//Send post req to add user
-    /* display error if email is alredy in use */
-    /* display any other error */
-
-//goto login page
-    /* route user to login if registration was sucessfull */
-    /* route user to home if already logged in */
     // var edit = "http://10.212.6.4:5001/users/edit_spec";
     // var get = "http://10.212.6.4:5001/users/get_spec";
     var ip = require("../server.json").ip;
