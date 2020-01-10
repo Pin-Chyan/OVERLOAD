@@ -14,7 +14,7 @@ var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/nll.png");
 // console.log(db);
-var ip = "http://localhost:5001";
+var ip = "http://10.212.6.4:5001";
 
 export default class Register extends Component {
     constructor(props) {
@@ -58,12 +58,12 @@ export default class Register extends Component {
     }
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img", "token":token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
             console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){
                 return (window.location.href = ip+"/login");
             }
-            else if (res.data[0]){
+            else if (res.data[0].name){
                 this.setState({
                     img1: res.data[0].img.img1,
                     img2: res.data[0].img.img2,
@@ -114,6 +114,12 @@ export default class Register extends Component {
     onChangeGender(e) {
         this.setState({
                 gender: e.target.value
+            });
+    }
+
+    onChangeTags(e) {
+        this.setState({
+                tags:  e.target.value;
             });
     }
 
@@ -281,6 +287,9 @@ export default class Register extends Component {
             if (this.state.bio){
                 data.bio = this.state.bio;
             }
+            if (this.state.tags) {
+                data.tags = this.state.tags;
+            }
 
             axios.post(ip+"/users/edit_spec", data)
 
@@ -294,6 +303,7 @@ export default class Register extends Component {
                     email: '',
                     gender: '',
                     sexual_pref: '',
+                    tags: '',
                     imgSet: '',
                     bio: '',
                     registered: true,
@@ -450,28 +460,6 @@ export default class Register extends Component {
                               </figure>
                             </article>
                           </div>
-                          {/* <div className="tile is-parent">
-                            <article className="tile is-child notification light-yellow-p">
-                              <p className="title has-text-white">Profile Image</p>
-                              <div className="file is-small">
-                                    <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
-                                        <label className="file-label">
-                                            <input className="file-input" type="file" name="resume" />
-                                        <span className="file-cta">
-                                        <span className="file-icon">
-                                            <i className="fa fa-upload"></i>
-                                        </span>
-                                        <span className="file-label">
-                                            Choose a file…
-                                        </span>
-                                        </span>
-                                    </label>
-                                </div>
-                              <figure className="image is-4by3">
-                                <img alt="Asuna" className="m_image" src={require('../images/profile.jpg')} />
-                              </figure>
-                            </article>
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -531,11 +519,23 @@ export default class Register extends Component {
                         </div>
                         <div class="bd-notification is-dark">
                             <div class="field">
-                                <input class="is-checkradio is-white pad" id="exampleCheckboxWhite" type="checkbox" name="exampleCheckboxWhite" />
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Gamer'} />
                                 <label for="exampleCheckboxWhite">#Gamer</label>
 
-                                <input class="is-checkradio is-white pad" id="exampleCheckboxWhite2" type="checkbox" name="exampleCheckboxWhite2" />
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Sports'} />
                                 <label for="exampleCheckboxWhite2">#Sports</label>
+
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Adventurer'} />
+                                <label for="exampleCheckboxWhite2">#Adventurer</label>
+
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Funny'} />
+                                <label for="exampleCheckboxWhite2">#Funny</label>
+
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Outside'} />
+                                <label for="exampleCheckboxWhite2">#Outdoors</label>
+
+                                <input class="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Love'} />
+                                <label for="exampleCheckboxWhite2">#Love</label>
                               </div>
                             </div>
                         </div>

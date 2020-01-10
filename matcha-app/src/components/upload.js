@@ -32,7 +32,7 @@ export default class Home extends Component {
             data.img.img3 = reader.result;
             data.email = logged;
             console.log(data);
-            axios.post('http://localhost:5001/users/edit_spec', data);
+            axios.post('http://10.212.6.4:5001/users/edit_spec', data);
         }
     }
 
