@@ -12,7 +12,7 @@ var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
 var sesh = "meave@gmail.com";
 var token = "admin";
-var ip = "http://10.212.6.4:5001";
+var ip = "http://localhost:5001";
 
 export default class User extends Component {
     constructor(props){
@@ -36,7 +36,7 @@ export default class User extends Component {
             if (res.data == "invalid token"){
                 return (window.location.href = ip+"/home");
             }
-            else {
+            else if (res.name){
                 this.setState({
                     name: res.data[0].name,
                     last: res.data[0].last,
