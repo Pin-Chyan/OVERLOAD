@@ -6,13 +6,15 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 import axios from 'axios';
+import { func } from 'prop-types';
 
 var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
+var nll = require("../images/nll.png");
 // console.log(db);
-var ip = "http://10.212.6.4:5001";
+var ip = "http://localhost:5001";
 
 export default class Register extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ export default class Register extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.clickcheck = this.clickcheck.bind(this);
 
         this.state = {
             name: '',
@@ -60,7 +63,7 @@ export default class Register extends Component {
             if (res.data == "invalid token" || res.data == "token not present"){
                 return (window.location.href = ip+"/login");
             }
-            else {
+            else if (res.data[0]){
                 this.setState({
                     img1: res.data[0].img.img1,
                     img2: res.data[0].img.img2,
@@ -129,7 +132,26 @@ export default class Register extends Component {
     fileSelectedHandler5 = event => {
         this.setState({selectedFile5: event.target})
     }
-    
+    clickcheck = () => {
+        // if (this.state.selectedFile1){
+        //     var reader = new FileReader();
+        //     reader.readAsDataURL(this.state.selectedFile1.files[0]);
+        //     reader.onloadend = async function() {
+        //         var data = {};
+        //         data.img = {};
+        //         data.img.img1 = reader.result;
+        //         data.email = sesh;
+        //         data.token = token
+        //         console.log("start upload");
+        //         this.setState({img1:load});
+        //         let req = await axios.post(ip+"/users/edit_spec", data);
+        //         if (req.status == 200)
+        //             this.setState({img1:data.img.img1});
+        //         this.setState({selectedFile1: ""});
+        //     }.bind(this);
+        // }
+    }
+
     fileUploadHandlerimg1 = () => {
         if (this.state.selectedFile1){
             var reader = new FileReader();
@@ -318,7 +340,7 @@ export default class Register extends Component {
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
                           <div className="file is-small">
-                                    <a href="" className="button is-light subtitle is-small" type="remove">Remove</a>
+                                    <a className="button is-light subtitle is-small" onClick={this.clickcheck} >Remove</a>
                                         <label className="file-label">
                                             <input id="1" className="file-input" type="file" onChange={this.fileSelectedHandler1} name="resume" />
                                         <span className="file-cta">
@@ -329,8 +351,8 @@ export default class Register extends Component {
                                             Choose a file…
                                         </span>
                                         </span>
-                                    </label>
-                                    <button onClick={this.fileUploadHandlerimg1}>Upload</button>
+                                        </label>
+                                        <button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
                               <img alt="Asuna" className="m_image" src={this.state.img1} />
@@ -352,7 +374,7 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button onClick={this.fileUploadHandlerimg2}>Upload</button>
+                                    <button className="file-name" onClick={this.fileUploadHandlerimg2}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img2} />
@@ -375,7 +397,7 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button onClick={this.fileUploadHandlerimg3}>Upload</button>
+                                    <button className="file-name" onClick={this.fileUploadHandlerimg3}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img3} />
@@ -399,7 +421,7 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button onClick={this.fileUploadHandlerimg4}>Upload</button>
+                                    <button className="file-name" onClick={this.fileUploadHandlerimg4}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img4} />
@@ -421,7 +443,7 @@ export default class Register extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button onClick={this.fileUploadHandlerimg5}>Upload</button>
+                                    <button className="file-name" onClick={this.fileUploadHandlerimg5}>Upload</button>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img5} />
