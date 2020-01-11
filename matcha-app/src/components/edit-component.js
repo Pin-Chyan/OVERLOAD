@@ -9,6 +9,7 @@ import axios from 'axios';
 import { func } from 'prop-types';
 
 var ip = require("../server.json").ip;
+console.log(ip);
 var sesh = "meave@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
@@ -38,11 +39,6 @@ export default class Edit extends Component {
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
         this.onChangeTags = this.onChangeTags.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.rm1 = this.rm1.bind(this);
-        this.rm2 = this.rm2.bind(this);
-        this.rm3 = this.rm3.bind(this);
-        this.rm4 = this.rm4.bind(this);
-        this.rm5 = this.rm5.bind(this);
 
         this.state = {
             name: '',
@@ -143,84 +139,16 @@ export default class Edit extends Component {
     }
 
 
-    fileSelectedHandler1 = event => {
-        this.setState({selectedFile1: event.target})
+    globalhander = event => {
+        var data = {};
+        data["selectedFile" + event.target.id] = event.target;
+        this.setState(data);
+        console.log(event.target.files[0]);
     }
-    fileSelectedHandler2 = event => {
-        this.setState({selectedFile2: event.target})
-    }
-    fileSelectedHandler3 = event => {
-        this.setState({selectedFile3: event.target})
-    }
-    fileSelectedHandler4 = event => {
-        this.setState({selectedFile4: event.target})
-    }
-    fileSelectedHandler5 = event => {
-        this.setState({selectedFile5: event.target})
-    }
-
-    rm1 = () => {
-        this.setState({img1:load});
-        async function ok() {
-            var data = {};
-            data.img = {};
-            data.img.img1 = nll;
-            data.email = sesh;
-            data.token = token
-            console.log("start upload");
-            let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status == 200)
-                return (1);
-        }
-        ok().then( res => {this.setState({img1 : nll})});
-    }
-    rm2 = () => {
-        this.setState({img1:load});
-        async function ok() {
-            var data = {};
-            data.img = {};
-            data.img.img2 = nll;
-            data.email = sesh;
-            data.token = token
-            console.log("start upload");
-            let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status == 200)
-                return (1);
-        }
-        ok().then( res => {this.setState({img2 : nll})});
-    }
-    rm3 = () => {
-        this.setState({img3:load});
-        async function ok() {
-            var data = {};
-            data.img = {};
-            data.img.img3 = nll;
-            data.email = sesh;
-            data.token = token
-            console.log("start upload");
-            let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status == 200)
-                return (1);
-        }
-        ok().then( res => {this.setState({img3 : nll})});
-    }
-    rm4 = () => {
-        this.setState({img4:load});
-        async function ok() {
-            var data = {};
-            data.img = {};
-            data.img.img4 = nll;
-            data.email = sesh;
-            data.token = token
-            console.log("start upload");
-            let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status == 200)
-                return (1);
-        }
-        ok().then( res => {this.setState({img4 : nll})});
-    }
-    rm5 = () => {
-        this.setState({img5:load});
+    globalrm(img){
+        var img_data = {};
+        img_data[img] = load;
+        this.setState(img_data);
         async function ok() {
             var data = {};
             data.img = {};
@@ -232,105 +160,44 @@ export default class Edit extends Component {
             if (req.status == 200)
                 return (1);
         }
-        ok().then( res => {this.setState({img5 : nll})});
+        ok().then( res => {
+            img_data[img] = nll;
+            this.setState(img_data);
+        });
     }
-
-    fileUploadHandlerimg1 = () => {
-        if (this.state.selectedFile1){
+    globalimg(img){
+        var file = "selectedFile" + img.target.id;
+        var img_num = "img" + img.target.id;
+        console.log(file);
+        console.log(img_num);
+        if (this.state[file] && img.target.value == "upload"){
+            console.log("file read start");
             var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile1.files[0]);
+            reader.readAsDataURL(this.state[file].files[0]);
             reader.onloadend = async function() {
                 var data = {};
                 data.img = {};
-                data.img.img1 = reader.result;
+                data.img[img_num] = reader.result;
                 data.email = sesh;
-                data.token = token
+                data.token = token;
                 console.log("start upload");
-                this.setState({img1:load});
+                var img_data = {};
+                img_data[img_num] = load;
+                this.setState(img_data);
                 let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200)
+                if (req.status == 200){
+                    var res = {};
+                    res[img_num] = data.img[img_num]; 
                     this.setState({img1:data.img.img1});
-                this.setState({selectedFile1: ""});
+                }
+                var reset = {};
+                reset[file] = ""; 
+                this.setState(reset);
             }.bind(this);
         }
+        else if (img.target.value == "delete")
+            this.globalrm(img_num);
     }
-    fileUploadHandlerimg2 = () => {
-        if (this.state.selectedFile2){
-            var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile2.files[0]);
-            reader.onloadend = async function() {
-                var data = {};
-                data.img = {};
-                data.img.img2 = reader.result;
-                data.email = sesh;
-                data.token = token
-                console.log("start upload");
-                this.setState({img2:load});
-                let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200)
-                    this.setState({img2:data.img.img2});
-                this.setState({selectedFile2: ""});
-            }.bind(this);
-        }
-    }
-    fileUploadHandlerimg3 = () => {
-        if (this.state.selectedFile3){
-            var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile3.files[0]);
-            reader.onloadend = async function() {
-                var data = {};
-                data.img = {};
-                data.img.img3 = reader.result;
-                data.email = sesh;
-                data.token = token
-                console.log("start upload");
-                this.setState({img3:load});
-                let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200)
-                    this.setState({img3:data.img.img3});
-                this.setState({selectedFile3: ""});
-            }.bind(this);
-        }
-    }
-    fileUploadHandlerimg4 = () => {
-        if (this.state.selectedFile4){
-            var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile4.files[0]);
-            reader.onloadend = async function() {
-                var data = {};
-                data.img = {};
-                data.img.img4 = reader.result;
-                data.email = sesh;
-                data.token = token
-                console.log("start upload");
-                this.setState({img4:load});
-                let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200)
-                    this.setState({img4:data.img.img4});
-                this.setState({selectedFile4: ""});
-            }.bind(this);
-        }
-    }
-    fileUploadHandlerimg5 = () => {
-        if (this.state.selectedFile5){
-        var reader = new FileReader();
-            reader.readAsDataURL(this.state.selectedFile5.files[0]);
-            reader.onloadend = async function() {
-                var data = {};
-                data.img = {};
-                data.img.img5 = reader.result;
-                data.email = sesh;
-                data.token = token
-                console.log("start upload");
-                this.setState({img5:load});
-                let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200)
-                    this.setState({img5:data.img.img5});
-                this.setState({selectedFile5: ""});
-            }.bind(this);
-        }
-    }
-
 
     onChangeSexual_pref(e) {
         this.setState({
@@ -433,10 +300,10 @@ export default class Edit extends Component {
                         <div className="tile">
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
-                          <div className="file is-small">
-                                    <a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a>
-                                        <label className="file-label">
-                                            <input id="1" className="file-input" type="file" onChange={this.fileSelectedHandler1} name="resume" />
+                                <div className="file is-small">
+                                    {/* <a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a> */}
+                                        <label onChange={this.globalhander} className="file-label">
+                                            <input id="1" className="file-input" type="file" name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -446,7 +313,11 @@ export default class Edit extends Component {
                                         </span>
                                         </span>
                                         </label>
-                                        <button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button>
+                                        {/* <button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button> */}
+                                        <div onClick={e => this.globalimg(e)}>
+                                            <button id="1" className="file-name" value="upload">upload</button>
+                                            <button id="1" className="file-name" value="delete">delete</button>
+                                        </div>
                                 </div>
                               <figure className="image is-4by3">
                               <img alt="Asuna" className="m_image" src={this.state.img1} />
@@ -456,9 +327,9 @@ export default class Edit extends Component {
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
                             <div className="file is-small">
-                               <a className="button is-light subtitle is-small" onClick={this.rm2} >Remove</a>
-                                        <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler2} name="resume" />
+                               {/* <a className="button is-light subtitle is-small" onClick={this.rm2} >Remove</a> */}
+                                        <label onChange={this.globalhander} className="file-label">
+                                            <input id="2" className="file-input" type="file" name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -468,7 +339,11 @@ export default class Edit extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button className="file-name" onClick={this.fileUploadHandlerimg2}>Upload</button>
+                                    {/* <button className="file-name" onClick={this.fileUploadHandlerimg2}>Upload</button> */}
+                                    <div onClick={e => this.globalimg(e)}>
+                                            <button id="2" className="file-name" value="upload">upload</button>
+                                            <button id="2" className="file-name" value="delete">delete</button>
+                                    </div>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img2} />
@@ -479,9 +354,9 @@ export default class Edit extends Component {
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
                             <div className="file is-small">
-                                    <a className="button is-light subtitle is-small" onClick={this.rm3} >Remove</a>
-                                        <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler3} name="resume" />
+                                    {/* <a className="button is-light subtitle is-small" onClick={this.rm3} >Remove</a> */}
+                                        <label onChange={this.globalhander} className="file-label">
+                                            <input id="3" className="file-input" type="file" name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -491,7 +366,11 @@ export default class Edit extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button className="file-name" onClick={this.fileUploadHandlerimg3}>Upload</button>
+                                    {/* <button className="file-name" onClick={this.fileUploadHandlerimg3}>Upload</button> */}
+                                    <div onClick={e => this.globalimg(e)}>
+                                            <button id="3" className="file-name" value="upload">upload</button>
+                                            <button id="3" className="file-name" value="delete">delete</button>
+                                    </div>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img3} />
@@ -503,9 +382,9 @@ export default class Edit extends Component {
                           <div className="tile is-parent is-vertical">
                           <article className="tile is-child notification light-yellow">
                           <div className="file is-small">
-                                <a className="button is-light subtitle is-small" onClick={this.rm4} >Remove</a>
-                                        <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler4} name="resume" />
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm4} >Remove</a> */}
+                                        <label onChange={this.globalhander} className="file-label">
+                                            <input id="4" className="file-input" type="file" name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -515,7 +394,11 @@ export default class Edit extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button className="file-name" onClick={this.fileUploadHandlerimg4}>Upload</button>
+                                    {/* <button className="file-name" onClick={this.fileUploadHandlerimg4}>Upload</button> */}
+                                    <div onClick={e => this.globalimg(e)}>
+                                            <button id="4" className="file-name" value="upload">upload</button>
+                                            <button id="4" className="file-name" value="delete">delete</button>
+                                    </div>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img4} />
@@ -525,9 +408,9 @@ export default class Edit extends Component {
                           <div className="tile is-parent">
                             <article className="tile is-child notification light-yellow">
                             <div className="file is-small">
-                                    <a className="button is-light subtitle is-small" onClick={this.rm5} >Remove</a>
-                                        <label className="file-label">
-                                            <input className="file-input" type="file" onChange={this.fileSelectedHandler5} name="resume" />
+                                    {/* <a className="button is-light subtitle is-small" onClick={this.rm5} >Remove</a> */}
+                                        <label onChange={this.globalhander} className="file-label">
+                                            <input id="5" className="file-input" type="file" name="resume" />
                                         <span className="file-cta">
                                         <span className="file-icon">
                                             <i className="fa fa-upload"></i>
@@ -537,7 +420,11 @@ export default class Edit extends Component {
                                         </span>
                                         </span>
                                     </label>
-                                    <button className="file-name" onClick={this.fileUploadHandlerimg5}>Upload</button>
+                                    {/* <button className="file-name" onClick={this.fileUploadHandlerimg5}>Upload</button> */}
+                                    <div onClick={e => this.globalimg(e)}>
+                                            <button id="5" className="file-name" value="upload">upload</button>
+                                            <button id="5" className="file-name" value="delete">delete</button>
+                                    </div>
                                 </div>
                               <figure className="image is-4by3">
                                 <img alt="Asuna" className="m_image" src={this.state.img5} />

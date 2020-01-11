@@ -44,16 +44,16 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  tags: {
-    type: String,
-    default: ''
+  tag: {
+    type: Array,
+    default: ["start"]
   },
   img: {
-    img1:{type: String, default: ''},
-    img2:{type: String, default: ''},
-    img3:{type: String, default: ''},
-    img4:{type: String, default: ''},
-    img5:{type: String, default: ''}
+    img1:{type: String, default: 'null'},
+    img2:{type: String, default: 'null'},
+    img3:{type: String, default: 'null'},
+    img4:{type: String, default: 'null'},
+    img5:{type: String, default: 'null'}
   }
 }, {
   timestamps: true,

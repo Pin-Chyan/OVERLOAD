@@ -53,6 +53,13 @@ router.route('/get_spec').post( (req, res) => {
 //                 res.json({'present' : docs.length});
 //             })
 //         }
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
@@ -73,8 +80,8 @@ router.route('/edit_spec').post( (req, res) => {
                         doc.email = req.body.new_email;
                     if (req.body.sexual_pref)
                         doc.sexual_pref = req.body.sexual_pref;
-                    if (req.body.tags)
-                        doc.tags = req.body.tags;
+                    if (req.body.tag)
+                        doc.tag = req.body.tag;
                     if (req.body.bio)
                         doc.bio = req.body.bio;
                     if (req.body.img){
@@ -89,6 +96,7 @@ router.route('/edit_spec').post( (req, res) => {
                         if (req.body.img.img5)
                             doc.img.img5 = req.body.img.img5;
                     }
+                    sleep(2000);
                     doc.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
                 })
             }
