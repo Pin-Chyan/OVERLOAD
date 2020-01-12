@@ -3,20 +3,13 @@ import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import { Link } from 'react-router-dom'; 
 // import "../styles/debug.css";
 
-/* check if image was uploaded */
-
-//display error is any field is invalid
-
-//Send post req to add user
-    /* display error if email is alredy in use */
-    /* display any other error */
-
-//goto login page
-    /* route user to login if registration was sucessfull */
-    /* route user to home if already logged in */
+    // var edit = "http://10.212.6.4:5001/users/edit_spec";
+    // var get = "http://10.212.6.4:5001/users/get_spec";
+    var ip = require("../server.json").ip;
 
 export default class Register extends Component {
     constructor(props) {
@@ -86,7 +79,7 @@ export default class Register extends Component {
         if (values.name.trim() === "") {
             valid = false;
             this.setState({nameErr: 'Please fill in your name!'});    
-        } else if (!values.name.match(/^[A-Za-z]+$/)) {
+        } else if (!values.name.match(/^[A-Za-z\s]+$/)) {
             valid = false;
             this.setState({nameErr: 'Your name can only contain letters!'});   
         } else {
@@ -96,7 +89,7 @@ export default class Register extends Component {
         if (values.surname.trim() === "") {
             valid = false;
             this.setState({surnameErr: 'Please fill in your surname!'});    
-        } else if (!values.surname.match(/^[A-Za-z]+$/)) {
+        } else if (!values.surname.match(/^[A-Za-z\s]+$/)) {
             valid = false;
             this.setState({surnameErr: 'Your surname can only contain letters!'});   
         } else {
@@ -181,18 +174,25 @@ export default class Register extends Component {
     
     onSubmit = async e => {
             e.preventDefault();
-        
-
-            // const data = {
-            //     name: this.state.name,
-            //     surname: this.state.surname,
-            //     pwd: this.state.pwd,
-            //     age: this.state.age,
-            // };
-            // console.log(data);
 
             if (this.validateForm()) {
-                axios.get()
+                let email = { email: this.state.email };
+                axios.post(ip+"/users/email", email).then(res => { if (!res.data.present) {
+                        const dat = {
+                            name: this.state.name,
+                            last: this.state.surname,
+                            password: this.state.pwd,
+                            gender: this.state.gender,
+                            age: this.state.age,
+                            email: this.state.email,
+                            sexual_pref: "bi"
+                        }
+                        axios.post(ip+"/users/add", dat).then( window.location = '/login').catch(console.log("Error adding user"));
+                    } else {
+                        console.log("Email in use");
+                        this.setState({emailErr: 'Email already in use!'});
+                    }
+             });
             }
             //test is email is available
 
@@ -220,9 +220,9 @@ export default class Register extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
-                        <a href="#" className="navbar-item has-text-info">Home</a>
-                        <a href="#" className="navbar-item has-text-info">Profile</a>
-                        <a href="#" className="navbar-item has-text-info">Edited Profile</a>
+                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
+                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
                     </div>
                 </div>
             </div>
@@ -281,7 +281,8 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
+                                <input className="input" type="email" pla
+                                ceholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>

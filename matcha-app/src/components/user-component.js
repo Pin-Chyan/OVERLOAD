@@ -4,7 +4,15 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 // import "../styles/debug.css";
+
+var load = require("../images/load2.gif");
+var load2 = require("../images/load.gif");
+var sesh = "meave@gmail.com";
+var token = "admin";
+var ip = require("../server.json").ip;
 
 export default class User extends Component {
     constructor(props){
@@ -13,28 +21,31 @@ export default class User extends Component {
         this.state = {
             name: '',
             last: '',
+            bio: '',
             ag: 0,
             tags: '#urmomlol',
-            display: ''
+            display: load,
+            display2: load2
         }
     }
 
     componentDidMount () {
         var name = "Shane";
-        axios.post('http://localhost:5001/users/get', {"name":name}).then(res => {
-            console.log(res.data[0]);
-            this.setState({
-                name: res.data[0].name,
-                last: res.data[0].last_name
-            });
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+            console.log(res);
+            if (res.data == "invalid token"){
+                return (window.location.href = ip+"/home");
+            }
+            else if (res.data[0].name){
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio
+                });
+            }
+            console.log("this "+ this.state.img5);
         });
-        axios.post('http://localhost:5001/img/r', {"username":name}).then(res2 => {
-            console.log(res2.data[0]);
-            this.setState({
-                display: res2.data[0].img,
-            });
-        });
-        console.log('updated');
     }
 
     render () {
@@ -60,16 +71,16 @@ export default class User extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
-                        <a href="#" className="navbar-item has-text-info">Home</a>
-                        <a href="#" className="navbar-item has-text-info">Profile</a>
-                        <a href="#" className="navbar-item has-text-info">Edited Profile</a>
+                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
+                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
                     </div>
                 </div>
             </div>
         </nav>
             <div className="container">
                 <div className="columns is-centered shadow">
-                    <div className="column is-half bg_white">
+                    <div className="column is-half bg_white_1">
                          <figure class="image is-3by4"> {/* is-3by4 */}
                             <img className="overflow" src={this.state.display} alt="Asuna_img" />
                         </figure>
@@ -95,7 +106,7 @@ export default class User extends Component {
                 <br />
                 <hr />
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
+                    {this.state.bio}
                 </p>
             </div>
                         </div>

@@ -2,13 +2,66 @@ import React, { Component } from 'react';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios'; 
 // import "../styles/debug.css";
+var ip = require("../server.json").ip;
 
 export default class Register extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onSumbit = this.onSumbit.bind(this);
+        
+        this.state = {
+            email: '',
+            password: '',
+            emailErr: '',
+            passwordErr: ''
+        }
+    }
+
+    onChangeEmail(e) {
+        this.setState({email: e.target.value});
+    }
+
+    onChangePassword(e) {
+        this.setState({password: e.target.value});
+    }
+
+    onSumbit = async e => {
+        e.preventDefault();
+        const user = { email: this.state.email, password: this.state.password};
+        this.setState({ emailErr: '', passwordErr: ''});      
+
+        if (!(user.email === "" || user.password === "")) {
+            axios.post('http://localhost:5001/auth/getToken', user)
+            .then(res => {
+                //codes [0 : OK] [1 : Inccorect password or username]
+
+                if (res.data.resCode === 1) {
+                    this.setState({ emailErr: "Email or Password incorrect" });
+                } else {
+                    localStorage.setItem('token', res.data.token);
+                    this.props.history.push('/');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        } else {
+            (user.email === '') ? this.setState({ emailErr: 'Please fill in your email!'}) : this.setState({ emailErr: ''});
+            (user.password === '') ? this.setState({ passwordErr: 'Please fill in your password!'}) : this.setState({ passwordErr: ''});
+        }
+        // axios.post(ip+"/auth/getToken", {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
+    }
+
     render () {
         return (
         <section className="section hero">
@@ -32,9 +85,9 @@ export default class Register extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
-                        <a href="#" className="navbar-item has-text-info">Home</a>
-                        <a href="#" className="navbar-item has-text-info">Profile</a>
-                        <a href="#" className="navbar-item has-text-info">Edited Profile</a>
+                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
+                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
                     </div>
                 </div>
             </div>
@@ -47,7 +100,7 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="Email input" value="Email" />
+                                <input className="input" type="email" placeholder="Email" value={this.state.email} onChange={this.onChangeEmail}/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
@@ -55,22 +108,23 @@ export default class Register extends Component {
                                     <i className="fa fa-exclamation-triangle"></i>
                                 </span>
                             </div>
-                            <p className="help is-danger">This email is required</p>
+                            <p className="help is-danger">{this.state.emailErr}</p>
                         </div>
                        
                         <div className="field">
                             <label className="label">Password</label>
                             <div className="control has-icons-left">
-                                <input className="input" type="text" placeholder="Text input" value="Password" />
+                                <input className="input" type="password" placeholder="Password" value={this.state.password} onChange={this.onChangePassword}/>
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-user"></i>
                                 </span>
                             </div>
+                            <p className="help is-danger">{this.state.passwordErr}</p>
                         </div>
 
                         <div className="field is-grouped">
                             <div className="control">
-                                <button className="button is-warning is-rounded">Submit</button>
+                                <button className="button is-warning is-rounded" onClick={this.onSumbit}>Submit</button>
                             </div>
                         </div>
 
