@@ -18,7 +18,8 @@ export default class Home extends Component {
         target : "",
         msg : [],
 		nmsg : "",
-		notify : ""
+		notify : "",
+		date : ""
 	}
 
 	emailhandler = event => {
@@ -34,6 +35,39 @@ export default class Home extends Component {
 		// console.log(this.state.nmsg);
 	}
 
+	sleep(milliseconds) {
+		const date = Date.now();
+		let currentDate = null;
+		do {
+		  currentDate = Date.now();
+		} while (currentDate - date < milliseconds);
+	}
+
+	new_notify = () => {
+		setInterval(() => {
+			console.log("hi");
+			var date = Date.now();
+			this.setState({date:date});
+		}, 1000);
+	}
+
+	get_notify = () => {
+		setInterval(() => {
+			axios.post(ip+"/users/get_spec", {
+				email : sesh,
+				token : token,
+				target : "name",
+			}).then(res => {
+				this.setState({nmsg:res.data[0].name});
+			})
+		}, 1000);
+	}
+
+	componentDidMount() {
+		this.new_notify();
+		this.get_notify();
+	}
+
 	msgsend = () => {
 		console.log(this.state.email);
 		console.log(this.state.target);
@@ -46,19 +80,15 @@ export default class Home extends Component {
 		axios.post(ip+"/users/notify", data);
 	}
 
-	// get_notify(){
-	// 	var interval = setInterval(function (){return "got notify"}, 1000);
-	// 	// this.setState{}
-	// }
-
     render () {
         return (
-        <div className="App">
+        <div className="App" onload="console.log('The Script will load now.')">
             <input type="text" onChange={this.emailhandler} /><br/>
             <input type="text" onChange={this.targethandler} /><br/>
             <input type="text" onChange={this.msghandle} />
             <button onClick={this.msgsend}>Upload</button>
-            <br/><text>{this.state.notfy}</text>
+            <br/><text>{this.state.nmsg}</text>
+            <br/><text>{this.state.date}</text>
         </div>
         )
     }

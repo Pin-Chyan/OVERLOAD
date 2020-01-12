@@ -188,7 +188,7 @@ export default class Edit extends Component {
                 if (req.status == 200){
                     var res = {};
                     res[img_num] = data.img[img_num]; 
-                    this.setState({img1:data.img.img1});
+                    this.setState(res);
                 }
                 var reset = {};
                 reset[file] = ""; 
