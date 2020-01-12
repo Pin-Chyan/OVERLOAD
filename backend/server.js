@@ -32,7 +32,7 @@ const userRoutes = require('./routes/user.routes.js');
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
+// app.use('/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

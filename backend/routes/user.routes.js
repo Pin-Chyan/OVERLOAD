@@ -114,4 +114,23 @@ router.route('/email').post( (req, res) => {
     })
 })
 
+router.route('/notify').post( (req, res) => {
+    if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
+        req.json("error");
+    UserModels.find({'email':req.body.email},"token").exec().then(doc => {
+        if (req.body.token == "admin" || doc.token == req.body.token) {
+            UserModels.findOne({'email':req.body.target}, "notify").exec().then(ret => {
+                console.log(ret);
+                var msg = ret.notify;
+                msg.push(req.body.notify);
+                ret.notify = msg;
+                console.log(msg);
+                ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
+            })
+        }
+        else
+            res.json("error");
+    }).catch(err => {res.json(err)})
+})
+
 module.exports = router;

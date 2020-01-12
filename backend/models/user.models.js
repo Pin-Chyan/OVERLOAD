@@ -48,6 +48,10 @@ const userSchema = new Schema({
     type: Array,
     default: ["start"]
   },
+  notify: {
+    type: Array,
+    default: ["start"]
+  },
   img: {
     img1:{type: String, default: 'null'},
     img2:{type: String, default: 'null'},
