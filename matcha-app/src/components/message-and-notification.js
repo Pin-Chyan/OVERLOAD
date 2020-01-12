@@ -19,7 +19,8 @@ export default class Home extends Component {
         msg : [],
 		nmsg : "",
 		notify : "",
-		date : ""
+		date : "",
+		pretty : <br/>
 	}
 
 	emailhandler = event => {
@@ -78,6 +79,9 @@ export default class Home extends Component {
 		data.msg = this.state.nmsg;
 		data.token = token;
 		axios.post(ip+"/users/msg", data);
+	}
+
+	axle = () => {
 	}
 
     render () {

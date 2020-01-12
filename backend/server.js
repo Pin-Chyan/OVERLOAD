@@ -29,8 +29,10 @@ var prev = 'lol';
 client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, client, connectedUsers));
 
 const userRoutes = require('./routes/user.routes.js');
+const chatRoutes = require('./routes/chats.routes.js');
 
 app.use('/users', userRoutes);
+app.use('/chats', chatRoutes);
 app.use('/auth', authRoutes);
 // app.use('/users', userRoutes);
 
