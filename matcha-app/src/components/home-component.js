@@ -13,8 +13,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Image = props => (
     <div>
-        <img alt="Asuna" className="m_image" src={props.image.img} />
-        <p className="legend">{props.image.username}</p>
+        <img alt="Asuna" className="m_image" src={props.images.img} />
+        <p className="legend">{props.images.username}</p>
     </div>
 )
 
@@ -30,19 +30,25 @@ export default class Home extends Component {
             images: [],
         }
     }
+// export default class Profiles extends Component {
+//     var names;
+//     var img;
+// }
 
 //    constructimg () {
 //         console.log(this.img);
 //     } 
 
     componentDidMount () {
-        axios.post('http://localhost:5001/img/r', {"mode":2}).then(response => {
+        var home = Home()
+        await axios.post('http://localhost:5001/img/r', {"mode":2}).then(response => {
             console.log(response.data);
             var index = 0;
             let a = this.state.images.slice();
             while (index < response.data.length){
             a[index] = response.data[index];
             this.setState({images: a[index]});
+            index++;
             }
         });
         console.log(this.state.images);
