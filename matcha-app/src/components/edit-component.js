@@ -90,7 +90,7 @@ export default class Edit extends Component {
                     img2: res.data[0].img.img2,
                     img3: res.data[0].img.img3,
                     img4: res.data[0].img.img4,
-                    img5: res.data[0].img.img5,
+                    img5: res.data[0].img.img5
                 });
             }
         });

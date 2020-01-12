@@ -8,6 +8,7 @@ import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
 import upload from "./components/upload.js";
+import msg from "./components/message-and-notification.js";
 import Authenticated from "./components/auth/auth-component.js";
 // import tags from "./components/tags-input.js";
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/user" exact component={User} />
         <Route path="/edit" exact component={Edit} />
         <Route path="/upload" exact component={upload} />
+        <Route path="/msg" exact component={msg} />
         {/* <Route path="/tags" exact component={tags} /> */}
       </div>
     </Router>
