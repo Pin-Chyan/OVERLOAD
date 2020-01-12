@@ -52,6 +52,10 @@ const userSchema = new Schema({
     type: Array,
     default: ["start"]
   },
+  msg: {
+    type: Array,
+    default: []
+  },
   img: {
     img1:{type: String, default: 'null'},
     img2:{type: String, default: 'null'},

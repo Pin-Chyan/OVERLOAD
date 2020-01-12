@@ -39,6 +39,10 @@ export default class Home extends Component {
             img5: load2
         };
     }
+// export default class Profiles extends Component {
+//     var names;
+//     var img;
+// }
 
 
     componentDidMount () {

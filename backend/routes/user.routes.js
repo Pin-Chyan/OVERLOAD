@@ -70,6 +70,8 @@ router.route('/edit_spec').post( (req, res) => {
                         doc.name = req.body.name;
                     if (req.body.last)
                         doc.last = req.body.last;
+                    if (req.body.msg)
+                        doc.msg = req.body.msg;
                     if (req.body.password)
                         doc.password = req.body.password;
                     if (req.body.gender)
@@ -132,5 +134,47 @@ router.route('/notify').post( (req, res) => {
             res.json("error");
     }).catch(err => {res.json(err)})
 })
+
+router.route('/msg').post( (req, res) => {
+    if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
+        req.json("error");
+    UserModels.find({'email':req.body.email},"token").exec().then(doc => {
+        if (req.body.token == "admin" || doc.token == req.body.token) {
+            UserModels.findOne({'email':req.body.target}, "msg").exec().then(ret => {
+                console.log(ret);
+                var msg = ret.msg;
+                var d = new Date(1432851021000);
+                msg.push("["+d.toLocaleString("en-GB")+"] "+req.body.msg);
+                ret.msg = msg;
+                console.log(msg);
+                ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
+            })
+        }
+        else
+            res.json("error");
+    }).catch(err => {res.json(err)})
+})
+
+router.route('/msg_del').post( (req, res) => {
+    if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
+        req.json("error");
+    UserModels.find({'email':req.body.email},"token").exec().then(doc => {
+        if (req.body.token == "admin" || doc.token == req.body.token) {
+            UserModels.findOne({'email':req.body.target}, "msg").exec().then(ret => {
+                console.log(ret);
+                var pos = ret.msg.findIndex(function (res){return res === req.body.msg});
+                var msg = ret.msg;
+                msg.splice(pos, 1, "Message Deleted!");
+                ret.msg= msg;
+                console.log(msg);
+                ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
+            })
+        }
+        else
+            res.json("error");
+    }).catch(err => {res.json(err)})
+})
+
+
 
 module.exports = router;
