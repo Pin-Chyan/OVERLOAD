@@ -41,9 +41,9 @@ export default class Home extends Component {
 		var data = {};
 		data.email = sesh;
 		data.target = sesh;
-		data.notify = this.state.nmsg;
+		data.msg = this.state.nmsg;
 		data.token = token;
-		axios.post(ip+"/users/notify", data);
+		axios.post(ip+"/users/msg", data);
 	}
 
 	// get_notify(){
