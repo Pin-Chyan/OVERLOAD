@@ -56,9 +56,9 @@ export default class Home extends Component {
 			axios.post(ip+"/users/get_spec", {
 				email : sesh,
 				token : token,
-				target : "name",
+				target : "msg",
 			}).then(res => {
-				this.setState({nmsg:res.data[0].name});
+				this.setState({msg:res.data[0].msg});
 			})
 		}, 1000);
 	}
@@ -87,7 +87,7 @@ export default class Home extends Component {
             <input type="text" onChange={this.targethandler} /><br/>
             <input type="text" onChange={this.msghandle} />
             <button onClick={this.msgsend}>Upload</button>
-            <br/><text>{this.state.nmsg}</text>
+            <br/><text>{this.state.msg}</text>
             <br/><text>{this.state.date}</text>
         </div>
         )
