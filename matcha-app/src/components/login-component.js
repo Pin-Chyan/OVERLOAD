@@ -46,7 +46,7 @@ export default class Register extends Component {
                     this.setState({ emailErr: "Email or Password incorrect" });
                 } else {
                     localStorage.setItem('token', res.data.token);
-                    this.props.history.push('/Protected');
+                    this.props.history.push('/');
                 }
             })
             .catch(err => {

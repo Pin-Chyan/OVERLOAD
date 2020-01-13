@@ -9,7 +9,6 @@ import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
 import upload from "./components/upload.js";
 import Authenticate from "./components/auth/auth-component.js";
-import Protected from './components/protected-component';
 import msg from "./components/message-and-notification.js";
 // import tags from "./components/tags-input.js";
 

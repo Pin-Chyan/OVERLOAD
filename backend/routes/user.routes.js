@@ -3,7 +3,38 @@ let UserModels = require('../models/user.models.js');
 const verifyToken = require('../auth/auth.middleware');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
+
+const mailData = { email: 'marvan.matcha.testservice@gmail.com', password: 'Noticeme'}
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: mailData.email,
+        pass: mailData.password
+    }
+});
+
+router.post('/sendmail', (req, res) => {
+    if (!req.body.email) {
+        res.sendStatus(400);
+    }
+    let mailOptions = {
+        from: mailData.email,
+        to: req.body.email,
+        subject: 'Account Verification',
+        html: '<h2>Please click <a href="https://www.w3schools.com"> here </a> to verify your account</h2><p>'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            res.status(400).send(error);
+        } else {
+            res.send('Mail sent');
+        }
+    });
+});
 
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
