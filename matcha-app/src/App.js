@@ -10,6 +10,7 @@ import Edit from "./components/edit-component.js";
 import upload from "./components/upload.js";
 import Authenticate from "./components/auth/auth-component.js";
 import msg from "./components/message-and-notification.js";
+import invite from "./components/invite-component.js";
 // import tags from "./components/tags-input.js";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Switch>
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
+        <Route path="/invite" exact component={invite} />
         <Authenticate>
           <Route path="/" exact component={Home} />
           <Route path="/user" exact component={User} />
