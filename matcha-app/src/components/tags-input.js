@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // import "../styles/index.css";
 // import React, { useState } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
+import { getJwt } from "./auth/jwt-helper.js";
 
 const Example = (props) => {
   const [cSelected, setCSelected] = useState([]);

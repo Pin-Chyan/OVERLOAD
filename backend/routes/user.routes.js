@@ -16,26 +16,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-router.post('/sendmail', (req, res) => {
-    if (!req.body.email) {
-        res.sendStatus(400);
-    }
-    let mailOptions = {
-        from: mailData.email,
-        to: req.body.email,
-        subject: 'Account Verification',
-        html: '<h2>Please click <a href="https://www.w3schools.com"> here </a> to verify your account</h2><p>'
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            res.status(400).send(error);
-        } else {
-            res.send('Mail sent');
-        }
-    });
-});
-
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
@@ -45,6 +25,8 @@ router.route('/add').post( (req, res) => {
     const email = req.body.email;
     const verif = 0; 
     const sexual_pref = req.body.sexual_pref;
+    //TODO: generate a unique key
+    const vKey = 'verysecretkey';
 
     const newUser = new UserModels({
         name,
@@ -55,6 +37,20 @@ router.route('/add').post( (req, res) => {
         email,
         verif,
         sexual_pref,
+        vKey
+    });
+
+    let mailOptions = {
+        from: mailData.email,
+        to: newUser.email,
+        subject: 'Account Verification',
+        html: '<h2>Please click <a href="https://www.w3schools.com"> here </a> to verify your account</h2><p>'
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            res.status(400).send(error);
+        }
     });
 
     bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -68,8 +64,8 @@ router.route('/add').post( (req, res) => {
 router.route('/get_spec').post( (req, res) => {
     if (req.body.token)
         if (req.body.target != "")
-            UserModels.find({ "email": req.body.email},req.body.target).exec().then(docs => {
-                if ((req.body.token == docs.token) || (req.body.token == "admin"))
+            UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+                if ((req.body.token == docs[0].token) || (req.body.token == "admin"))
                     res.json(docs);
                 else
                     res.json("invalid token");
@@ -80,6 +76,17 @@ router.route('/get_spec').post( (req, res) => {
         res.json("token not present");
 })
 
+// router.post('/email', verifyToken, (req, res) => {
+//     jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+//         if (err) {
+//             res.sendStatus(403);
+//         } else {
+//             UserModels.find({ "email": decoded.email}).exec().then(docs => {
+//                 res.json({email: decoded.email});
+//             })
+//         }
+//     })
+// });
 
 function sleep(milliseconds) {
     const date = Date.now();
@@ -92,7 +99,7 @@ function sleep(milliseconds) {
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
         UserModels.find({'email':req.body.email}).exec().then(doc => {
-            if ((req.body.token == doc.token || req.body.token == "admin") && (req.body.token != "")) {
+            if ((req.body.token == doc[0].token || req.body.token == "admin") && (req.body.token != "")) {
                 UserModels.findOne({'email':req.body.email}).exec().then(doc => {
                     if (req.body.name)
                         doc.name = req.body.name;

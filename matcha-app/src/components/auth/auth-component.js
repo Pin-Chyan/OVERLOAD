@@ -17,13 +17,11 @@ class Authenticated extends Component {
     componentDidMount() {
         const jwt = getJwt();
 
-        console.log(jwt);
-
         if(!jwt) {
             this.props.history.push('/login');
         } else {
-            axios.post(ip+'/auth/getUser', { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
-                this.setState({user: res.data});
+            axios.post(ip+'/auth/validate', { headers: { authorization: `bearer ${jwt}` } }).then(res => {
+                this.setState({user: res.data.email});
             }).catch(err => {
                 localStorage.removeItem('token');
                 this.props.history.push('/login'); 

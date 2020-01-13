@@ -142,6 +142,7 @@ export default class Register extends Component {
             this.setState({pwdConErr: 'Please fill in your confimation password!'});
         } else {
             if (values.pwd !== values.pwdCon) {
+                valid = false;
                 this.setState({pwdConErr: "Passwords don't match"});
             } else {
                 this.setState({pwdConErr: ''});
@@ -187,7 +188,8 @@ export default class Register extends Component {
                             email: this.state.email,
                             sexual_pref: "bi"
                         }
-                        axios.post(ip+"/users/add", dat).then( window.location = '/login').catch(console.log("Error adding user"));
+                        axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
+                        ).catch(console.log("Error adding user"));
                     } else {
                         console.log("Email in use");
                         this.setState({emailErr: 'Email already in use!'});

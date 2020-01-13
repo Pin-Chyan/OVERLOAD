@@ -6,14 +6,17 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+import { getJwt } from "./auth/jwt-helper.js";
+import decode from 'jwt-decode';
 // import "../styles/debug.css";
 
 var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
 var nll = require("../images/chibi.jpg");
-var sesh = "lmk310500@gmail.com";
-var token = "admin";
 var ip = require("../server.json").ip;
+var sesh = decode(localStorage.token).email;
+var token = localStorage.token;
+console.log(sesh);
 
 export default class User extends Component {
     constructor(props){

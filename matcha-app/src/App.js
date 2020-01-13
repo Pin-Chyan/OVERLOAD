@@ -22,8 +22,8 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
         <Route path="/chat" exact component={chat} />
-        <Authenticate>
           <Route path="/" exact component={Home} />
+        <Authenticate>
           <Route path="/edit" exact component={Edit} />
           <Route path="/user" exact component={User} />
           <Route path="/upload" exact component={upload} />

@@ -8,13 +8,15 @@ import axios from 'axios';
 // import "../styles/debug.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import decode from 'jwt-decode';
 
-var sesh = "lmk310500@gmail.com";
-var token = "admin";
+var token = localStorage.token;
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
+var sesh = decode(localStorage.token).email;
 var nll = require("../images/chibi.jpg");
+
 
 export default class Home extends Component {
     constructor(props){
