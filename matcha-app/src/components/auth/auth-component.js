@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { getJwt } from "./jwt-helper.js";
 import axios from "axios";
+import { withRouter } from 'react-router-dom';
 
 var ip = require("../../server.json").ip;
-// import axios from "axios";
 
-export default class Authenticated extends Component {
+
+class Authenticated extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             user: undefined
         }
@@ -45,3 +45,5 @@ export default class Authenticated extends Component {
         )
     }
 }
+
+export default withRouter(Authenticated);

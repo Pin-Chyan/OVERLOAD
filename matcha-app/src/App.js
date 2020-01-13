@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import "./App.sass";
 
 import Register from "./components/register-component.js";
@@ -16,19 +16,18 @@ import msg from "./components/message-and-notification.js";
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Authenticate>
-          <Route path="/Protected" exact component={Protected} />
-        </Authenticate>
-        <Route path="/" exact component={Home} />
+      <Switch>
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
-        <Route path="/user" exact component={User} />
-        <Route path="/edit" exact component={Edit} />
-        <Route path="/upload" exact component={upload} />
-        <Route path="/msg" exact component={msg} />
-        {/* <Route path="/tags" exact component={tags} /> */}
-      </div>
+        <Authenticate>
+          <Route path="/" exact component={Home} />
+          <Route path="/user" exact component={User} />
+          <Route path="/edit" exact component={Edit} />
+          <Route path="/upload" exact component={upload} />
+          <Route path="/msg" exact component={msg} />
+        </Authenticate>
+        {/* <Route path="/tags" exact component={tags} /> */}        
+      </Switch>
     </Router>
   );
 }
