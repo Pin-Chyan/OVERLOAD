@@ -177,7 +177,7 @@ export default class Register extends Component {
 
             if (this.validateForm()) {
                 let email = { email: this.state.email };
-                axios.post(ip+"/users/email", email).then(res => { if (!res.data.present) {
+                axios.post(ip+"/users/email", email).then(res => { if (res.data.present !== 1) {
                         const dat = {
                             name: this.state.name,
                             last: this.state.surname,

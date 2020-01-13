@@ -1,4 +1,2 @@
 #!/bin/bash
-npm install react-router-dom \
-	bulma \
-	font-awesome --save
+npm i --save react-router-dom bulma font-awesome axios express-session
