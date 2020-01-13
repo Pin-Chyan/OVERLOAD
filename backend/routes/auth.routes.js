@@ -4,9 +4,9 @@ const User = require('../models/user.models.js');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-router.post('/test', (req, res) => {
-    console.log(req.body);
-    res.status(200).send('sucess');
+//TODO: Add protection to check if user is logged in
+router.post('/getUser', (req, res) => {
+    res.send(req.user);
 });
 
 router.post('/getToken', (req, res) => {

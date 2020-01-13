@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getJwt } from "./jwt-helper.js";
-// import axios from "axios";
+import axios from "axios";
+var ip = require("../../server.json").ip;
 
 export default class Authenticated extends Component {
     constructor(props) {
@@ -16,6 +17,13 @@ export default class Authenticated extends Component {
 
         if(!jwt) {
             this.props.history.push('/login');
+        } else {
+            axios.post(ip+'/auth/getUser', { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+                this.setState({user: res.data});
+            }).catch(err => {
+                localStorage.removeItem('token');
+                this.props.history.push('/login'); 
+            });
         }
 
         console.log(jwt);
