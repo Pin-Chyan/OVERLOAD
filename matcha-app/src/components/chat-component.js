@@ -24,7 +24,39 @@ const items = [
     'Funny',
     'Love',
   ];
-export default class Edit extends Component {
+export default class Chat extends Component {
+    constructor(props){
+        super(props);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.state = {
+            name: '',
+            last: '',
+            bio: '',
+            ag: 0,
+            tags: '#urmomlol',
+            display: load,
+            display2: load2
+        }
+    }
+
+    componentDidMount () {
+        var name = "Shane";
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+            console.log(res);
+            if (res.data == "invalid token"){
+                return (window.location.href = ip+"/home");
+            }
+            else if (res.data[0].name){
+                this.setState({
+                    name: res.data[0].name,
+                    last: res.data[0].last,
+                    display: res.data[0].img.img1,
+                    bio: res.data[0].bio
+                });
+            }
+            console.log("this "+ this.state.img5);
+        });
+    }
 
     render () {
         return (
@@ -59,8 +91,43 @@ export default class Edit extends Component {
         {/* <div className="container"> */}
             <div className="columns is-centered shadow">
                 <div className="column bg_white">
-                    <div className="column center">
+                    <div className="column left">
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img alt="Asuna" src={this.state.display} />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
+                                        <span className="has-text-grey">{this.state.tags}<br />
+                                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
 
+                    <div className="column right">
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img alt="Asuna" src={this.state.display} />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
+                                        <span className="has-text-grey">{this.state.tags}<br />
+                                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                
                         
                     </div>
                 </div>
