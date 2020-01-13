@@ -10,7 +10,8 @@ import { Redirect } from 'react-router-dom';
 
 var load = require("../images/load2.gif");
 var load2 = require("../images/load.gif");
-var sesh = "meave@gmail.com";
+var nll = require("../images/chibi.jpg");
+var sesh = "lmk310500@gmail.com";
 var token = "admin";
 var ip = require("../server.json").ip;
 
@@ -31,20 +32,26 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "Shane";
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last bio img.img1", "token" : token}).then(res => {
             console.log(res);
             if (res.data == "invalid token"){
                 return (window.location.href = ip+"/home");
             }
             else if (res.data[0].name){
-                this.setState({
-                    name: res.data[0].name,
-                    last: res.data[0].last,
-                    display: res.data[0].img.img1,
-                    bio: res.data[0].bio
-                });
+                var data = {};
+                data.name = res.data[0].name;
+                data.last = res.data[0].last;
+                data.bio = res.data[0].bio;
+                if (res.data[0].img.img1 == 'null'){
+                    data.display = nll;
+                    data.display2 = nll;
+                }
+                else{
+                    data.display = res.data[0].img.img1;
+                    data.display2 = res.data[0].img.img1;
+                }
+                this.setState(data);
             }
-            console.log("this "+ this.state.img5);
         });
     }
 

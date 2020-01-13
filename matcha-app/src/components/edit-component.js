@@ -10,11 +10,11 @@ import { func } from 'prop-types';
 
 var ip = require("../server.json").ip;
 console.log(ip);
-var sesh = "meave@gmail.com";
+var sesh = "lmk310500@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
-var nll = require("../images/err.jpg");
+var nll = require("../images/chibi.jpg");
 
 const items = [
     'Gamer',
@@ -85,13 +85,28 @@ export default class Edit extends Component {
                 return (window.location.href = ip+"/login");
             }
             else if (res.data[0].name){
-                this.setState({
-                    img1: res.data[0].img.img1,
-                    img2: res.data[0].img.img2,
-                    img3: res.data[0].img.img3,
-                    img4: res.data[0].img.img4,
-                    img5: res.data[0].img.img5
-                });
+                var data = {}
+                if (res.data[0].img.img1 == 'null')
+                    data.img1 = nll;
+                else
+                    data.img1 = res.data[0].img.img1;
+                if (res.data[0].img.img2 == 'null')
+                    data.img2 = nll;
+                else
+                    data.img2 = res.data[0].img.img2;
+                if (res.data[0].img.img3 == 'null')
+                    data.img3 = nll;
+                else
+                    data.img3 = res.data[0].img.img3;
+                if (res.data[0].img.img4 == 'null')
+                    data.img4 = nll;
+                else
+                    data.img4 = res.data[0].img.img4;
+                if (res.data[0].img.img5 == 'null')
+                    data.img5 = nll;
+                else
+                    data.img5 = res.data[0].img.img5;
+                this.setState(data);
             }
         });
     }
@@ -152,7 +167,7 @@ export default class Edit extends Component {
         async function ok() {
             var data = {};
             data.img = {};
-            data.img.img5 = nll;
+            data.img[img] = "null";
             data.email = sesh;
             data.token = token
             console.log("start upload");
@@ -185,6 +200,7 @@ export default class Edit extends Component {
                 img_data[img_num] = load;
                 this.setState(img_data);
                 let req = await axios.post(ip+"/users/edit_spec", data);
+                console.log(req);
                 if (req.status == 200){
                     var res = {};
                     res[img_num] = data.img[img_num]; 

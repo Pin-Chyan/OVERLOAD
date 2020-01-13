@@ -9,40 +9,30 @@ import axios from 'axios';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-var sesh = "meave@gmail.com";
+var sesh = "lmk310500@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
-// const Image = props => (
-//     <div>
-//         <img alt="Asuna" className="m_image" src={props.image.img} />
-//         <p className="legend">{props.image.username}</p>
-//     </div>
-// )
+var nll = require("../images/chibi.jpg");
 
 export default class Home extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
-        //this.constructimg = this.constructimg.bind(this);
         this.state = {
             name: '',
             last: '',
             display: load,
             bio: '',
             images: [],
-            img1: load2,
-            img2: load2,
-            img3: load2,
-            img4: load2,
-            img5: load2
+            img1: nll,
+            img2: nll,
+            img3: nll,
+            img4: nll,
+            img5: nll
         };
     }
-// export default class Profiles extends Component {
-//     var names;
-//     var img;
-// }
 
 
     componentDidMount () {
@@ -52,27 +42,38 @@ export default class Home extends Component {
                 return (window.location.href = ip+"/login");
             }
             else if (res.data[0].name){
-                this.setState({
-                    name: res.data[0].name,
-                    last: res.data[0].last,
-                    display: res.data[0].img.img1,
-                    bio: res.data[0].bio,
-                    img1: res.data[0].img.img1,
-                    img2: res.data[0].img.img2,
-                    img3: res.data[0].img.img3,
-                    img4: res.data[0].img.img4,
-                    img5: res.data[0].img.img5
-                });
+                var data = {};
+                data.name = res.data[0].name;
+                data.last = res.data[0].last;
+                data.bio = res.data[0].bio;
+                if (res.data[0].img.img1 == 'null'){
+                    data.img1 = nll;
+                    data.display = nll;
+                }
+                else{
+                    data.img1 = res.data[0].img.img1;
+                    data.display = res.data[0].img.img1;
+                }
+                if (res.data[0].img.img2)
+                    data.img2 = nll;
+                else
+                    data.img2 = res.data[0].img.img2;
+                if (res.data[0].img.img3)
+                    data.img3 = nll;
+                else
+                    data.img3 = res.data[0].img.img3;
+                if (res.data[0].img.img4)
+                    data.img4 = nll;
+                else
+                    data.img4 = res.data[0].img.img4;
+                if (res.data[0].img.img5)
+                    data.img5 = nll;
+                else
+                    data.img5 = res.data[0].img.img5;
+                this.setState(data);
             }
-            //console.log("this "+ this.state.img5);
         });
     }
-    
-    // imagelist() {
-    //     return this.state.images.map(currentimage => {
-    //         return <Image image={currentimage} />;
-    //     })
-    // }
     
     render () {
         return (

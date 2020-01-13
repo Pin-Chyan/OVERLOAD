@@ -80,15 +80,7 @@ router.route('/get_spec').post( (req, res) => {
         res.json("token not present");
 })
 
-// router.post('/email', verifyToken, (req, res) => {
-//     jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
-//         if (err) {
-//             res.sendStatus(403);
-//         } else {
-//             UserModels.find({ "email": decoded.email}).exec().then(docs => {
-//                 res.json({'present' : docs.length});
-//             })
-//         }
+
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;

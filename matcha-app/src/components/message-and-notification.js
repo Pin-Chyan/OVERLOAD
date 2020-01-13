@@ -6,7 +6,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import axios from 'axios'; 
 import { StaticRouter } from 'react-router-dom';
 
-var sesh = "meave@gmail.com";
+var sesh = "lmk310500@gmail.com";
 var ip = require("../server.json").ip;
 var token = "admin";
 console.log(ip);
@@ -57,12 +57,31 @@ export default class Home extends Component {
 			axios.post(ip+"/users/get_spec", {
 				email : sesh,
 				token : token,
-				target : "msg",
+				target : "name",
 			}).then(res => {
-				this.setState({msg:res.data[0].msg});
+				this.setState({msg:res.data[0].name});
 			})
 		}, 1000);
+		// $.ajax({
+		// 	// type: "POST",
+		// 	url: ip + '/users/get_spec',
+		// 	// data: JSON.stringify(send),
+		// 	// contentType: "application/json; charset=utf-8",
+		// 	// dataType: "json",
+		// 	success: function(data) {
+		// 		console.log('Yes');
+		// 		// document.getElementById('NotifDiv').innerHTML = data;
+		// 	},
+		// 	complete: function() {
+		// 		setTimeout(worker, 5000);
+		// 		// console.log('Complete');
+		// 	}
+		// });
 	}
+
+	// (function worker() {
+		
+	// })();
 
 	componentDidMount() {
 		this.new_notify();

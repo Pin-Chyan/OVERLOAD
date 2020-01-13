@@ -4,10 +4,10 @@ let UserModels = require('../models/user.models.js');
 
 
 router.route('/newroom').post( (req, res) => {
-    UserModels.findone({'email':req.body.email}, "_id token").exec().then(res => {
-        if (res.token == "admin" || res.token == req.body.token){
-            UserModels.findone({'email':req.body.target}, "_id").exec().then(data => {
-                const _id1 = res._id;
+    UserModels.findOne({'email':req.body.email}, "_id token").exec().then(doc => {
+        if (doc.token == "admin" || doc.token == req.body.token){
+            UserModels.findOne({'email':doc.body.target}, "_id").exec().then(data => {
+                const _id1 = doc._id;
                 const _id2 = data._id;
                 const message = req.body.message;
             
@@ -21,6 +21,7 @@ router.route('/newroom').post( (req, res) => {
                 .catch( err => res.status(400).json('Error: ' + err));
             });
         }
+        res.json("done first!");
     })
 })
 
