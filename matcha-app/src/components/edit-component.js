@@ -291,9 +291,9 @@ export default class Edit extends Component {
                 </div>
             </div>
         </nav>
-        {/* <div className="container"> */}
+        <div className="container">
             <div className="columns is-centered shadow">
-                <div className="column is-half bg_white">
+                <div className="column bg_white">
                     <div className="column center">
 
                     <div className="tile is-ancestor">
@@ -528,7 +528,7 @@ export default class Edit extends Component {
                         </div>
                     </div>
                 </div>
-            {/* </div> */}
+            </div>
     </section>
         )
     }

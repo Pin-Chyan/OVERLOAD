@@ -1,19 +1,27 @@
 const router = require('express').Router();
 let ChatModels = require('../models/chats.models.js');
+let UserModels = require('../models/user.models.js');
+
 
 router.route('/newroom').post( (req, res) => {
-    const _id1 = req.body._id1;
-    const _id2 = req.body._id2;
-    const message = req.body.message;
-
-    const newChat = new ChatModels({
-        _id1,
-        _id2,
-        message
-    });
-
-    newChat.save().then( () => res.json('Chatroom created') )
-    .catch( err => res.status(400).json('Error: ' + err));
+    UserModels.findone({'email':req.body.email}, "_id token").exec().then(res => {
+        if (res.token == "admin" || res.token == req.body.token){
+            UserModels.findone({'email':req.body.target}, "_id").exec().then(data => {
+                const _id1 = res._id;
+                const _id2 = data._id;
+                const message = req.body.message;
+            
+                const newChat = new ChatModels({
+                    _id1,
+                    _id2,
+                    message
+                });
+            
+                newChat.save().then( () => res.json('Chatroom created') )
+                .catch( err => res.status(400).json('Error: ' + err));
+            });
+        }
+    })
 })
 
 router.route('/msg').post( (req, res) => {

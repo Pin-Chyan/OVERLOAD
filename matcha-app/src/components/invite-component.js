@@ -22,57 +22,6 @@ var ip = require("../server.json").ip;
 // )
 
 export default class Home extends Component {
-    constructor(props){
-        super(props);
-        this.componentDidMount = this.componentDidMount.bind(this);
-        //this.constructimg = this.constructimg.bind(this);
-        this.state = {
-            name: '',
-            last: '',
-            display: load,
-            bio: '',
-            images: [],
-            img1: load2,
-            img2: load2,
-            img3: load2,
-            img4: load2,
-            img5: load2
-        };
-    }
-// export default class Profiles extends Component {
-//     var names;
-//     var img;
-// }
-
-
-    componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email":sesh,"target":"name last bio img","token":token}).then(res => {
-            console.log(res);
-            if (res.data === "invalid token" || res.data === "token not present"){
-                return (window.location.href = ip+"/login");
-            }
-            else if (res.data[0].name){
-                this.setState({
-                    name: res.data[0].name,
-                    last: res.data[0].last,
-                    display: res.data[0].img.img1,
-                    bio: res.data[0].bio,
-                    img1: res.data[0].img.img1,
-                    img2: res.data[0].img.img2,
-                    img3: res.data[0].img.img3,
-                    img4: res.data[0].img.img4,
-                    img5: res.data[0].img.img5
-                });
-            }
-            //console.log("this "+ this.state.img5);
-        });
-    }
-    
-    // imagelist() {
-    //     return this.state.images.map(currentimage => {
-    //         return <Image image={currentimage} />;
-    //     })
-    // }
     
     render () {
         return (
