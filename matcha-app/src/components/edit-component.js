@@ -219,6 +219,7 @@ export default class Edit extends Component {
     }
     
     onSubmit = async e => {
+        console.log(this.state.user);
             e.preventDefault();
 
             var data = {

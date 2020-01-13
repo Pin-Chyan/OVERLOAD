@@ -116,6 +116,9 @@ export default class Home extends Component {
                                 Thank you for Register to Wotaku.
                                 <br></br>
                                 <br></br>
+                                An email was sent to you master.
+                                <br></br>
+                                <br></br>
                                 We hope you will find your matching lover as soon as possible.
                                 <br></br>
                                 <br></br>
