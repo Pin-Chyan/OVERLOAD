@@ -7,6 +7,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios';
 import { func } from 'prop-types';
+import { getJwt } from "./auth/jwt-helper.js";
 
 var ip = require("../server.json").ip;
 console.log(ip);

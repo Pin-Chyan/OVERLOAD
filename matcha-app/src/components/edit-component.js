@@ -6,6 +6,7 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 import axios from 'axios';
+import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
 
 var ip = require("../server.json").ip;
@@ -79,6 +80,12 @@ export default class Edit extends Component {
     }
 
     componentDidMount () {
+        // const jwt = getJwt();
+
+        // axios.post(ip+'/users/email', {} ,{ headers: { authorization: `bearer ${jwt}` } }).then(res => {
+        //     console.log(res.data.email);
+        // }).catch(err => console.log(err));
+
         axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
             console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){

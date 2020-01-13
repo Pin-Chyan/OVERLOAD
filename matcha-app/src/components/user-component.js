@@ -6,6 +6,7 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+import { getJwt } from "./auth/jwt-helper.js";
 // import "../styles/debug.css";
 
 var load = require("../images/load2.gif");
