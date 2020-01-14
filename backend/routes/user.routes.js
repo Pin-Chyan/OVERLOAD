@@ -83,22 +83,36 @@ router.route('/emailVerify/:vkey').post((req, res) => {
 });
 
 router.route('/like').post( (req, res) => {
-    if (req.body.token && req.body.email && req.body.target){
-        UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
-            if (!docs)
-                res.json("error, no one to like");
-            else{
-                UserModels.findOne({"email": req.body.email}, "_id likes").exec().then(docs2 => {
+    if (!req.body.token && !req.body.email && !req.body.target)
+        req.json("error");
+    UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+                if (!docs2.likes.includes(docs[0]._id)){
                     var like = docs2.likes;
-                    console.log(docs2);
                     like.push(docs[0]._id);
-                    console.log(like);
-                    docs2.save().catch(err => {res.json(err)});
-                })
-            }
-            res.json("Liked");
-        })
-    }
+                    docs2.likes = like;
+                    docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
+                }
+                else
+                res.json("Already Liked!");
+            })
+    }).catch(err => {res.json(err)})
+})
+
+router.route('/Del_like').post( (req, res) => {
+    if (!req.body.token || !req.body.target || !req.body.email)
+        req.json("error");
+    UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+                if (docs2.likes.includes(docs[0]._id)){
+                    var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
+                    docs2.likes.splice(index,1);
+                    docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
+                }
+                else
+                res.json("Not Liked");
+            })
+    }).catch(err => {res.json(err)})
 })
 
 router.route('/get_spec').post( (req, res) => {
