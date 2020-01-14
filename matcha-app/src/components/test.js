@@ -32,21 +32,6 @@ export default class test extends Component {
       render() {
         return (
           <section className="hero is-fullheight">
-            
-            <div className="hero-head">
-              <header className="hero is-link is-bold">
-                <div className="hero-body">
-                  <div className="container">
-                    <p className="title">
-                      Chat Messenger
-                    </p>
-                    <p className="subtitle">
-                      With React + Bulma
-                    </p>
-                  </div>
-                </div>
-              </header>
-            </div>
     
             <div className="hero-body">
               <Messages chat={this.state.chat} />
@@ -93,4 +78,3 @@ export default class test extends Component {
         )}
       </div>
     );
-    

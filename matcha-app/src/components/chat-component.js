@@ -122,6 +122,8 @@ export default class Chat extends Component {
                         </article>
                     </div>
 
+            
+
 
                 </div>
             </div>
