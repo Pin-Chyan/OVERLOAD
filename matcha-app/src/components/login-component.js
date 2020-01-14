@@ -80,16 +80,16 @@ export default class Register extends Component {
                 </div>
                 <div id="navMenu" className="navbar-menu">
                     <div className="navbar-end">
-                        <div className="control is-small has-icons-right search-margin">
+                        {/* <div className="control is-small has-icons-right search-margin">
                             <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
                             <span className="icon is-small is-right">
                                 <i className="fa fa-search"></i>
                             </span>
-                        </div>
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        </div> */}
+                        {/* <Link to="/" className="navbar-item has-text-info">Home</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
-                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
+                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link> */}
+                        <Link to="/register" className="navbar-item has-text-info">Register</Link>
                     </div>
                 </div>
             </div>
@@ -127,6 +127,9 @@ export default class Register extends Component {
                         <div className="field is-grouped">
                             <div className="control">
                                 <button className="button is-warning is-rounded" onClick={this.onSumbit}>Submit</button>
+                            </div>
+                            <div className="control">
+                                <Link to="/register" className="pad_r has-text-info">Register</Link>
                             </div>
                         </div>
 
