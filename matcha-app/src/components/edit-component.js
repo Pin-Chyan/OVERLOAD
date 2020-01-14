@@ -291,47 +291,53 @@ export default class Edit extends Component {
             console.log(data);
             axios.post(ip+"/users/edit_spec", data);
             if (this.state.new_email !== ''){
-                axios.post(ip+"/users/email", {"email":this.state.new_email}).then(res => {
-                if (res.data.present !== 1){
-                    data.target = "password";
-                    console.log("new email");
-                    console.log(this.state.new_email);
-                    axios.post(ip+"/users/get_spec", data).then(docs => {
-                            console.log("got pass");
-                            var user = {};
-                            user.password = "Waifusocks11";//docs.data[0].password;
-                            user.email = this.state.new_email;
-                            var email_reset = {};
-                            email_reset.token = token;
-                            email_reset.email = sesh;
-                            email_reset.new_email = this.state.new_email;
-                            axios.post(ip+"/users/edit_spec", email_reset).then( res => {
-                                console.log("users spec");
-                                console.log(user);
-                                axios.post('http://localhost:5001/auth/getToken', user)
-                                .then(res => {
-                                    if (res.data.resCode === 1) {
-                                        this.setState({ email: "Email or Password incorrect" });
-                                    } else {
-                                        localStorage.setItem('token', res.data.token);
-                                        console.log(res.data.token);
-                                        console.log("before");
-                                        console.log(token);
-                                        token = res.data.token;
-                                        sesh = this.state.new_email;
-                                        console.log("after");
-                                        console.log(token);
-                                        // this.props.history.push('/');
-                                    }
-                                })
-                                console.log("done");
-                            });
-                        })
-                    } else {
-                        this.setState({new_email:"email in use!"});
-                    }
-                })
-            }
+                var tester = this.state.new_email;
+                if (tester.match(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/)){
+                    axios.post(ip+"/users/email", {"email":this.state.new_email}).then(res => {
+                    if (res.data.present !== 1){
+                        data.target = "password";
+                        console.log("new email");
+                        console.log(this.state.new_email);
+                        axios.post(ip+"/users/get_spec", data).then(docs => {
+                                console.log("got pass");
+                                var user = {};
+                                console.log(decode(token).password);
+                                user.password = decode(token).password;//docs.data[0].password;
+                                user.email = this.state.new_email;
+                                var email_reset = {};
+                                email_reset.token = token;
+                                email_reset.email = sesh;
+                                email_reset.new_email = this.state.new_email;
+                                axios.post(ip+"/users/edit_spec", email_reset).then( res => {
+                                    console.log("users spec");
+                                    console.log(user);
+                                    axios.post('http://localhost:5001/auth/getToken', user)
+                                    .then(res => {
+                                        if (res.data.resCode === 1) {
+                                            this.setState({ email: "Email or Password incorrect" });
+                                        } else {
+                                            localStorage.setItem('token', res.data.token);
+                                            console.log(res.data.token);
+                                            console.log("before");
+                                            console.log(token);
+                                            token = res.data.token;
+                                            sesh = this.state.new_email;
+                                            console.log("after");
+                                            console.log(token);
+                                            // this.props.history.push('/');
+                                        }
+                                    })
+                                    console.log("done");
+                                });
+                            })
+                        } else {
+                            this.setState({new_email:"email in use!"});
+                        }
+                    })
+                } else {
+                    this.setState({new_email:"invalid email"});
+                }
+        }
             
             this.setState({
                     surname: '',
