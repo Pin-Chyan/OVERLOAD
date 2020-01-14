@@ -12,6 +12,7 @@ var ip = require("../server.json").ip;
 var token = "admin";
 console.log(ip);
 
+
 export default class Home extends Component {
 
     state = {
