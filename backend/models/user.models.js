@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  verified: {
+    type: Boolean
+  },
   vKey: {
     type: String
   },

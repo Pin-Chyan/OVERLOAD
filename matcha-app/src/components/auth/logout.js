@@ -8,6 +8,6 @@ export default class Logout extends Component {
         }
     }
     render() {
-        return(<div></div>);
+        return(<div>{this.props.history.push('/login')}</div>)
     }
 }

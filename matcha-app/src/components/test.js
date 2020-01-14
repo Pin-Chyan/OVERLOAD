@@ -33,21 +33,6 @@ export default class test extends Component {
       render() {
         return (
           <section className="hero is-fullheight">
-            
-            <div className="hero-head">
-              <header className="hero is-link is-bold">
-                <div className="hero-body">
-                  <div className="container">
-                    <p className="title">
-                      Chat Messenger
-                    </p>
-                    <p className="subtitle">
-                      With React + Bulma
-                    </p>
-                  </div>
-                </div>
-              </header>
-            </div>
     
             <div className="hero-body">
               <Messages chat={this.state.chat} />
@@ -83,7 +68,7 @@ export default class test extends Component {
     );
     
     const Messages = ({ chat }) => (
-      <div style={{ heigth: '100%', width: '100%' }}>
+      <div style={{ heigth: '100%', width: '25%' }}>
         {chat.map((m, i) => {
           const msgClass = i === 0 || i % 2 === 0 // for demo purposes, format every other msg
           return (
@@ -94,4 +79,3 @@ export default class test extends Component {
         )}
       </div>
     );
-    
