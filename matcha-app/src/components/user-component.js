@@ -102,6 +102,7 @@ export default class User extends Component {
                         <Link to="/" className="navbar-item has-text-info">Home</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
                         <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
+                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
                     </div>
                 </div>
             </div>
