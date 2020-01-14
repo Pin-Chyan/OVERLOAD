@@ -4,6 +4,7 @@ const verifyToken = require('../auth/auth.middleware');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const md5 = require('md5');
 require('dotenv').config();
 
 const mailData = { email: 'marvan.matcha.testservice@gmail.com', password: 'Noticeme'}
@@ -26,7 +27,8 @@ router.route('/add').post( (req, res) => {
     const verif = 0; 
     const sexual_pref = req.body.sexual_pref;
     //TODO: generate a unique key
-    const vKey = 'verysecretkey';
+    const vKey = md5(email+Date.now());
+    const verified = false;
 
     const newUser = new UserModels({
         name,
@@ -35,7 +37,7 @@ router.route('/add').post( (req, res) => {
         gender,
         age,
         email,
-        verif,
+        verified,
         sexual_pref,
         vKey
     });
@@ -44,7 +46,8 @@ router.route('/add').post( (req, res) => {
         from: mailData.email,
         to: newUser.email,
         subject: 'Account Verification',
-        html: '<h2>Please click <a href="https://www.w3schools.com"> here </a> to verify your account</h2><p>'
+        //TODO: Change to localhost:300
+        html: `<h2>Please click <a href="http://localhost:3000/verify/${vKey}"> here </a> to verify your account</h2><p>`
     };
     
     transporter.sendMail(mailOptions, function(error, info){
@@ -59,6 +62,24 @@ router.route('/add').post( (req, res) => {
         newUser.save().then( () => res.json('User added') )
         .catch( err => res.status(400).json('Error: ' + err));
     }));
+});
+
+router.route('/emailVerify/:vkey').post((req, res) => {
+    const { vkey } = req.params;
+
+    UserModels.find({ "vKey": vkey }).exec().then(docs => {
+        if (docs[0].verified === true) {
+            res.json({success: false, msg: "Already activated"});
+        } else if (docs[0].verified === false) {
+            docs[0].verified = true;
+            docs[0].save();
+            res.json({success: true, msg: "Account activated"});
+        } else {
+            res.json({success: false, msg: "Something went wrong"});
+        }
+    }).catch(err => {
+        res.json({success: false, msg: "Could not find"});
+    })
 });
 
 router.route('/get_spec').post( (req, res) => {
