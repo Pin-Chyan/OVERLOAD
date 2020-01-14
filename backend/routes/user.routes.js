@@ -69,16 +69,16 @@ router.route('/emailVerify/:vkey').post((req, res) => {
 
     UserModels.find({ "vKey": vkey }).exec().then(docs => {
         if (docs[0].verified === true) {
-            res.json({success: false, msg: "Already activated"});
+            res.json({status: "already used"});
         } else if (docs[0].verified === false) {
             docs[0].verified = true;
             docs[0].save();
-            res.json({success: true, msg: "Account activated"});
+            res.json({ status: "activated"});
         } else {
-            res.json({success: false, msg: "Something went wrong"});
+            res.json({ status: "something went wrong"});
         }
     }).catch(err => {
-        res.json({success: false, msg: "Could not find"});
+        res.json({ status: "not found"});
     })
 });
 
