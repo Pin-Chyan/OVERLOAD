@@ -17,14 +17,6 @@ var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
-const items = [
-    'Gamer',
-    'Sports',
-    'Adventurer',
-    'Outdoor',
-    'Funny',
-    'Love',
-  ];
 export default class Chat extends Component {
     constructor(props){
         super(props);
@@ -91,7 +83,7 @@ export default class Chat extends Component {
         </nav>
         {/* <div className="container"> */}
             <div className="columns is-centered shadow">
-                <div className="column bg_white">
+                <div className="columns bg_white">
                     <div className="column left">
                         <article className="media center">
                             <figure className="media-left">
@@ -111,7 +103,7 @@ export default class Chat extends Component {
                         </article>
                     </div>
 
-                    <div className="column right">
+                    <div className="column">
                         <article className="media center">
                             <figure className="media-left">
                                 <figure className="image is-64x64">
@@ -128,9 +120,9 @@ export default class Chat extends Component {
                                 </div>
                             </div>
                         </article>
-                
-                        
                     </div>
+
+
                 </div>
             </div>
         {/* </div> */}
