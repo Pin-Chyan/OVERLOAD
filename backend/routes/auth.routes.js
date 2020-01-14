@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.models.js');
-let UserModels = require('../models/user.models.js');
 const bcrypt = require('bcryptjs');
 const verifyToken = require('../auth/auth.middleware');
 let UserModels = require('../models/user.models.js');
@@ -19,7 +17,7 @@ router.post('/getToken', (req, res) => {
         return res.send({ resCode: 2 });
     }
 
-    User.find({ "email" : email }, ["verif", "password"]).exec().then(data => {
+    UserModels.find({ "email" : email }, ["verif", "password"]).exec().then(data => {
         if (data.length === 0) {
             return res.send({ resCode: 1});
         }

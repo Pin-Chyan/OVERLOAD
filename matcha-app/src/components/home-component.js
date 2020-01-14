@@ -4,18 +4,14 @@ import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
-import axios from 'axios'; 
-import decode from 'jwt-decode';
+import axios from 'axios';
 // import "../styles/debug.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import decode from 'jwt-decode';
 
 var token = localStorage.token;
-<<<<<<< HEAD
 var sesh = decode(localStorage.token);
-=======
->>>>>>> layouts
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;

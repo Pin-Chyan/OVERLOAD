@@ -9,17 +9,9 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
-import decode from 'jwt-decode';
 
-<<<<<<< HEAD
 var token = localStorage.token;
 var sesh = decode(localStorage.token);
-=======
-var ip = require("../server.json").ip;
-console.log(ip);
-var sesh = decode(localStorage.token).email;
-var token = localStorage.token;
->>>>>>> layouts
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
@@ -88,18 +80,8 @@ export default class Edit extends Component {
     }
 
     componentDidMount () {
-<<<<<<< HEAD
         axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"img name", "token":token}).then(res => {
             // console.log(res);
-=======
-        // const jwt = getJwt();
-
-        // axios.post(ip+'/users/email', {} ,{ headers: { authorization: `bearer ${jwt}` } }).then(res => {
-        //     console.log(res.data.email);
-        // }).catch(err => console.log(err));
-
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
->>>>>>> layouts
             if (res.data == "invalid token" || res.data == "token not present"){
                 //eturn (window.location.href = ip+"/login");
             }

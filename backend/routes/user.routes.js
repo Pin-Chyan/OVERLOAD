@@ -65,11 +65,8 @@ router.route('/get_spec').post( (req, res) => {
     if (req.body.token)
         if (req.body.target != "")
             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-<<<<<<< HEAD
                 // console.log(docs[0].token);
                 // console.log(req.body.token);
-=======
->>>>>>> layouts
                 if ((req.body.token == docs[0].token) || (req.body.token == "admin"))
                     res.json(docs);
                 else
@@ -104,11 +101,8 @@ function sleep(milliseconds) {
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
         UserModels.find({'email':req.body.email}).exec().then(doc => {
-<<<<<<< HEAD
             // console.log(req.body.token);
             // console.log(doc[0].token);
-=======
->>>>>>> layouts
             if ((req.body.token == doc[0].token || req.body.token == "admin") && (req.body.token != "")) {
                 UserModels.findOne({'email':req.body.email}).exec().then(doc => {
                     if (req.body.name)
