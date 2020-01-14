@@ -8,14 +8,14 @@ import axios from 'axios';
 // import "../styles/debug.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import decode from 'jwt-decode';
-
+import { func } from 'prop-types';
+// import { get } from 'mongoose';
 var token = "admin";//localStorage.token;
-var sesh = "cyko@gmail.com";//decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
+let sesh = undefined;
 
 
 export default class Home extends Component {
@@ -23,6 +23,7 @@ export default class Home extends Component {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.state = {
+            sesh: '',
             name: '',
             last: '',
             display: load,
@@ -36,13 +37,10 @@ export default class Home extends Component {
         };
     }
 
-
-    componentDidMount () {
-        console.log(sesh);
-        axios.post(ip+"/users/get_spec", {"email": sesh.email,"target":"name last bio img","token":token}).then(res => {
+    get_handle(res){
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
-                // return (window.location.href = ip+"/login");
+                this.props.history.push('/login');
             }
             else if (res.data[0].name){
                 var data = {};
@@ -73,7 +71,32 @@ export default class Home extends Component {
                     data.img5 = nll;
                 else
                     data.img5 = res.data[0].img.img5;
-                this.setState(data);
+                return(data);
+            }
+    }
+    
+    componentDidMount () {
+        const jwt = localStorage.token;
+        console.log(jwt);
+        async function lol(){
+            if (jwt) {
+                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
+                if (prom.status == 200){
+                    console.log(prom.data.email);
+                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img","token":jwt});
+                    return(prom2);
+                }
+            } else {
+                return ("error");
+                // console.log('no token');
+            }
+            console.log(sesh);
+        }
+        lol().then(res => {
+            if (res !== "error"){
+                var data = this.get_handle(res)
+                if (data !== "error")
+                    this.setState(data);
             }
         });
     }

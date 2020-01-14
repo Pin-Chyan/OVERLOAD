@@ -31,27 +31,47 @@ export default class User extends Component {
         }
     }
 
-    componentDidMount () {
-        var name = "Shane";
-        axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"name last bio img.img1", "token" : token}).then(res => {
-            console.log(res);
-            if (res.data == "invalid token"){
-                return (window.location.href = ip+"/home");
+    get_handle(res){
+        if (res.data == "invalid token"){
+            return ("invalid token");
+        }
+        else if (res.data[0].name){
+            var data = {};
+            data.name = res.data[0].name;
+            data.last = res.data[0].last;
+            data.bio = res.data[0].bio;
+            if (res.data[0].img.img1 == 'null'){
+                data.display = nll;
+                data.display2 = nll;
             }
-            else if (res.data[0].name){
-                var data = {};
-                data.name = res.data[0].name;
-                data.last = res.data[0].last;
-                data.bio = res.data[0].bio;
-                if (res.data[0].img.img1 == 'null'){
-                    data.display = nll;
-                    data.display2 = nll;
+            else{
+                data.display = res.data[0].img.img1;
+                data.display2 = res.data[0].img.img1;
+            }
+            return (data);
+        }
+    }
+
+    componentDidMount () {
+        const jwt = localStorage.token;
+        console.log(jwt);
+        async function lol(){
+            if (jwt) {
+                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
+                if (prom.status == 200){
+                    console.log(prom.data.email);
+                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email, "target":"name last bio img.img1", "token" : jwt});
+                    return(prom2);
                 }
-                else{
-                    data.display = res.data[0].img.img1;
-                    data.display2 = res.data[0].img.img1;
-                }
-                this.setState(data);
+            } else
+                return ("error");
+            console.log(sesh);
+        }
+        lol().then(res => {
+            if (res !== "error"){
+                var data = this.get_handle(res)
+                if (data !== "error")
+                    this.setState(data);
             }
         });
     }
