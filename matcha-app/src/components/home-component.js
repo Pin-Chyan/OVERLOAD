@@ -5,12 +5,13 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios'; 
+import decode from 'jwt-decode';
 // import "../styles/debug.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-var sesh = "lmk310500@gmail.com";
-var token = "admin";
+var token = localStorage.token;
+var sesh = decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
@@ -36,10 +37,10 @@ export default class Home extends Component {
 
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email":sesh,"target":"name last bio img","token":token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email":sesh.email,"target":"name last bio img","token":token}).then(res => {
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
-                return (window.location.href = ip+"/login");
+                // return (window.location.href = ip+"/login");
             }
             else if (res.data[0].name){
                 var data = {};

@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
+import decode from 'jwt-decode';
 // import "../styles/debug.css";
 import axios from 'axios';
 import { func } from 'prop-types';
 
-var ip = require("../server.json").ip;
-console.log(ip);
-var sesh = "lmk310500@gmail.com";
-var token = "admin";
+var token = localStorage.token;
+var sesh = decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
+var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
 
 const items = [
@@ -79,8 +79,8 @@ export default class Edit extends Component {
     }
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
-            console.log(res);
+        axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"img name", "token":token}).then(res => {
+            // console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){
                 return (window.location.href = ip+"/login");
             }
@@ -158,7 +158,7 @@ export default class Edit extends Component {
         var data = {};
         data["selectedFile" + event.target.id] = event.target;
         this.setState(data);
-        console.log(event.target.files[0]);
+        // console.log(event.target.files[0]);
     }
     globalrm(img){
         var img_data = {};
@@ -167,8 +167,8 @@ export default class Edit extends Component {
         async function ok() {
             var data = {};
             data.img = {};
-            data.img[img] = "null";
-            data.email = sesh;
+            data.img[img] = 'null';
+            data.email = sesh.email;
             data.token = token
             console.log("start upload");
             let req = await axios.post(ip+"/users/edit_spec", data);
@@ -183,8 +183,8 @@ export default class Edit extends Component {
     globalimg(img){
         var file = "selectedFile" + img.target.id;
         var img_num = "img" + img.target.id;
-        console.log(file);
-        console.log(img_num);
+        // console.log(file);
+        // console.log(img_num);
         if (this.state[file] && img.target.value == "upload"){
             console.log("file read start");
             var reader = new FileReader();
@@ -193,7 +193,7 @@ export default class Edit extends Component {
                 var data = {};
                 data.img = {};
                 data.img[img_num] = reader.result;
-                data.email = sesh;
+                data.email = sesh.email;
                 data.token = token;
                 console.log("start upload");
                 var img_data = {};

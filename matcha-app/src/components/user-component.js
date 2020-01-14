@@ -6,14 +6,15 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+import decode from 'jwt-decode';
 // import "../styles/debug.css";
 
-var load = require("../images/load2.gif");
-var load2 = require("../images/load.gif");
-var nll = require("../images/chibi.jpg");
-var sesh = "lmk310500@gmail.com";
-var token = "admin";
+var token = localStorage.token;
+var sesh = decode(localStorage.token);
+var load = require("../images/load.gif");
+var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
+var nll = require("../images/chibi.jpg");
 
 export default class User extends Component {
     constructor(props){
@@ -32,7 +33,7 @@ export default class User extends Component {
 
     componentDidMount () {
         var name = "Shane";
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last bio img.img1", "token" : token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"name last bio img.img1", "token" : token}).then(res => {
             console.log(res);
             if (res.data == "invalid token"){
                 return (window.location.href = ip+"/home");

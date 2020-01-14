@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.models.js');
+let UserModels = require('../models/user.models.js');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
@@ -30,6 +31,10 @@ router.post('/getToken', (req, res) => {
                 return res.send({ resCode: 1 });
             }
             jwt.sign({email, password}, process.env.SECRET, (err, token) => {
+                UserModels.findOne({'email':email},"token").then(docs => {
+                    docs.token = token;
+                    docs.save();
+                })
                 res.json({
                     token,
                     resCode: 0
