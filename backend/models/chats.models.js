@@ -12,3 +12,4 @@ const chat_room = new Schema({
 
 const chats_model = mongoose.model('chats', chat_room, 'chats');
 module.exports = chats_model;
+

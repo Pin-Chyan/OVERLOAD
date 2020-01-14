@@ -55,7 +55,7 @@ const userSchema = new Schema({
     type: Array,
     default: ["start"]
   },
-  msg: {
+  likes: {
     type: Array,
     default: []
   },
