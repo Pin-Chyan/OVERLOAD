@@ -129,7 +129,7 @@ export default class Register extends Component {
                                 <button className="button is-warning is-rounded" onClick={this.onSumbit}>Submit</button>
                             </div>
                             <div className="control">
-                                <Link to="/register" className="pad_r has-text-info">Register</Link>
+                                <Link to="/register" className="button borrow-btn has-text-info">Register</Link>
                             </div>
                         </div>
 
