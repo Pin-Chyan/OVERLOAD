@@ -17,7 +17,15 @@ var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
-export default class Chat extends Component {
+export default class cons extends Component {
+      saveMsg = (msg) => this.setState({
+        chat: [
+          ...this.state.chat,
+          msg
+        ]
+      })
+    
+
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -28,7 +36,8 @@ export default class Chat extends Component {
             ag: 0,
             tags: '#urmomlol',
             display: load,
-            display2: load2
+            display2: load2,
+            chat: []
         }
     }
 
@@ -121,15 +130,60 @@ export default class Chat extends Component {
                                 </div>
                             </div>
                         </article>
+                        
                     </div>
 
-            
 
-
+                    </div>
                 </div>
-            </div>
+
+                            <div className="hero-body">
+                            <Messages chat={this.state.chat} />
+                            </div>
+                            <div className="hero-foot">
+                            <footer className="section is-small">
+                                <Chat saveMsg={this.saveMsg} />
+                            </footer>
+                            </div>
+
+
+
+
+                    
         {/* </div> */}
     </section>
         )
     }
 }
+
+const Chat = ({ saveMsg }) => (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      saveMsg(e.target.elements.userInput.value);
+      e.target.reset();
+    }}>
+      <div className="field has-addons">
+        <div className="control is-expanded">
+          <input className="input" name="userInput" type="text" placeholder="Type your message" />
+        </div>
+        <div className="control">
+          <button className="button is-info">
+            Send
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+  
+  const Messages = ({ chat }) => (
+    <div style={{ heigth: '100px', width: '100%', overflow: 'scroll' }}>
+      {chat.map((m, i) => {
+        const msgClass = i === 0 || i % 2 === 0 // for demo purposes, format every other msg
+        return (
+          <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
+            <span key={i} className={`tag is-medium ${msgClass ? 'is-success' : 'is-info'}`}>{m}</span>
+          </p>
+        )}
+      )}
+    </div>
+  );

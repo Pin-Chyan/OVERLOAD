@@ -73,4 +73,12 @@
     margin: 3px 0.5ex !important;
 }
 
+.borrow-btn {
+    border: none !important;
+}
+
+.chat-box {
+    width: 500px;
+}
+
 /*  */

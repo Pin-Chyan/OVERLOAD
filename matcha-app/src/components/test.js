@@ -67,7 +67,7 @@ export default class test extends Component {
     );
     
     const Messages = ({ chat }) => (
-      <div style={{ heigth: '100%', width: '100%' }}>
+      <div style={{ heigth: '100%', width: '25%' }}>
         {chat.map((m, i) => {
           const msgClass = i === 0 || i % 2 === 0 // for demo purposes, format every other msg
           return (
