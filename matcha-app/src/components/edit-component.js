@@ -208,7 +208,7 @@ export default class Edit extends Component {
     globalimg(img){
         var file = "selectedFile" + img.target.id;
         var img_num = "img" + img.target.id;
-        // console.log(file);
+        console.log(sesh);
         // console.log(img_num);
         if (this.state[file] && img.target.value == "upload"){
             console.log("file read start");
