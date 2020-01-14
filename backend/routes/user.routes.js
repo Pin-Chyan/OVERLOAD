@@ -67,12 +67,15 @@ router.route('/like').post( (req, res) => {
             if (!docs)
                 res.json("error, no one to like");
             else{
-                var like = docs._id;
-                like.push(req.body.likes);
-                docs._id = like;
-                console.log(like);
-                docs.save().then(r => {res.json("Liked")}).catch(err => {res.json(err)});
+                UserModels.findOne({"email": req.body.email}, "_id likes").exec().then(docs2 => {
+                    var like = docs2.likes;
+                    console.log(docs2);
+                    like.push(docs[0]._id);
+                    console.log(like);
+                    docs2.save().catch(err => {res.json(err)});
+                })
             }
+            res.json("Liked");
         })
     }
 })
