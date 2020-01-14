@@ -11,7 +11,7 @@ import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
 
 var token;
-var sesh;
+var sesh = "cyko@gmail.com";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/chibi.jpg");
@@ -85,6 +85,9 @@ export default class Edit extends Component {
         }
         else if (res.data[0].name){
             var data = {}
+            data.email = res.data[0].email;
+            data.name = res.data[0].name;
+            data.bio = res.data[0].bio;
             if (res.data[0].img.img1 == 'null')
                 data.img1 = nll;
             else
@@ -117,8 +120,9 @@ export default class Edit extends Component {
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
+                    sesh = prom.data.email;
                     console.log(prom.data.email);
-                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img","token":jwt});
+                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img email","token":jwt});
                     return(prom2);
                 }
             } else {
@@ -130,6 +134,7 @@ export default class Edit extends Component {
         lol().then(res => {
             if (res !== "error"){
                 var data = this.get_handle(res);
+                console.log(data);
                 sesh = data.email;
                 if (data !== "error")
                     this.setState(data);
@@ -139,7 +144,7 @@ export default class Edit extends Component {
 
     onChangeName(e) {
         this.setState({
-            name: e.target.value
+            new_name: e.target.value
         });
     }
 
@@ -157,7 +162,7 @@ export default class Edit extends Component {
 
     onChangeEmail(e) {
         this.setState({
-                email: e.target.value
+                new_email: e.target.value
             });
     }
     
@@ -218,15 +223,13 @@ export default class Edit extends Component {
                 var data = {};
                 data.img = {};
                 data.img[img_num] = reader.result;
+                console.log("start upload");
                 data.email = sesh;
                 data.token = token;
-                console.log("start upload");
                 var img_data = {};
                 img_data[img_num] = load;
                 this.setState(img_data);
-                console.log(data);
                 let req = await axios.post(ip+"/users/edit_spec", data);
-                console.log(req);
                 if (req.status == 200){
                     var res = {};
                     res[img_num] = data.img[img_num]; 
@@ -266,15 +269,15 @@ export default class Edit extends Component {
 
             var data = {
                 "email" : sesh,
-                "token" : token
+                "token" : localStorage.token
             };
 
             if (this.state.name){
-                data.name = this.state.name;
+                data.name = this.state.new_name;
             }
-            if (this.state.email){
-                data.email = this.state.email;
-            }
+            // if (this.state.email){
+            //     data.new_email = this.state.new_email;
+            // }
             if (this.state.sexual_pref){
                 data.sexual_pref = this.state.sexual_pref;
             }
@@ -285,21 +288,53 @@ export default class Edit extends Component {
                 data.tags = this.state.tags;
             }
 
-            axios.post(ip+"/users/edit_spec", data)
-
-            //const errors = this.refs.form.showFieldErrors();
+            console.log(data);
+            axios.post(ip+"/users/edit_spec", data);
+            if (this.state.new_email !== ''){
+                data.target = "password";
+                console.log("new email");
+                console.log(this.state.new_email);
+                axios.post(ip+"/users/get_spec", data).then(docs => {
+                        console.log("got pass");
+                        var user = {};
+                        user.password = "Waifusocks11";//docs.data[0].password;
+                        user.email = this.state.new_email;
+                        var email_reset = {};
+                        email_reset.token = token;
+                        email_reset.email = sesh;
+                        email_reset.new_email = this.state.new_email;
+                        axios.post(ip+"/users/edit_spec", email_reset).then( res => {
+                            console.log("users spec");
+                            console.log(user);
+                            axios.post('http://localhost:5001/auth/getToken', user)
+                            .then(res => {
+                                if (res.data.resCode === 1) {
+                                    this.setState({ email: "Email or Password incorrect" });
+                                } else {
+                                    localStorage.setItem('token', res.data.token);
+                                    console.log(res.data.token);
+                                    console.log("before");
+                                    console.log(token);
+                                    token = res.data.token;
+                                    sesh = this.state.new_email;
+                                    console.log("after");
+                                    console.log(token);
+                                    // this.props.history.push('/');
+                                }
+                            })
+                            console.log("done");
+                        });
+                    })
+            }
             
             this.setState({
-                    name: '',
                     surname: '',
                     pwd: '',
                     pwdCon: '',
-                    email: '',
                     gender: '',
                     sexual_pref: '',
                     tags: '',
                     imgSet: '',
-                    bio: '',
                     registered: true,
                 });
         }
@@ -482,7 +517,7 @@ export default class Edit extends Component {
                         <div className="field">
                             <label className="label">Current Email: {this.state.email}</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="New E-mail" value={this.state.email} onChange={this.onChangeEmail} required />
+                                <input className="input" type="email" placeholder="New E-mail" value={this.state.new_email} onChange={this.onChangeEmail} required />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
@@ -495,7 +530,7 @@ export default class Edit extends Component {
                         <div className="field">
                             <label className="label">Current Name: {this.state.name}</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" placeholder="New Name" value={this.state.name} onChange={this.onChangeName} required />
+                                <input className="input" type="email" placeholder="New Name" value={this.state.new_name} onChange={this.onChangeName} required />
                             </div>
                         </div>
                         <div className="field">
