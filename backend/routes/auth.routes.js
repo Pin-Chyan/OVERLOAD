@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.models.js');
 let UserModels = require('../models/user.models.js');
 const bcrypt = require('bcryptjs');
+const verifyToken = require('../auth/auth.middleware');
+let UserModels = require('../models/user.models.js');
 require('dotenv').config();
 
 //TODO: Add protection to check if user is logged in
-router.post('/getUser', (req, res) => {
-    res.send(req.user);
+router.post('/validate', (req, res) => {
+    res.json({email: 'testmail'});
 });
 
 router.post('/getToken', (req, res) => {

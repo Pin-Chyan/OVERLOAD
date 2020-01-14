@@ -7,10 +7,19 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import decode from 'jwt-decode';
 // import "../styles/debug.css";
 import axios from 'axios';
+import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
+import decode from 'jwt-decode';
 
+<<<<<<< HEAD
 var token = localStorage.token;
 var sesh = decode(localStorage.token);
+=======
+var ip = require("../server.json").ip;
+console.log(ip);
+var sesh = decode(localStorage.token).email;
+var token = localStorage.token;
+>>>>>>> layouts
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
@@ -79,10 +88,20 @@ export default class Edit extends Component {
     }
 
     componentDidMount () {
+<<<<<<< HEAD
         axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"img name", "token":token}).then(res => {
             // console.log(res);
+=======
+        // const jwt = getJwt();
+
+        // axios.post(ip+'/users/email', {} ,{ headers: { authorization: `bearer ${jwt}` } }).then(res => {
+        //     console.log(res.data.email);
+        // }).catch(err => console.log(err));
+
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
+>>>>>>> layouts
             if (res.data == "invalid token" || res.data == "token not present"){
-                return (window.location.href = ip+"/login");
+                //eturn (window.location.href = ip+"/login");
             }
             else if (res.data[0].name){
                 var data = {}
@@ -235,6 +254,7 @@ export default class Edit extends Component {
     }
     
     onSubmit = async e => {
+        console.log(this.state.user);
             e.preventDefault();
 
             var data = {

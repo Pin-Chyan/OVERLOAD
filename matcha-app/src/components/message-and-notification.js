@@ -5,6 +5,7 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios'; 
 import { StaticRouter } from 'react-router-dom';
+import { getJwt } from "./auth/jwt-helper.js";
 
 var sesh = "lmk310500@gmail.com";
 var ip = require("../server.json").ip;
