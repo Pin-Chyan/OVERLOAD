@@ -62,9 +62,11 @@ router.route('/add').post( (req, res) => {
 });
 
 router.route('/get_spec').post( (req, res) => {
+    // console.log(req.body);
     if (req.body.token)
         if (req.body.target != "")
             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+                // console.log(docs[0]);
                 // console.log(docs[0].token);
                 // console.log(req.body.token);
                 if ((req.body.token == docs[0].token) || (req.body.token == "admin"))

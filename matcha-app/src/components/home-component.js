@@ -15,7 +15,6 @@ var sesh = decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
-var sesh = decode(localStorage.token).email;
 var nll = require("../images/chibi.jpg");
 
 
@@ -39,7 +38,8 @@ export default class Home extends Component {
 
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email":sesh.email,"target":"name last bio img","token":token}).then(res => {
+        console.log(sesh);
+        axios.post(ip+"/users/get_spec", {"email": sesh.email,"target":"name last bio img","token":token}).then(res => {
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
                 // return (window.location.href = ip+"/login");
