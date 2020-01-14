@@ -11,7 +11,7 @@ import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
 
 var token;
-var sesh = "cyko@gmail.com";
+var sesh = "";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/chibi.jpg");
