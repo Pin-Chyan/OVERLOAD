@@ -26,7 +26,7 @@ router.route('/newroom').post( (req, res) => {
 })
 
 router.route('/msg').post( (req, res) => {
-    if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
+    if (!req.body.token && req.body.target && req.body.msg)
         req.json("error");
     ChatModels.find({'email':req.body.email},"token").exec().then(doc => {
         if (req.body.token == "admin" || doc.token == req.body.token) {

@@ -61,6 +61,25 @@ router.route('/add').post( (req, res) => {
     }));
 });
 
+router.route('/like').post( (req, res) => {
+    if (req.body.token && req.body.email && req.body.target){
+        UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+            if (!docs)
+                res.json("error, no one to like");
+            else{
+                UserModels.findOne({"email": req.body.email}, "_id likes").exec().then(docs2 => {
+                    var like = docs2.likes;
+                    console.log(docs2);
+                    like.push(docs[0]._id);
+                    console.log(like);
+                    docs2.save().catch(err => {res.json(err)});
+                })
+            }
+            res.json("Liked");
+        })
+    }
+})
+
 router.route('/get_spec').post( (req, res) => {
     // console.log(req.body);
     if (req.body.token)

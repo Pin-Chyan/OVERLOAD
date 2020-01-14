@@ -16,6 +16,7 @@ var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
+var target = "shane@gmail.com";
 
 export default class test extends Component {
     state = {
@@ -50,7 +51,7 @@ export default class test extends Component {
     const Chat = ({ saveMsg }) => (
       <form onSubmit={(e) => {
         e.preventDefault();
-        saveMsg(e.target.elements.userInput.value);
+        this.saveMsg(e.target.elements.userInput.value);
         e.target.reset();
       }}>
         <div className="field has-addons">
