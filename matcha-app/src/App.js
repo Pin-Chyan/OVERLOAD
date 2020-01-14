@@ -12,6 +12,7 @@ import Authenticate from "./components/auth/auth-component.js";
 import msg from "./components/message-and-notification.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
+import test from "./components/test.js";
 // import tags from "./components/tags-input.js";
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
         <Route path="/chat" exact component={chat} />
-          <Route path="/" exact component={Home} />
+        <Route path="/test" exact component={test} />
         <Authenticate>
+          <Route path="/" exact component={Home} />
           <Route path="/edit" exact component={Edit} />
           <Route path="/user" exact component={User} />
           <Route path="/upload" exact component={upload} />
