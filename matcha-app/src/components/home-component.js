@@ -10,8 +10,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import decode from 'jwt-decode';
 
-var token = localStorage.token;
-var sesh = decode(localStorage.token);
+var token = "admin";//localStorage.token;
+var sesh = "cyko@gmail.com";//decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;

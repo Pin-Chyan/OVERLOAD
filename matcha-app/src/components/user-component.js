@@ -9,8 +9,8 @@ import { Redirect } from 'react-router-dom';
 import decode from 'jwt-decode';
 // import "../styles/debug.css";
 
-var token = localStorage.token;
-var sesh = decode(localStorage.token);
+var token = "admin";//localStorage.token;
+var sesh = "cyko@gmail.com";//decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;

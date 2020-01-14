@@ -10,8 +10,8 @@ import axios from 'axios';
 import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
 
-var token = localStorage.token;
-var sesh = decode(localStorage.token);
+var token = "admin";//localStorage.token;
+var sesh = "cyko@gmail.com";//decode(localStorage.token);
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
@@ -80,7 +80,7 @@ export default class Edit extends Component {
     }
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email": sesh.email, "target":"img name", "token":token}).then(res => {
+        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
             // console.log(res);
             if (res.data == "invalid token" || res.data == "token not present"){
                 //eturn (window.location.href = ip+"/login");
@@ -169,7 +169,7 @@ export default class Edit extends Component {
             var data = {};
             data.img = {};
             data.img[img] = 'null';
-            data.email = sesh.email;
+            data.email = sesh;
             data.token = token
             console.log("start upload");
             let req = await axios.post(ip+"/users/edit_spec", data);
@@ -194,7 +194,7 @@ export default class Edit extends Component {
                 var data = {};
                 data.img = {};
                 data.img[img_num] = reader.result;
-                data.email = sesh.email;
+                data.email = sesh;
                 data.token = token;
                 console.log("start upload");
                 var img_data = {};
