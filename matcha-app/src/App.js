@@ -13,6 +13,7 @@ import msg from "./components/message-and-notification.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
 import test from "./components/test.js";
+import logout from "./components/auth/logout";
 // import tags from "./components/tags-input.js";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/invite" exact component={invite} />
         <Route path="/chat" exact component={chat} />
         <Route path="/test" exact component={test} />
+        <Route path="/logout" exact component={logout} />
         <Authenticate>
           <Route path="/" exact component={Home} />
           <Route path="/edit" exact component={Edit} />

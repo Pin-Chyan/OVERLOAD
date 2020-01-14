@@ -10,12 +10,12 @@ import axios from 'axios';
 import { getJwt } from "./auth/jwt-helper.js";
 import { func } from 'prop-types';
 
-var token = "admin";//localStorage.token;
-var sesh = "cyko@gmail.com";//decode(localStorage.token);
+var token;
+var sesh;
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
-var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
+var ip = require("../server.json").ip;
 
 const items = [
     'Gamer',
@@ -79,35 +79,60 @@ export default class Edit extends Component {
         }
     }
 
+    get_handle(res){
+        if (res.data == "invalid token" || res.data == "token not present"){
+            return("error");
+        }
+        else if (res.data[0].name){
+            var data = {}
+            if (res.data[0].img.img1 == 'null')
+                data.img1 = nll;
+            else
+                data.img1 = res.data[0].img.img1;
+            if (res.data[0].img.img2 == 'null')
+                data.img2 = nll;
+            else
+                data.img2 = res.data[0].img.img2;
+            if (res.data[0].img.img3 == 'null')
+                data.img3 = nll;
+            else
+                data.img3 = res.data[0].img.img3;
+            if (res.data[0].img.img4 == 'null')
+                data.img4 = nll;
+            else
+                data.img4 = res.data[0].img.img4;
+            if (res.data[0].img.img5 == 'null')
+                data.img5 = nll;
+            else
+                data.img5 = res.data[0].img.img5;
+            return(data);
+        }
+        return("error");
+    }
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name", "token":token}).then(res => {
-            // console.log(res);
-            if (res.data == "invalid token" || res.data == "token not present"){
-                //eturn (window.location.href = ip+"/login");
+        const jwt = localStorage.token;
+        token = localStorage.token;
+        console.log(jwt);
+        async function lol(){
+            if (jwt) {
+                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
+                if (prom.status == 200){
+                    console.log(prom.data.email);
+                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img","token":jwt});
+                    return(prom2);
+                }
+            } else {
+                return ("error");
+                // console.log('no token');
             }
-            else if (res.data[0].name){
-                var data = {}
-                if (res.data[0].img.img1 == 'null')
-                    data.img1 = nll;
-                else
-                    data.img1 = res.data[0].img.img1;
-                if (res.data[0].img.img2 == 'null')
-                    data.img2 = nll;
-                else
-                    data.img2 = res.data[0].img.img2;
-                if (res.data[0].img.img3 == 'null')
-                    data.img3 = nll;
-                else
-                    data.img3 = res.data[0].img.img3;
-                if (res.data[0].img.img4 == 'null')
-                    data.img4 = nll;
-                else
-                    data.img4 = res.data[0].img.img4;
-                if (res.data[0].img.img5 == 'null')
-                    data.img5 = nll;
-                else
-                    data.img5 = res.data[0].img.img5;
-                this.setState(data);
+            // console.log(sesh);
+        }
+        lol().then(res => {
+            if (res !== "error"){
+                var data = this.get_handle(res);
+                sesh = data.email;
+                if (data !== "error")
+                    this.setState(data);
             }
         });
     }
@@ -159,7 +184,6 @@ export default class Edit extends Component {
         var data = {};
         data["selectedFile" + event.target.id] = event.target;
         this.setState(data);
-        // console.log(event.target.files[0]);
     }
     globalrm(img){
         var img_data = {};
@@ -200,6 +224,7 @@ export default class Edit extends Component {
                 var img_data = {};
                 img_data[img_num] = load;
                 this.setState(img_data);
+                console.log(data);
                 let req = await axios.post(ip+"/users/edit_spec", data);
                 console.log(req);
                 if (req.status == 200){
@@ -304,6 +329,7 @@ export default class Edit extends Component {
                         <Link to="/" className="navbar-item has-text-info">Home</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
                         <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
+                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
                     </div>
                 </div>
             </div>
