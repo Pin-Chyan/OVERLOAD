@@ -27,6 +27,7 @@ export default class Home extends Component {
             name: '',
             last: '',
             display: load,
+            target: 'meave@gmail.com',
             bio: '',
             images: [],
             img1: nll,
@@ -100,6 +101,7 @@ export default class Home extends Component {
             }
         });
     }
+
     
     render () {
         return (
