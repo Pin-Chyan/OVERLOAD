@@ -87,7 +87,7 @@ export default class Home extends Component {
     componentDidMount () {
         const jwt = localStorage.token;
         console.log(jwt);
-        async function lol(){
+        async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
@@ -101,7 +101,7 @@ export default class Home extends Component {
             }
             console.log(sesh);
         }
-        lol().then(res => {
+        get_userdata().then(res => {
             if (res !== "error"){
                 var data = this.get_handle(res)
                 if (data !== "error")
