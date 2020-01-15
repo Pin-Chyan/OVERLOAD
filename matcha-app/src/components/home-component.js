@@ -38,8 +38,12 @@ export default class Home extends Component {
         };
     }
 
-    onChangeTest() {
-        console.log(this.state.target);
+    globalbtn_handler = (e) => {
+        var button = e.target.id;
+        e.persist();
+        console.log("This is the button ID you clicked");
+        console.log(button);
+        console.log(e.currentTarget.value);
     }
 
     get_handle(res){
@@ -60,19 +64,19 @@ export default class Home extends Component {
                     data.img1 = res.data[0].img.img1;
                     data.display = res.data[0].img.img1;
                 }
-                if (res.data[0].img.img2)
+                if (res.data[0].img.img2 == 'null')
                     data.img2 = nll;
                 else
                     data.img2 = res.data[0].img.img2;
-                if (res.data[0].img.img3)
+                if (res.data[0].img.img3 == 'null')
                     data.img3 = nll;
                 else
                     data.img3 = res.data[0].img.img3;
-                if (res.data[0].img.img4)
+                if (res.data[0].img.img4 == 'null')
                     data.img4 = nll;
                 else
                     data.img4 = res.data[0].img.img4;
-                if (res.data[0].img.img5)
+                if (res.data[0].img.img5 == 'null')
                     data.img5 = nll;
                 else
                     data.img5 = res.data[0].img.img5;
@@ -83,7 +87,7 @@ export default class Home extends Component {
     componentDidMount () {
         const jwt = localStorage.token;
         console.log(jwt);
-        async function lol(){
+        async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
@@ -97,7 +101,7 @@ export default class Home extends Component {
             }
             console.log(sesh);
         }
-        lol().then(res => {
+        get_userdata().then(res => {
             if (res !== "error"){
                 var data = this.get_handle(res)
                 if (data !== "error")
@@ -166,33 +170,29 @@ export default class Home extends Component {
                                 </div>
                             </Carousel>
                         </figure>
-                        <div className="column center_b">
-                            <button className="button is-warning" onClick={this.onChangeTest}>
+                        <div className="column center_b" onClick={e => this.globalbtn_handler(e)}>
+                            <button id="2" value="Prev" className="button is-warning">
                                 <span className="icon">
                                     <i className="fa fa-arrow-left"></i>
                                 </span>
                             </button>
-                            <button className="button is-danger">
+                            <button id="2" value="Next" className="button is-danger">
                                 <span className="icon">
                                     <i className="fa fa-times"></i>
                                 </span>
                             </button>
-                            <button className="button is-primary">
-                                <span className="icon is-small">
-                                    <i className="fa fa-star"></i>
-                                </span>
-                            </button>
-                            <button className="button is-success">
+                            <button id="2" value="Like" className="button is-success">
                                 <span className="icon is-small">
                                     <i className="fa fa-heart"></i>
                                 </span>
                             </button>
-                            <button className="button is-hovered">
+                            <button id="2" value="Report" className="button is-hovered">
                                 <span className="icon is-small">
                                     <i className="fa fa-exclamation"></i>
                                 </span>
                             </button>
-                    </div>
+                        </div>
+    
                         <div className="column center">
                         <div className="column center">
                 <article className="media center">

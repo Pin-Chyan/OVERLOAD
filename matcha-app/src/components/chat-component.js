@@ -93,7 +93,7 @@ export default class cons extends Component {
         </nav>
         {/* <div className="container"> */}
             <div className="columns is-centered shadow">
-                <div className="columns bg_white">
+                <div className="columns bg_white_1">
                     <div className="column left">
                         <article className="media center">
                             <figure className="media-left">
@@ -138,19 +138,15 @@ export default class cons extends Component {
                 </div>
 
 
-                            <div className="hero-body">
-                            <Messages chat={this.state.chat} />
-                            </div>
-                            <div className="hero-foot">
-                            <footer className="section is-small">
-                                <Chat saveMsg={this.saveMsg} />
-                            </footer>
-                            </div>
-
-
-
-
-                    
+                    <div className="hero-body">
+                    <Messages chat={this.state.chat} />
+                    </div>
+                    <div className="hero-foot">
+                    <footer className="section is-small">
+                        <Chat saveMsg={this.saveMsg} />
+                    </footer>
+                    </div>
+        
         {/* </div> */}
     </section>
         )
@@ -164,10 +160,10 @@ const Chat = ({ saveMsg }) => (
       e.target.reset();
     }}>
       <div className="field has-addons">
-        <div className="control chat-c">
+        <div className="control chat-t">
           <input className="input" name="userInput" type="text" placeholder="Type your message" />
         </div>
-        <div className="control">
+        <div className="control chat-e">
           <button className="button is-info">
             Send
           </button>

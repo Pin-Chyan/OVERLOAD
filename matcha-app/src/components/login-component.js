@@ -132,6 +132,7 @@ export default class Register extends Component {
                             </div>
                             <div className="control">
                                 <Link to="/register" className="button borrow-btn has-text-info">Register</Link>
+                                <Link to="/forgot" className="button borrow-btn has-text-info">Forgot password?</Link>
                             </div>
                         </div>
 

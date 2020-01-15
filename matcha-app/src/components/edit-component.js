@@ -31,6 +31,7 @@ export default class Edit extends Component {
 
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeLast = this.onChangeLast.bind(this);
         this.onChangeSurname = this.onChangeSurname.bind(this);
         this.onChangePwd = this.onChangePwd.bind(this);
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
@@ -38,7 +39,7 @@ export default class Edit extends Component {
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
-        this.onChangeTags = this.onChangeTags.bind(this);
+        this.onChangeTag = this.onChangeTag.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
 
         this.state = {
@@ -79,6 +80,26 @@ export default class Edit extends Component {
         }
     }
 
+    tag_handle(tag_arr, new_tag, mode){
+        if (mode === "upload"){
+            var tag  = tag_arr;
+            new_tag = new_tag.trim();
+            if (!tag.find(function (res){return res == new_tag;}) && new_tag != ""){
+                tag.push(new_tag);
+                return (tag);
+            }
+            return (tag);
+        } else if (mode === "delete") {
+            var tag  = tag_arr;
+            new_tag = new_tag.trim();
+            if (tag.find(function (res){return res == new_tag;}) && new_tag != ""){
+                var pos = tag.findIndex(function (res){return res == new_tag;});
+                tag.splice(pos,1);
+                return (tag);
+            }
+            return (tag);
+        }
+    }
     get_handle(res){
         if (res.data == "invalid token" || res.data == "token not present"){
             return("error");
@@ -88,6 +109,8 @@ export default class Edit extends Component {
             data.email = res.data[0].email;
             data.name = res.data[0].name;
             data.bio = res.data[0].bio;
+            data.tag = res.data[0].tag.toString();
+            data.tag_arr = res.data[0].tag;
             if (res.data[0].img.img1 == 'null')
                 data.img1 = nll;
             else
@@ -116,13 +139,13 @@ export default class Edit extends Component {
         const jwt = localStorage.token;
         token = localStorage.token;
         console.log(jwt);
-        async function lol(){
+        async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
                     sesh = prom.data.email;
                     console.log(prom.data.email);
-                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img email","token":jwt});
+                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img email tag","token":jwt});
                     return(prom2);
                 }
             } else {
@@ -131,10 +154,11 @@ export default class Edit extends Component {
             }
             // console.log(sesh);
         }
-        lol().then(res => {
+        get_userdata().then(res => {
             if (res !== "error"){
                 var data = this.get_handle(res);
                 console.log(data);
+                console.log(res);
                 sesh = data.email;
                 if (data !== "error")
                     this.setState(data);
@@ -145,6 +169,18 @@ export default class Edit extends Component {
     onChangeName(e) {
         this.setState({
             new_name: e.target.value
+        });
+    }
+
+    onChangeTag(e) {
+        this.setState({
+            new_tag: e.target.value
+        });
+    }
+
+    onChangeLast(e) {
+        this.setState({
+            new_last: e.target.value
         });
     }
 
@@ -194,7 +230,7 @@ export default class Edit extends Component {
         var img_data = {};
         img_data[img] = load;
         this.setState(img_data);
-        async function ok() {
+        async function async_edit() {
             var data = {};
             data.img = {};
             data.img[img] = 'null';
@@ -205,7 +241,7 @@ export default class Edit extends Component {
             if (req.status == 200)
                 return (1);
         }
-        ok().then( res => {
+        async_edit().then( res => {
             img_data[img] = nll;
             this.setState(img_data);
         });
@@ -250,24 +286,24 @@ export default class Edit extends Component {
             });
     }
 
-
-    onChangeTags = e => {
-        let newTags = this.state.tags.slice();
-
-        if (newTags.indexOf(e.target.value) === -1) {
-            newTags.push(e.target.value);
-        } else {
-            newTags.splice(newTags.indexOf(e.target.value), 1);
-        }
-        this.setState({
-                tags: newTags
-        });
-    }
-
+    
     onChangeAge(e) {
         this.setState({
                 age: e.target.value
             });
+    }
+
+    onTagSubmit = e => {
+        console.log(e.target.id);
+        if (this.state.new_tag)
+            var new_tag = this.state.new_tag;
+        else
+            var new_tag = '';
+        var res = this.tag_handle(this.state.tag_arr,new_tag,e.target.id);
+        console.log(res);
+        axios.post(ip+"/users/edit_spec", {"email": sesh,"token":token, "tag":res});
+        this.setState({tag:res.toString()});
+        // this.forceUpdate();
     }
     
     onSubmit = async e => {
@@ -279,30 +315,29 @@ export default class Edit extends Component {
                 "token" : localStorage.token
             };
 
-            if (this.state.name){
-                data.name = this.state.new_name;
+            if (this.state.new_name){
+                data.name = this.state.new_name.trim();
             }
-            // if (this.state.email){
-            //     data.new_email = this.state.new_email;
-            // }
+            if (this.state.new_last){
+                data.last = this.state.new_last;
+            }
             if (this.state.sexual_pref){
                 data.sexual_pref = this.state.sexual_pref;
             }
             if (this.state.bio){
                 data.bio = this.state.bio;
             }
-            if (this.state.tags) {
-                data.tags = this.state.tags;
-            }
-
             console.log(data);
             axios.post(ip+"/users/edit_spec", data);
-            if (this.state.new_email !== ''){
+            this.setState(data);
+            // console.log(this.state.new_email);
+            if (this.state.new_email){
                 var tester = this.state.new_email;
                 if (tester.match(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/)){
                     axios.post(ip+"/users/email", {"email":this.state.new_email}).then(res => {
                     if (res.data.present !== 1){
                         data.target = "password";
+                        console.log(this.state.email);
                         console.log("new email");
                         console.log(this.state.new_email);
                         axios.post(ip+"/users/get_spec", data).then(docs => {
@@ -345,18 +380,7 @@ export default class Edit extends Component {
                     this.setState({new_email:"invalid email"});
                 }
         }
-            
-            this.setState({
-                    surname: '',
-                    pwd: '',
-                    pwdCon: '',
-                    gender: '',
-                    sexual_pref: '',
-                    tags: '',
-                    imgSet: '',
-                    registered: true,
-                });
-        }
+    }
     render () {
         return (
         <section className="section hero">
@@ -553,63 +577,15 @@ export default class Edit extends Component {
                             </div>
                         </div>
                         <div className="field">
+                            <label className="label">Current Surname: {this.state.last}</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input" type="email" placeholder="New Name" value={this.state.new_last} onChange={this.onChangeLast} required />
+                            </div>
+                        </div>
+                        <div className="field">
                             <label className="label">Update Bio</label>
                             <div className="control has-icons-left has-icons-right">
                                 <input className="input" type="text" placeholder="New bio" value={this.state.bio} onChange={this.onChangebio} required />
-                            </div>
-                        </div>
-
-{/* 
-                        <div className="field">
-                            <label className="label">Sexual Preference</label>
-                            <div className="control">
-                                <label className="radio">
-                                    <input type="radio" name="question" value="male" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'male'}/>
-                                    Male
-                                </label>
-                                <label className="radio">
-                                    <input type="radio" name="question" value="female" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'female'}/>
-                                    Female
-                                </label>
-                                <label className="radio">
-                                    <input type="radio" name="question" value="bisexual" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'bisexual'}/>
-                                    Bisexual
-                                </label>
-                            </div>
-                        </div> */}
-
-                        <div class="field">
-                            <label className="label">Selectable Tags:</label>
-                            <div className="control">
-                                {/* <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="male" onChange={this.onChangeTags} checked={this.state.tags === 'male'} />
-                                <label>
-                                    #Gamer
-                                </label> */}
-
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Sports" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Sports') !== -1} />
-                                <label>
-                                    #Sports
-                                </label>
-
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Adventurer" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Adventurer') !== -1} />
-                                <label>
-                                    #Adventurer
-                                </label>
-
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Funny" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Funny') !== -1} />
-                                <label>
-                                    #Funny
-                                </label>
-
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Outside" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Outside') !== -1} />
-                                <label>
-                                    #Outdoors
-                                </label>
-
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Love" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Love') !== -1} />
-                                <label>
-                                    #Love
-                                </label>
                             </div>
                         </div>
 
@@ -621,6 +597,43 @@ export default class Edit extends Component {
                                 <button className="button is-warning is-rounded is-light">Cancel</button>
                             </div>
                         </div>
+                        {/* 
+                        <div className="field">
+                        <label className="label">Sexual Preference</label>
+                        <div className="control">
+                        <label className="radio">
+                        <input type="radio" name="question" value="male" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'male'}/>
+                        Male
+                                </label>
+                                <label className="radio">
+                                <input type="radio" name="question" value="female" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'female'}/>
+                                Female
+                                </label>
+                                <label className="radio">
+                                <input type="radio" name="question" value="bisexual" onChange={this.onChangeSexual_pref} checked={this.state.sexual_pref === 'bisexual'}/>
+                                Bisexual
+                                </label>
+                                </div>
+                            </div> */}
+
+                        <div class="field">
+                            <label className="label">Current Tags: {this.state.tag}</label>
+                            <div className="control">
+                                <div className="field">
+                                    <label className="label">Tag Name</label>
+                                    <div className="control has-icons-left has-icons-right">
+                                        <input className="input" type="text" placeholder="New bio" value={this.state.new_tag} onChange={this.onChangeTag} required />
+                                    </div>
+                                </div>
+                                <div className="field is-grouped">
+                                    <div className="control" onClick={this.onTagSubmit}>
+                                        <button id="upload" className="button is-warning is-rounded">Change</button>
+                                        <button id="delete" className="button is-warning is-rounded">delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         
                         </div>
                     </div>

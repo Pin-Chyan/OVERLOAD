@@ -94,8 +94,18 @@
     justify-content: left !important;
 }
 
-.chat-c {
+.chat-t {
     margin: center;
+    flex-grow: 0 !important;
+    left: 50%;
+    margin-left: -120px;
+}
+
+.chat-e {
+    margin: center;
+    flex-grow: 0 !important;
+    left: 50%;
+    /* margin-left: -50px; */
 }
 
 
