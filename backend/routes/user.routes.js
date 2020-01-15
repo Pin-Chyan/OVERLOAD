@@ -154,7 +154,6 @@ router.route('/get_spec').post( (req, res) => {
 router.route('/get_next').post( (req, res) => {
     // console.log(req.body);
     if (req.body.token)
-        if (req.body.target != "")
             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
                 if ((req.body.token == docs[0].token) || (req.body.token == "admin")){
                     UserModels.find({},"img email name tag like last bio").exec().then(doc2 => {
@@ -179,8 +178,6 @@ router.route('/get_next').post( (req, res) => {
             }).catch(err => {console.log(err)})
         else
             res.json("no target");
-    else
-        res.json("token not present");
 })
 
 router.post('/getEmail', verifyToken, (req, res) => {
