@@ -31,6 +31,7 @@ export default class Edit extends Component {
 
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeLast = this.onChangeLast.bind(this);
         this.onChangeSurname = this.onChangeSurname.bind(this);
         this.onChangePwd = this.onChangePwd.bind(this);
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
@@ -145,6 +146,12 @@ export default class Edit extends Component {
     onChangeName(e) {
         this.setState({
             new_name: e.target.value
+        });
+    }
+
+    onChangeLast(e) {
+        this.setState({
+            new_last: e.target.value
         });
     }
 
@@ -279,12 +286,12 @@ export default class Edit extends Component {
                 "token" : localStorage.token
             };
 
-            if (this.state.name){
-                data.name = this.state.new_name;
+            if (this.state.new_name){
+                data.name = this.state.new_name.trim();
             }
-            // if (this.state.email){
-            //     data.new_email = this.state.new_email;
-            // }
+            if (this.state.new_last){
+                data.last = this.state.new_last;
+            }
             if (this.state.sexual_pref){
                 data.sexual_pref = this.state.sexual_pref;
             }
@@ -294,10 +301,11 @@ export default class Edit extends Component {
             if (this.state.tags) {
                 data.tags = this.state.tags;
             }
-
             console.log(data);
             axios.post(ip+"/users/edit_spec", data);
-            if (this.state.new_email !== ''){
+            this.setState(data);
+            console.log(this.state.new_email);
+            if (this.state.new_email){
                 var tester = this.state.new_email;
                 if (tester.match(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/)){
                     axios.post(ip+"/users/email", {"email":this.state.new_email}).then(res => {
@@ -550,6 +558,12 @@ export default class Edit extends Component {
                             <label className="label">Current Name: {this.state.name}</label>
                             <div className="control has-icons-left has-icons-right">
                                 <input className="input" type="email" placeholder="New Name" value={this.state.new_name} onChange={this.onChangeName} required />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">Current Surname: {this.state.last}</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input" type="email" placeholder="New Name" value={this.state.new_last} onChange={this.onChangeLast} required />
                             </div>
                         </div>
                         <div className="field">

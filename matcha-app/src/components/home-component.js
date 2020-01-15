@@ -56,19 +56,19 @@ export default class Home extends Component {
                     data.img1 = res.data[0].img.img1;
                     data.display = res.data[0].img.img1;
                 }
-                if (res.data[0].img.img2)
+                if (res.data[0].img.img2 == 'null')
                     data.img2 = nll;
                 else
                     data.img2 = res.data[0].img.img2;
-                if (res.data[0].img.img3)
+                if (res.data[0].img.img3 == 'null')
                     data.img3 = nll;
                 else
                     data.img3 = res.data[0].img.img3;
-                if (res.data[0].img.img4)
+                if (res.data[0].img.img4 == 'null')
                     data.img4 = nll;
                 else
                     data.img4 = res.data[0].img.img4;
-                if (res.data[0].img.img5)
+                if (res.data[0].img.img5 == 'null')
                     data.img5 = nll;
                 else
                     data.img5 = res.data[0].img.img5;
