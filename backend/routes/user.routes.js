@@ -151,6 +151,38 @@ router.route('/get_spec').post( (req, res) => {
         res.json("token not present");
 })
 
+router.route('/get_next').post( (req, res) => {
+    // console.log(req.body);
+    if (req.body.token)
+        if (req.body.target != "")
+            UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+                if ((req.body.token == docs[0].token) || (req.body.token == "admin")){
+                    UserModels.find({},"img email name tag like last").exec().then(doc2 => {
+                        var data = {};
+                        data.max = doc2.length;
+                        var pos = req.body.position;
+                        if (doc2.find(function (res){return res.email == req.body.email;}))
+                            data.max--;
+                        if (doc2[pos].email == req.body.email){
+                            if (pos + 1 > data.max)
+                                res.json("end");
+                            else
+                                pos++;
+                        }
+                        data.ret = doc2[pos];
+                        // doc2[pos].max = data.max;
+                        res.json(data);
+                    }).catch(err => {console.log(err)})
+                }
+                else
+                    res.json("invalid token");
+            }).catch(err => {console.log(err)})
+        else
+            res.json("no target");
+    else
+        res.json("token not present");
+})
+
 router.post('/getEmail', verifyToken, (req, res) => {
     if (!req.token) {
         res.sendStatus(403);
@@ -216,7 +248,7 @@ router.route('/edit_spec').post( (req, res) => {
                         if (req.body.img.img5)
                             doc.img.img5 = req.body.img.img5;
                     }
-                    sleep(2000);
+                    // sleep(2000);
                     doc.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
                 })
             }
