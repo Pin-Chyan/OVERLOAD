@@ -135,12 +135,18 @@ router.route('/get_spec').post( (req, res) => {
 })
 
 router.post('/getEmail', verifyToken, (req, res) => {
+    if (!req.token) {
+        res.sendStatus(403);
+    }
     jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
         if (err) {
             res.sendStatus(403);
         } else {
             UserModels.find({ "email": decoded.email}).exec().then(docs => {
-                res.json({email: decoded.email});
+                if (!docs[0]) {
+                    res.sendStatus(404);
+                }
+                res.json({ email: docs[0].email });
             })
         }
     })

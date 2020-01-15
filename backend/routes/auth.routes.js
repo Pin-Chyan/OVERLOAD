@@ -5,11 +5,6 @@ const verifyToken = require('../auth/auth.middleware');
 let UserModels = require('../models/user.models.js');
 require('dotenv').config();
 
-//TODO: Add protection to check if user is logged in
-router.post('/validate', (req, res) => {
-    res.json({email: 'testmail'});
-});
-
 router.post('/getToken', (req, res) => {
     const { email, password } = req.body;
 
@@ -17,13 +12,12 @@ router.post('/getToken', (req, res) => {
         return res.send({ resCode: 2 });
     }
 
-    UserModels.find({ "email" : email }, ["verif", "password"]).exec().then(data => {
+    UserModels.find({ "email" : email }, ["verified", "password"]).exec().then(data => {
         if (data.length === 0) {
             return res.send({ resCode: 1});
         }
-        // TODO: replace false with result[0].verif === 0 when email verification works
-        if (false) {
-            return res.send('not verified');
+        if (data[0].verified === false) {
+            return res.send({ resCode: 3 });
         }
 
         bcrypt.compare(password, data[0].password, function(err, result) {

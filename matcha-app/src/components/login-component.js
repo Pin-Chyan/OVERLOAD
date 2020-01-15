@@ -45,6 +45,8 @@ export default class Register extends Component {
 
                 if (res.data.resCode === 1) {
                     this.setState({ emailErr: "Email or Password incorrect" });
+                } else if (res.data.resCode) {
+                    this.setState({ emailErr: "Email has not been confirmed!" });
                 } else {
                     localStorage.setItem('token', res.data.token);
                     this.props.history.push('/');
