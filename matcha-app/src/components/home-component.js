@@ -27,6 +27,7 @@ export default class Home extends Component {
             sesh: '',
             name: '',
             last: '',
+            position: 0,
             display: load,
             target: 'meave@gmail.com',
             bio: '',
@@ -41,7 +42,7 @@ export default class Home extends Component {
 
     globalbtn_handler(e){
         var buttonval = e.target.value;
-        var count = 0 + this.state.position;
+        var count = this.state.position;
         console.log(buttonval);
         async function async_hell() {
             var data = {};
@@ -54,43 +55,44 @@ export default class Home extends Component {
             data.position = count;
             console.log("starting if's");
             if (buttonval == "Next"){
-                let req = await axios.post(ip+"/user/next", data);
+                let req = await axios.post(ip+"/users/get_next", data);
                 if (req.status == 200){
                     var res = {};
                     res.img = {};
-                    res.target = req.ret.email;
-                    res.img.img1 = req.ret.img.img1;
-                    res.img.img2 = req.ret.img.img2;
-                    res.img.img3 = req.ret.img.img3;
-                    res.img.img4 = req.ret.img.img4;
-                    res.img.img5 = req.ret.img.img5;
+                    res.target = req.data.ret.email;
+                    res.img.img1 = req.data.ret.img.img1;
+                    res.img.img2 = req.data.ret.img.img2;
+                    res.img.img3 = req.data.ret.img.img3;
+                    res.img.img4 = req.data.ret.img.img4;
+                    res.img.img5 = req.data.ret.img.img5;
                     res.position = data.position + 1;
-                    res.bio = req.ret.bio;
-                    res.name = req.ret.name;
-                    res.surname = req.ret.surname;
-                    res.tag = req.ret.tag;
-                    this.setstate(res);
+                    res.bio = req.data.ret.bio;
+                    res.name = req.data.ret.name;
+                    res.surname = req.data.ret.surname;
+                    res.tag = req.data.ret.tag;
+                    this.setState(res);
+                    console.log(this.state.target);
                 }
                 console.log("first if came true");
             }
             else if (buttonval == "Prev"){
                 data.position = count - 2;
-                let req = await axios.post(ip+"/user/next", data);
+                let req = await axios.post(ip+"/users/get_next", data);
                 if (req.status == 200){
                     var res = {};
                     res.img = {};
-                    res.target = req.ret.email;
-                    res.img.img1 = req.ret.img.img1;
-                    res.img.img2 = req.ret.img.img2;
-                    res.img.img3 = req.ret.img.img3;
-                    res.img.img4 = req.ret.img.img4;
-                    res.img.img5 = req.ret.img.img5;
+                    res.target = req.data.ret.email;
+                    res.img.img1 = req.data.ret.img.img1;
+                    res.img.img2 = req.data.ret.img.img2;
+                    res.img.img3 = req.data.ret.img.img3;
+                    res.img.img4 = req.data.ret.img.img4;
+                    res.img.img5 = req.data.ret.img.img5;
                     res.position = data.position + 1;
-                    res.bio = req.ret.bio;
-                    res.name = req.ret.name;
-                    res.surname = req.ret.surname;
-                    res.tag = req.ret.tag;
-                    this.setstate(res);
+                    res.bio = req.data.ret.bio;
+                    res.name = req.data.ret.name;
+                    res.surname = req.data.ret.surname;
+                    res.tag = req.data.ret.tag;
+                    this.setState(res);
                 }
             }
             else if (buttonval == "Like"){
@@ -101,25 +103,35 @@ export default class Home extends Component {
                     if (req.data == "Already Liked!")
                         console.log("Already Liked!");
                     else {
-                        console.log("started the next route");
-                        let req = await axios.post(ip+"/user/next", data);
+                        console.log(data);
+                        let req = await axios.post(ip+"/users/get_next", data);
                         if (req.status == 200){
                             var res = {};
                             res.img = {};
-                            res.target = req.ret.email;
-                            res.img.img1 = req.ret.img.img1;
-                            res.img.img2 = req.ret.img.img2;
-                            res.img.img3 = req.ret.img.img3;
-                            res.img.img4 = req.ret.img.img4;
-                            res.img.img5 = req.ret.img.img5;
+                            res.target = req.data.ret.email;
+                            res.img.img1 = req.data.ret.img.img1;
+                            res.img.img2 = req.data.ret.img.img2;
+                            res.img.img3 = req.data.ret.img.img3;
+                            res.img.img4 = req.data.ret.img.img4;
+                            res.img.img5 = req.data.ret.img.img5;
                             res.position = data.position + 1;
-                            res.bio = req.ret.bio;
-                            res.name = req.ret.name;
-                            res.surname = req.ret.surname;
-                            res.tag = req.ret.tag;
-                            this.setstate(res);
+                            res.bio = req.data.ret.bio;
+                            res.name = req.data.ret.name;
+                            res.surname = req.data.ret.surname;
+                            res.tag = req.data.ret.tag;
+                            console.log(res);
+                            this.setState(res);
                         }
                     }
+                }
+            }
+            else if (buttonval == "Unlike"){
+                console.log("unliking");
+                let req = await axios.post(ip+"/user/Del_like", data);
+                console.log(req.status);
+                if (req.status == 200){
+                    console.log(req);
+                    console.log("Unliked");
                 }
             }
             else if (buttonval == "Report"){
@@ -167,6 +179,7 @@ export default class Home extends Component {
                     data.img5 = res.data[0].img.img5;
                 return(data);
             }
+            data.position = 0;
     }
     
     componentDidMount () {
@@ -260,7 +273,8 @@ export default class Home extends Component {
                             <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
                             <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                            <button id="4" value="Report" className="button is-hovered fa fa-exclamation"></button>
+                            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
                         </div>
     
                         <div className="column center">
