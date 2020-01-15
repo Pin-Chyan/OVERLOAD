@@ -17,6 +17,25 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+router.route('/sendResetLink').post((req, res) => {
+    const { email } = req.body;
+
+    let mailOptions = {
+        from: mailData.email,
+        to: email,
+        subject: 'Password Reset',
+        //TODO: Change to goto reset password page
+        html: `<h2>Please click <a href="http://localhost:3000/"> here </a> to reset your password.</h2><p>`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            res.status(400).send(error);
+        }
+    });
+    res.send('email sent');
+});
+
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
@@ -26,7 +45,6 @@ router.route('/add').post( (req, res) => {
     const email = req.body.email;
     const verif = 0; 
     const sexual_pref = req.body.sexual_pref;
-    //TODO: generate a unique key
     const vKey = md5(email+Date.now());
     const verified = false;
 
@@ -46,7 +64,6 @@ router.route('/add').post( (req, res) => {
         from: mailData.email,
         to: newUser.email,
         subject: 'Account Verification',
-        //TODO: Change to localhost:300
         html: `<h2>Please click <a href="http://localhost:3000/verify/${vKey}"> here </a> to verify your account</h2><p>`
     };
     
