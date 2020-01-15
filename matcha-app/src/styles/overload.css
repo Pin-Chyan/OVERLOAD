@@ -78,7 +78,20 @@
 }
 
 .chat-box {
-    width: 500px;
+    background: white;
+    margin: auto;
+    width: 40%;
+    height: 500px;
+    overflow-y: scroll;
 }
+
+.chat-wrap {
+    width: 70%;
+    /* height: auto; */
+    height: none !important;
+    white-space: none !important;
+}
+
+
 
 /*  */
