@@ -16,6 +16,7 @@ var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
 let sesh = undefined;
+var target = "meave@gmail.com";
 
 
 export default class Home extends Component {
@@ -26,6 +27,7 @@ export default class Home extends Component {
             sesh: '',
             name: '',
             last: '',
+            position: 0,
             display: load,
             target: 'meave@gmail.com',
             bio: '',
@@ -38,12 +40,107 @@ export default class Home extends Component {
         };
     }
 
-    globalbtn_handler = (e) => {
-        var button = e.target.id;
-        e.persist();
-        console.log("This is the button ID you clicked");
-        console.log(button);
-        console.log(e.currentTarget.value);
+    globalbtn_handler(e){
+        var buttonval = e.target.value;
+        var count = this.state.position;
+        console.log(buttonval);
+        async function async_hell() {
+            var data = {};
+            data.img = {};
+            console.log(sesh);
+            console.log(token);
+            data.email = sesh;
+            data.token = "admin";
+            data.target = target;
+            data.position = count;
+            console.log("starting if's");
+            if (buttonval == "Next"){
+                let req = await axios.post(ip+"/users/get_next", data);
+                if (req.status == 200){
+                    var res = {};
+                    res.img = {};
+                    res.target = req.data.ret.email;
+                    res.img.img1 = req.data.ret.img.img1;
+                    res.img.img2 = req.data.ret.img.img2;
+                    res.img.img3 = req.data.ret.img.img3;
+                    res.img.img4 = req.data.ret.img.img4;
+                    res.img.img5 = req.data.ret.img.img5;
+                    res.position = data.position + 1;
+                    res.bio = req.data.ret.bio;
+                    res.name = req.data.ret.name;
+                    res.surname = req.data.ret.surname;
+                    res.tag = req.data.ret.tag;
+                    this.setState(res);
+                    console.log(this.state.target);
+                }
+                console.log("first if came true");
+            }
+            else if (buttonval == "Prev"){
+                data.position = count - 2;
+                let req = await axios.post(ip+"/users/get_next", data);
+                if (req.status == 200){
+                    var res = {};
+                    res.img = {};
+                    res.target = req.data.ret.email;
+                    res.img.img1 = req.data.ret.img.img1;
+                    res.img.img2 = req.data.ret.img.img2;
+                    res.img.img3 = req.data.ret.img.img3;
+                    res.img.img4 = req.data.ret.img.img4;
+                    res.img.img5 = req.data.ret.img.img5;
+                    res.position = data.position + 1;
+                    res.bio = req.data.ret.bio;
+                    res.name = req.data.ret.name;
+                    res.surname = req.data.ret.surname;
+                    res.tag = req.data.ret.tag;
+                    this.setState(res);
+                }
+            }
+            else if (buttonval == "Like"){
+                console.log("running like route");
+                let req = await axios.post(ip+"/users/like", data);
+                if (req.status == 200){
+                    console.log(req);
+                    if (req.data == "Already Liked!")
+                        console.log("Already Liked!");
+                    else {
+                        console.log(data);
+                        let req = await axios.post(ip+"/users/get_next", data);
+                        if (req.status == 200){
+                            var res = {};
+                            res.img = {};
+                            res.target = req.data.ret.email;
+                            res.img.img1 = req.data.ret.img.img1;
+                            res.img.img2 = req.data.ret.img.img2;
+                            res.img.img3 = req.data.ret.img.img3;
+                            res.img.img4 = req.data.ret.img.img4;
+                            res.img.img5 = req.data.ret.img.img5;
+                            res.position = data.position + 1;
+                            res.bio = req.data.ret.bio;
+                            res.name = req.data.ret.name;
+                            res.surname = req.data.ret.surname;
+                            res.tag = req.data.ret.tag;
+                            console.log(res);
+                            this.setState(res);
+                        }
+                    }
+                }
+            }
+            else if (buttonval == "Unlike"){
+                console.log("unliking");
+                let req = await axios.post(ip+"/user/Del_like", data);
+                console.log(req.status);
+                if (req.status == 200){
+                    console.log(req);
+                    console.log("Unliked");
+                }
+            }
+            else if (buttonval == "Report"){
+                console.log("reported!");
+            }
+            else
+                console.log("you missed the button!");
+        }
+        async_hell();
     }
 
     get_handle(res){
@@ -82,6 +179,7 @@ export default class Home extends Component {
                     data.img5 = res.data[0].img.img5;
                 return(data);
             }
+            data.position = 0;
     }
     
     componentDidMount () {
@@ -92,6 +190,7 @@ export default class Home extends Component {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
                     console.log(prom.data.email);
+                    sesh = prom.data.email;
                     let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img","token":jwt});
                     return(prom2);
                 }
@@ -170,27 +269,12 @@ export default class Home extends Component {
                                 </div>
                             </Carousel>
                         </figure>
-                        <div className="column center_b" onClick={e => this.globalbtn_handler(e)}>
-                            <button id="2" value="Prev" className="button is-warning">
-                                <span className="icon">
-                                    <i className="fa fa-arrow-left"></i>
-                                </span>
-                            </button>
-                            <button id="2" value="Next" className="button is-danger">
-                                <span className="icon">
-                                    <i className="fa fa-times"></i>
-                                </span>
-                            </button>
-                            <button id="2" value="Like" className="button is-success">
-                                <span className="icon is-small">
-                                    <i className="fa fa-heart"></i>
-                                </span>
-                            </button>
-                            <button id="2" value="Report" className="button is-hovered">
-                                <span className="icon is-small">
-                                    <i className="fa fa-exclamation"></i>
-                                </span>
-                            </button>
+                        <div id="div" className="column center_b" onClick={e => this.globalbtn_handler(e)}>
+                            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
                         </div>
     
                         <div className="column center">
