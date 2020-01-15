@@ -68,7 +68,7 @@ export default class Home extends Component {
                     res.position = data.position + 1;
                     res.bio = req.data.ret.bio;
                     res.name = req.data.ret.name;
-                    res.surname = req.data.ret.surname;
+                    res.last = req.data.ret.last;
                     res.tag = req.data.ret.tag;
                     this.setState(res);
                     console.log(this.state.target);
@@ -90,7 +90,7 @@ export default class Home extends Component {
                     res.position = data.position + 1;
                     res.bio = req.data.ret.bio;
                     res.name = req.data.ret.name;
-                    res.surname = req.data.ret.surname;
+                    res.last = req.data.ret.last;
                     res.tag = req.data.ret.tag;
                     this.setState(res);
                 }
@@ -117,7 +117,7 @@ export default class Home extends Component {
                             res.position = data.position + 1;
                             res.bio = req.data.ret.bio;
                             res.name = req.data.ret.name;
-                            res.surname = req.data.ret.surname;
+                            res.last = req.data.ret.last;
                             res.tag = req.data.ret.tag;
                             console.log(res);
                             this.setState(res);
