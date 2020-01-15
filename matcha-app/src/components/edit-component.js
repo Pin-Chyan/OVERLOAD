@@ -58,7 +58,7 @@ export default class Edit extends Component {
             surnameErr: '',
             ageErr: '',
             emailErr: '',
-            tags: '',
+            tags: [],
             img1: load2,
             img2: load,
             img3: load2,
@@ -252,9 +252,16 @@ export default class Edit extends Component {
 
 
     onChangeTags = e => {
+        let newTags = this.state.tags.slice();
+
+        if (newTags.indexOf(e.target.value) === -1) {
+            newTags.push(e.target.value);
+        } else {
+            newTags.splice(newTags.indexOf(e.target.value), 1);
+        }
         this.setState({
-                tags: e.target.value
-            });
+                tags: newTags
+        });
     }
 
     onChangeAge(e) {
@@ -574,32 +581,32 @@ export default class Edit extends Component {
                         <div class="field">
                             <label className="label">Selectable Tags:</label>
                             <div className="control">
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === 'male'} />
+                                {/* <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="male" onChange={this.onChangeTags} checked={this.state.tags === 'male'} />
                                 <label>
                                     #Gamer
-                                </label>
+                                </label> */}
 
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Sports'} />
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Sports" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Sports') !== -1} />
                                 <label>
                                     #Sports
                                 </label>
 
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Adventurer'} />
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Adventurer" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Adventurer') !== -1} />
                                 <label>
                                     #Adventurer
                                 </label>
 
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Funny'} />
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Funny" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Funny') !== -1} />
                                 <label>
                                     #Funny
                                 </label>
 
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Outside'} />
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Outside" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Outside') !== -1} />
                                 <label>
                                     #Outdoors
                                 </label>
 
-                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" onChange={this.onChangeTags} checked={this.state.tags === '#Love'} />
+                                <input className="is-checkradio is-white pad"  name="Tags_assigned" id="exampleCheckboxWhite" type="checkbox" value="#Love" onChange={this.onChangeTags} checked={this.state.tags.indexOf('#Love') !== -1} />
                                 <label>
                                     #Love
                                 </label>
