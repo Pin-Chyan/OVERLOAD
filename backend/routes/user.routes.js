@@ -157,7 +157,7 @@ router.route('/get_next').post( (req, res) => {
         if (req.body.target != "")
             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
                 if ((req.body.token == docs[0].token) || (req.body.token == "admin")){
-                    UserModels.find({},"img email name tag like last").exec().then(doc2 => {
+                    UserModels.find({},"img email name tag like last bio").exec().then(doc2 => {
                         var data = {};
                         data.max = doc2.length;
                         var pos = req.body.position;
