@@ -38,6 +38,10 @@ export default class Home extends Component {
         };
     }
 
+    onChangeTest() {
+        console.log(this.state.target);
+    }
+
     get_handle(res){
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
@@ -102,6 +106,7 @@ export default class Home extends Component {
         });
     }
 
+
     
     render () {
         return (
@@ -162,8 +167,7 @@ export default class Home extends Component {
                             </Carousel>
                         </figure>
                         <div className="column center_b">
-                        <p>
-                            <button className="button is-warning">
+                            <button className="button is-warning" onClick={this.onChangeTest}>
                                 <span className="icon">
                                     <i className="fa fa-arrow-left"></i>
                                 </span>
@@ -188,9 +192,7 @@ export default class Home extends Component {
                                     <i className="fa fa-exclamation"></i>
                                 </span>
                             </button>
-                        </p>
                     </div>
-    
                         <div className="column center">
                         <div className="column center">
                 <article className="media center">

@@ -37,7 +37,7 @@ export default class cons extends Component {
             tags: '#urmomlol',
             display: load,
             display2: load2,
-            chat: []
+            chat: ['hi', 'hello', 'who are you', 'idk']
         }
     }
 
@@ -164,7 +164,7 @@ const Chat = ({ saveMsg }) => (
       e.target.reset();
     }}>
       <div className="field has-addons">
-        <div className="control is-expanded">
+        <div className="control chat-c">
           <input className="input" name="userInput" type="text" placeholder="Type your message" />
         </div>
         <div className="control">

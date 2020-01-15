@@ -86,12 +86,17 @@
 }
 
 .chat-wrap {
-    width: 70%;
+    max-width: 70%;
+    min-width: 40%;
     /* height: auto; */
     height: none !important;
     white-space: none !important;
+    justify-content: left !important;
 }
 
+.chat-c {
+    margin: center;
+}
 
 
 /*  */
