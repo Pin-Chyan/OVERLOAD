@@ -38,6 +38,14 @@ export default class Home extends Component {
         };
     }
 
+    globalbtn_handler = (e) => {
+        var button = e.target.id;
+        e.persist();
+        console.log("This is the button ID you clicked");
+        console.log(button);
+        console.log(e.currentTarget.value);
+    }
+
     get_handle(res){
             console.log(res);
             if (res.data === "invalid token" || res.data === "token not present"){
@@ -161,35 +169,28 @@ export default class Home extends Component {
                                 </div>
                             </Carousel>
                         </figure>
-                        <div className="column center_b">
-                        <p>
-                            <button className="button is-warning">
+                        <div className="column center_b" onClick={e => this.globalbtn_handler(e)}>
+                            <button id="2" value="Prev" className="button is-warning">
                                 <span className="icon">
                                     <i className="fa fa-arrow-left"></i>
                                 </span>
                             </button>
-                            <button className="button is-danger">
+                            <button id="2" value="Next" className="button is-danger">
                                 <span className="icon">
                                     <i className="fa fa-times"></i>
                                 </span>
                             </button>
-                            <button className="button is-primary">
-                                <span className="icon is-small">
-                                    <i className="fa fa-star"></i>
-                                </span>
-                            </button>
-                            <button className="button is-success">
+                            <button id="2" value="Like" className="button is-success">
                                 <span className="icon is-small">
                                     <i className="fa fa-heart"></i>
                                 </span>
                             </button>
-                            <button className="button is-hovered">
+                            <button id="2" value="Report" className="button is-hovered">
                                 <span className="icon is-small">
                                     <i className="fa fa-exclamation"></i>
                                 </span>
                             </button>
-                        </p>
-                    </div>
+                        </div>
     
                         <div className="column center">
                         <div className="column center">
