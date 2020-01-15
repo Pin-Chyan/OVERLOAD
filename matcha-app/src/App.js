@@ -12,7 +12,6 @@ import Authenticate from "./components/auth/auth-component.js";
 import msg from "./components/message-and-notification.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
-import test from "./components/test.js";
 import logout from "./components/auth/logout";
 import Verify from  "./components/auth/verify-component.js";
 import Forgot from "./components/forgot-component.js";
@@ -26,7 +25,6 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
         <Route path="/chat" exact component={chat} />
-        <Route path="/test" exact component={test} />
         <Route path="/logout" exact component={logout} />
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/verify/:vkey" component={Verify}/>
