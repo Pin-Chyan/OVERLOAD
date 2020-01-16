@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const md5 = require('md5');
+const test_data = require('../test_data/default.json');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +96,6 @@ router.route('/add').post( (req, res) => {
     const gender = req.body.gender;
     const age = req.body.age;
     const email = req.body.email;
-    const verif = 0; 
     const sexual_pref = req.body.sexual_pref;
     const vKey = md5(email+Date.now());
     const verified = false;
@@ -278,5 +279,32 @@ router.route('/search').post( (req, res) => {
         }).catch(err => { res.status(500).send(err)})
     }
     res.status(200).json("no more users");
+})
+
+router.route('/load_data').post( (req, res) => {
+    // res.json(test_data);
+    var dlen = test_data.length;
+    var i = 0;
+    for (i  = 0; i < dlen; i++){
+        let user = new UserModels(test_data[i]);
+        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
+            if(err) throw err;
+            user.password = hash;
+            user.save().catch( err => res.status(400).json('Error: ' + err));
+        }));
+        // user.save().catch(err => {res.status(500).send(err)});
+    }
+    res.json("done");
+})
+
+router.route('/purge').post( (req, res) => {
+    if (req.body.token === "admin"){
+    mongoose.connect(process.env.ATLAS_URI,function(){
+        mongoose.connection.db.dropDatabase();
+        res.json('purged');
+    }).catch(err => { res.stats(500).send("mongoose not present")});
+    } else {
+        res.status(403).send("Forbbiden");
+    }
 })
 module.exports = router;

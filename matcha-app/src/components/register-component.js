@@ -179,6 +179,11 @@ export default class Register extends Component {
             if (this.validateForm()) {
                 let email = { email: this.state.email };
                 axios.post(ip+"/users/email", email).then(res => { if (res.data.present !== 1) {
+                        var gender = 0;
+                        if (this.state.gender === 'f')
+                            gender = 1;
+                        if (this.state.gender === 'm')
+                            gender = -1;
                         const dat = {
                             name: this.state.name,
                             last: this.state.surname,
@@ -186,10 +191,11 @@ export default class Register extends Component {
                             gender: this.state.gender,
                             age: this.state.age,
                             email: this.state.email,
-                            sexual_pref: "bi"
+                            sexual_pref: 0
                         }
+                        console.log(dat);
                         axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
-                        ).catch(console.log("Error adding user"));
+                        ).catch(err => (console.log("Error adding user" + err)));
                     } else {
                         console.log("Email in use");
                         this.setState({emailErr: 'Email already in use!'});
@@ -301,11 +307,11 @@ export default class Register extends Component {
                             <label className="label">Gender</label>
                             <div className="control">
                                 <label className="radio">
-                                    <input type="radio" name="question" value="male" onChange={this.onChangeGender} checked={this.state.gender === 'male'}/>
+                                    <input type="radio" name="question" value="male" onChange={this.onChangeGender} checked={this.state.gender === 'm'}/>
                                     Male
                                 </label>
                                 <label className="radio">
-                                    <input type="radio" name="question" value="female" onChange={this.onChangeGender} checked={this.state.gender === 'female'}/>
+                                    <input type="radio" name="question" value="female" onChange={this.onChangeGender} checked={this.state.gender === 'f'}/>
                                     Female
                                 </label>
                             </div>

@@ -1,0 +1,55 @@
+[
+    {
+        "name"          : "Sgt.Bilko",
+        "last"          : "Solivari",
+        "password"      : "icampatBondust",
+        "gender"        : -1,
+        "age"           : 21,
+        "email"         : "solivari@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "gaming","hairproducts","20klaptop","coding","#taken","currently-investing","stock prices 110% increase per anum"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "CYKO",
+        "last"          : "lkrielin",
+        "password"      : "Waifusocks11",
+        "gender"        : -1,
+        "age"           : 19,
+        "email"         : "lkrielin@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "gaming","ryzen","kunais","coding","karambit", "waifusocks", "ineedtobuymeawatch"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Banana",
+        "last"          : "King",
+        "password"      : "Bunnyhops",
+        "gender"        : -1,
+        "age"           : 19,
+        "email"         : "marty@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "orange juice","macbook","dimension data","bunny hops", "#savage","sunburnt","##savage"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "PC",
+        "last"          : "pitsai",
+        "password"      : "Waifubot",
+        "gender"        : -1,
+        "age"           : 19,
+        "email"         : "pitsai@gmail.com",
+        "sexual_pref"   : 0,
+        "tag"           : [
+            "Dual Ryzen threadripper 3990x 64 core 128 thread","1tb ddr5 5.1ghz sdram","100tb ssd","Quad channel RTX 3099 16gig",
+            "1000W watercooled psu","That's my sister im on inter 1 core","has knees"
+        ],
+        "verified"      : true
+    }
+]

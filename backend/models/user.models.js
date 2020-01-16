@@ -29,9 +29,8 @@ const userSchema = new Schema({
     default: ''
   },
   gender: {
-    type: String,
-    required: true,
-    trim: true
+    type: Number,
+    required: true
   },
   age: {
     type: Number,
@@ -47,8 +46,8 @@ const userSchema = new Schema({
     default: ''
   },
   sexual_pref: {
-    type: String,
-    required: true
+    type: Number,
+    default: 0
   },
   tag: {
     type: Array,
