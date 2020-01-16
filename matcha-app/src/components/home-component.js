@@ -24,6 +24,7 @@ export default class Home extends Component {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.globalbtn_handler = this.globalbtn_handler.bind(this);
+        // this.set_data = this.set_data.bind(this);
         this.state = {
             sesh: '',
             name: '',
@@ -41,6 +42,42 @@ export default class Home extends Component {
         };
     }
 
+    set_data (req) {
+        console.log(req);
+        var res = {};
+        res.target = req.data.ret.email;
+        if (req.data.ret.img.img1 == "null")
+            res.img1 = nll;
+        else
+            res.img1 = req.data.ret.img.img1;
+        ///////////////////////////////////////////
+        if (req.data.ret.img.img2 == "null")
+            res.img2 = nll;    
+        else
+            res.img2 = req.data.ret.img.img2;
+        ///////////////////////////////////////////
+        if (req.data.ret.img.img3 == "null")
+            res.img3 = nll;
+        else
+            res.img3 = req.data.ret.img.img3;
+        ///////////////////////////////////////////
+        if (req.data.ret.img.img4 == "null")
+            res.img4 = nll;
+        else
+            res.img4 = req.data.ret.img.img4;
+        ///////////////////////////////////////////
+        if (req.data.ret.img.img5 == "null")
+            res.img5 = nll;
+        else
+            res.img5 = req.data.ret.img.img5;
+        res.position = req.position + 1;
+        res.bio = req.data.ret.bio;
+        res.name = req.data.ret.name;
+        res.last = req.data.ret.last;
+        res.tag = req.data.ret.tag;
+        return(res);
+    }
+
     globalbtn_handler(e){
         var buttonval = e.target.value;
         var count = this.state.position;
@@ -54,40 +91,26 @@ export default class Home extends Component {
             if (buttonval == "Next"){
                 let req = await axios.post(ip+"/users/get_next", data);
                 if (req.status == 200){
-                    var res = {};
-                    res.img = {};
-                    res.target = req.data.ret.email;
-                    res.img.img1 = req.data.ret.img.img1;
-                    res.img.img2 = req.data.ret.img.img2;
-                    res.img.img3 = req.data.ret.img.img3;
-                    res.img.img4 = req.data.ret.img.img4;
-                    res.img.img5 = req.data.ret.img.img5;
-                    res.position = data.position + 1;
-                    res.bio = req.data.ret.bio;
-                    res.name = req.data.ret.name;
-                    res.last = req.data.ret.last;
-                    res.tag = req.data.ret.tag;
-                    return(res);
+                    console.log(req);
+                    console.log(count);
+                    if (count == req.data.max){
+                        data.position = 0;
+                    }
+                    req.position = data.position;
+                    return (req);
                 }
             }
             else if (buttonval == "Prev"){
                 data.position = count - 2;
+                if (data.position < 1)
+                    data.position = 0;
                 let req = await axios.post(ip+"/users/get_next", data);
                 if (req.status == 200){
-                    var res = {};
-                    res.img = {};
-                    res.target = req.data.ret.email;
-                    res.img.img1 = req.data.ret.img.img1;
-                    res.img.img2 = req.data.ret.img.img2;
-                    res.img.img3 = req.data.ret.img.img3;
-                    res.img.img4 = req.data.ret.img.img4;
-                    res.img.img5 = req.data.ret.img.img5;
-                    res.position = data.position + 1;
-                    res.bio = req.data.ret.bio;
-                    res.name = req.data.ret.name;
-                    res.last = req.data.ret.last;
-                    res.tag = req.data.ret.tag;
-                    return(res);
+                    if (count == req.data.max){
+                        data.position = 0;
+                    }
+                    req.position = data.position;
+                    return(req);
                 }
             }
             else if (buttonval == "Like"){
@@ -98,21 +121,12 @@ export default class Home extends Component {
                     else {
                         let req = await axios.post(ip+"/users/get_next", data);
                         if (req.status == 200){
-                            var res = {};
-                            res.img = {};
-                            res.target = req.data.ret.email;
-                            res.img.img1 = req.data.ret.img.img1;
-                            res.img.img2 = req.data.ret.img.img2;
-                            res.img.img3 = req.data.ret.img.img3;
-                            res.img.img4 = req.data.ret.img.img4;
-                            res.img.img5 = req.data.ret.img.img5;
-                            res.position = data.position + 1;
-                            res.bio = req.data.ret.bio;
-                            res.name = req.data.ret.name;
-                            res.last = req.data.ret.last;
-                            res.tag = req.data.ret.tag;
+                            if (count == req.data.max){
+                                data.position = 0;
+                            }
+                            req.position = data.position;
                             console.log("liked");
-                            return(res);
+                            return(req);
                         }
                     }
                 }
@@ -133,7 +147,8 @@ export default class Home extends Component {
                 console.log("you missed the button!");
         }
         async_hell().then( res => {
-            this.setState(res);
+            var set = this.set_data(res);
+            this.setState(set);
         });
     }
 
