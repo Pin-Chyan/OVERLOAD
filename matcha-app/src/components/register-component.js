@@ -223,7 +223,7 @@ export default class Register extends Component {
                 <div id="navMenu" className="navbar-menu">
                     <div className="navbar-end">
                         <div className="control is-small has-icons-right search-margin">
-                            <input className="vvinput is-hovered is-small is-rounded" type="text" placeholder="Search" />
+                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
                             <span className="icon is-small is-right">
                                 <i className="fa fa-search"></i>
                             </span>
