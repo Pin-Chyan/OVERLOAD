@@ -223,6 +223,32 @@ router.route('/get_next').post( (req, res) => {
             res.status(400).send("no target");
 })
 
+router.route('/load_data').post( (req, res) => {
+    // res.json(test_data);
+    var dlen = test_data.length;
+    var i = 0;
+    for (i  = 0; i < dlen; i++){
+        let user = new UserModels(test_data[i]);
+        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
+            if(err) throw err;
+            user.password = hash;
+            user.save().catch( err => res.status(400).json('Error: ' + err));
+        }));
+    }
+    res.json("done");
+})
+
+router.route('/purge').post( (req, res) => {
+    if (req.body.token === "admin"){
+    mongoose.connect(process.env.ATLAS_URI,function(){
+        mongoose.connection.db.dropDatabase();
+        res.json('purged');
+    }).catch(err => { res.stats(500).send("mongoose not present")});
+    } else {
+        res.status(403).send("Forbbiden");
+    }
+})
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Like Routes >>>>
@@ -258,53 +284,6 @@ router.route('/Del_like').post( (req, res) => {
                 res.json("Not Liked");
             })
     }).catch(err => {res.json(err)})
-})
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                  <<<< Search / Mactching Routes >>>>
-//
-router.route('/search').post( (req, res) => {
-    if (!req.body.token || !req.body.email)
-        res.status(400).send("error");
-    else {
-        UserModels.find({"email": req.body.target}, "token").exec().then(auth => {
-            if (auth.data[0].token == req.body.token || req.body.token == "admin"){
-                UserModels.find({}, "email").exec().then(docs => {
-                    return("done");
-                }).catch(err => { res.status(500).send(err)})
-            } else {
-                res.status(403).send("invalid token");
-            }
-        }).catch(err => { res.status(500).send(err)})
-    }
-    res.status(200).json("no more users");
-})
-
-router.route('/load_data').post( (req, res) => {
-    // res.json(test_data);
-    var dlen = test_data.length;
-    var i = 0;
-    for (i  = 0; i < dlen; i++){
-        let user = new UserModels(test_data[i]);
-        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
-            if(err) throw err;
-            user.password = hash;
-            user.save().catch( err => res.status(400).json('Error: ' + err));
-        }));
-    }
-    res.json("done");
-})
-
-router.route('/purge').post( (req, res) => {
-    if (req.body.token === "admin"){
-    mongoose.connect(process.env.ATLAS_URI,function(){
-        mongoose.connection.db.dropDatabase();
-        res.json('purged');
-    }).catch(err => { res.stats(500).send("mongoose not present")});
-    } else {
-        res.status(403).send("Forbbiden");
-    }
 })
 
 module.exports = router;
