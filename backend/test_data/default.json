@@ -51,5 +51,44 @@
             "1000W watercooled psu","That's my sister im on inter 1 core","has knees"
         ],
         "verified"      : true
+    },
+    {
+        "name"          : "bakugo",
+        "last"          : "katsuki",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 18,
+        "email"         : "bakugo@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "explosion","death","vilians","bad ass"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "megumin",
+        "last"          : "crimson",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 16,
+        "email"         : "megumin@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "konosuba","explosion","mana strugle","nuker","evil eye patch"
+        ],
+        "verified"      : true
+    }
+    {
+        "name"          : "Asuna",
+        "last"          : "Yuuki",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 18,
+        "email"         : "AsunaYuuki@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            
+        ],
+        "verified"      : true
     }
 ]
