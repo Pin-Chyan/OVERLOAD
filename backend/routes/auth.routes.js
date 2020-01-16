@@ -5,6 +5,10 @@ const verifyToken = require('../auth/auth.middleware');
 let UserModels = require('../models/user.models.js');
 require('dotenv').config();
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Authentication Routes >>>>
+//
 router.post('/getToken', (req, res) => {
     const { email, password } = req.body;
 
