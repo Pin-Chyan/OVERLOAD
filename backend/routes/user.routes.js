@@ -20,20 +20,24 @@ const transporter = nodemailer.createTransport({
 router.route('/sendResetLink').post((req, res) => {
     const { email } = req.body;
 
-    let mailOptions = {
-        from: mailData.email,
-        to: email,
-        subject: 'Password Reset',
-        //TODO: Change to goto reset password page
-        html: `<h2>Please click <a href="http://localhost:3000/"> here </a> to reset your password.</h2><p>`
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            res.status(400).send(error);
-        }
-    });
-    res.send('email sent');
+    UserModels.find({"email": email}, "vKey").exec().then(docs => {
+        let mailOptions = {
+            from: mailData.email,
+            to: email,
+            subject: 'Password Reset',
+            //TODO: Change to goto reset password page
+            html: `<h2>Please click <a href="http://localhost:3000/resetPass/${docs[0].vKey}"> here </a> to reset your password.</h2><p>`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                return res.status(400).send(error);
+            }
+        });
+        return res.send('email sent');
+    }).catch(() => {
+        res.sendStatus(404);
+    })
 });
 
 router.route('/add').post( (req, res) => {
@@ -79,6 +83,36 @@ router.route('/add').post( (req, res) => {
         newUser.save().then( () => res.json('User added') )
         .catch( err => res.status(400).json('Error: ' + err));
     }));
+});
+
+router.route('/verifyKey/:vkey').get((req, res) => {
+    const { vkey } = req.params;
+
+    UserModels.find({ "vKey": vkey }).exec().then(docs => {
+        res.json({ validKey: true, email: docs[0].email });
+    }).catch(() => {
+        res.json({ validKey: false, email: "" });
+    })
+});
+
+router.route('/resetPassword/:vKey').post((req, res) => {
+    const { email, newPassword } = req.body;
+    const { vKey } = req.params;
+
+    UserModels.find({ "email": email }).exec().then(docs => {
+        if (docs[0].vKey === vKey) {
+            bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newPassword, salt, (err, hash) => {
+                if(err) throw err;
+                docs[0].password = hash;
+                docs[0].save();
+            }));
+            return res.json({ updated: true });
+        } else {
+            return res.json({ updated: false });
+        }
+    }).catch(() => {
+        res.json({ updated: false });
+    })
 });
 
 router.route('/emailVerify/:vkey').post((req, res) => {
@@ -230,7 +264,7 @@ router.route('/edit_spec').post( (req, res) => {
 
 router.route('/email').post( (req, res) => {
     UserModels.find({ "email": req.body.email}).exec().then(docs => {
-        res.json({'present' : docs.length});
+        return res.json({'present' : docs.length});
     })
 })
 

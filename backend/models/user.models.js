@@ -7,7 +7,8 @@ const userSchema = new Schema({
     type: Boolean
   },
   vKey: {
-    type: String
+    type: String,
+    unique: true
   },
   name: {
     type: String,

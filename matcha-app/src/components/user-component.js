@@ -54,18 +54,16 @@ export default class User extends Component {
 
     componentDidMount () {
         const jwt = localStorage.token;
-        console.log(jwt);
+
         async function lol(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
-                    console.log(prom.data.email);
                     let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email, "target":"name last bio img.img1", "token" : jwt});
                     return(prom2);
                 }
             } else
                 return ("error");
-            console.log(sesh);
         }
         lol().then(res => {
             if (res !== "error"){
@@ -110,7 +108,7 @@ export default class User extends Component {
             <div className="container">
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
-                         <figure class="image is-3by4"> {/* is-3by4 */}
+                         <figure className="image is-3by4"> {/* is-3by4 */}
                             <img className="overflow" src={this.state.display} alt="Asuna_img" />
                         </figure>
     
@@ -127,7 +125,7 @@ export default class User extends Component {
                             <p>
                                 <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
                                 <span className="has-text-grey">{this.state.tags}<br />
-                                <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                             </p>
                         </div>
                     </div>

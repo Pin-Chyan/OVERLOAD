@@ -84,7 +84,7 @@ export default class Edit extends Component {
         if (mode === "upload"){
             var tag  = tag_arr;
             new_tag = new_tag.trim();
-            if (!tag.find(function (res){return res == new_tag;}) && new_tag != ""){
+            if (!tag.find(function (res){return res === new_tag;}) && new_tag !== ""){
                 tag.push(new_tag);
                 return (tag);
             }
@@ -92,8 +92,8 @@ export default class Edit extends Component {
         } else if (mode === "delete") {
             var tag  = tag_arr;
             new_tag = new_tag.trim();
-            if (tag.find(function (res){return res == new_tag;}) && new_tag != ""){
-                var pos = tag.findIndex(function (res){return res == new_tag;});
+            if (tag.find(function (res){return res === new_tag;}) && new_tag !== ""){
+                var pos = tag.findIndex(function (res){return res === new_tag;});
                 tag.splice(pos,1);
                 return (tag);
             }
@@ -101,7 +101,7 @@ export default class Edit extends Component {
         }
     }
     get_handle(res){
-        if (res.data == "invalid token" || res.data == "token not present"){
+        if (res.data === "invalid token" || res.data === "token not present"){
             return("error");
         }
         else if (res.data[0].name){
@@ -111,23 +111,23 @@ export default class Edit extends Component {
             data.bio = res.data[0].bio;
             data.tag = res.data[0].tag.toString();
             data.tag_arr = res.data[0].tag;
-            if (res.data[0].img.img1 == 'null')
+            if (res.data[0].img.img1 === 'null')
                 data.img1 = nll;
             else
                 data.img1 = res.data[0].img.img1;
-            if (res.data[0].img.img2 == 'null')
+            if (res.data[0].img.img2 === 'null')
                 data.img2 = nll;
             else
                 data.img2 = res.data[0].img.img2;
-            if (res.data[0].img.img3 == 'null')
+            if (res.data[0].img.img3 === 'null')
                 data.img3 = nll;
             else
                 data.img3 = res.data[0].img.img3;
-            if (res.data[0].img.img4 == 'null')
+            if (res.data[0].img.img4 === 'null')
                 data.img4 = nll;
             else
                 data.img4 = res.data[0].img.img4;
-            if (res.data[0].img.img5 == 'null')
+            if (res.data[0].img.img5 === 'null')
                 data.img5 = nll;
             else
                 data.img5 = res.data[0].img.img5;
@@ -142,7 +142,7 @@ export default class Edit extends Component {
         async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
-                if (prom.status == 200){
+                if (prom.status === 200){
                     sesh = prom.data.email;
                     console.log(prom.data.email);
                     let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img email tag","token":jwt});
@@ -238,7 +238,7 @@ export default class Edit extends Component {
             data.token = token
             console.log("start upload");
             let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status == 200)
+            if (req.status === 200)
                 return (1);
         }
         async_edit().then( res => {
@@ -251,7 +251,7 @@ export default class Edit extends Component {
         var img_num = "img" + img.target.id;
         console.log(sesh);
         // console.log(img_num);
-        if (this.state[file] && img.target.value == "upload"){
+        if (this.state[file] && img.target.value === "upload"){
             console.log("file read start");
             var reader = new FileReader();
             reader.readAsDataURL(this.state[file].files[0]);
@@ -266,7 +266,7 @@ export default class Edit extends Component {
                 img_data[img_num] = load;
                 this.setState(img_data);
                 let req = await axios.post(ip+"/users/edit_spec", data);
-                if (req.status == 200){
+                if (req.status === 200){
                     var res = {};
                     res[img_num] = data.img[img_num]; 
                     this.setState(res);
@@ -276,7 +276,7 @@ export default class Edit extends Component {
                 this.setState(reset);
             }.bind(this);
         }
-        else if (img.target.value == "delete")
+        else if (img.target.value === "delete")
             this.globalrm(img_num);
     }
 
@@ -616,7 +616,7 @@ export default class Edit extends Component {
                                 </div>
                             </div> */}
 
-                        <div class="field">
+                        <div className="field">
                             <label className="label">Current Tags: {this.state.tag}</label>
                             <div className="control">
                                 <div className="field">
