@@ -31,16 +31,13 @@ function App() {
         <Route path="/chat" exact component={chat} />
         <Route path="/logout" exact component={logout} />
         <Route path="/forgot" exact component={Forgot} />
-<<<<<<< HEAD
         <Route path="/emailSent" exact component={EmailSent} />
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-=======
         <Route path="/search" component={Search}/>
         <Route path="/verify/:vkey" component={Verify}/>
           <Route path="/user" exact component={User} />
->>>>>>> 1dd61846b5518360d229e8404f7f4d4f6cf4e928
         <Authenticate>
         <Route path="/logout" exact component={logout} />
           <Route path="/" exact component={Home} />
