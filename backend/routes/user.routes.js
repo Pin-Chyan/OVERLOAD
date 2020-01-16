@@ -292,7 +292,6 @@ router.route('/load_data').post( (req, res) => {
             user.password = hash;
             user.save().catch( err => res.status(400).json('Error: ' + err));
         }));
-        // user.save().catch(err => {res.status(500).send(err)});
     }
     res.json("done");
 })
@@ -307,4 +306,5 @@ router.route('/purge').post( (req, res) => {
         res.status(403).send("Forbbiden");
     }
 })
+
 module.exports = router;
