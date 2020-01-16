@@ -2,7 +2,7 @@
     {
         "name"          : "Sgt.Bilko",
         "last"          : "Solivari",
-        "password"      : "icampatBondust",
+        "password"      : "icampdust",
         "gender"        : -1,
         "age"           : 21,
         "email"         : "solivari@gmail.com",
@@ -77,7 +77,7 @@
             "konosuba","explosion","mana strugle","nuker","evil eye patch"
         ],
         "verified"      : true
-    }
+    },
     {
         "name"          : "Asuna",
         "last"          : "Yuuki",
@@ -87,7 +87,7 @@
         "email"         : "AsunaYuuki@gmail.com",
         "sexual_pref"   : -1,
         "tag"           : [
-            
+            "fixed"
         ],
         "verified"      : true
     }
