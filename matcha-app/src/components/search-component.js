@@ -109,52 +109,95 @@ export default class User extends Component {
         </nav>
             <div className="container">
                 <div className="columns is-centered shadow">
-                    <div className="column is-half bg_white_2">
-                        <div class="tile is-ancestor">
-                            <div class="tile is-vertical is-3">
-                              <div class="tile">
-                                <div class="tile is-parent is-vertical">
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                </div>
-                                <div class="tile is-parent is-vertical">
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                </div>
-                                <div class="tile is-parent is-vertical">
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                  <article class="tile is-child box">
-                                     Put any content you want
-                                  </article>
-                                </div>
-                              </div>
-
-                            </div>
-                            {/* <div class="tile is-parent">
-                              <article class="tile is-child box">
-                                 Put any content you want
-                              </article>
-                            </div> */}
+                    <div className="column bg_white_2">
+                    <div className="tile is-ancestor">
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <p className="title center_b">Your Search Result : Search Result</p>
+                            </article>
+                          </div>
                         </div>
+                        <div className="tile is-ancestor">
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                        </div>
+
+                        <div className="tile is-ancestor">
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                        </div>
+
+                        <div className="tile is-ancestor">
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                          <div className="tile is-parent">
+                            <article className="tile is-child box">
+                                <h1 className="center_b">Name</h1>
+                                <figure className="image is-3by4"> {/* is-3by4 */}
+                                    <img className="overflow" src={require("../images/lancer.jpg")} alt="Asuna_img" />
+                                </figure>
+                            </article>
+                          </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

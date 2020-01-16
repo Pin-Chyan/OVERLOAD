@@ -30,11 +30,11 @@ function App() {
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/search" component={Search}/>
         <Route path="/verify/:vkey" component={Verify}/>
+          <Route path="/user" exact component={User} />
         <Authenticate>
         <Route path="/logout" exact component={logout} />
           <Route path="/" exact component={Home} />
           <Route path="/edit" exact component={Edit} />
-          <Route path="/user" exact component={User} />
           <Route path="/upload" exact component={upload} />
           <Route path="/msg" exact component={msg} />
         </Authenticate>
