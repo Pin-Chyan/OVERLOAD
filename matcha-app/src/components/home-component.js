@@ -23,7 +23,7 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
-        this. globalbtn_handler = this. globalbtn_handler.bind(this);
+        this.globalbtn_handler = this.globalbtn_handler.bind(this);
         this.state = {
             sesh: '',
             name: '',

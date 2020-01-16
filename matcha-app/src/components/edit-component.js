@@ -150,9 +150,7 @@ export default class Edit extends Component {
                 }
             } else {
                 return ("error");
-                // console.log('no token');
             }
-            // console.log(sesh);
         }
         get_userdata().then(res => {
             if (res !== "error"){
