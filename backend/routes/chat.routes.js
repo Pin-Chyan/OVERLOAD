@@ -2,7 +2,10 @@ const router = require('express').Router();
 let ChatModels = require('../models/chats.models.js');
 let UserModels = require('../models/user.models.js');
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Message Routes >>>>
+//
 router.route('/newroom').post( (req, res) => {
     UserModels.findOne({'email':req.body.email}, "_id token").exec().then(doc => {
         if (doc.token == "admin" || doc.token == req.body.token){
