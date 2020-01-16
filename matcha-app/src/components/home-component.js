@@ -162,7 +162,7 @@ export default class Home extends Component {
                 data.name = res.data[0].name;
                 data.last = res.data[0].last;
                 data.bio = res.data[0].bio;
-                if (res.data[0].img.img1 == 'null'){
+                if (res.data[0].img.img1 === 'null'){
                     data.img1 = nll;
                     data.display = nll;
                 }
@@ -170,19 +170,19 @@ export default class Home extends Component {
                     data.img1 = res.data[0].img.img1;
                     data.display = res.data[0].img.img1;
                 }
-                if (res.data[0].img.img2 == 'null')
+                if (res.data[0].img.img2 === 'null')
                     data.img2 = nll;
                 else
                     data.img2 = res.data[0].img.img2;
-                if (res.data[0].img.img3 == 'null')
+                if (res.data[0].img.img3 === 'null')
                     data.img3 = nll;
                 else
                     data.img3 = res.data[0].img.img3;
-                if (res.data[0].img.img4 == 'null')
+                if (res.data[0].img.img4 === 'null')
                     data.img4 = nll;
                 else
                     data.img4 = res.data[0].img.img4;
-                if (res.data[0].img.img5 == 'null')
+                if (res.data[0].img.img5 === 'null')
                     data.img5 = nll;
                 else
                     data.img5 = res.data[0].img.img5;
@@ -197,7 +197,7 @@ export default class Home extends Component {
         async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
-                if (prom.status == 200){
+                if (prom.status === 200){
                     console.log(prom.data.email);
                     sesh = prom.data.email;
                     let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img","token":jwt});
@@ -254,7 +254,7 @@ export default class Home extends Component {
             <div className="container">
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
-                        <figure class="image"> {/* is-3by4 */}
+                        <figure className="image"> {/* is-3by4 */}
                             <Carousel autoPlay className="image img_carousel">
                                 <div>
                                     <img alt="image 1" className="m_image" src={this.state.img1} />

@@ -106,7 +106,7 @@ export default class cons extends Component {
                                     <p>
                                         <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
                                         <span className="has-text-grey">{this.state.tags}<br />
-                                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                                     </p>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@ export default class cons extends Component {
                                     <p>
                                         <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
                                         <span className="has-text-grey">{this.state.tags}<br />
-                                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                                     </p>
                                 </div>
                             </div>

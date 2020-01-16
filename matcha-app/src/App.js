@@ -15,6 +15,9 @@ import chat from "./components/chat-component.js";
 import logout from "./components/auth/logout";
 import Verify from  "./components/auth/verify-component.js";
 import Forgot from "./components/forgot-component.js";
+import EmailSent from "./components/emailSent-component.js";
+import ResetPass from "./components/resetPass-component.js";
+import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
 // import tags from "./components/tags-input.js";
 
@@ -28,13 +31,17 @@ function App() {
         <Route path="/chat" exact component={chat} />
         <Route path="/logout" exact component={logout} />
         <Route path="/forgot" exact component={Forgot} />
+        <Route path="/emailSent" exact component={EmailSent} />
+        <Route path="/verify/:vkey" component={Verify}/>
+        <Route path="/resetPass/:vkey" component={ResetPass}/>
+        <Route path="/passwordUpdated" component={PasswordUpdated}/>
         <Route path="/search" component={Search}/>
         <Route path="/verify/:vkey" component={Verify}/>
+          <Route path="/user" exact component={User} />
         <Authenticate>
         <Route path="/logout" exact component={logout} />
           <Route path="/" exact component={Home} />
           <Route path="/edit" exact component={Edit} />
-          <Route path="/user" exact component={User} />
           <Route path="/upload" exact component={upload} />
           <Route path="/msg" exact component={msg} />
         </Authenticate>

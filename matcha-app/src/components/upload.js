@@ -23,7 +23,7 @@ export default class Home extends Component {
     componentDidMount () {
         axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name tag", "token":token}).then(res => {
             console.log(res.data[0]);
-            if (res.data == "invalid token" || res.data == "token not present"){
+            if (res.data === "invalid token" || res.data === "token not present"){
                 return (window.location.href = ip+"/login");
             }
             else if (res.data[0].tag){
@@ -42,7 +42,7 @@ export default class Home extends Component {
     tag_push = () => {
         var tag  = this.state.ctag;
         const new_tag = this.state.ntag.trim();
-        if (!tag.find(function (res){return res == '#' + new_tag;}) && new_tag != ""){
+        if (!tag.find(function (res){return res === '#' + new_tag;}) && new_tag !== ""){
             tag.push('#' + new_tag);
             this.setState({ctag: tag});
             axios.post(ip+"/users/edit_spec", {"email": sesh,"token":token, "tag":tag});
@@ -52,8 +52,8 @@ export default class Home extends Component {
     tag_remove = () => {
         var tag  = this.state.ctag;
         const new_tag = this.state.ntag.trim();
-        if (tag.find(function (res){return res == '#' + new_tag;}) && new_tag != ""){
-            var pos = tag.findIndex(function (res){return res == '#' + new_tag;});
+        if (tag.find(function (res){return res === '#' + new_tag;}) && new_tag !== ""){
+            var pos = tag.findIndex(function (res){return res === '#' + new_tag;});
             tag.splice(pos,1);
             this.setState({ctag : tag});
             axios.post(ip+"/users/edit_spec", {"email": sesh,"token":token, "tag":tag});

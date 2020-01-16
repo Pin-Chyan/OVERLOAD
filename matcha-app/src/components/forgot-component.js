@@ -7,23 +7,11 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 var ip = require("../server.json").ip;
 
-// function DisplayStatus(props) {
-//     if (props.status === 'not found' || props.status === 'something went wrong') {
-//         return <h1> Error! invalid link. </h1>
-//     }
-//     if (props.status === 'already used') {
-//         return <h1> Error! link already used. </h1>
-//     }
-//     if (props.status === 'activated') {
-//         return <h1> Success! your account has been activated. </h1>
-//     }
-//     return <h1> Loading... </h1>
-// }
+
 
 export default class Verify extends Component {
     constructor(props) {
 		super(props);
-		
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 
@@ -32,7 +20,7 @@ export default class Verify extends Component {
 			emailErr: ''
         }
 	}
-	
+
 	onChangeEmail(e) {
         this.setState({email: e.target.value});
 	}
@@ -45,19 +33,18 @@ export default class Verify extends Component {
 
 		if (this.state.email === '') {
 			return this.setState({ emailErr: 'Please fill in your email!' });
+		} else {
+			axios.post(ip+'/users/email', { email: this.state.email })
+			.then(res => {
+				if (res.data.present === 1) {
+					axios.post(ip+'/users/sendResetLink',{ email: this.state.email }).then(res => {
+						this.props.history.push('/emailSent');
+					});
+				} else {
+					this.setState({ emailErr: 'Account not found.'});
+				}
+			});
 		}
-		//TODO: Fix multiple api requests problem
-		// return axios.post(ip+'/users/email', { email: this.state.email })
-		// 	.then(res1 => {
-		// 	if (res1.data.present === 1) {
-		// 		axios.post('http://localhost:5001/users/sendResetLink',{ emaill: this.state.email }).then(res2 => {
-		// 			return Promise.resolve(res2.data);
-		// 		});
-		// 	} else {
-		// 		return Promise.resolve(res1.data);
-		// 		this.setState({ emailErr: 'Account not found!'});
-		// 	}
-		// }).catch(err => console.log(err));
 	}
 
     render() {
