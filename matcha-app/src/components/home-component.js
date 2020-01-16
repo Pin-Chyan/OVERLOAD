@@ -23,6 +23,7 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this. globalbtn_handler = this. globalbtn_handler.bind(this);
         this.state = {
             sesh: '',
             name: '',
@@ -43,17 +44,13 @@ export default class Home extends Component {
     globalbtn_handler(e){
         var buttonval = e.target.value;
         var count = this.state.position;
-        console.log(buttonval);
         async function async_hell() {
             var data = {};
             data.img = {};
-            console.log(sesh);
-            console.log(token);
             data.email = sesh;
             data.token = "admin";
             data.target = target;
             data.position = count;
-            console.log("starting if's");
             if (buttonval == "Next"){
                 let req = await axios.post(ip+"/users/get_next", data);
                 if (req.status == 200){
@@ -70,10 +67,8 @@ export default class Home extends Component {
                     res.name = req.data.ret.name;
                     res.last = req.data.ret.last;
                     res.tag = req.data.ret.tag;
-                    this.setState(res);
-                    console.log(this.state.target);
+                    return(res);
                 }
-                console.log("first if came true");
             }
             else if (buttonval == "Prev"){
                 data.position = count - 2;
@@ -92,18 +87,15 @@ export default class Home extends Component {
                     res.name = req.data.ret.name;
                     res.last = req.data.ret.last;
                     res.tag = req.data.ret.tag;
-                    this.setState(res);
+                    return(res);
                 }
             }
             else if (buttonval == "Like"){
-                console.log("running like route");
                 let req = await axios.post(ip+"/users/like", data);
                 if (req.status == 200){
-                    console.log(req);
                     if (req.data == "Already Liked!")
                         console.log("Already Liked!");
                     else {
-                        console.log(data);
                         let req = await axios.post(ip+"/users/get_next", data);
                         if (req.status == 200){
                             var res = {};
@@ -119,19 +111,19 @@ export default class Home extends Component {
                             res.name = req.data.ret.name;
                             res.last = req.data.ret.last;
                             res.tag = req.data.ret.tag;
-                            console.log(res);
-                            this.setState(res);
+                            console.log("liked");
+                            return(res);
                         }
                     }
                 }
             }
             else if (buttonval == "Unlike"){
-                console.log("unliking");
-                let req = await axios.post(ip+"/user/Del_like", data);
-                console.log(req.status);
+                let req = await axios.post(ip+"/users/Del_like", data);
                 if (req.status == 200){
-                    console.log(req);
-                    console.log("Unliked");
+                    if (req.data == "Not Liked")
+                        console.log("Not Liked");
+                    else
+                        console.log("Unliked");
                 }
             }
             else if (buttonval == "Report"){
@@ -140,7 +132,9 @@ export default class Home extends Component {
             else
                 console.log("you missed the button!");
         }
-        async_hell();
+        async_hell().then( res => {
+            this.setState(res);
+        });
     }
 
     get_handle(res){
