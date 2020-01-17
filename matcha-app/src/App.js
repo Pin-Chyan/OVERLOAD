@@ -19,6 +19,7 @@ import EmailSent from "./components/emailSent-component.js";
 import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
+import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
         <Route path="/search" component={Search}/>
+        <Route path="/carousel" component={carousel}/>
         <Route path="/verify/:vkey" component={Verify}/>
           <Route path="/user" exact component={User} />
         <Authenticate>

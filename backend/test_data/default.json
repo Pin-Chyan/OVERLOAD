@@ -87,7 +87,46 @@
         "email"         : "AsunaYuuki@gmail.com",
         "sexual_pref"   : -1,
         "tag"           : [
-            "fixed"
+            "lightning flash", "The Flash", "Fierce Flash", "Lady Stacia" , "Sao"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Remu",
+        "last"          : "N/A",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 17,
+        "email"         : "Remu@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Remrin", "Adorable", "Oni", "Caring"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Yuno",
+        "last"          : "Gasai",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 14,
+        "email"         : "YunoGasai@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Yunocchi", "Second", "Sweet", "Shy", "Feminine", "Yandere"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Isla",
+        "last"          : "N/A",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 9,
+        "email"         : "Isla@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "innocent", "caring", "mindful", "doesn't have time"
         ],
         "verified"      : true
     }
