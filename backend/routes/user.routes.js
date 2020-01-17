@@ -26,20 +26,24 @@ const transporter = nodemailer.createTransport({
 router.route('/sendResetLink').post((req, res) => {
     const { email } = req.body;
 
-    let mailOptions = {
-        from: mailData.email,
-        to: email,
-        subject: 'Password Reset',
-        //TODO: Change to goto reset password page
-        html: `<h2>Please click <a href="http://localhost:3000/"> here </a> to reset your password.</h2><p>`
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            res.status(400).send(error);
-        }
-    });
-    res.send('email sent');
+    UserModels.find({"email": email}, "vKey").exec().then(docs => {
+        let mailOptions = {
+            from: mailData.email,
+            to: email,
+            subject: 'Password Reset',
+            //TODO: Change to goto reset password page
+            html: `<h2>Please click <a href="http://localhost:3000/resetPass/${docs[0].vKey}"> here </a> to reset your password.</h2><p>`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                return res.status(400).send(error);
+            }
+        });
+        return res.send('email sent');
+    }).catch(() => {
+        res.sendStatus(404);
+    })
 });
 
 router.route('/emailVerify/:vkey').post((req, res) => {
@@ -133,6 +137,87 @@ router.route('/add').post( (req, res) => {
     }));
 });
 
+router.route('/verifyKey/:vkey').get((req, res) => {
+    const { vkey } = req.params;
+
+    UserModels.find({ "vKey": vkey }).exec().then(docs => {
+        res.json({ validKey: true, email: docs[0].email });
+    }).catch(() => {
+        res.json({ validKey: false, email: "" });
+    })
+});
+
+router.route('/resetPassword/:vKey').post((req, res) => {
+    const { email, newPassword } = req.body;
+    const { vKey } = req.params;
+
+    UserModels.find({ "email": email }).exec().then(docs => {
+        if (docs[0].vKey === vKey) {
+            bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newPassword, salt, (err, hash) => {
+                if(err) throw err;
+                docs[0].password = hash;
+                docs[0].save();
+            }));
+            return res.json({ updated: true });
+        } else {
+            return res.json({ updated: false });
+        }
+    }).catch(() => {
+        res.json({ updated: false });
+    })
+});
+
+router.route('/emailVerify/:vkey').post((req, res) => {
+    const { vkey } = req.params;
+
+    UserModels.find({ "vKey": vkey }).exec().then(docs => {
+        if (docs[0].verified === true) {
+            res.json({status: "already used"});
+        } else if (docs[0].verified === false) {
+            docs[0].verified = true;
+            docs[0].save();
+            res.json({ status: "activated"});
+        } else {
+            res.json({ status: "something went wrong"});
+        }
+    }).catch(err => {
+        res.json({ status: "not found"});
+    })
+});
+
+router.route('/like').post( (req, res) => {
+    if (!req.body.token && !req.body.email && !req.body.target)
+        req.json("error");
+    UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+                if (!docs2.likes.includes(docs[0]._id)){
+                    var like = docs2.likes;
+                    like.push(docs[0]._id);
+                    docs2.likes = like;
+                    docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
+                }
+                else
+                res.json("Already Liked!");
+            })
+    }).catch(err => {res.json(err)})
+})
+
+router.route('/Del_like').post( (req, res) => {
+    if (!req.body.token || !req.body.target || !req.body.email)
+        req.json("error");
+    UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+                if (docs2.likes.includes(docs[0]._id)){
+                    var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
+                    docs2.likes.splice(index,1);
+                    docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
+                }
+                else
+                res.json("Not Liked");
+            })
+    }).catch(err => {res.json(err)})
+})
+
 router.route('/get_spec').post( (req, res) => {
     if (req.body.token)
         if (req.body.target != "")
@@ -194,6 +279,12 @@ router.route('/edit_spec').post( (req, res) => {
     }
     else
         res.status(400).send("no Token Present");
+})
+
+router.route('/email').post( (req, res) => {
+    UserModels.find({ "email": req.body.email}).exec().then(docs => {
+        return res.json({'present' : docs.length});
+    })
 })
 
 router.route('/get_next').post( (req, res) => {

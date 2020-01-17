@@ -9,13 +9,14 @@ import { getJwt } from "./auth/jwt-helper.js";
 // import "../styles/debug.css";
 var ip = require("../server.json").ip;
 
-export default class Register extends Component {
+export default class Login extends Component {
     constructor(props) {
         super(props);
 
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSumbit = this.onSumbit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         
         this.state = {
             email: '',
@@ -23,6 +24,14 @@ export default class Register extends Component {
             emailErr: '',
             passwordErr: ''
         }
+    }
+
+    componentWillMount() {
+        document.addEventListener('keypress', this.handleKeyPress);
+    }
+
+    componentWillUnmount() {
+        document.addEventListener('keypress', this.handleKeyPress);
     }
 
     onChangeEmail(e) {
@@ -34,12 +43,12 @@ export default class Register extends Component {
     }
 
     onSumbit = async e => {
-        e.preventDefault();
+       // e.preventDefault();
         const user = { email: this.state.email, password: this.state.password};
         this.setState({ emailErr: '', passwordErr: ''});      
 
         if (!(user.email === "" || user.password === "")) {
-            axios.post('http://localhost:5001/auth/getToken', user)
+            axios.post(ip+'/auth/getToken', user)
             .then(res => {
                 //codes [0 : OK] [1 : Inccorect password or username]
 
@@ -59,10 +68,12 @@ export default class Register extends Component {
             (user.email === '') ? this.setState({ emailErr: 'Please fill in your email!'}) : this.setState({ emailErr: ''});
             (user.password === '') ? this.setState({ passwordErr: 'Please fill in your password!'}) : this.setState({ passwordErr: ''});
         }
-        // axios.post(ip+"/auth/getToken", {
-        //     email: this.state.email,
-        //     password: this.state.password
-        // }).then(res => {localStorage.setItem('token', res.data.token)}).catch(err => console.log(err));
+    }
+
+    handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            this.onSumbit();
+        }
     }
 
     render () {
