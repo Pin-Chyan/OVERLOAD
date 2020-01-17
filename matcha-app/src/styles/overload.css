@@ -9,7 +9,11 @@
 
 .hero {
     /* background: url(https://images3.alphacoders.com/557/thumb-1920-55735.jpg) center / cover; */
-    background-color: rgba(29, 25, 26);
+    background-color: rgb(15, 14, 14);
+}
+
+.bg-color {
+    background-color: rgb(15, 14, 14) !important;
 }
 
 .logo_use {
@@ -39,8 +43,8 @@
 
 .bg_white_2 {
     background-color: white !important;
-    border-radius: 2%;
-    /* width: 1000px !important; */
+    border-radius: 1%;
+    /* min-width: 800px !important; */
     /* flex: auto !important; */
 }
 
