@@ -317,6 +317,7 @@ router.route('/get_next').post( (req, res) => {
 router.route('/load_data').post( (req, res) => {
     // res.json(test_data);
     var dlen = test_data.length;
+    console.log(dlen);
     var i = 0;
     for (i  = 0; i < dlen; i++){
         let user = new UserModels(test_data[i]);

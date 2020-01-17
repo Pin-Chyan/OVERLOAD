@@ -200,10 +200,15 @@ export default class User extends Component {
         var j = 0;
         var data_pos = 0;
         var max = data.length;
+        var image;
         while (j < rows){
             res += '<div class="tile is-ancestor">';
             while (i < columns && data_pos < max){
-                temp = this.column_constructor(data[data_pos].name , data[data_pos].img.img1);
+                if (data[data_pos].img.img1 == 'null')
+                    image = nll;
+                else
+                    image = data[data_pos].img.img1;
+                temp = this.column_constructor(data[data_pos].name , image);
                 res += divs.concat(temp);
                 i++;
                 data_pos++;

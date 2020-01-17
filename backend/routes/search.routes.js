@@ -18,11 +18,12 @@ router.route('/hard').post( (req, res) => {
         res.status(400).send("error");
     else {
         UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
-            console.log(auth);
+            // console.log(auth);
             if (auth[0].token === req.body.token || req.body.token === "admin"){
-                console.log("hi");
-                UserModels.find({}, "gender age sexual_pref tag likes img.img1").exec().then(docs => {
-                    console.log(docs)
+                // console.log("hi");
+                UserModels.find({}, "email name gender age sexual_pref tag likes img.img1").exec().then(docs => {
+                    // console.log(docs)
+                    V8(auth,docs,req.body.search_input);
                     res.json(docs);
                 }).catch(err => { res.status(500).send(err)})
             } else {
@@ -48,8 +49,19 @@ router.route('/test_search').post( (req, res) => {
 //
 
 // caps => { 'agegap indefitate', 'sexuality indefinate' ,'fame' , 'location' , 'tags' }
-function V8(user_data, recived_data, caps) {
-    
+function V8(user_data, recived_data, search_input) {
+    var recived_len = recived_data.length;
+    var array = [];
+    var i = 0;
+    console.log('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>');
+    if (search_input !== ''){
+        for (i = 0;i < recived_len;i++){
+            if (recived_data[i].name.includes(search_input))
+            console.log("name found");
+            console.log(recived_data[i].name);
+        }
+    }
+    console.log('<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>');
 }
 
 
