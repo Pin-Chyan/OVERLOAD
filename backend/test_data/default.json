@@ -45,7 +45,7 @@
         "gender"        : -1,
         "age"           : 19,
         "email"         : "pitsai@gmail.com",
-        "sexual_pref"   : 0,
+        "sexual_pref"   : 1,
         "tag"           : [
             "Dual Ryzen threadripper 3990x 64 core 128 thread","1tb ddr5 5.1ghz sdram","100tb ssd","Quad channel RTX 3099 16gig",
             "1000W watercooled psu","That's my sister im on inter 1 core","has knees"
@@ -250,6 +250,19 @@
         "sexual_pref"   : -1,
         "tag"           : [
             "Mild", "Spicy", "Sensitive"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Kazuto",
+        "last"          : "Kirigaya",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 17,
+        "email"         : "Kirito@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Beta Tester", "Harem"
         ],
         "verified"      : true
     }
