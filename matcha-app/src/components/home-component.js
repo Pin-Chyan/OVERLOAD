@@ -8,6 +8,10 @@ import axios from 'axios';
 // import "../styles/debug.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Switch from 'react-switch';
+// import Switch from 'react-bulma-switch';
+// import Switch from 'react-bulma-switch/full';
+// import Switch from 'react-bulma-switch/lib';
 import { func } from 'prop-types';
 // import { get } from 'mongoose';
 var token = "admin";//localStorage.token;
@@ -38,8 +42,13 @@ export default class Home extends Component {
             img2: nll,
             img3: nll,
             img4: nll,
-            img5: nll
-        };
+            img5: nll,
+            checked: false
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+    handleChange(checked) {
+        this.setState({checked})
     }
 
     set_data (req) {
@@ -201,7 +210,7 @@ export default class Home extends Component {
                 if (this.state.search.trim() != '')
                     search_input = this.state.search;
             }
-            this.props.history.push('/search/' + search_input);
+            window.location.href = '/search/' + search_input;
         }
     }
     
@@ -255,6 +264,10 @@ export default class Home extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                         </div>
+                    {/* <a className="navbar-item has-text-info">text</a>
+                    <a className="navbar-item has-text-info">text</a>
+                    <a className="navbar-item has-text-info">text</a>
+                    <a className="navbar-item has-text-info">text</a> */}
                         <Link to="/" className="navbar-item has-text-info">Home</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
                         <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>

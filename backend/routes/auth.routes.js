@@ -32,11 +32,11 @@ router.post('/getToken', (req, res) => {
                 UserModels.findOne({'email':email},"token").then(docs => {
                     docs.token = token;
                     docs.save();
+                    res.json({
+                        token,
+                        resCode: 0
+                    });
                 })
-                res.json({
-                    token,
-                    resCode: 0
-                });
             });
         });
     });
