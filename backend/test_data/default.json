@@ -129,5 +129,122 @@
             "innocent", "caring", "mindful", "doesn't have time"
         ],
         "verified"      : true
+    },
+    {
+        "name"          : "Zero Two",
+        "last"          : "N/A",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 0,
+        "email"         : "ZeroTwo@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "002", "Partner Killer", "fanged teeth", "horns"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Lalatina",
+        "last"          : "Dustiness Ford",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 18,
+        "email"         : "Lalatina@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Darkness", "Royalty", "Crusader", "Heroic", "Selflessness"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Rias",
+        "last"          : "Gremory",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 19,
+        "email"         : "RiasOppai@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Kind", "Optimist", "Sexy"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Akeno",
+        "last"          : "Himejima",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 18,
+        "email"         : "AkenoHimejima@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Sadistic", "Masochistic", "Seductive"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Liam",
+        "last"          : "Du Preez",
+        "password"      : "IamFrench",
+        "gender"        : -1,
+        "age"           : 20,
+        "email"         : "ldupreez@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Biker", "LikesToCrash", "#YOLO", "FACEIT"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Tim",
+        "last"          : "Webb",
+        "password"      : "BigAnimeTiddies4Life",
+        "gender"        : -1,
+        "age"           : 21,
+        "email"         : "ThoseTiddies@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "RedBeard", "Weeb", "Otaku"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Albedo",
+        "last"          : "N/A",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 21,
+        "email"         : "ThoseTiddies@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Lustrous", "Jealousy", "Sweet"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Yoko",
+        "last"          : "Littner",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 14,
+        "email"         : "YokoLittner@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "ShootFirst", "ShootOnSight"
+        ],
+        "verified"      : true
+    },
+    {
+        "name"          : "Mai",
+        "last"          : "Sakurajima",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 18,
+        "email"         : "MaiSakurajima@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Mild", "Spicy", "Sensitive"
+        ],
+        "verified"      : true
     }
 ]
