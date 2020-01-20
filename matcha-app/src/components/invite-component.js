@@ -9,18 +9,6 @@ import axios from 'axios';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-var token = "admin";//localStorage.token;
-var sesh = "cyko@gmail.com";//decode(localStorage.token);
-var load = require("../images/load.gif");
-var load2 = require("../images/load2.gif");
-var ip = require("../server.json").ip;
-// const Image = props => (
-//     <div>
-//         <img alt="Asuna" className="m_image" src={props.image.img} />
-//         <p className="legend">{props.image.username}</p>
-//     </div>
-// )
-
 export default class Home extends Component {
     
     render () {
