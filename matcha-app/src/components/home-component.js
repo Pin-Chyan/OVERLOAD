@@ -201,7 +201,7 @@ export default class Home extends Component {
                 if (this.state.search.trim() != '')
                     search_input = this.state.search;
             }
-            this.props.history.push('/search/' + search_input);
+            window.location.href = '/search/' + search_input;
         }
     }
     
