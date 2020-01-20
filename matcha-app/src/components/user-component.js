@@ -84,7 +84,6 @@ export default class User extends Component {
                     search_input = this.state.search;
             }
             window.location.href = '/search/' + search_input;
-            // this.props.history.push('/search/ok');
         }
     }
     render () {
