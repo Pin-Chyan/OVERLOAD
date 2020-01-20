@@ -13,6 +13,7 @@
     "express-session": "^1.17.0",
     "font-awesome": "^4.7.0",
     "install": "^0.13.0",
+    "iplocation": "^6.1.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.13.0",
     "nodemon": "^2.0.2",
