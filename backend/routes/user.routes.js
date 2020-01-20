@@ -103,6 +103,7 @@ router.route('/add').post( (req, res) => {
     const sexual_pref = req.body.sexual_pref;
     const vKey = md5(email+Date.now());
     const verified = false;
+    const location = req.body.location
 
     const newUser = new UserModels({
         name,
@@ -113,7 +114,8 @@ router.route('/add').post( (req, res) => {
         email,
         verified,
         sexual_pref,
-        vKey
+        vKey,
+        location
     });
 
     let mailOptions = {
