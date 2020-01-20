@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactDOM from 'react-dom'
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -21,15 +22,28 @@ var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
+var sec = require("../images/check.jpg");
 var html = "";
+var color = [15,14,14];
 var busy = 0;
+var rgb_busy = 0;
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 export default class User extends Component {
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Onmount >>>>
+//
+
     componentDidMount () {
+        this.internal_color = [15,14,14];
+        this.link_color = [50,170,255];
+        this.state.res = '';
+        this.state.links = 'rgb(50, 170, 225)';
         const jwt = localStorage.token;
         token = localStorage.token;
         console.log(jwt);
@@ -53,55 +67,191 @@ export default class User extends Component {
                 if (data !== "error")
                     this.setState(data);
             }
+            this.page_handler('init',{});
         });
         console.log(this.state);
     }
     
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Page logic >>>>
+//
+
+    listener = e => {
+        console.log("fuck");
+    }
+    butt_listener = e => {
+        console.log("fuck");
+    }
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
     keyhandle = e => {
-        async function search(search_bar, token){
-            let res = await axios.post(ip+'/search/hard',{"token":token,"email":sesh, search:search_bar});
+        async function search(search_bar, token, conditions){
+            let res = await axios.post(ip+'/search/hard',{"token":token,"email":sesh, "search_input":search_bar, "search_conditions":conditions});
             if (res.status == 200)
                 return(res.data);
         }
         if (e.key == 'Enter' && busy == 0){
             busy = 1;
-            this.page_handler('searching',{});
+            // this.page_handler('searching',{});
             console.log("enter");
             console.log(this.state.search);
-            let data = search(this.state.search,"admin");
-            search("hi","admin").then(res => {
-                console.log(res);
-                sleep(2000).then(() => {
-                    this.page_handler('loaded',res);
+            let data = search();
+            if (this.state.search){
+                if (this.state.search.trim() != ''){
+                    if (this.state.search.includes('<script>')){
+                        this.page_handler('nice_try',{});
+                        busy = 0;
+                    }
+                    else {
+                        this.page_handler('searching',{});
+                        search(this.state.search.trim(),token,[1,-1,-2,-2,10,-1,-1]).then(res => {
+                            console.log(res);
+                            if (res == 'no result')
+                                sleep(4000).then(() => {this.page_handler('no_res',{})});
+                            else
+                                sleep(4000).then(() => {
+                                    this.page_handler('loaded',res);
+                                })
+                            busy = 0;
+                        })
+                        this.setState({"search":""});
+                    }
+                } else {
+                    this.page_handler('no_term',{});
                     busy = 0;
-                })
-            })
+                }
+            }
+            else {
+                this.page_handler('no_term',{});
+                busy = 0;
+            }
         }
     }
     
     page_handler(mode, data){
+        console.log(window.innerHeight);
+        var div_onload = (<div className="columns is-centered shadow"><div className="column bg_white_2"><div onClick={e => this.listener(e)} id="result"></div></div></div>);
+        var div_load = (<div><img src={load3}></img></div>);
         if (mode == 'loaded'){
-            var column = 4;
+            console.log(mode);
+            this.rgb_phaser([15,14,14,1,0],'internal_color','res');
+            ReactDOM.render(div_onload, document.getElementById('cont'));
+            this.setState({"navmenu":this.nav_constructor(1)});
+            var column = 2;
             var row = Math.ceil(data.length/column);
             var head = this.header_constructor("Here you go");
-            var body = this.row_constructor(row,column,data);
+            var body = this.row_constructor(row,column,data,1);
             var result = head.concat(body);
-            this.setState({htmltext:ReactHtmlParser(result)})
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
         }
         else if (mode === 'searching'){
-            var head = this.header_constructor("Senpais are searching");
-            var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":load}}]);
+            console.log(mode);
+            this.rgb_phaser([0,0,0,2,4],'internal_color','res');
+            this.setState({"navmenu":this.nav_constructor(2)});
+            ReactDOM.render((<div/>), document.getElementById('cont'));
+            sleep(3).then(() => {
+                ReactDOM.render(div_load, document.getElementById('cont'));
+                var head = this.header_constructor("Senpais are searching");
+                var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":load3}}],0);
+                var result = head.concat(body);
+            });
+        }
+        else if (mode == 'init'){
+            console.log(mode);
+            ReactDOM.render(div_onload, document.getElementById('cont'));
+            this.setState({"navmenu":this.nav_constructor(1)});
+            var head = this.header_constructor("Whatcha waiting for");
+            var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":load2}}],0);
             var result = head.concat(body);
-            this.setState({htmltext:ReactHtmlParser(result)});
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+        }
+        else if (mode == 'no_res'){
+            console.log(mode);
+            this.rgb_phaser([15,14,14,1,0],'internal_color','res');
+            ReactDOM.render(div_onload, document.getElementById('cont'));
+            this.setState({"navmenu":this.nav_constructor(1)});
+            var head = this.header_constructor("Cannot Notice senpai");
+            var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":nll}}],0);
+            var result = head.concat(body);
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+
+        }
+        else if (mode == 'no_term'){
+            console.log(mode);
+            ReactDOM.render(div_onload, document.getElementById('cont'));
+            var head = this.header_constructor("gomenasai");
+            var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":nll}}],0);
+            var result = head.concat(body);
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            sleep(1500).then(() => {
+                this.page_handler('init',{});
+            })
+        }
+        else if (mode == 'nice_try'){
+            console.log(mode);
+            ReactDOM.render(div_onload, document.getElementById('cont'));
+            var head = this.header_constructor("Sorry dear user");
+            var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":sec}}],0);
+            var result = head.concat(body);
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            sleep(3000).then(() => {
+
+            })
         }
     }
 
+    rgb_phaser = (altitude,target,state_target) => {
+        // var target = 'internal_color';
+        // var state_target = 'res';
+        if (   this[target][0] != altitude[0] 
+            || this[target][1] != altitude[1]
+            || this[target][2] != altitude[2] ){
+            // console.log(altitude);
+            if (this[target][0] != altitude[0]){
+                if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
+                    this[target][0] = altitude[0];
+                else
+                    this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
+            }
+            if (this[target][1] != altitude[1]){
+                if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
+                    this[target][1] = altitude[1];
+                else
+                    this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
+            }
+            if (this[target][2] != altitude[2]){
+                if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
+                    this[target][2] = altitude[2];
+                else
+                    this[target][2] += this[target][2] > altitude[2] ? -1 * altitude[3] : 1* altitude[3];
+            }
+            // console.log(altitude);
+            altitude[3] += altitude[4];
+            this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
+            sleep(20).then(() => {
+                this.rgb_phaser(altitude,target,state_target);
+            });
+        } else
+            console.log("set " + target + " result posted to this.state." + state_target);
+    }
+
+    toPos(num){
+        if (num < 0)
+            return (num * -1);
+        else
+            return (num);
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Render Return >>>>
+//
+
     render () {
         return (
-        <section className="section hero">
+        <section className="section hero" style={{backgroundColor: this.state.res,height: window.innerHeight+"px"}}>
         <nav className="navbar hero-head">
             <div className="container">
                 <div className="navbar-brand">
@@ -114,26 +264,14 @@ export default class User extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
-                    <div className="navbar-end">
-                        <div className="control is-small has-icons-right search-margin" >
-                            <input id="in" className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyhandle(e)}/>
-                            <span id="span" className="icon is-small is-right" >
-                                <i id="image" className="fa fa-search"></i>
-                            </span>
-                        </div>
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
-                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
-                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
-                    </div>
-                </div>
+                    <div id="navMenu" className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
-            <div className="container"><div className="columns is-centered shadow"><div className="column bg_white_2">
-                        {/* <div>{ReactHtmlParser(this.header_constructor("YOUr div dies with small"))}</div> */}
-                        <div>{this.state.htmltext}</div>
-            </div></div></div>
+            <div id="cont" className="container" >
+                {/* <div className="columns is-centered shadow">
+                    <div className="column bg_white_2"><div onClick={e => this.listener(e)} id="result"></div></div>
+                </div> */}
+            </div>
         </section>
 
         )
@@ -141,7 +279,7 @@ export default class User extends Component {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//                      <<<< Extra functions >>>>
+//                      <<<< Contructor functions >>>>
 //
 
     constructor(props){
@@ -180,19 +318,61 @@ export default class User extends Component {
             return (data);
         }
     }
+    nav_constructor(render){
+        var element1 = (
+            <div  className="navbar-end">
+                <div className="control is-small has-icons-right search-margin" >
+                    <input id="in" className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyhandle(e)}/>
+                        <span id="span" className="icon is-small is-right" >
+                            <i id="image" className="fa fa-search"></i>
+                        </span>
+                </div>
+                <Link to="/" className="navbar-item" style={{color:this.state.links}}>Home</Link>
+                <Link to="/user" className="navbar-item " style={{color:this.state.links}}>Profile</Link>
+                <Link to="/edit" className="navbar-item " style={{color:this.state.links}}>Profile Editor</Link>
+                <Link to="/logout" className="navbar-item " style={{color:this.state.links}}>Logout</Link>
+            </div>
+        )
+        var element2 = (
+            <div  className="navbar-end">
+            <div className="control is-small has-icons-right search-margin" ></div>
+            <Link to="/" className="navbar-item " style={{color:this.state.links}} >Home</Link>
+            <Link to="/user" className="navbar-item " style={{color:this.state.links}} >Profile</Link>
+            <Link to="/edit" className="navbar-item " style={{color:this.state.links}} >Profile Editor</Link>
+            <Link to="/logout" className="navbar-item " style={{color:this.state.links}} >Logout</Link>
+        </div>
+        )
+        console.log(this.state.links);
+        if (render){
+            if (render == 1)
+                return element1;
+            else
+                return element2;
+        }
+        else
+            return <div/>;
+    }
     header_constructor(heading){
         var start = '<div class="tile is-ancestor"><div class="tile is-parent"><article class="tile is-child box"><p class="title center_b">';
         var header = '<p class="title center_b">' + heading + '</p></article></div></div>';
         return start + header;
     }
-    column_constructor(name, image , id){
+    column_constructor(name, image , button, id){
         var article = ['<div class="tile is-parent" style="width=800px "><article class="tile is-child box">','</article></div>'];
         var name_tag = '<h1 class="center_b">' + name + '</h1>';
         var img_tag = '<figure class="image is-3by4"><img class="overflow" src=' + image + ' alt="Asuna_img" /></figure>';
-        var res = article[0] + name_tag + img_tag + article[1];
+        if (button === 1){
+            var res = article[0] + name_tag + img_tag + this.button_constructor() + article[1];
+        }
+        else
+            var res = article[0] + name_tag + img_tag + article[1];
         return(res);
     }
-    row_constructor(rows, columns, data){
+    button_constructor(){
+        var className = '"button is-warning is-rounded"';
+        return ('<button class=' + className + '>like</button><button class=' + className + '>dislike</button><button class=' + className + '>report</button>');
+    }
+    row_constructor(rows, columns, data, button){
         var i = 0;
         var divs = "";
         var temp = "";
@@ -208,17 +388,17 @@ export default class User extends Component {
                     image = nll;
                 else
                     image = data[data_pos].img.img1;
-                temp = this.column_constructor(data[data_pos].name , image);
+                temp = this.column_constructor(data[data_pos].name , image, button);
                 res += divs.concat(temp);
                 i++;
                 data_pos++;
             }
-            if (data_pos == max)
-                while (i < columns){
-                    temp = this.column_constructor("PC fix please",nll);
-                    res += divs.concat(temp);
-                    i++;
-                }
+            // if (data_pos == max)
+            //     while (i < columns){
+            //         temp = this.column_constructor("PC fix please",nll);
+            //         res += divs.concat(temp);
+            //         i++;
+            //     }
             divs = "";
             i = 0;
             res += '</div>';
