@@ -323,10 +323,11 @@ router.route('/load_data').post( (req, res) => {
     var i = 0;
     for (i  = 0; i < dlen; i++){
         let user = new UserModels(test_data[i]);
+        console.log(test_data[i].name)
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;
             user.password = hash;
-            user.save().catch( err => res.status(400).json('Error: ' + err));
+            user.save();
         }));
     }
     res.json("done");

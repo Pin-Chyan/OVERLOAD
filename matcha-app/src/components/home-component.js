@@ -190,6 +190,20 @@ export default class Home extends Component {
             }
             data.position = 0;
     }
+
+    searchHandle = e => {
+        this.setState({search:e.target.value});
+    }
+    key_handle = e => {
+        if (e.key == 'Enter'){
+            var search_input = 'null';
+            if (this.state.search){
+                if (this.state.search.trim() != '')
+                    search_input = this.state.search;
+            }
+            this.props.history.push('/search/' + search_input);
+        }
+    }
     
     componentDidMount () {
         const jwt = localStorage.token;
@@ -218,8 +232,6 @@ export default class Home extends Component {
         });
     }
 
-
-    
     render () {
         return (
             <section className="section hero">
@@ -238,7 +250,7 @@ export default class Home extends Component {
                 <div id="navMenu" className="navbar-menu">
                     <div className="navbar-end">
                         <div className="control is-small has-icons-right search-margin">
-                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
+                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.key_handle(e)}/>
                             <span className="icon is-small is-right">
                                 <i className="fa fa-search"></i>
                             </span>

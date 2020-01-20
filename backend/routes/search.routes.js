@@ -78,7 +78,7 @@ function V8(user_data, recived_data, search_input, search_conditions, debug) {
                 matching[6] = 1;
             console.log(recived_data[i].name);
             console.log(matching);
-            if (!search_match(search_conditions, user_data,matching).toString().includes('0'))
+            if (!search_match(search_conditions, user_data, matching, search_input).toString().includes('0'))
                 array.push(recived_data[i]);
             matching = [0,0,0,0,0,0,0];
             search_res = [];
@@ -92,8 +92,16 @@ function V8(user_data, recived_data, search_input, search_conditions, debug) {
         return("no result");
 }
 
-function search_match(search_req, user_data, matching){
+function search_match(search_req, user_data, matching, search_input){
     var res = [1,1,1,1,1,1,1];
+    if (search_input === 'its over 9000')
+        return res;
+    if (search_input === 'omae wa mou shindeiru'){
+        if (matching[2] == 1)
+            return (res);
+        else
+            return ([0]);
+    }
     if (search_req[0] == 1)
         if (matching[0] == 0)
             res[0] = 0;

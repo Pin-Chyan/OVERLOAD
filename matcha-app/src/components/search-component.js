@@ -40,10 +40,12 @@ export default class User extends Component {
 //
 
     componentDidMount () {
+        console.log("exist" + Date.now());
         this.internal_color = [15,14,14];
         this.link_color = [50,170,255];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
+        console.log(this.props.match.params.input);
         const jwt = localStorage.token;
         token = localStorage.token;
         console.log(jwt);
@@ -68,6 +70,13 @@ export default class User extends Component {
                     this.setState(data);
             }
             this.page_handler('init',{});
+            if (this.props.match.params.input != 'null'){
+                console.log('searching');
+                this.state.search = this.props.match.params.input;
+                this.props.match.params.input = 'null';
+                this.search_handle('Enter');
+            }
+            // else
         });
         console.log(this.state);
     }
@@ -87,12 +96,19 @@ export default class User extends Component {
         this.setState({search:e.target.value});
     }
     keyhandle = e => {
+        if (e.key == 'Enter' && busy == 0){
+            this.search_handle(e.key);
+        }
+    }
+
+    search_handle(input){
+        console.log(input);
         async function search(search_bar, token, conditions){
             let res = await axios.post(ip+'/search/hard',{"token":token,"email":sesh, "search_input":search_bar, "search_conditions":conditions});
             if (res.status == 200)
                 return(res.data);
         }
-        if (e.key == 'Enter' && busy == 0){
+        if (input == 'Enter' && busy == 0){
             busy = 1;
             // this.page_handler('searching',{});
             console.log("enter");
@@ -137,22 +153,24 @@ export default class User extends Component {
         if (mode == 'loaded'){
             console.log(mode);
             this.rgb_phaser([15,14,14,1,0],'internal_color','res');
-            ReactDOM.render(div_onload, document.getElementById('cont'));
+            if (document.getElementById('cont'))
+                ReactDOM.render(div_onload, document.getElementById('cont'));
             this.setState({"navmenu":this.nav_constructor(1)});
-            var column = 2;
+            var column = window.innerWidth > 1400 ? 3 : 2;
             var row = Math.ceil(data.length/column);
             var head = this.header_constructor("Here you go");
             var body = this.row_constructor(row,column,data,1);
             var result = head.concat(body);
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            if (document.getElementById('result'))
+                ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
         }
         else if (mode === 'searching'){
             console.log(mode);
             this.rgb_phaser([0,0,0,2,4],'internal_color','res');
             this.setState({"navmenu":this.nav_constructor(2)});
-            ReactDOM.render((<div/>), document.getElementById('cont'));
             sleep(3).then(() => {
-                ReactDOM.render(div_load, document.getElementById('cont'));
+                if (document.getElementById('cont'))
+                    ReactDOM.render(div_load, document.getElementById('cont'));
                 var head = this.header_constructor("Senpais are searching");
                 var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":load3}}],0);
                 var result = head.concat(body);
@@ -160,42 +178,50 @@ export default class User extends Component {
         }
         else if (mode == 'init'){
             console.log(mode);
-            ReactDOM.render(div_onload, document.getElementById('cont'));
+            if (document.getElementById('cont'))
+                ReactDOM.render(div_onload, document.getElementById('cont'));
             this.setState({"navmenu":this.nav_constructor(1)});
             var head = this.header_constructor("Whatcha waiting for");
             var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":load2}}],0);
             var result = head.concat(body);
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            if (document.getElementById('result'))
+                ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
         }
         else if (mode == 'no_res'){
             console.log(mode);
             this.rgb_phaser([15,14,14,1,0],'internal_color','res');
-            ReactDOM.render(div_onload, document.getElementById('cont'));
+            if (document.getElementById('cont'))
+                ReactDOM.render(div_onload, document.getElementById('cont'));
             this.setState({"navmenu":this.nav_constructor(1)});
             var head = this.header_constructor("Cannot Notice senpai");
             var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":nll}}],0);
             var result = head.concat(body);
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            if (document.getElementById('result'))
+                ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
 
         }
         else if (mode == 'no_term'){
             console.log(mode);
-            ReactDOM.render(div_onload, document.getElementById('cont'));
+            if (document.getElementById('cont'))
+                ReactDOM.render(div_onload, document.getElementById('cont'));
             var head = this.header_constructor("gomenasai");
             var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":nll}}],0);
             var result = head.concat(body);
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            if (document.getElementById('result'))
+                ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
             sleep(1500).then(() => {
                 this.page_handler('init',{});
             })
         }
         else if (mode == 'nice_try'){
             console.log(mode);
-            ReactDOM.render(div_onload, document.getElementById('cont'));
+            if (document.getElementById('cont'))
+                ReactDOM.render(div_onload, document.getElementById('cont'));
             var head = this.header_constructor("Sorry dear user");
             var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":sec}}],0);
             var result = head.concat(body);
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
+            if (document.getElementById('result'))
+                ReactDOM.render(ReactHtmlParser(result), document.getElementById('result'));
             sleep(3000).then(() => {
 
             })
