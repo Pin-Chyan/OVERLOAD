@@ -30,13 +30,16 @@ router.post('/getToken', (req, res) => {
             }
             jwt.sign({email, password}, process.env.SECRET, (err, token) => {
                 UserModels.findOne({'email':email},"token").then(docs => {
+                    console.log('new_token');
+                    console.log('new_token');
+                    console.log('new_token');
                     docs.token = token;
                     docs.save();
+                    res.json({
+                        token,
+                        resCode: 0
+                    });
                 })
-                res.json({
-                    token,
-                    resCode: 0
-                });
             });
         });
     });

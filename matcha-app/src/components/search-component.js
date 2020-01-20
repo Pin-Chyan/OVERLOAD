@@ -45,16 +45,17 @@ export default class User extends Component {
         this.link_color = [50,170,255];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
-        console.log(this.props.match.params.input);
+        console.log('input = ' + this.props.match.params.input);
         const jwt = localStorage.token;
         token = localStorage.token;
-        console.log(jwt);
+        console.log('token = ' + jwt);
+        console.log('start page render');
         async function get_userdata(){
             if (jwt) {
                 let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
                 if (prom.status == 200){
                     sesh = prom.data.email;
-                    console.log(prom.data.email);
+                    // console.log(prom.data.email);
                     let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email,"target":"name last bio img.img1 tag","token":jwt});
                     return(prom2);
                 }
@@ -63,6 +64,7 @@ export default class User extends Component {
             }
         }
         get_userdata().then(res => {
+            console.log('userdata finish pull');
             if (res !== "error"){
                 var data = this.get_handle(res)
                 console.log(data);
@@ -76,7 +78,6 @@ export default class User extends Component {
                 this.props.match.params.input = 'null';
                 this.search_handle('Enter');
             }
-            // else
         });
         console.log(this.state);
     }

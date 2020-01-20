@@ -89,7 +89,10 @@
         "tag"           : [
             "lightning flash", "The Flash", "Fierce Flash", "Lady Stacia" , "Sao"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://media.discordapp.net/attachments/472313197836107780/582682470571311114/6xrnhEq.png"
+        }
     },
     {
         "name"          : "Remu",
@@ -219,7 +222,10 @@
         "tag"           : [
             "Lustrous", "Jealousy", "Sweet"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://media.discordapp.net/attachments/472313197836107780/547252252310765578/fewHVtR.png"
+        }
     },
     {
         "name"          : "Yoko",

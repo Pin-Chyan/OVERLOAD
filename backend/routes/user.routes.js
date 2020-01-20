@@ -221,16 +221,21 @@ router.route('/Del_like').post( (req, res) => {
 })
 
 router.route('/get_spec').post( (req, res) => {
-    if (req.body.token)
-        if (req.body.target != "")
+    if (req.body.token){
+        if (req.body.target != ""){
             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-                if ((req.body.token == docs[0].token) || (req.body.token == "admin"))
-                    res.json(docs);
+                if ((req.body.token !== docs[0].token) && (req.body.token !== "admin")){
+                    console.log(req.body.token);
+                    console.log(docs[0].token);
+                    res.json('invalid token');
+                }
                 else
-                    res.status(403).send("invalid token");
+                    res.json(docs);
             }).catch(err => {res.status(500).send(err)});
+        }
         else
             res.status(400).send("no target");
+    }
     else
         res.status(400).send("token not present");
 })
@@ -327,7 +332,7 @@ router.route('/load_data').post( (req, res) => {
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;
             user.password = hash;
-            user.save();
+            user.save().then(() => {console.log('added')}).catch(err => {console.log(err)});
         }));
     }
     res.json("done");
