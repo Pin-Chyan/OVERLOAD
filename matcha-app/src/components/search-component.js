@@ -40,6 +40,7 @@ export default class User extends Component {
 //
 
     componentDidMount () {
+        console.log("exist" + Date.now());
         this.internal_color = [15,14,14];
         this.link_color = [50,170,255];
         this.state.res = '';
@@ -72,6 +73,7 @@ export default class User extends Component {
             if (this.props.match.params.input != 'null'){
                 console.log('searching');
                 this.state.search = this.props.match.params.input;
+                this.props.match.params.input = 'null';
                 this.search_handle('Enter');
             }
             // else
@@ -154,7 +156,7 @@ export default class User extends Component {
             if (document.getElementById('cont'))
                 ReactDOM.render(div_onload, document.getElementById('cont'));
             this.setState({"navmenu":this.nav_constructor(1)});
-            var column = 2;
+            var column = window.innerWidth > 1400 ? 3 : 2;
             var row = Math.ceil(data.length/column);
             var head = this.header_constructor("Here you go");
             var body = this.row_constructor(row,column,data,1);
