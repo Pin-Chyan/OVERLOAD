@@ -3,13 +3,11 @@ import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
+import iplocation from 'iplocation';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+const ip = require("../server.json").ip;
 // import "../styles/debug.css";
-
-    // var edit = "http://10.212.6.4:5001/users/edit_spec";
-    // var get = "http://10.212.6.4:5001/users/get_spec";
-    var ip = require("../server.json").ip;
 
 export default class Register extends Component {
     constructor(props) {
@@ -22,6 +20,7 @@ export default class Register extends Component {
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.setLocationFromIp = this.setLocationFromIp.bind(this);
 
         this.state = {
             name: '',
@@ -33,6 +32,7 @@ export default class Register extends Component {
             gender: '',
             img: '',
             registered: false,
+            location: [],
             pwdErr: '',
             pwdConErr: '',
             nameErr: '',
@@ -44,10 +44,34 @@ export default class Register extends Component {
         };
     }
 
+    
+    componentDidMount() {
+        this.setLocationFromIp()
+    }
+    async setLocationFromIp() {
+        // Get user ip from cloudflare api
+        axios.get('https://www.cloudflare.com/cdn-cgi/trace').then(res => {
+            const rawIpData = res.data.split('=')
+            const ip = (rawIpData[3].slice(0, -2)).trim()
+            // Get location from based on ip
+            iplocation(ip).then(res => {
+                this.setState({ location: [
+                        res.country,
+                        res.region,
+                        res.city,
+                        res.postal,
+                        res.longitude,
+                        res.latitude
+                    ]
+                })
+            })
+        })
+    }
+    
     onChangeName(e) {
         this.setState({name: e.target.value});
     }
-
+    
     onChangeSurname(e) {
         this.setState({surname: e.target.value});
     }
@@ -188,10 +212,11 @@ export default class Register extends Component {
                             name: this.state.name,
                             last: this.state.surname,
                             password: this.state.pwd,
-                            gender: this.state.gender,
+                            gender: gender,
                             age: this.state.age,
                             email: this.state.email,
-                            sexual_pref: 0
+                            sexual_pref: 0,
+                            location: this.state.location
                         }
                         console.log(dat);
                         axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
@@ -307,11 +332,11 @@ export default class Register extends Component {
                             <label className="label">Gender</label>
                             <div className="control">
                                 <label className="radio">
-                                    <input type="radio" name="question" value="male" onChange={this.onChangeGender} checked={this.state.gender === 'm'}/>
+                                    <input type="radio" name="question" value="m" onChange={this.onChangeGender} checked={this.state.gender === 'm'}/>
                                     Male
                                 </label>
                                 <label className="radio">
-                                    <input type="radio" name="question" value="female" onChange={this.onChangeGender} checked={this.state.gender === 'f'}/>
+                                    <input type="radio" name="question" value="f" onChange={this.onChangeGender} checked={this.state.gender === 'f'}/>
                                     Female
                                 </label>
                             </div>
