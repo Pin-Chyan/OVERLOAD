@@ -241,6 +241,10 @@ export default class Home extends Component {
                     <figure className="navbar-item image">
                         <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
                     </figure>
+                    <div class="field">
+                        <input id="switchThinRoundedOutlinedWarning" type="checkbox" name="switchThinRoundedOutlinedWarning" class="switch is-thin is-rounded is-outlined is-warning" checked="checked" />
+                        <label for="switchThinRoundedOutlinedWarning">Switch Thin rounded outlined warning</label>
+                    </div>
                     <span className="navbar-burger burger" data-target="navMenu">
                         <span></span>
                         <span></span>
