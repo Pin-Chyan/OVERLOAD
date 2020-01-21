@@ -22,10 +22,6 @@ export default class Inbox extends Component {
     }
   }
 
-  updateNotifications () {
-    
-  }
-
   componentDidMount () {
     // Get token
     const jwt = localStorage.token
