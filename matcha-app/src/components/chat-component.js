@@ -101,12 +101,13 @@ export default class cons extends Component {
 		async function get_msg(target){
 			console.log("inside get_msg");
 			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":token});
-			if (promise.status === 200){
-				var data = {};
-				data.chat = promise.data.message;
-				console.log(data.chat);
-				return (data);
-			}
+			// if (promise.status === 200){
+			// 	var data = {};
+			// 	data.chat = promise.data.message;
+			// 	console.log(data.chat);
+			// 	return (data);
+            // }
+            return ('hi shane');
 		}
 	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
 		get_id1(this.jwt).then(ret => {
@@ -115,7 +116,20 @@ export default class cons extends Component {
 				this.setState(doc);
 				get_msg(target).then(res => {
 					var msg = res.chat;
-                    this.state.msg = msg;
+                    this.state.msg = [
+                    {'author': "lkrielin@gmail.com",
+                    'target': "solivari@gmail.com",
+                    'msg': "[1/21/2020, 12:54:29 PM] i need therapy"},
+                    {'author': "solivari@gmail.com",
+                    'target': "lkrielin@gmail.com",
+                    'msg': "[1/21/2020, 12:54:35 PM] i mean just say when you go afk"},
+                    {'author': "lkrielin@gmail.com",
+                    'target': "solivari@gmail.com",
+                    'msg': "[1/21/2020, 12:54:44 PM] but it's really bad"},
+                    {'author': "solivari@gmail.com",
+                    'target': "lkrielin@gmail.com",
+                    'msg': "[1/21/2020, 12:54:56 PM] Look your gonna be ok"
+                    }];
                     var stuff = this.messages();
                     ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
 				})
@@ -216,7 +230,7 @@ export default class cons extends Component {
 
     messages(){
         var element1 = ("<p style={{ padding: '.25em', textAlign: center_b");
-        var element2 = ("msgClass: left}}><span style={float: left, overflow-wrap: normal} class={tag chat-wrap ${msgClass:'is-success'}}>");
+        var element2 = ("msgClass: left}}><span class=tag chat-wrap is-success>");
         var element3 = ("</span></p>");
         var i = 0;
         var max = this.state.msg.length;

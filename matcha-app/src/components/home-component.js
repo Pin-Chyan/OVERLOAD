@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Switch from 'react-switch';
+import Inbox from './message-and-notification';
 // import Switch from 'react-bulma-switch';
 // import Switch from 'react-bulma-switch/full';
 // import Switch from 'react-bulma-switch/lib';
@@ -347,6 +348,9 @@ export default class Home extends Component {
                 <p>
                     {this.state.bio}
                 </p>
+                <div>
+                  <Inbox />
+                </div>
             </div>
                         </div>
                         

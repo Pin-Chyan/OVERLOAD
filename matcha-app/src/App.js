@@ -20,7 +20,7 @@ import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
 import Backup from "./components/backup-component.js"
-import newSearch from "./components/newSearch-component.js"
+import newSearch from "./cvomponents/newSearch-component.js"
 // import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";
 
