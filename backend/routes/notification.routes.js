@@ -3,13 +3,6 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 let UserModels = require('../models/user.models.js');
 const verifyToken = require('../auth/auth.middleware');
-// <------------------- Notifications ------------------------------------>
-
-//TODO: Create notifications field
-// Create notifications page
-// Retrieve notificatoins
-// Retrive notifications every 15 seconds
-// Create refresh button to get new notifications
 
 router.post('/addNotification', verifyToken, (req, res) => {
   if (!req.token || !req.body.sender || !req.body.message || !req.body.receiver) {
