@@ -61,6 +61,7 @@
     width: 480px;
     height: 640px;
     object-fit: contain;
+    overflow-wrap: v;
 }
 
 .light-yellow {
@@ -115,6 +116,10 @@
     flex-grow: 0 !important;
     left: 50%;
     /* margin-left: -50px; */
+}
+
+.right {
+    float: right !important;
 }
 
 
