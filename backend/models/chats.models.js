@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const chat_room = new Schema({
   _id1: {type: String,default:''}, //sender
   _id2: {type: String,default:''}, //target
-  message: {type: Array,default:[]},
+  email: {type: String,default: ''}, //search id
+  message: {type: Array,default:['start']},
   }, {
     timestamps: true,
   });

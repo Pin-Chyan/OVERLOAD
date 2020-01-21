@@ -11,7 +11,8 @@ import { getJwt } from "./auth/jwt-helper.js";
 
 var ip = require("../server.json").ip;
 console.log(ip);
-var sesh = "meave@gmail.com";
+var sesh = "solivari@gmail.com";
+var target = "lkrielin@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
@@ -29,35 +30,94 @@ export default class cons extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.get_id = this.get_id.bind(this);
+        this.jwt = localStorage.token;
         this.state = {
             name: '',
             last: '',
             bio: '',
+            _id1:'',
+            _id2: '',
+            target: {},
             ag: 0,
-            tags: '#urmomlol',
+            tags: '#tags',
             display: load,
             display2: load2,
-            chat: ['hi', 'hello', 'who are you', 'idk']
+            msg: []
         }
     }
 
     componentDidMount () {
-        var name = "Shane";
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"name last img.img1", "token" : token}).then(res => {
-            console.log(res);
-            if (res.data == "invalid token"){
-                return (window.location.href = ip+"/home");
+        this.get_id();
+    }
+
+    get_id() {
+        async function get_id1(jwt){
+            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1", "token" : token});
+            if (res.status === 200){
+                if (res.data == "invalid token"){
+                    return (window.location.href = ip+"/home");
+                }
+                else {
+                    var data = {};
+                    data.img = {};
+                    data._id1 = res.data[0]._id;
+                    data.name = res.data[0].name;
+                    data.last = res.data[0].last;
+                    if (res.data[0].img.img1 == "null")
+                        data.display = nll;
+                    else
+                        data.display = res.data[0].img.img1;
+                   	return (data);
+                }
             }
-            else if (res.data[0].name){
-                this.setState({
-                    name: res.data[0].name,
-                    last: res.data[0].last,
-                    display: res.data[0].img.img1,
-                    bio: res.data[0].bio
-                });
+            else 
+                console.log("error");
+        }
+        async function get_id2(){
+            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1", "token" : token});
+            if (docs.status === 200){
+                if (docs.data[0].name){
+                    var set = {};
+                    set.target = {};
+                    set._id2 = docs.data[0]._id;
+                    set.target.name = docs.data[0].name;
+                    set.target.last = docs.data[0].last;
+                    if (docs.data[0].img.img1 && docs.data[0].img.img1 != "null")
+                        set.target.display = docs.data[0].img.img1;
+                    else 
+                        set.target.display = nll;
+                    set.target.email = target;
+                    console.log(set);
+                    return (set);
+                }
             }
-            console.log("this "+ this.state.img5);
-        });
+            else
+                console.log("error");
+		}
+		async function get_msg(target){
+			console.log("inside get_msg");
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":token});
+			if (promise.status === 200){
+				var data = {};
+				data.chat = promise.data.message;
+				console.log(data.chat);
+				return (data);
+			}
+		}
+	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
+		get_id1(this.jwt).then(ret => {
+			this.setState(ret);
+			get_id2().then(doc => {
+				this.setState(doc);
+				get_msg(target).then(res => {
+					var i = 1;
+					var msg = res.chat;
+					this.state.msg = msg;
+					console.log(this.state.msg);
+				})
+			})
+		});
     }
 
     render () {
@@ -105,8 +165,7 @@ export default class cons extends Component {
                                 <div className="content">
                                     <p>
                                         <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                        <span className="has-text-grey">{this.state.tags}<br />
-                                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                        <span><time dateTime="2018-04-20">Apr 20</time> Author</span>
                                     </p>
                                 </div>
                             </div>
@@ -117,15 +176,14 @@ export default class cons extends Component {
                         <article className="media center">
                             <figure className="media-left">
                                 <figure className="image is-64x64">
-                                    <img alt="Asuna" src={this.state.display} />
+                                    <img alt="Asuna" src={this.state.target.display} />
                                 </figure>
                             </figure>
                             <div className="media-content">
                                 <div className="content">
                                     <p>
-                                        <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                        <span className="has-text-grey">{this.state.tags}<br />
-                                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                        <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+                                        <span><time dateTime="2018-04-20">Apr 20</time> target</span>
                                     </p>
                                 </div>
                             </div>
@@ -139,7 +197,7 @@ export default class cons extends Component {
 
 
                     <div className="hero-body">
-                    <Messages chat={this.state.chat} />
+                    <Messages chat={this.state.msg} />
                     </div>
                     <div className="hero-foot">
                     <footer className="section is-small">

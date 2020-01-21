@@ -53,8 +53,8 @@
         "verified"      : true
     },
     {
-        "name"          : "bakugo",
-        "last"          : "katsuki",
+        "name"          : "katsuki",
+        "last"          : "bakugo",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 18,
@@ -63,7 +63,10 @@
         "tag"           : [
             "explosion","death","vilians","bad ass"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://imgur.com/rqyu1SW.png"
+        }
     },
     {
         "name"          : "megumin",
@@ -76,7 +79,10 @@
         "tag"           : [
             "konosuba","explosion","mana strugle","nuker","evil eye patch"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://media.discordapp.net/attachments/472313197836107780/553808062780014632/aHbnHYY.png"
+        }
     },
     {
         "name"          : "Asuna",
@@ -105,7 +111,10 @@
         "tag"           : [
             "Remrin", "Adorable", "Oni", "Caring"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://imgur.com/TYmZ6H7.png"
+        }
     },
     {
         "name"          : "Yuno",
@@ -118,7 +127,10 @@
         "tag"           : [
             "Yunocchi", "Second", "Sweet", "Shy", "Feminine", "Yandere"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img1" : "https://imgur.com/H9S37yu.png"
+        }
     },
     {
         "name"          : "Isla",
@@ -131,7 +143,10 @@
         "tag"           : [
             "innocent", "caring", "mindful", "doesn't have time"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/546485482305880111/EtDiZga.png"
+        }
     },
     {
         "name"          : "Zero Two",
@@ -144,7 +159,10 @@
         "tag"           : [
             "002", "Partner Killer", "fanged teeth", "horns"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/571169868276039710/bMKEgh7.png"
+        }
     },
     {
         "name"          : "Lalatina",
@@ -157,7 +175,10 @@
         "tag"           : [
             "Darkness", "Royalty", "Crusader", "Heroic", "Selflessness"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/606978282872635432/qTb7AO1.png"
+        }
     },
     {
         "name"          : "Rias",
@@ -170,7 +191,42 @@
         "tag"           : [
             "Kind", "Optimist", "Sexy"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/584161628447178854/oxjuaWX.png"
+        }
+    },
+    {
+        "name"          : "Takagi",
+        "last"          : "N/A",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 22,
+        "email"         : "Takagi@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Slender", "Kind-Hearted", "Caring", "Intelligent"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/607457521887608833/NXrpmio.png"
+        }
+    },
+    {
+        "name"          : "Violet",
+        "last"          : "Evergarden",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 14,
+        "email"         : "VioletEvergarden@gmail.com",
+        "sexual_pref"   : -1,
+        "tag"           : [
+            "Emotionless", "Polite", "Kind-Hearted"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://imgur.com/4ncyRld.png"
+        }
     },
     {
         "name"          : "Akeno",
@@ -183,7 +239,10 @@
         "tag"           : [
             "Sadistic", "Masochistic", "Seductive"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/608083127981572115/Kq3mswi.png"
+        }
     },
     {
         "name"          : "Liam",
@@ -196,7 +255,10 @@
         "tag"           : [
             "Biker", "LikesToCrash", "#YOLO", "FACEIT"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://www.facebook.com/photo.php?fbid=2435220526801278&set=a.1511779425812064&type=3&source=11&referrer_profile_id=100009400625609"
+        }
     },
     {
         "name"          : "Tim",
@@ -209,7 +271,10 @@
         "tag"           : [
             "RedBeard", "Weeb", "Otaku"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : ""
+        }
     },
     {
         "name"          : "Albedo",
@@ -238,7 +303,10 @@
         "tag"           : [
             "ShootFirst", "ShootOnSight"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/608407684085055491/l1AqAWf.png"
+        }
     },
     {
         "name"          : "Mai",
@@ -251,7 +319,10 @@
         "tag"           : [
             "Mild", "Spicy", "Sensitive"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/546218119568556032/BcTywtw.png"
+        }
     },
     {
         "name"          : "Kazuto",
@@ -264,6 +335,73 @@
         "tag"           : [
             "Beta Tester", "Harem"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/620004356455923748/VNvgpbN.png"
+        }
+    },
+    {
+        "name"          : "Levi",
+        "last"          : "Ackerman",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 34,
+        "email"         : "AOTLevi@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Clean-Freak", "Cold-Expressions", "Blunt"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/548330075213529118/Q2S4ChJ.png"
+        }
+    },
+    {
+        "name"          : "Sebastian",
+        "last"          : "Michaelis",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 100,
+        "email"         : "SebasMichaelis@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Faithful", "Loyal", "Heartless", "Sadistic", "Callous"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/571933632076185610/cMWs9KN.png"
+        }
+    }
+    {
+        "name"          : "Rin",
+        "last"          : "Okumura",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 16,
+        "email"         : "Okumura@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Campasstionate", "Supportive", "Violent"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://media.discordapp.net/attachments/472313197836107780/553742123699142666/TI6Pw6N.png"
+        }
+    },
+    {
+        "name"          : "Gilbert",
+        "last"          : "Bougainvillea",
+        "password"      : "bot",
+        "gender"        : -1,
+        "age"           : 29,
+        "email"         : "Sgt.Gilbert@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "Stoic", "Stern"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://d3ieicw58ybon5.cloudfront.net/ex/610.343/u/004837a85fe14bd6b4a2c6c0d979ce96.jpg"
+        }
     }
 ]
