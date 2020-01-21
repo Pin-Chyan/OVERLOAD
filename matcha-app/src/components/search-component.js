@@ -88,7 +88,7 @@ export default class User extends Component {
             if (emailGet_res !== 'eve redirect')
                 get_data(emailGet_res.email,this.jwt,this.ip,"name email last").then(userGet_res => {
                     if (userGet_res !== 'eve redirect'){
-                        // this.setState({"user":userGet_res[0]});
+                        this.setState({"user":userGet_res[0]});
                         this.eve_mount();
                     }
                     else
@@ -103,8 +103,9 @@ export default class User extends Component {
         this.internal_color = [15,14,14];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
-        // this.page_handler('init',{});
+        this.page_handler('init',{});
     }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -134,8 +135,8 @@ page_handler(mode, data){
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
     }
     else if (mode === 'searching'){
-        console.log(mode);//2
-        this.rgb_phaser([0,0,0,2,1],'internal_color','res');
+        console.log(mode);
+        this.rgb_phaser([0,0,0,1,0],'internal_color','res');
         sleep(3).then(() => {
             if (document.getElementById(cont_div))
                 ReactDOM.render(div_load, document.getElementById(cont_div));
@@ -196,7 +197,7 @@ page_handler(mode, data){
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
         sleep(3000).then(() => {
-
+            this.page_handler('init',{});
         })
     }
 }
@@ -216,7 +217,8 @@ page_handler(mode, data){
     //      <<<< Page routers
 
     redirecthandler = e => {
-        console.log(e.target.id);
+        // console.log(e.target.id);
+        this.props.history.push(e.target.id);
     }
     //      the end >>>>
 
@@ -313,27 +315,6 @@ page_handler(mode, data){
 //                      <<<< Contructor functions >>>>
 //
 
-    get_handle(res){
-        if (res.data == "invalid token"){
-            return ("invalid token");
-        }
-        else if (res.data[0].name){
-            var data = {};
-            data.name = res.data[0].name;
-            data.last = res.data[0].last;
-            data.bio = res.data[0].bio;
-            data.tag = res.data[0].tag;
-            if (res.data[0].img.img1 == 'null'){
-                data.display = nll;
-                data.display2 = nll;
-            }
-            else{
-                data.display = res.data[0].img.img1;
-                data.display2 = res.data[0].img.img1;
-            }
-            return (data);
-        }
-    }
     nav_constructor(render){
         var element1 = (
             <div  className="navbar-end">

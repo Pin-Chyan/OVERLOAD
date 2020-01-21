@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser';
+import ReactDOM from 'react-dom'
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -31,6 +33,7 @@ export default class cons extends Component {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.get_id = this.get_id.bind(this);
+        this.messages = this.messages.bind(this);
         this.jwt = localStorage.token;
         this.state = {
             name: '',
@@ -43,7 +46,7 @@ export default class cons extends Component {
             tags: '#tags',
             display: load,
             display2: load2,
-            msg: []
+            msg: ["shit"]
         }
     }
 
@@ -111,10 +114,10 @@ export default class cons extends Component {
 			get_id2().then(doc => {
 				this.setState(doc);
 				get_msg(target).then(res => {
-					var i = 1;
 					var msg = res.chat;
-					this.state.msg = msg;
-					console.log(this.state.msg);
+                    this.state.msg = msg;
+                    var stuff = this.messages();
+                    ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
 				})
 			})
 		});
@@ -197,7 +200,8 @@ export default class cons extends Component {
 
 
                     <div className="hero-body">
-                    <Messages chat={this.state.msg} />
+                    <div id="fuck you" className="chat-box">
+                    </div>
                     </div>
                     <div className="hero-foot">
                     <footer className="section is-small">
@@ -209,6 +213,27 @@ export default class cons extends Component {
     </section>
         )
     }
+
+    messages(){
+        var element1 = ("<p style={{ padding: '.25em', textAlign: center_b");
+        var element2 = ("msgClass: left}}><span style={float: left, overflow-wrap: normal} class={tag chat-wrap ${msgClass:'is-success'}}>");
+        var element3 = ("</span></p>");
+        var i = 0;
+        var max = this.state.msg.length;
+        var res = '';
+        
+        console.log(max);
+        console.log(this.state.msg);
+
+        while(i < max){
+            var msg = this.state.msg;
+            var author = this.state.msg[i].author;
+            var res = res+element1+element2+author+msg[i].msg+element3;
+            i++;
+        }
+        return (res);
+    }
+
 }
 
 const Chat = ({ saveMsg }) => (
@@ -228,17 +253,4 @@ const Chat = ({ saveMsg }) => (
         </div>
       </div>
     </form>
-  );
-  
-  const Messages = ({ chat }) => (
-    <div className="chat-box">
-      {chat.map((m, i) => {
-        const msgClass = i === 0 || i % 2 === 0 // for demo purposes, format every other msg
-        return (
-          <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
-            <span key={i} className={`tag chat-wrap ${msgClass ? 'is-success' : 'is-info'}`}>{m}</span>
-          </p>
-        )}
-      )}
-    </div>
-  );
+  )

@@ -4,10 +4,7 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import decode from 'jwt-decode';
-// import "../styles/debug.css";
+import ReactDOM from 'react-dom'
 
 var token = "";//localStorage.token;
 var sesh = "";//decode(localStorage.token);
@@ -17,64 +14,115 @@ var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
 
 export default class User extends Component {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< eve protocol >>>>
+//
+
     constructor(props){
         super(props);
-        this.componentDidMount = this.componentDidMount.bind(this);
-        this.state = {
-            name: '',
-            last: '',
-            bio: '',
-            ag: 0,
-            tags: '#urmomlol',
-            display: load,
-            display2: load2
-        }
-    }
-
-    get_handle(res){
-        if (res === "invalid token"){
-            return ("invalid token");
-        }
-        else if (res.data[0].name){
-            var data = {};
-            data.name = res.data[0].name;
-            data.last = res.data[0].last;
-            data.bio = res.data[0].bio;
-            if (res.data[0].img.img1 == 'null'){
-                data.display = nll;
-                data.display2 = nll;
-            }
-            else{
-                data.display = res.data[0].img.img1;
-                data.display2 = res.data[0].img.img1;
-            }
-            return (data);
-        }
-    }
-
-    componentDidMount () {
-        const jwt = localStorage.token;
-
-        async function lol(){
-            if (jwt) {
-                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
-                if (prom.status == 200){
-                    let prom2 = axios.post(ip+"/users/get_spec", {"email": prom.data.email, "target":"name last bio img.img1", "token" : jwt});
-                    return(prom2);
-                }
-            } else
-                return ("error");
-        }
-        lol().then(res => {
-            if (res !== "error" || res != "invalid token"){
-                var data = this.get_handle(res)
-                if (data !== "error" || data != "invalid token")
-                    this.setState(data);
+        this.div_key = Date.now();
+        this.jwt = localStorage.token;
+        this.ip = require('../server.json').ip;
+        this.state = {};
+        console.log(this.ip);
+        async function server_check(ip){
+            let promise = await axios.post(ip + '/ping/ms');
+            if (promise.status === 200){
+                return ('eve online');
             }
             else
-                this.props.history.push('/logout');
+                return ('eve offline');
+        }
+        server_check(this.ip).then(res => {
+            if (res === 'eve online'){
+                console.log('eve online');
+                ///////////////////////////////////////////////////////////
+                //      <<<< begin binding after database online >>>>
+                this.eve_mount = this.eve_mount.bind(this);
+                this.userData_getter = this.userData_getter.bind(this);
+                this.page_handler = this.page_handler.bind(this);
+                this.searchHandle = this.searchHandle.bind(this);
+                this.busy = 0;
+                this.state = {
+                    "res" : '',
+                    "html" : '',
+                    "user" : '',
+                    "display" : load,
+                    "dsiplay" : load2
+                };
+                this.userData_getter();
+            }
+            else
+                console.log('eve redirect');///     <<<< replace with redirect
         });
     }
+    userData_getter(){
+        console.log('getting data......');
+        async function get_email(jwt){
+            let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
+            if (promise.status === 200)
+                return promise.data;
+            else
+                return 'eve redirect';
+        }
+        async function get_data(email,token,ip,target){
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "token":token, "target":target});
+            if (promise.status === 200)
+                return promise.data;
+            else
+                return 'eve redirect';
+        }
+        //
+        //      <<<< target will be customised for each page for optimisation >>>>
+        //
+        get_email(this.jwt).then(emailGet_res => {
+            if (emailGet_res !== 'eve redirect')
+                get_data(emailGet_res.email,this.jwt,this.ip,"name email last bio img.img1").then(userGet_res => {
+                    if (userGet_res !== 'eve redirect'){
+                        this.setState({"user":userGet_res[0]});
+                        this.eve_mount();
+                    }
+                    else
+                        console.log('eve redirect');///     <<<< replace with redirect
+                })
+            else
+                console.log('eve redirect');///     <<<< replace with redirect
+        })
+    }
+    eve_mount(){
+        this.page_handler();
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Page states >>>>
+//
+
+    page_handler(){
+        console.log('render');
+        var nav = this.nav_constructor(1);
+        var mid = this.mid_constructor();
+        ReactDOM.render(nav, document.getElementById('navMenu'));
+        ReactDOM.render(mid, document.getElementById('cont'));
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Page logic >>>>
+//
+
+    //      <<<< Page routers
+
+    redirecthandler = e => {
+        // console.log(e.target.id);
+        this.props.history.push(e.target.id);
+    }
+    //      the end >>>>
+
+
+    //      <<<< search fucntions
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
@@ -91,6 +139,13 @@ export default class User extends Component {
             });
         }
     }
+    //      end >>>>
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Render Return >>>>
+//
+
     render () {
         return (
         <section className="section hero">
@@ -106,27 +161,56 @@ export default class User extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
-                    <div className="navbar-end">
-                        <div className="control is-small has-icons-right search-margin">
-                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.key_handle(e)}/>                           
-                            <span className="icon is-small is-right">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </div>
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
-                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
-                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
-                    </div>
-                </div>
+                <div id="navMenu" className="navbar-menu"></div>
             </div>
         </nav>
-            <div className="container">
+            <div id="cont" className="container"></div>
+        </section>
+
+        )
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Contructor Functions >>>>
+//
+
+    nav_constructor(render){
+        var element1 = (
+            <div  className="navbar-end">
+                <div className="control is-small has-icons-right search-margin" >
+                    <input id="in" className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+                        <span id="span" className="icon is-small is-right" >
+                            <i id="image" className="fa fa-search"></i>
+                        </span>
+                </div>
+                <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
+                <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+                <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+                <a className="navbar-item " style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+            </div>
+        )
+        var element2 = (
+            <div  className="navbar-end">
+            <div className="control is-small has-icons-right search-margin" ></div>
+            <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
+            <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+            <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+            <a className="navbar-item " style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+        </div>
+        )
+        if (render)
+            return element1;
+        else
+            return <div/>;
+    }
+
+    mid_constructor(){
+        var element1 = (
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
-                         <figure className="image is-3by4"> {/* is-3by4 */}
-                            <img className="overflow" src={this.state.display} alt="Asuna_img" />
+                         <figure className="image is-3by4"> 
+                            <img className="overflow" src={this.state.user.img.img1} alt="Asuna_img" />
                         </figure>
     
                         <div className="column center">
@@ -134,14 +218,14 @@ export default class User extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={this.state.display} />
+                            <img alt="Asuna" src={this.state.user.img.img1} />
                         </figure>
                     </figure>
                     <div className="media-content">
                         <div className="content">
                             <p>
-                                <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                <span className="has-text-grey">{this.state.tags}<br />
+                                <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
+                                <span className="has-text-grey">{this.state.user.tag}<br />
                                 <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                             </p>
                         </div>
@@ -150,16 +234,14 @@ export default class User extends Component {
                 <br />
                 <hr />
                 <p>
-                    {this.state.bio}
+                    {this.state.user.bio}
                 </p>
             </div>
                         </div>
                         
                     </div>
                 </div>
-            </div>
-        </section>
-
         )
+        return (element1);
     }
 }
