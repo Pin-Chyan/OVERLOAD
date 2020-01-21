@@ -230,7 +230,7 @@ export default class cons extends Component {
 
     messages(){
         var element1 = ("<p style={{ padding: '.25em', textAlign: center_b");
-        var element2 = ("msgClass: left}}><span class=tag chat-wrap is-success>");
+        var element2 = ("msgClass: left}}><span class='tag chat-wrap is-success right'>");
         var element3 = ("</span></p>");
         var i = 0;
         var max = this.state.msg.length;
