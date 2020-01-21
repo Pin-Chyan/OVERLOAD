@@ -44,8 +44,9 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
           <Route path="/user" exact component={User} />
         <Authenticate>
-        <Route path="/logout" exact component={logout} />
+          <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 
+          <Route path="/" exact component={Home}/> 
           <Route path="/newSearch" exact component={newSearch}/> 
           <Route path="/backup" exact component={Backup} />
           <Route path="/edit" exact component={Edit} />
