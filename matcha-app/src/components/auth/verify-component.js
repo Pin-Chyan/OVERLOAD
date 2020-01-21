@@ -9,13 +9,13 @@ var ip = require("../../server.json").ip;
 
 function DisplayStatus(props) {
     if (props.status === 'not found' || props.status === 'something went wrong') {
-        return <h1> Error! invalid link. </h1>
+        return <h1 className="label"> Error! invalid link. </h1>
     }
     if (props.status === 'already used') {
-        return <h1> Error! link already used. </h1>
+        return <h1 className="label"> Error! link already used. </h1>
     }
     if (props.status === 'activated') {
-        return <h1> Success! your account has been activated. </h1>
+        return <h1 className="label"> Success! your account has been activated. </h1>
     }
     return <h1> Loading... </h1>
 }
@@ -63,8 +63,12 @@ export default class Verify extends Component {
                                 <p>
                                     <hr></hr>
                                     <DisplayStatus status={this.state.status}/>
-                                    <br></br>
-                                    <Link to="/login" className="navbar-item has-text-info">Click here to return to login.</Link>
+                                    <hr></hr>
+                                    <figure class="image"> {/* is-3by4 */}
+                            	    	<img src="https://4.bp.blogspot.com/-2VXza5uBojw/V4Wm50UyQRI/AAAAAAAAhFk/WMiIk3mKxWgYB9wDgK2HZFf8LYtSqe_DgCKgB/s1600/Omake%2BGif%2BAnime%2B-%2BAria%2BThe%2BAvvenire%2B-%2BEpisode%2B3%2B%255BBD%255D%2B-%2BAria%2BShachou%2Band%2BAlicia%2BPaperwork.gif" />
+                        		    </figure>
+                                    <hr></hr>
+                                        <Link to="/login" className="button is-warning is-rounded">Login-Page</Link>
                                     <br></br>
                                     <hr></hr>
                                 </p>

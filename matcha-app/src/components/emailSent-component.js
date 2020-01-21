@@ -61,8 +61,12 @@ export default class EmailSent extends Component {
                                 <hr></hr>
                                 <br></br>
                                 <br></br>
-                                <h2>An email was sent to reset your password.</h2>
+                                <figure class="image">
+                                    <img src="https://data.whicdn.com/images/299576881/original.gif" />
+                                </figure>
                                 <br></br>
+                                <br></br>
+                                <h2>An email was sent to reset your password.</h2>
                                 <br></br>
                                 <br></br>
                                 <hr></hr>
