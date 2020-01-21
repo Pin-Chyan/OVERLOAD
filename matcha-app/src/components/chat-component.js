@@ -30,27 +30,57 @@ export default class cons extends Component {
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.get_id = this.get_id.bind(this);
+        this.jwt = localStorage.token;
         this.state = {
             name: '',
             last: '',
             bio: '',
+            _id1:'',
+            _id2: '',
             target: {},
             ag: 0,
             tags: '#tags',
             display: load,
             display2: load2,
-            chat: ['hi', 'hello', 'who are you', 'idk']
+            msg: []
         }
     }
 
     componentDidMount () {
-        axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1", "token" : token}).then(res => {
-            axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1", "token" : token}).then(docs => {
-                console.log(docs);
+        this.get_id();
+    }
+
+    get_id() {
+        async function get_id1(jwt){
+            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1", "token" : token});
+            if (res.status === 200){
+                if (res.data == "invalid token"){
+                    return (window.location.href = ip+"/home");
+                }
+                else {
+                    var data = {};
+                    data.img = {};
+                    data._id1 = res.data[0]._id;
+                    data.name = res.data[0].name;
+                    data.last = res.data[0].last;
+                    if (res.data[0].img.img1 == "null")
+                        data.display = nll;
+                    else
+                        data.display = res.data[0].img.img1;
+                   	return (data);
+                }
+            }
+            else 
+                console.log("error");
+        }
+        async function get_id2(){
+            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1", "token" : token});
+            if (docs.status === 200){
                 if (docs.data[0].name){
                     var set = {};
                     set.target = {};
-                    set.target._id = docs.data[0]._id;
+                    set._id2 = docs.data[0]._id;
                     set.target.name = docs.data[0].name;
                     set.target.last = docs.data[0].last;
                     if (docs.data[0].img.img1 && docs.data[0].img.img1 != "null")
@@ -59,26 +89,35 @@ export default class cons extends Component {
                         set.target.display = nll;
                     set.target.email = target;
                     console.log(set);
-                    this.setState(set);
-                    console.log("state = "+this.state);
+                    return (set);
                 }
-            })
-            console.log(res);
-            if (res.data == "invalid token"){
-                return (window.location.href = ip+"/home");
             }
-            else if (res.data[0].name){
-                var data = {};
-                data.img = {};
-                data.name = res.data[0].name;
-                data.last = res.data[0].last;
-                if (res.data[0].img.img1 == "null")
-                    data.display = nll;
-                else
-                    data.display = res.data[0].img.img1;
-                this.setState(data);
-            }
-        });
+            else
+                console.log("error");
+		}
+		async function get_msg(target){
+			console.log("inside get_msg");
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":token});
+			if (promise.status === 200){
+				var data = {};
+				data.chat = promise.data.message;
+				console.log(data.chat);
+				return (data);
+			}
+		}
+	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
+		get_id1(this.jwt).then(ret => {
+			this.setState(ret);
+			get_id2().then(doc => {
+				this.setState(doc);
+				get_msg(target).then(res => {
+					var i = 1;
+					var msg = res.chat;
+					this.state.msg = msg;
+					console.log(this.state.msg);
+				})
+			})
+		});
     }
 
     render () {
@@ -158,7 +197,7 @@ export default class cons extends Component {
 
 
                     <div className="hero-body">
-                    <Messages chat={this.state.chat} />
+                    <Messages chat={this.state.msg} />
                     </div>
                     <div className="hero-foot">
                     <footer className="section is-small">

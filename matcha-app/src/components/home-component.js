@@ -197,7 +197,7 @@ export default class Home extends Component {
                     data.img5 = res.data[0].img.img5;
                 return(data);
             }
-            data.position = 0;
+            // data.position = 0;
     }
 
     searchHandle = e => {

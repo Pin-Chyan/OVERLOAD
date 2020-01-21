@@ -22,8 +22,7 @@ router.route('/newroom').post( (req, res) => {
             
                 const newChat = new ChatModels({
                     _id1,
-                    _id2,
-                    email,
+                    _id2
                 });
             
                 newChat.save().then( () => res.json(newChat) )
@@ -50,10 +49,10 @@ router.route('/msg').post( (req, res) => {
                     if (ret){
                     var what = ret.message;
                     var msg = {};
-                    var d = new Date(1432851021000);
+                    var d = new Date();
                     msg.author = req.body.email;
                     msg.target = req.body.target;
-                    msg.chat = "["+d.toLocaleString("en-GB")+"] "+req.body.msg;
+                    msg.msg = "["+d.toLocaleString("en-GB")+"] "+req.body.msg;
                     what.push(msg);
                     ret.message = what;
                     ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
@@ -69,26 +68,49 @@ router.route('/msg').post( (req, res) => {
     }).catch(err => {res.json(err)})
 })
 
-router.route('/get_msg').get( (req, res) => {
-    ChatModels.findOne({"email":req.body.email+req.body.target}, "message").exec().then(ret => {
-        res.json(ret);
-    })
+router.route('/get_msg').post( (req, res) => {
+    UserModels.findOne({'email':req.body.target},"_id").exec().then(target => {
+        if (!target)
+            res.json("error");
+        UserModels.findOne({'email':req.body.email},"_id token").exec().then(doc => {
+            if (req.body.token == "admin" || doc.token == req.body.token) {
+                ChatModels.findOne({ $or:[
+                    { _id1 : doc._id , _id2 : target._id},
+                    { _id2 : doc._id , _id1 : target._id}
+                ]}, "message").exec().then(ret => {
+                   res.json(ret);
+                })
+            }
+            else
+                res.json("error");
+        })
+    }).catch(err => {res.json(err)})
 })
 
 router.route('/msg_del').post( (req, res) => {
     if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
         req.json("error");
-    ChatModels.find({'email':req.body.email},"token").exec().then(doc => {
+    UserModels.findOne({'email':req.body.email},"token _id").exec().then(doc => {
+        console.log(doc)
         if (req.body.token == "admin" || doc.token == req.body.token) {
-            ChatModels.findOne({'email':req.body.target}, "msg").exec().then(ret => {
-                console.log(ret);
-                var pos = ret.msg.findIndex(function (res){return res === req.body.msg});
-                var msg = ret.msg;
-                msg.splice(pos, 1, "Message Deleted!");
-                ret.msg= msg;
-                console.log(msg);
-                ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
+            UserModels.findOne({'email':req.body.target}, "_id").exec().then(ret => {
+                ChatModels.findOne({ $or:[
+                    { _id1 : doc._id , _id2 : ret._id},
+                    { _id2 : doc._id , _id1 : ret._id}
+                ]}, "message").exec().then(ret => {
+                var pos = ret.message.findIndex(function (res){return res.chat === req.body.msg});
+                if (pos == -1){
+                    res.json("Error");
+                }
+                else {
+                    var msg = ret.message;
+                    console.log(msg[pos]);
+                    msg.splice(pos, 1);
+                    ret.message= msg;
+                    ret.save().then(r => {res.json("msg deleted")}).catch(err => {res.json(err)});
+                }
             })
+        })
         }
         else
             res.json("error");
