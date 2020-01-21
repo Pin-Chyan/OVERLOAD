@@ -103,7 +103,7 @@ export default class User extends Component {
         this.internal_color = [15,14,14];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
-        this.page_handler('init',{});
+        // this.page_handler('init',{});
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
