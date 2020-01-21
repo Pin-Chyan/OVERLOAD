@@ -31,11 +31,13 @@ client.on('connection', socket => exp.sock(socket, prev, connection, msg_schem, 
 const userRoutes = require('./routes/user.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
 const searchRoutes = require('./routes/search.routes.js');
+const pingRoutes = require('./routes/ping.routes.js');
 
 app.use('/users', userRoutes);
 app.use('/chats', chatRoutes);
 app.use('/auth', authRoutes);
 app.use('/search', searchRoutes);
+app.use('/ping', pingRoutes);
 // app.use('/users', userRoutes);
 
 app.listen(port, () => {

@@ -35,7 +35,6 @@ router.route('/hard').post( (req, res) => {
                 res.status(403).send("invalid token");
             }
         }).catch(err => { res.status(500).send(err)})
-        // res.status(200).json("no more users");
     }
 })
 
