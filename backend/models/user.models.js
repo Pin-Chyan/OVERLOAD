@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  notifications: {
+    type: Array,
+    default: []
+  },
   location: {
-    type: Array
+    type: Array,
+    required: true,
+    default: []
   },
   verified: {
     type: Boolean

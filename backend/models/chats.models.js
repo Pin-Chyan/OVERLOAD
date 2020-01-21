@@ -6,7 +6,7 @@ const chat_room = new Schema({
   _id1: {type: String,default:''}, //sender
   _id2: {type: String,default:''}, //target
   email: {type: String,default: ''}, //search id
-  message: {type: Array,default:['start']},
+  message: {type: Array,default:[]},
   }, {
     timestamps: true,
   });
