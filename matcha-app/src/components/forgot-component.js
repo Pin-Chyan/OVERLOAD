@@ -68,7 +68,19 @@ export default class Verify extends Component {
                     <div className="columns is-centered shadow">
                         <div className="column is-half bg_white_1">
                             <div className="column center has-text-centered">
+								<hr></hr>
                                 <p>
+								<figure class="image"> {/* is-3by4 */}
+                            		<img src="https://media0.giphy.com/media/vsdTFrwHciR7G/source.gif" />
+                        		</figure>
+								<br></br>
+									<div className="media-content center_b">
+                        				<div className="content">
+                        				    <p>
+                        				        Please insert your E-mail of your forgotten account to retrieve your password
+                        				    </p>
+                        				</div>
+                    				</div>
                                     <hr></hr>
 									<div className="field">
 										<label className="label">Email</label>
@@ -85,8 +97,7 @@ export default class Verify extends Component {
 										<p className="help is-danger">{this.state.emailErr}</p>
 									</div>
                                     <br></br>
-                                    <br></br>
-									<div className="control">
+									<div className="control center_b">
 										<button className="button is-warning is-rounded" onClick={this.onSubmit}>Send</button>
 									</div>
                                     <hr></hr>
