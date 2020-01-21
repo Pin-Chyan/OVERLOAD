@@ -36,6 +36,7 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
+        <Route path="/test" component={msg}/>
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
           <Route path="/user" exact component={User} />
