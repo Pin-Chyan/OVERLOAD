@@ -103,7 +103,17 @@ export default class User extends Component {
         this.internal_color = [15,14,14];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
-        this.page_handler('init',{});
+        if (this.props.location)
+            if (this.props.location.data){
+                if (this.props.location.data === "null")
+                    this.page_handler('init',{});
+                else{
+                    this.setState({"search":this.props.location.data});
+                    this.searcher();
+                }
+            }
+        else
+            this.page_handler('init',{});
     }
 
 
@@ -136,7 +146,7 @@ page_handler(mode, data){
     }
     else if (mode === 'searching'){
         console.log(mode);
-        this.rgb_phaser([0,0,0,1,0],'internal_color','res');
+        this.rgb_phaser([0,0,0,1,2],'internal_color','res');
         sleep(3).then(() => {
             if (document.getElementById(cont_div))
                 ReactDOM.render(div_load, document.getElementById(cont_div));

@@ -104,8 +104,8 @@ export default class User extends Component {
         console.log('render');
         var nav = this.nav_constructor(1);
         var mid = this.mid_constructor();
-        ReactDOM.render(nav, document.getElementById('navMenu'));
-        ReactDOM.render(mid, document.getElementById('cont'));
+        ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
+        ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ export default class User extends Component {
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
-    key_handle = e => {
+    keyHandle = e => {
         if (e.key == 'Enter'){
             var search_input = 'null';
             if (this.state.search){
@@ -161,10 +161,10 @@ export default class User extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu"></div>
+                <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
             </div>
         </nav>
-            <div id="cont" className="container"></div>
+            <div id={"cont"+this.div_key} className="container"></div>
         </section>
 
         )
