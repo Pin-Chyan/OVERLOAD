@@ -19,6 +19,7 @@ import EmailSent from "./components/emailSent-component.js";
 import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
+import newSearch from "./components/newSearch-component.js"
 // import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";
 
@@ -36,12 +37,14 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
+        {/* <Route path="/search/:input" exact component={Search}/> */}
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
-          <Route path="/user" exact component={User} />
         <Authenticate>
-        <Route path="/logout" exact component={logout} />
-          <Route path="/search/:input" component={Search}/>
+          <Route path="/user" exact component={User} />
+          <Route path="/logout" exact component={logout} />
+          <Route path="/search" exact component={Search}/> 
+          <Route path="/newSearch" exact component={newSearch}/> 
           <Route path="/" exact component={Home} />
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />

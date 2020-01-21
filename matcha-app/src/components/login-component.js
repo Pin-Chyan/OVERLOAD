@@ -58,7 +58,11 @@ export default class Login extends Component {
                     this.setState({ emailErr: "Email has not been confirmed!" });
                 } else {
                     localStorage.setItem('token', res.data.token);
-                    this.props.history.push('/');
+                    axios.post(ip+"/users/get_spec", {"email": user.email,"target":"name last bio img tag","token":res.data.token})
+                    .then(res => {
+                        // this.props.history.push('/');
+                        window.location.replace('/');
+                    })
                 }
             })
             .catch(err => {

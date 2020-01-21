@@ -32,7 +32,7 @@ export default class User extends Component {
     }
 
     get_handle(res){
-        if (res.data == "invalid token"){
+        if (res === "invalid token"){
             return ("invalid token");
         }
         else if (res.data[0].name){
@@ -66,11 +66,13 @@ export default class User extends Component {
                 return ("error");
         }
         lol().then(res => {
-            if (res !== "error"){
+            if (res !== "error" || res != "invalid token"){
                 var data = this.get_handle(res)
-                if (data !== "error")
+                if (data !== "error" || data != "invalid token")
                     this.setState(data);
             }
+            else
+                this.props.history.push('/logout');
         });
     }
     searchHandle = e => {
@@ -83,7 +85,10 @@ export default class User extends Component {
                 if (this.state.search.trim() != '')
                     search_input = this.state.search;
             }
-            window.location.href = '/search/' + search_input;
+            this.props.history.push({
+                pathname: '/search',
+                data: search_input
+            });
         }
     }
     render () {
