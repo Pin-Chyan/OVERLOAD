@@ -81,7 +81,10 @@ export default class Edit extends Component {
                 if (this.state.search.trim() != '')
                     search_input = this.state.search;
             }
-            window.location.href = '/search/' + search_input;
+            this.props.history.push({
+                pathname: '/search',
+                data: search_input
+            });
         }
     }
     
@@ -167,7 +170,7 @@ export default class Edit extends Component {
             }
         }
         get_userdata().then(res => {
-            if (res !== "error"){
+            if (res !== "error"  || res != "invalid token"){
                 var data = this.get_handle(res);
                 console.log(data);
                 console.log(res);
@@ -175,6 +178,8 @@ export default class Edit extends Component {
                 if (data !== "error")
                     this.setState(data);
             }
+            else
+                this.props.history.push('/logout');
         });
     }
 

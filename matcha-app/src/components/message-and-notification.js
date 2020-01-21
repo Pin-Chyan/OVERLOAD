@@ -7,13 +7,11 @@ import axios from 'axios';
 import { getJwt } from "./auth/jwt-helper.js";
 const ip = require("../server.json").ip;
 
-const Notification = props => {
-  return (
-    <div>
-      {props.notifications.map((item, index) => {
-        <
-      })}
-    </div>
+const Inbox = (props) => {
+  return(
+    <tr>
+      <td>{props.message}</td>
+    </tr>
   )
 }
 
@@ -25,6 +23,7 @@ export default class Home extends Component {
     this.onChangeSender = this.onChangeSender.bind(this)
     this.onChangeReceiver = this.onChangeReceiver.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.renderInbox = this.renderInbox.bind(this)
 
     this.state = {
       message: '',
@@ -35,21 +34,26 @@ export default class Home extends Component {
     }
   }
 
-  componentDidMount() {
+  updateNotifications () {
+    
+  }
+
+  componentDidMount () {
+    // First time call
+    axios.post(ip + '/inbox/getNotifications', { email: 'marthen.vandereems@gmail.com' }, { headers: { authorization: `bearer ${this.state.token}` } })
+      .then( res => {
+        this.setState({ notifications: res.data })
+        console.log(this.state.notifications)
+      })
+
+    // Replace default with logged in user
     setInterval(() => {
       axios.post(ip + '/inbox/getNotifications', { email: 'marthen.vandereems@gmail.com' }, { headers: { authorization: `bearer ${this.state.token}` } })
         .then( res => {
           this.setState({ notifications: res.data })
           console.log(this.state.notifications)
-        }
-        )
-    }, 40000)
-  }
-
-  listNotifications() {
-    return this.state.notifications.map(currentNotification => {
-      return <Notification currentNotification/>
-    })
+        })
+    }, 4000)
   }
 
   onChangeSender (e) {
@@ -62,6 +66,13 @@ export default class Home extends Component {
 
   onChangeMessage (e) {
     this.setState({ message: e.target.value })
+  }
+
+  renderInbox () {
+    
+    return this.state.notifications.map(item => {
+      return <Inbox message={item.message} />
+    })
   }
 
   onSubmit (e) {
@@ -80,7 +91,9 @@ export default class Home extends Component {
         <input type="text" placeholder='receiver' value={this.state.receiver} onChange={this.onChangeReceiver} /><br/>
         <input type="text" onChange={this.onChangeMessage} />
         <button onClick={this.onSubmit}>Upload</button>
-        {/* <br/><text>{this.state.notifications}</text> */}
+        <div>
+          {this.renderInbox()}
+        </div>
       </div>
     )
   }

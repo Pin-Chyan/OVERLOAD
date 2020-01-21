@@ -31,12 +31,15 @@ const userRoutes = require('./routes/user.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
 const searchRoutes = require('./routes/search.routes.js');
 const notificationRoutes = require('./routes/notification.routes');
+const pingRoutes = require('./routes/ping.routes.js');
 
 app.use('/users', userRoutes);
 app.use('/chats', chatRoutes);
 app.use('/auth', authRoutes);
 app.use('/search', searchRoutes);
 app.use('/inbox', notificationRoutes);
+app.use('/ping', pingRoutes);
+// app.use('/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

@@ -14,7 +14,7 @@ import Switch from 'react-switch';
 // import Switch from 'react-bulma-switch/lib';
 import { func } from 'prop-types';
 // import { get } from 'mongoose';
-var token = "admin";//localStorage.token;
+var token = "";//localStorage.token;
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var ip = require("../server.json").ip;
@@ -26,6 +26,10 @@ var target = "meave@gmail.com";
 export default class Home extends Component {
     constructor(props){
         super(props);
+        console.log(this.props.location);
+        // if (!this.props.location.user.data[0].email)
+            // console.log(this.props.loc/ation.user.data[0].email);
+            // this.props.history.push('/logout');
         this.componentDidMount = this.componentDidMount.bind(this);
         this.globalbtn_handler = this.globalbtn_handler.bind(this);
         // this.set_data = this.set_data.bind(this);
@@ -163,7 +167,7 @@ export default class Home extends Component {
 
     get_handle(res){
             console.log(res);
-            if (res.data === "invalid token" || res.data === "token not present"){
+            if (res === "invalid token" || res === "token not present" || !res){
                 this.props.history.push('/login');
             }
             else if (res.data[0].name){
@@ -205,12 +209,17 @@ export default class Home extends Component {
     }
     key_handle = e => {
         if (e.key == 'Enter'){
-            var search_input = 'null';
+            var search_input = {'input':'null'};
             if (this.state.search){
                 if (this.state.search.trim() != '')
-                    search_input = this.state.search;
+                    search_input.input = this.state.search;
             }
-            window.location.href = '/search/' + search_input;
+            search_input.token = token;
+            search_input.email = sesh;
+            this.props.history.push({
+                pathname: '/search',
+                data: search_input
+            });
         }
     }
     
@@ -228,16 +237,17 @@ export default class Home extends Component {
                 }
             } else {
                 return ("error");
-                // console.log('no token');
             }
             console.log(sesh);
         }
         get_userdata().then(res => {
-            if (res !== "error"){
+            if (res !== "error"  || res != "invalid token"){
                 var data = this.get_handle(res)
                 if (data !== "error")
                     this.setState(data);
             }
+            else
+                this.props.history.push('/logout');
         });
     }
 
@@ -268,7 +278,7 @@ export default class Home extends Component {
                     <a className="navbar-item has-text-info">text</a>
                     <a className="navbar-item has-text-info">text</a>
                     <a className="navbar-item has-text-info">text</a> */}
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
+                        <Link to="/search" className="navbar-item has-text-info">Search</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
                         <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
                         <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
