@@ -235,26 +235,8 @@ router.post('/get_spec', verifyToken, (req, res) => {
     }).catch(err => { res.status(500).send(err) });
 })
 
-// router.route('/get_spec').post( (req, res) => {
-//     if (req.token)
-//         console.log(req.token);
-//     if (req.body.token && req.body.email){
-//         if (req.body.target != ""){
-//             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-//                 if ((req.body.token !== docs[0].token) && (req.body.token !== "admin")){
-//                     console.log(req.body.token);
-//                     console.log(docs[0].token);
-//                     res.status(400).send('invalid token');
-//                 }
-//                 else
-//                     res.json(docs);
-//             }).catch(err => {res.status(500).send(err)});
-//         }
-//         else
-//             res.status(400).send("no target");
-//     }
-//     else
-//         res.status(400).send("token not present");
+// router.route('/get_userinfo').post( (req, res) => {
+//     if (!req.token)
 // })
 
 router.route('/edit_spec').post( (req, res) => {
