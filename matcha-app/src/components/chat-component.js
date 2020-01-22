@@ -21,14 +21,12 @@ var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
 //////////        <<Liam>>       //////////////
-// create a button on the home page that only renders 
+// create a button on the home page that only renders
 // if the person is liked, the button will take you to
-// the /chat page for that person, the button needs to be able 
+// the /chat page for that person, the button needs to be able
 // to send the email of the person you wish to chat with
-// to the chats page so that i can set the global variable 
+// to the chats page so that i can set the global variable
 // target equal to it before the page loads anything else.
-
-
 
 export default class cons extends Component {
 
