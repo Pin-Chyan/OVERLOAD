@@ -14,7 +14,7 @@ import { getJwt } from "./auth/jwt-helper.js";
 var ip = require("../server.json").ip;
 console.log(ip);
 var sesh = undefined;
-var target = "lkrielin@gmail.com";
+var target = "solivari@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
@@ -30,54 +30,157 @@ var nll = require("../images/err.jpg");
 
 export default class cons extends Component {
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Eve protocol >>>>
+//
+
+    // constructor(props){
+    //     super(props);
+    //     this.componentDidMount = this.componentDidMount.bind(this);
+    //     this.get_id = this.get_id.bind(this);
+    //     this.saveMsg = this.saveMsg.bind(this);
+    //     this.message_constructor = this.message_constructor.bind(this);
+    //     this.jwt = localStorage.token;
+    //     this.state = {
+    //         name: '',
+    //         last: '',
+    //         email: '',
+    //         bio: '',
+    //         _id1:'',
+    //         _id2: '',
+    //         target: {},
+    //         ag: 0,
+    //         tags: '#tags',
+    //         display: load,
+    //         display2: load2,
+    //         msg: ["shit"]
+    //     }
+    // }
+    
     constructor(props){
         super(props);
-        this.componentDidMount = this.componentDidMount.bind(this);
-        this.get_id = this.get_id.bind(this);
-        this.saveMsg = this.saveMsg.bind(this);
-        this.messages = this.messages.bind(this);
+        this.div_key = Date.now();
         this.jwt = localStorage.token;
-        this.state = {
-            name: '',
-            last: '',
-            email: '',
-            bio: '',
-            _id1:'',
-            _id2: '',
-            target: {},
-            ag: 0,
-            tags: '#tags',
-            display: load,
-            display2: load2,
-            msg: ["shit"]
+        this.ip = require('../server.json').ip;
+        this.state = {};
+        console.log(this.ip);
+        async function server_get(ip,jwt){
+            let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
+            if (promise.status === 200)
+                return promise.data;
         }
+        server_get(this.ip,this.jwt).then(res => {
+            console.log('eve online');
+            ///      <<<< begin binding after database online >>>>
+            this.eve_mount = this.eve_mount.bind(this);
+            this.userData_getter = this.userData_getter.bind(this);
+            this.page_handler = this.page_handler.bind(this);
+            this.searchHandle = this.searchHandle.bind(this);
+            this.busy = 0;
+            this.curr_page = [0,0,0];
+            this.other_page = [0,0,0];
+            this.state = {
+                "res" : '',
+                "html" : '',
+                "user" : res
+            };
+            if (this.props.location.user){
+                this.setState({"user":this.props.location.user});
+                this.eve_mount();
+            }
+            else
+                this.userData_getter();
+        }).catch(err => {console.log('eve redirect' + err)});
+    }
+    userData_getter(){
+        console.log('getting data......');
+        async function get_data(email,jwt,ip,target){
+            console.log(email);
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
+            if (promise.status === 200)
+                return promise.data;
+        }
+        ///      <<<< target will be customised for each page for optimisation >>>>
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+                this.setState({"user":userGet_res[0]});
+                this.eve_mount();
+        }).catch(err => {console.log('eve redirect' + err)})
+    }
+    eve_mount(){
+        console.log('render');
+        this.page_handler();
+    }
+    // eve_mount(){
+    //     const jwt = localStorage.token;
+    //     console.log(jwt);
+    //     async function get_userdata(){
+    //         if (jwt) {
+    //             let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { Authorization: `bearer ${jwt}` } });
+    //             if (prom.status === 200){
+    //                 console.log(prom.data.email);
+    //                 sesh = prom.data.email;
+    //                 return (sesh);
+    //             }
+    //         } else {
+    //             return ("error");
+    //         }
+    //         console.log(sesh);
+    //     }
+    //     get_userdata().then(res => {
+    //         console.log(res);
+    //         if (res !== "error"  || res != "invalid token")
+    //             console.log('got data');// this.get_id();
+    //         else
+    //             this.props.history.push('/logout');
+    //         this.page_handler();
+    //     });
+    // }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Page states >>>>
+//
+
+    page_handler(){
+        var nav_bar = this.nav_constructor(1);
+        var msgBox = this.msgBox_constructor();
+        if (document.getElementById('navMenu'))
+            ReactDOM.render(nav_bar, document.getElementById('navMenu')); 
+        if (document.getElementById('message foot'))
+            ReactDOM.render(msgBox, document.getElementById('message foot'));
+        // this.get_id();
     }
 
-    componentDidMount () {
-        const jwt = localStorage.token;
-        console.log(jwt);
-        async function get_userdata(){
-            if (jwt) {
-                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { Authorization: `bearer ${jwt}` } });
-                if (prom.status === 200){
-                    console.log(prom.data.email);
-                    sesh = prom.data.email;
-                    return (sesh);
-                }
-            } else {
-                return ("error");
-            }
-            console.log(sesh);
-        }
-        get_userdata().then(res => {
-            console.log(res);
-            if (res !== "error"  || res != "invalid token")
-                this.get_id();
-            else
-                this.props.history.push('/logout');
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Page logic >>>>
+//
+
+    redirecthandler = e => {
+        this.props.history.push({
+            pathname:e.target.id,
+            user: this.state.user
         });
     }
 
+    searchHandle = e => {
+        this.setState({search:e.target.value});
+    }
+    keyHandle = e => {
+        if (e.key == 'Enter'){
+            var search_input = 'null';
+            if (this.state.search){
+                if (this.state.search.trim() != '')
+                    search_input = this.state.search;
+            }
+            this.props.history.push({
+                pathname: '/search',
+                user: this.state.user,
+                search_in: search_input 
+            });
+        }
+    }
     saveMsg(msg){
             async function post_msg(obj){
                 console.log(obj);
@@ -91,7 +194,7 @@ export default class cons extends Component {
             data.msg = msg;
             data.token = token;
             post_msg(data)
-          }
+    }
     
     get_id() {
         async function get_id1(jwt){
@@ -159,8 +262,8 @@ export default class cons extends Component {
                         var msg = res.chat;
                         this.state.msg = msg;
                         console.log(this.state.msg);
-                        var stuff = this.messages();
-                        ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
+                        var stuff = this.message_constructor();
+                        ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("msgBox"));
                     })
 				}, 100)
 			})
@@ -182,89 +285,93 @@ export default class cons extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
-                    <div className="navbar-end">
-                        <div className="control is-small has-icons-right search-margin">
-                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
-                            <span className="icon is-small is-right">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </div>
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
-                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
-                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
-                    </div>
-                </div>
+                <div id="navMenu" className="navbar-menu"></div>
             </div>
         </nav>
-        {/* <div className="container"> */}
-            <div className="columns is-centered shadow">
-                <div className="columns bg_white_1">
-                    <div className="column left">
-                        <article className="media center">
-                            <figure className="media-left">
-                                <figure className="image is-64x64">
-                                    <img alt="Asuna" src={this.state.display} />
-                                </figure>
-                            </figure>
-                            <div className="media-content">
-                                <div className="content">
-                                    <p>
-                                        <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                        <span><time dateTime="2018-04-20">Apr 20</time> Author</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div className="column">
-                        <article className="media center">
-                            <figure className="media-left">
-                                <figure className="image is-64x64">
-                                    <img alt="Asuna" src={this.state.target.display} />
-                                </figure>
-                            </figure>
-                            <div className="media-content">
-                                <div className="content">
-                                    <p>
-                                        <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                        <span><time dateTime="2018-04-20">Apr 20</time> target</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                        
-                    </div>
-
-
-                    </div>
-                </div>
-
-
-                    <div className="hero-body">
-                    <div id="fuck you" className="chat-box">
-                    </div>
-                    </div>
-                    <div className="hero-foot">
-                    <footer className="section is-small">
-                        <Chat saveMsg={this.saveMsg} />
-                    </footer>
-                    </div>
-        
-        {/* </div> */}
-    </section>
+        <div id="user_display_header"></div>
+        <div className="hero-body"><div id="msgBox" className="chat-box"></div></div>
+        <div id="message foot" className="hero-foot"></div>
+        </section>
         )
     }
 
-    messages(){
-        var r_element1 = ("<p class='has-text-right'>");
-        var r_element2 = ("<span class='tag chat-wrap is-info right'>");
-        var r_element3 = ("</span></p>");
-        var l_element1 = ("<p class='has-text-left'>");
-        var l_element2 = ("<span class='tag chat-wrap is-success left'>");
-        var l_element3 = ("</span></p>");
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Constructor Functions >>>>
+//
+
+    nav_constructor(render){
+        var element1 = (
+            <div  className="navbar-end">
+                <div className="control is-small has-icons-right search-margin" >
+                    <input id="in" className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+                        <span id="span" className="icon is-small is-right" >
+                            <i id="image" className="fa fa-search"></i>
+                        </span>
+                </div>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
+                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+            </div>
+        )
+        if (render)
+            return element1;
+        else
+            return <div/>;
+    }
+    userDisplay_constructor(){
+        return (
+            <div className="columns is-centered shadow">
+            <div className="columns bg_white_1">
+                <div className="column left">
+                    <article className="media center">
+                        <figure className="media-left">
+                            <figure className="image is-64x64">
+                                <img alt="Asuna" src={this.state.display} />
+                            </figure>
+                        </figure>
+                        <div className="media-content">
+                            <div className="content">
+                                <p>
+                                    <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
+                                    <span><time dateTime="2018-04-20">Apr 20</time> Author</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div className="column">
+                    <article className="media center">
+                        <figure className="media-left">
+                            <figure className="image is-64x64">
+                                <img alt="Asuna" src={this.state.target.display} />
+                            </figure>
+                        </figure>
+                        <div className="media-content">
+                            <div className="content">
+                                <p>
+                                    <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+                                    <span><time dateTime="2018-04-20">Apr 20</time> target</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    
+                </div>
+
+
+                </div>
+            </div>
+        )
+    }
+    message_constructor(){
+        var r_element1 = "<p class='has-text-right'>";
+        var r_element2 = "<span class='tag chat-wrap is-info right'>";
+        var r_element3 = "</span></p>";
+        var l_element1 = "<p class='has-text-left'>";
+        var l_element2 = "<span class='tag chat-wrap is-success left'>";
+        var l_element3 = "</span></p>";
         var i = 0;
         var max = this.state.msg.length;
         var res = '';
@@ -280,25 +387,36 @@ export default class cons extends Component {
         }
         return (res);
     }
+    msgBox_constructor(){
+        return (
+          <div className="field has-addons">
+            <div className="control chat-t">
+              <input className="input" name="userInput" type="text" placeholder="Type your message" />
+            </div>
+            <div className="control chat-e">
+                <button className="button is-info">Send</button>
+            </div>
+        </div>
+        )
+    }
+    // Chat = ({ saveMsg }) => (
+    //     <form onSubmit={(e) => {
+    //       e.preventDefault();
+    //       saveMsg(e.target.elements.userInput.value);
+    //       e.target.reset();
+    //     }}>
+    //       <div className="field has-addons">
+    //         <div className="control chat-t">
+    //           <input className="input" name="userInput" type="text" placeholder="Type your message" />
+    //         </div>
+    //         <div className="control chat-e">
+    //           <button className="button is-info">
+    //             Send
+    //           </button>
+    //         </div>
+    //       </div>
+    //     </form>
+    //   )
 
 
 }
-
-const Chat = ({ saveMsg }) => (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      saveMsg(e.target.elements.userInput.value);
-      e.target.reset();
-    }}>
-      <div className="field has-addons">
-        <div className="control chat-t">
-          <input className="input" name="userInput" type="text" placeholder="Type your message" />
-        </div>
-        <div className="control chat-e">
-          <button className="button is-info">
-            Send
-          </button>
-        </div>
-      </div>
-    </form>
-  )

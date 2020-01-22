@@ -49,7 +49,7 @@ function App() {
           <Route path="/backup" exact component={Backup} />
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
-          <Route path="/msg" exact component={msg} />
+          {/* <Route path="/msg" exact component={msg} /> */}
         </Authenticate>
         {/* <Route path="/tags" exact component={tags} /> */}        
       </Switch>

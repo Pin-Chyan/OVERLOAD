@@ -221,15 +221,15 @@ router.route('/Del_like').post( (req, res) => {
     }).catch(err => {res.json(err)})
 })
 
-router.post('/get_spec', verifyToken, (req, res) => {
+router.post('/get_spec', (req, res) => {
     console.log(req.body);
-    if (!req.token || !req.body.target || !req.body.email)    
+    if (!req.body.token || !req.body.target || !req.body.email)    
         res.status(403).send('empty fields');
     console.log('the target');
-    console.log(req.token);
+    console.log(req.body.token);
     UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
         console.log(docs[0].token);
-        if ((req.token === docs[0].token) || (req.token === "admin"))
+        if ((req.body.token === docs[0].token) || (req.body.token === "admin"))
             res.json(docs);
         else
             res.status(400).send('Forbbiden');

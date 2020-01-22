@@ -56,7 +56,7 @@ export default class Home extends Component {
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
             console.log(email);
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target}, { headers: { authorization: `bearer ${jwt}` } });
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
         }
@@ -68,8 +68,6 @@ export default class Home extends Component {
     }
     eve_mount(){
         async function get_matches(email,jwt,ip){
-            console.log('nani');
-            console.log(email);
             let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_conditions":[-1,-1,1,-2,-1,-1,-1],"search_input":"null"})
             if (promise.status === 200){
                 return (promise);
