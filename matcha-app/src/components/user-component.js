@@ -48,7 +48,7 @@ export default class User extends Component {
             }
             else
                 this.userData_getter();
-        }).catch(err => {console.log('eve redirect')});
+        }).catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(){
         console.log('getting data......');
@@ -62,7 +62,7 @@ export default class User extends Component {
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect')})
+        }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
         this.page_handler();
