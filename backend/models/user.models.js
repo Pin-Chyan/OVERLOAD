@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  chatrooms: {
+    type: Array,
+    default: []
+  },
   location: {
     type: Array,
     required: true,

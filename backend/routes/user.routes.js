@@ -236,6 +236,9 @@ router.post('/get_spec', verifyToken, (req, res) => {
     }).catch(err => { res.status(500).send(err) });
 })
 
+// router.route('/get_userinfo').post( (req, res) => {
+//     if (!req.token)
+// })
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
