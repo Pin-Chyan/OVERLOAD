@@ -140,7 +140,7 @@ export default class cons extends Component {
                 console.log("error");
 		}
 		async function get_msg(target, jwt){
-			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":"admin"});
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":jwt});
 			if (promise.status === 200){
                 var data = {};
 				data.chat = promise.data.message;
@@ -260,7 +260,7 @@ export default class cons extends Component {
 
     messages(){
         var r_element1 = ("<p class='has-text-right'>");
-        var r_element2 = ("<span class='tag chat-wrap is-success right'>");
+        var r_element2 = ("<span class='tag chat-wrap is-info right'>");
         var r_element3 = ("</span></p>");
         var l_element1 = ("<p class='has-text-left'>");
         var l_element2 = ("<span class='tag chat-wrap is-success left'>");
@@ -272,7 +272,10 @@ export default class cons extends Component {
         while(i < max){
             var msg = this.state.msg;
             var author = this.state.msg[i].author;
-            var res = res+l_element1+l_element2+author+"\ "+msg[i].msg+l_element3;
+            if (author != this.state.name)
+                var res = res+r_element1+r_element2+author+"\ "+msg[i].msg+r_element3;
+            else
+                var res = res+l_element1+l_element2+author+"\ "+msg[i].msg+l_element3;
             i++;
         }
         return (res);
