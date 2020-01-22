@@ -52,13 +52,16 @@ export default class Edit extends Component {
             this.onSubmit = this.onSubmit.bind(this);
             this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
             this.onChangeTag = this.onChangeTag.bind(this);
-            this.setDefault = this.setDefault.bind(this)
+            this.setDefault = this.setDefault.bind(this);
+            this.setDefaultGender = this.setDefaultGender.bind(this);
+            this.onChangeGender = this.onChangeGender.bind(this);
             this.busy = 0;
             this.curr_page = [0,0,0];
             this.other_page = [0,0,0];
             this.state = {
                 "user": res,
-                checked: true
+                checked: true,
+                checked2: true
             };
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
@@ -208,8 +211,11 @@ export default class Edit extends Component {
 
     onChangeGender(e) {
         this.setState({
-                gender: e.target.value
+                new_gender: parseInt(e.target.value, 10),
+                checked2: !this.state.checked2
             });
+            console.log('--- new gender --- ')
+          console.log(this.state.new_gender)
     }
 
 
@@ -327,8 +333,11 @@ export default class Edit extends Component {
               data.sexual_pref = this.state.new_sexual_pref;
               state_data.sexual_pref = data.sexual_pref; 
             }
-            console.log('line ------ 328')
-            console.log(data);
+            if (this.state.new_gender !== undefined) {
+              data.gender = this.state.new_gender;
+              state_data.gender = data.gender; 
+            }
+            console.log(this.state);
             axios.post(ip+"/users/edit_spec", data);
             this.setState({
                 "user" : state_data
@@ -587,8 +596,15 @@ export default class Edit extends Component {
         )
     }
 
-    setDefault(target) {
-      if (target === this.state.user.sexual_pref) {
+    setDefault (value) {
+      if (value === this.state.user.sexual_pref) {
+        return true
+      }
+      return false
+    }
+
+    setDefaultGender (value) {
+      if (value === this.state.user.gender) {
         return true
       }
       return false
@@ -630,28 +646,30 @@ export default class Edit extends Component {
                 </div>
 
                 <div className="control">
+                    <label className="label">Sexual Preference</label>
                     <label className="radio">
-                        <input type="radio" name="question" value="-1" defaultChecked={this.setDefaultSexuality(-1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        <input type="radio" name="sexuality" value="-1" defaultChecked={this.setDefault(-1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
                         Male
                     </label>
                     <label className="radio">
-                        <input type="radio" name="question" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        <input type="radio" name="sexuality" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
                         Female
                     </label>
                     <label className="radio">
-                        <input type="radio" name="question" value="0" defaultChecked={this.setDefault(0)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        <input type="radio" name="sexuality" value="0" defaultChecked={this.setDefault(0)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
                         Bisexual
                     </label>
                 </div>
 
                 <div className="control">
+                    <label className="label">Gender</label>
                     <label className="radio">
-                        <input type="radio" name="question" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
-                        Female
+                        <input type="radio" name="gender" value="-1" defaultChecked={this.setDefaultGender(-1)} onChange={this.onChangeGender} checked={this.state.checked2}/>
+                        Male
                     </label>
                     <label className="radio">
-                        <input type="radio" name="question" value="0" defaultChecked={this.setDefault(0)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
-                        Bisexual
+                        <input type="radio" name="gender" value="1" defaultChecked={this.setDefaultGender(1)} onChange={this.onChangeGender} checked={this.state.checked2}/>
+                        Female
                     </label>
                 </div>
 
