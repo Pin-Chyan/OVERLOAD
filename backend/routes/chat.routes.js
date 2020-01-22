@@ -36,11 +36,11 @@ router.route('/newroom').post( (req, res) => {
 
 router.route('/msg').post( (req, res) => {
     if (!req.body.token && req.body.target && req.body.msg)
-        req.json("error");
-    UserModels.findOne({'email':req.body.target},"_id").exec().then(target => {
+        req.json("pepeG");
+    UserModels.findOne({'email':req.body.target},"_id name").exec().then(target => {
         if (!target)
-            res.json("error");
-        UserModels.findOne({'email':req.body.email},"_id token").exec().then(doc => {
+            res.json("but why");
+        UserModels.findOne({'email':req.body.email},"_id token name").exec().then(doc => {
             if (req.body.token == "admin" || doc.token == req.body.token) {
                 ChatModels.findOne({ $or:[
                     { _id1 : doc._id , _id2 : target._id},
@@ -50,15 +50,15 @@ router.route('/msg').post( (req, res) => {
                     var what = ret.message;
                     var msg = {};
                     var d = new Date();
-                    msg.author = req.body.email;
-                    msg.target = req.body.target;
-                    msg.msg = "["+d.toLocaleString("en-GB")+"] "+req.body.msg;
+                    msg.author = doc.name;
+                    msg.target = target.name;
+                    msg.msg = "["+d.toLocaleString("en-GB")+"]: "+req.body.msg;
                     what.push(msg);
                     ret.message = what;
                     ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
                     }
                     else {
-                        res.json("Error");
+                        res.json("well shit");
                     }
                 })
             }

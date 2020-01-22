@@ -20,24 +20,29 @@ var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
+//////////        <<Liam>>       //////////////
+// create a button on the home page that only renders 
+// if the person is liked, the button will take you to
+// the /chat page for that person, the button needs to be able 
+// to send the email of the person you wish to chat with
+// to the chats page so that i can set the global variable 
+// target equal to it before the page loads anything else.
+
+
+
 export default class cons extends Component {
-      saveMsg = (msg) => this.setState({
-        chat: [
-          ...this.state.chat,
-          msg
-        ]
-      })
-    
 
     constructor(props){
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.get_id = this.get_id.bind(this);
+        this.saveMsg = this.saveMsg.bind(this);
         this.messages = this.messages.bind(this);
         this.jwt = localStorage.token;
         this.state = {
             name: '',
             last: '',
+            email: '',
             bio: '',
             _id1:'',
             _id2: '',
@@ -54,9 +59,25 @@ export default class cons extends Component {
         this.get_id();
     }
 
+    saveMsg(msg){
+            async function post_msg(obj){
+                console.log(obj);
+                let ret = await axios.post(ip+"/chats/msg", obj);
+                if (ret.status === 200)
+                    console.log("msg saved");
+            }
+            console.log("ok we got here");
+            var data = {};
+            data.email = this.state.email;
+            data.target = this.state.target.email;
+            data.msg = msg;
+            data.token = token;
+            post_msg(data)
+          }
+    
     get_id() {
         async function get_id1(jwt){
-            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1", "token" : token});
+            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1 email", "token" : token});
             if (res.status === 200){
                 if (res.data == "invalid token"){
                     return (window.location.href = ip+"/home");
@@ -67,6 +88,7 @@ export default class cons extends Component {
                     data._id1 = res.data[0]._id;
                     data.name = res.data[0].name;
                     data.last = res.data[0].last;
+                    data.email = res.data[0].email;
                     if (res.data[0].img.img1 == "null")
                         data.display = nll;
                     else
@@ -99,40 +121,27 @@ export default class cons extends Component {
                 console.log("error");
 		}
 		async function get_msg(target){
-			console.log("inside get_msg");
 			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":token});
-			// if (promise.status === 200){
-			// 	var data = {};
-			// 	data.chat = promise.data.message;
-			// 	console.log(data.chat);
-			// 	return (data);
-            // }
-            return ('hi shane');
-		}
+			if (promise.status === 200){
+				var data = {};
+				data.chat = promise.data.message;
+				return (data);
+            }
+        }
+
 	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
 		get_id1(this.jwt).then(ret => {
 			this.setState(ret);
 			get_id2().then(doc => {
 				this.setState(doc);
-				get_msg(target).then(res => {
-					var msg = res.chat;
-                    this.state.msg = [
-                    {'author': "lkrielin@gmail.com",
-                    'target': "solivari@gmail.com",
-                    'msg': "[1/21/2020, 12:54:29 PM] i need therapy"},
-                    {'author': "solivari@gmail.com",
-                    'target': "lkrielin@gmail.com",
-                    'msg': "[1/21/2020, 12:54:35 PM] i mean just say when you go afk"},
-                    {'author': "lkrielin@gmail.com",
-                    'target': "solivari@gmail.com",
-                    'msg': "[1/21/2020, 12:54:44 PM] but it's really bad"},
-                    {'author': "solivari@gmail.com",
-                    'target': "lkrielin@gmail.com",
-                    'msg': "[1/21/2020, 12:54:56 PM] Look your gonna be ok"
-                    }];
-                    var stuff = this.messages();
-                    ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
-				})
+                setInterval(() => {
+                        get_msg(target).then(res => {
+                        var msg = res.chat;
+                        this.state.msg = msg;
+                        var stuff = this.messages();
+                        ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
+                    })
+				}, 100)
 			})
 		});
     }
@@ -238,18 +247,16 @@ export default class cons extends Component {
         var i = 0;
         var max = this.state.msg.length;
         var res = '';
-        
-        console.log(max);
-        console.log(this.state.msg);
 
         while(i < max){
             var msg = this.state.msg;
             var author = this.state.msg[i].author;
-            var res = res+l_element1+l_element2+author+msg[i].msg+l_element3;
+            var res = res+l_element1+l_element2+author+"\ "+msg[i].msg+l_element3;
             i++;
         }
         return (res);
     }
+
 
 }
 
