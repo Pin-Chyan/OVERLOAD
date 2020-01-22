@@ -77,8 +77,10 @@ export default class User extends Component {
         console.log('render');
         var nav = this.nav_constructor(1);
         var mid = this.mid_constructor(0);
-        ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
-        ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
+        if (document.getElementById('navMenu'+this.div_key))
+            ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
+        if (document.getElementById('cont'+this.div_key))
+            ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
         this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
     }
 
