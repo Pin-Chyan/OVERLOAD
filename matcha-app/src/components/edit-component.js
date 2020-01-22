@@ -83,10 +83,10 @@ export default class Edit extends Component {
         var cont = this.container_constructor();
         var mid_img = this.image_edit_constructor();
         var mid_text = this.text_edit_constructor();
-        ReactDOM.render(nav_bar, document.getElementById('navMenu'));
-        ReactDOM.render(cont, document.getElementById('cont'));
-        ReactDOM.render(mid_img, document.getElementById('mid_img'));
-        ReactDOM.render(mid_text, document.getElementById('mid_text'));
+        ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
+        ReactDOM.render(cont, document.getElementById('cont'+this.div_key));
+        ReactDOM.render(mid_img, document.getElementById('mid_img'+this.div_key));
+        ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ export default class Edit extends Component {
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
-    key_handle = e => {
+    keyHandle = e => {
         if (e.key == 'Enter'){
             var search_input = 'null';
             if (this.state.search){
@@ -112,7 +112,8 @@ export default class Edit extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                data: search_input
+                user: this.state.user,
+                search_in: search_input 
             });
         }
     }
@@ -372,8 +373,8 @@ export default class Edit extends Component {
     render () {
         return (
         <section className="section hero">
-            <nav id='navMenu' className="navbar hero-head"></nav>
-            <div id='cont'  className="container"></div>
+            <nav id={'navMenu'+this.div_key} className="navbar hero-head"></nav>
+            <div id={'cont'+this.div_key}  className="container"></div>
         </section>
         )
     }
@@ -399,7 +400,7 @@ export default class Edit extends Component {
                 <div id="navMenu" className="navbar-menu">
                     <div className="navbar-end">
                         <div className="control is-small has-icons-right search-margin">
-                        <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.key_handle(e)}/>
+                        <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
                             <span className="icon is-small is-right">
                                 <i className="fa fa-search"></i>
                             </span>
@@ -418,8 +419,8 @@ export default class Edit extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column bg_white">
                         <div className="column center">
-                            <div id='mid_img' className="tile is-ancestor"></div>
-                            <div id='mid_text'></div>
+                            <div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
+                            <div id={'mid_text' + this.div_key}></div>
                         </div>
                     </div>
                 </div>
