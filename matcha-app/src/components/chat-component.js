@@ -259,9 +259,12 @@ export default class cons extends Component {
     }
 
     messages(){
-        var element1 = ("<p style={{ padding: '.25em', textAlign: center_b");
-        var element2 = ("msgClass: left}}><span class='tag chat-wrap is-success right'>");
-        var element3 = ("</span></p>");
+        var r_element1 = ("<p class='has-text-right'>");
+        var r_element2 = ("<span class='tag chat-wrap is-success right'>");
+        var r_element3 = ("</span></p>");
+        var l_element1 = ("<p class='has-text-left'>");
+        var l_element2 = ("<span class='tag chat-wrap is-success left'>");
+        var l_element3 = ("</span></p>");
         var i = 0;
         var max = this.state.msg.length;
         var res = '';
@@ -269,7 +272,7 @@ export default class cons extends Component {
         while(i < max){
             var msg = this.state.msg;
             var author = this.state.msg[i].author;
-            var res = res+element1+element2+author+"\ "+msg[i].msg+element3;
+            var res = res+l_element1+l_element2+author+"\ "+msg[i].msg+l_element3;
             i++;
         }
         return (res);
