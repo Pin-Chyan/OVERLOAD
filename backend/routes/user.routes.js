@@ -258,7 +258,7 @@ router.route('/edit_spec').post( (req, res) => {
                         doc.age = req.body.age;
                     if (req.body.new_email)
                         doc.email = req.body.new_email;
-                    if (req.body.sexual_pref)
+                    if (req.body.sexual_pref !== undefined)
                         doc.sexual_pref = req.body.sexual_pref;
                     if (req.body.tag)
                         doc.tag = req.body.tag;

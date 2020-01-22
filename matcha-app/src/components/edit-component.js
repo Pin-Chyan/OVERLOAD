@@ -16,6 +16,10 @@ var load2 = require("../images/load2.gif");
 var nll = require("../images/chibi.jpg");
 var ip = require("../server.json").ip;
 
+// TODO:  Add ablitity to change sexual pref and gender,
+//        (optional) show fame rating
+//        show people liked you and people how viewed your profile   
+
 export default class Edit extends Component {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -48,11 +52,13 @@ export default class Edit extends Component {
             this.onSubmit = this.onSubmit.bind(this);
             this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
             this.onChangeTag = this.onChangeTag.bind(this);
+            this.setDefault = this.setDefault.bind(this)
             this.busy = 0;
             this.curr_page = [0,0,0];
             this.other_page = [0,0,0];
             this.state = {
-                "user": res
+                "user": res,
+                checked: true
             };
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
@@ -71,10 +77,10 @@ export default class Edit extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect')})
+        }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
         console.log('redner');
@@ -267,9 +273,13 @@ export default class Edit extends Component {
     }
 
     onChangeSexual_pref(e) {
+      
         this.setState({
-                sexual_pref: e.target.value
+                new_sexual_pref: parseInt(e.target.value, 10),
+                checked: !this.state.checked
             });
+
+            console.log(this.state.new_sexual_pref)
     }
 
     
@@ -298,7 +308,7 @@ export default class Edit extends Component {
 
             var data = {
                 "email" : this.state.user.email,
-                "token" : this.jwt
+                "token" : this.jwt,
             };
             var state_data = this.state.user;
             if (this.state.new_name){
@@ -313,6 +323,11 @@ export default class Edit extends Component {
                 data.bio = this.state.bio;
                 state_data.bio = data.bio; 
             }
+            if (this.state.new_sexual_pref !== undefined) {
+              data.sexual_pref = this.state.new_sexual_pref;
+              state_data.sexual_pref = data.sexual_pref; 
+            }
+            console.log('line ------ 328')
             console.log(data);
             axios.post(ip+"/users/edit_spec", data);
             this.setState({
@@ -571,6 +586,14 @@ export default class Edit extends Component {
             </div>
         )
     }
+
+    setDefault(target) {
+      if (target === this.state.user.sexual_pref) {
+        return true
+      }
+      return false
+    }
+
     text_edit_constructor(){
         return (
             <div>
@@ -604,7 +627,23 @@ export default class Edit extends Component {
                     <div className="control has-icons-left has-icons-right">
                         <input className="input" type="text" placeholder="New bio" value={this.state.bio} onChange={this.onChangebio} required />
                     </div>
-                </div> 
+                </div>
+
+                <div className="control">
+                    <label className="radio">
+                        <input type="radio" name="question" value="-1" defaultChecked={this.setDefault(-1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        Male
+                    </label>
+                    <label className="radio">
+                        <input type="radio" name="question" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        Female
+                    </label>
+                    <label className="radio">
+                        <input type="radio" name="question" value="0" defaultChecked={this.setDefault(0)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        Bisexual
+                    </label>
+                </div>
+
                 <div className="field is-grouped">
                     <div className="control">
                         <button className="button is-warning is-rounded" onClick={this.onSubmit}>Change</button>
