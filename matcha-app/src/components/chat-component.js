@@ -13,7 +13,7 @@ import { getJwt } from "./auth/jwt-helper.js";
 
 var ip = require("../server.json").ip;
 console.log(ip);
-var sesh = "solivari@gmail.com";
+var sesh = undefined;
 var target = "lkrielin@gmail.com";
 var token = "admin";
 var load = require("../images/load.gif");
@@ -56,7 +56,28 @@ export default class cons extends Component {
     }
 
     componentDidMount () {
-        this.get_id();
+        const jwt = localStorage.token;
+        console.log(jwt);
+        async function get_userdata(){
+            if (jwt) {
+                let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { Authorization: `bearer ${jwt}` } });
+                if (prom.status === 200){
+                    console.log(prom.data.email);
+                    sesh = prom.data.email;
+                    return (sesh);
+                }
+            } else {
+                return ("error");
+            }
+            console.log(sesh);
+        }
+        get_userdata().then(res => {
+            console.log(res);
+            if (res !== "error"  || res != "invalid token")
+                this.get_id();
+            else
+                this.props.history.push('/logout');
+        });
     }
 
     saveMsg(msg){
@@ -66,7 +87,6 @@ export default class cons extends Component {
                 if (ret.status === 200)
                     console.log("msg saved");
             }
-            console.log("ok we got here");
             var data = {};
             data.email = this.state.email;
             data.target = this.state.target.email;
@@ -77,7 +97,7 @@ export default class cons extends Component {
     
     get_id() {
         async function get_id1(jwt){
-            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1 email", "token" : token});
+            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1 email"}, { headers: { Authorization: `bearer ${jwt}` } });
             if (res.status === 200){
                 if (res.data == "invalid token"){
                     return (window.location.href = ip+"/home");
@@ -99,8 +119,9 @@ export default class cons extends Component {
             else 
                 console.log("error");
         }
-        async function get_id2(){
-            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1", "token" : token});
+        async function get_id2(jwt){
+            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1"}, { headers: { Authorization: `bearer ${jwt}` } });
+            console.log(docs);
             if (docs.status === 200){
                 if (docs.data[0].name){
                     var set = {};
@@ -120,8 +141,8 @@ export default class cons extends Component {
             else
                 console.log("error");
 		}
-		async function get_msg(target){
-			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":token});
+		async function get_msg(target, jwt){
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target}, { headers: { Authorization: `bearer ${jwt}` } });
 			if (promise.status === 200){
 				var data = {};
 				data.chat = promise.data.message;
@@ -132,8 +153,8 @@ export default class cons extends Component {
 	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
 		get_id1(this.jwt).then(ret => {
 			this.setState(ret);
-			get_id2().then(doc => {
-				this.setState(doc);
+			get_id2(this.jwt).then(doc => {
+				this.setState(doc, this.jwt);
                 setInterval(() => {
                         get_msg(target).then(res => {
                         var msg = res.chat;
