@@ -203,15 +203,6 @@ export default class User extends Component {
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
             </div>
         )
-        var element2 = (
-            <div  className="navbar-end">
-            <div className="control is-small has-icons-right search-margin" ></div>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-            <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
-        </div>
-        )
         if (render)
             return element1;
         else

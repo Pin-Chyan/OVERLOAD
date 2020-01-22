@@ -192,14 +192,15 @@ router.route('/like').post( (req, res) => {
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
-                if (!docs2.likes.includes(docs[0]._id)){
+                if (!docs2.likes.includes(docs._id)){
                     var like = docs2.likes;
-                    like.push(docs[0]._id);
+                    like.push(docs._id);
                     docs2.likes = like;
+                    console.log('like added');
                     docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
                 }
                 else
-                res.json("Already Liked!");
+                    res.json("Already Liked!");
             })
     }).catch(err => {res.json(err)})
 })
@@ -209,8 +210,8 @@ router.route('/Del_like').post( (req, res) => {
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
-                if (docs2.likes.includes(docs[0]._id)){
-                    var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
+                if (docs2.likes.includes(docs._id)){
+                    var index = docs2.likes.findIndex(function (ret){return ret === docs._id});
                     docs2.likes.splice(index,1);
                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
                 }
@@ -235,27 +236,6 @@ router.post('/get_spec', verifyToken, (req, res) => {
     }).catch(err => { res.status(500).send(err) });
 })
 
-// router.route('/get_spec').post( (req, res) => {
-//     if (req.token)
-//         console.log(req.token);
-//     if (req.body.token && req.body.email){
-//         if (req.body.target != ""){
-//             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-//                 if ((req.body.token !== docs[0].token) && (req.body.token !== "admin")){
-//                     console.log(req.body.token);
-//                     console.log(docs[0].token);
-//                     res.status(400).send('invalid token');
-//                 }
-//                 else
-//                     res.json(docs);
-//             }).catch(err => {res.status(500).send(err)});
-//         }
-//         else
-//             res.status(400).send("no target");
-//     }
-//     else
-//         res.status(400).send("token not present");
-// })
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){

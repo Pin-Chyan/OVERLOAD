@@ -13,30 +13,44 @@ require('dotenv').config();
 //
 //                  <<<< Search / Mactching Routes >>>>
 //
-router.route('/hard').post( (req, res) => {
-    // console.log("hi");
-    if (!req.body.token || !req.body.email)
-        res.status(400).send("error");
-    else {
-        UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
-            console.log(auth[0]);
-            if (auth[0].token === req.body.token || req.body.token === "admin"){
-                // console.log("hi");
-                UserModels.find({}, "email name gender age sexual_pref tag likes img.img1").exec().then(docs => {
-                    // console.log(req.body);
-                    if (!req.body.search_conditions)
-                        res.json("no conditions");
-                    else{
-                        var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
-                        res.json(v8res);
-                    }
-                }).catch(err => { res.status(500).send(err)})
-            } else {
-                res.status(403).send("invalid token");
-            }
-        }).catch(err => { res.status(500).send(err)})
-    }
+
+router.route('/engine').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.search_conditions)
+        res.status(400).send('missing fields');
+    console.log(req.body);
+    UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
+        if (auth[0].token === req.body.token || req.body.token === "admin")
+            UserModels.find({}, "email name gender age sexual_pref tag likes img").exec().then(docs => {
+                    var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
+                    console.log(v8res.length);
+                    res.json(v8res);
+            }).catch(err => {res.status(500).send(err)})
+    }).catch(err => {res.status(400).send('forbidden')})
 })
+// router.route('/engine').post( (req, res) => {
+//     // console.log("hi");
+//     if (!req.body.token || !req.body.email)
+//         res.status(400).send("error");
+//     else {
+//         UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
+//             console.log(auth[0]);
+//             if (auth[0].token === req.body.token || req.body.token === "admin"){
+//                 // console.log("hi");
+//                 UserModels.find({}, "email name gender age sexual_pref tag likes img.img1").exec().then(docs => {
+//                     // console.log(req.body);
+//                     if (!req.body.search_conditions)
+//                         res.json("no conditions");
+//                     else{
+//                         var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
+//                         res.json(v8res);
+//                     }
+//                 }).catch(err => { res.status(500).send(err)})
+//             } else {
+//                 res.status(403).send("invalid token");
+//             }
+//         }).catch(err => { res.status(500).send(err)})
+//     }
+// })
 
 router.route('/test_search').post( (req, res) => {
     console.log(req.body);

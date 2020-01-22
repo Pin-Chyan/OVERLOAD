@@ -77,7 +77,7 @@ export default class Edit extends Component {
         }).catch(err => {console.log('eve redirect')})
     }
     eve_mount(){
-        console.log('redner');
+        console.log('render');
         this.selectedCheckboxes = new Set();
         var nav_bar = this.nav_constructor();
         var cont = this.container_constructor();
