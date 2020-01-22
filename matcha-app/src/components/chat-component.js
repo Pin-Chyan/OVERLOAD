@@ -21,14 +21,12 @@ var load2 = require("../images/load2.gif");
 var nll = require("../images/err.jpg");
 
 //////////        <<Liam>>       //////////////
-// create a button on the home page that only renders 
+// create a button on the home page that only renders
 // if the person is liked, the button will take you to
-// the /chat page for that person, the button needs to be able 
+// the /chat page for that person, the button needs to be able
 // to send the email of the person you wish to chat with
-// to the chats page so that i can set the global variable 
+// to the chats page so that i can set the global variable
 // target equal to it before the page loads anything else.
-
-
 
 export default class cons extends Component {
 
@@ -120,7 +118,7 @@ export default class cons extends Component {
                 console.log("error");
         }
         async function get_id2(jwt){
-            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1"}, { headers: { Authorization: `bearer ${jwt}` } });
+            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1"}, { headers: { Authorization: `bearer admin` } });
             console.log(docs);
             if (docs.status === 200){
                 if (docs.data[0].name){
@@ -142,9 +140,9 @@ export default class cons extends Component {
                 console.log("error");
 		}
 		async function get_msg(target, jwt){
-			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target}, { headers: { Authorization: `bearer ${jwt}` } });
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":"admin"});
 			if (promise.status === 200){
-				var data = {};
+                var data = {};
 				data.chat = promise.data.message;
 				return (data);
             }
@@ -154,11 +152,13 @@ export default class cons extends Component {
 		get_id1(this.jwt).then(ret => {
 			this.setState(ret);
 			get_id2(this.jwt).then(doc => {
-				this.setState(doc, this.jwt);
+				this.setState(doc);
                 setInterval(() => {
-                        get_msg(target).then(res => {
+                        get_msg(target, this.jwt).then(res => {
+                        console.log(res);
                         var msg = res.chat;
                         this.state.msg = msg;
+                        console.log(this.state.msg);
                         var stuff = this.messages();
                         ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("fuck you"));
                     })
