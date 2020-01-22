@@ -631,9 +631,20 @@ export default class Edit extends Component {
 
                 <div className="control">
                     <label className="radio">
-                        <input type="radio" name="question" value="-1" defaultChecked={this.setDefault(-1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        <input type="radio" name="question" value="-1" defaultChecked={this.setDefaultSexuality(-1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
                         Male
                     </label>
+                    <label className="radio">
+                        <input type="radio" name="question" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        Female
+                    </label>
+                    <label className="radio">
+                        <input type="radio" name="question" value="0" defaultChecked={this.setDefault(0)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
+                        Bisexual
+                    </label>
+                </div>
+
+                <div className="control">
                     <label className="radio">
                         <input type="radio" name="question" value="1" defaultChecked={this.setDefault(1)} onChange={this.onChangeSexual_pref} checked={this.state.checked}/>
                         Female
