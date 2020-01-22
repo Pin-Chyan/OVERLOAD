@@ -9,7 +9,6 @@ import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
 import upload from "./components/upload.js";
 import Authenticate from "./components/auth/auth-component.js";
-import msg from "./components/message-and-notification.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
 import logout from "./components/auth/logout";
@@ -37,7 +36,6 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-        <Route path="/test" component={msg}/>
         {/* <Route path="/search/:input" exact component={Search}/> */}
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>

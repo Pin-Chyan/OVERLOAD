@@ -91,7 +91,8 @@ router.route('/msg').post( (req, res) => {
                     var d = new Date();
                     msg.author = doc.name;
                     msg.target = target.name;
-                    msg.msg = "["+d.toLocaleString("en-GB")+"]: "+req.body.msg;
+                    msg.timestamp = "["+d.toLocaleString("en-GB")+"]";
+                    msg.msg = ": "+req.body.msg;
                     what.push(msg);
                     ret.message = what;
                     ret.save().then(r => {res.json("saved")}).catch(err => {res.json(err)});
@@ -112,7 +113,7 @@ router.route('/get_msg').post( (req, res) => {
         if (!target)
             res.json("error");
         UserModels.findOne({'email':req.body.email},"_id token").exec().then(doc => {
-            if (req.body.token == "admin" || doc.token == req.token) {
+            if (req.body.token === "admin" || doc.token === req.body.token) {
                 ChatModels.findOne({ $or:[
                     { _id1 : doc._id , _id2 : target._id},
                     { _id2 : doc._id , _id1 : target._id}
@@ -121,7 +122,7 @@ router.route('/get_msg').post( (req, res) => {
                 })
             }
             else
-                res.json("error");
+                res.json("Invalid token");
         })
     }).catch(err => {res.json(err)})
 })
@@ -149,7 +150,7 @@ router.route('/del_chatroom').post( (req, res) => {
 })
 
 router.route('/msg_del').post( (req, res) => {
-    if (!req.body.token && req.body.target && req.body.msg && req.body.notify)
+    if (!req.body.token && req.body.target && req.body.timestamp && req.body.notify)
         req.json("error");
     UserModels.findOne({'email':req.body.email},"token _id").exec().then(doc => {
         console.log(doc)
@@ -159,16 +160,17 @@ router.route('/msg_del').post( (req, res) => {
                     { _id1 : doc._id , _id2 : ret._id},
                     { _id2 : doc._id , _id1 : ret._id}
                 ]}, "message").exec().then(ret => {
-                var pos = ret.message.findIndex(function (res){
-                    return res.msg === req.body.msg});
+                console.log(ret);
+                // console.log(ret.message);
+                var pos = ret.message.findIndex(function (res){return res.timestamp === req.body.timestamp});
                 if (pos == -1){
-                    res.json("Error");
+                    res.json("Error with position");
                 }
                 else {
                     var msg = ret.message;
                     console.log(msg[pos]);
                     msg.splice(pos, 1);
-                    ret.message= msg;
+                    ret.message = msg;
                     ret.save().then(r => {res.json("msg deleted")}).catch(err => {res.json(err)});
                 }
             })
