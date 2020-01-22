@@ -31,7 +31,6 @@ function App() {
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
-        <Route path="/chat" exact component={chat} />
         <Route path="/logout" exact component={logout} />
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/emailSent" exact component={EmailSent} />
@@ -43,6 +42,7 @@ function App() {
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
+          <Route path="/chat" exact component={chat} />
           <Route path="/user" exact component={User} />
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 

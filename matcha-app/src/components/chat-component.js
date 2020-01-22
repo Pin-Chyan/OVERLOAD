@@ -30,6 +30,11 @@ var nll = require("../images/err.jpg");
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< eve protocol >>>>
+//
+
 export default class cons extends Component {
 
     constructor(props){
