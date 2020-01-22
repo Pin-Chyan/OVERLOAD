@@ -6,11 +6,6 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import ReactDOM from 'react-dom'
 
-var token = "";//localStorage.token;
-var sesh = "";//decode(localStorage.token);
-var load = require("../images/load.gif");
-var load2 = require("../images/load2.gif");
-var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
 
 export default class User extends Component {
@@ -27,69 +22,47 @@ export default class User extends Component {
         this.ip = require('../server.json').ip;
         this.state = {};
         console.log(this.ip);
-        async function server_check(ip){
-            let promise = await axios.post(ip + '/ping/ms');
-            if (promise.status === 200){
-                return ('eve online');
-            }
-            else
-                return ('eve offline');
-        }
-        server_check(this.ip).then(res => {
-            if (res === 'eve online'){
-                console.log('eve online');
-                ///////////////////////////////////////////////////////////
-                //      <<<< begin binding after database online >>>>
-                this.eve_mount = this.eve_mount.bind(this);
-                this.userData_getter = this.userData_getter.bind(this);
-                this.page_handler = this.page_handler.bind(this);
-                this.searchHandle = this.searchHandle.bind(this);
-                this.busy = 0;
-                this.state = {
-                    "res" : '',
-                    "html" : '',
-                    "user" : '',
-                    "display" : load,
-                    "dsiplay" : load2
-                };
-                this.userData_getter();
-            }
-            else
-                console.log('eve redirect');///     <<<< replace with redirect
-        });
-    }
-    userData_getter(){
-        console.log('getting data......');
-        async function get_email(jwt){
+        async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
-            else
-                return 'eve redirect';
         }
-        async function get_data(email,token,ip,target){
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "token":token, "target":target});
+        server_get(this.ip,this.jwt).then(res => {
+            console.log('eve online');
+            ///      <<<< begin binding after database online >>>>
+            this.eve_mount = this.eve_mount.bind(this);
+            this.userData_getter = this.userData_getter.bind(this);
+            this.page_handler = this.page_handler.bind(this);
+            this.searchHandle = this.searchHandle.bind(this);
+            this.busy = 0;
+            this.curr_page = [0,0,0];
+            this.other_page = [0,0,0];
+            this.state = {
+                "res" : '',
+                "html" : '',
+                "user" : res
+            };
+            if (this.props.location.user){
+                this.setState({"user":this.props.location.user});
+                this.eve_mount();
+            }
+            else
+                this.userData_getter();
+        }).catch(err => {console.log('eve redirect')});
+    }
+    userData_getter(){
+        console.log('getting data......');
+        async function get_data(email,jwt,ip,target){
+            console.log(email);
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target}, { headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
-            else
-                return 'eve redirect';
         }
-        //
-        //      <<<< target will be customised for each page for optimisation >>>>
-        //
-        get_email(this.jwt).then(emailGet_res => {
-            if (emailGet_res !== 'eve redirect')
-                get_data(emailGet_res.email,this.jwt,this.ip,"name email last bio img.img1").then(userGet_res => {
-                    if (userGet_res !== 'eve redirect'){
-                        this.setState({"user":userGet_res[0]});
-                        this.eve_mount();
-                    }
-                    else
-                        console.log('eve redirect');///     <<<< replace with redirect
-                })
-            else
-                console.log('eve redirect');///     <<<< replace with redirect
-        })
+        ///      <<<< target will be customised for each page for optimisation >>>>
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+                this.setState({"user":userGet_res[0]});
+                this.eve_mount();
+        }).catch(err => {console.log('eve redirect')})
     }
     eve_mount(){
         this.page_handler();
@@ -103,9 +76,10 @@ export default class User extends Component {
     page_handler(){
         console.log('render');
         var nav = this.nav_constructor(1);
-        var mid = this.mid_constructor();
+        var mid = this.mid_constructor(0);
         ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
         ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
+        this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,16 +87,13 @@ export default class User extends Component {
 //                      <<<< Page logic >>>>
 //
 
-    //      <<<< Page routers
-
     redirecthandler = e => {
-        // console.log(e.target.id);
-        this.props.history.push(e.target.id);
+        this.props.history.push({
+            pathname:e.target.id,
+            user: this.state.user
+        });
     }
-    //      the end >>>>
 
-
-    //      <<<< search fucntions
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
@@ -135,11 +106,51 @@ export default class User extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                data: search_input
+                user: this.state.user,
+                search_in: search_input 
             });
         }
     }
-    //      end >>>>
+
+    rgb_phaser = (altitude,target,state_target) => {
+        if (   this[target][0] != altitude[0] 
+            || this[target][1] != altitude[1]
+            || this[target][2] != altitude[2] ){
+            if (this[target][0] != altitude[0]){
+                if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
+                    this[target][0] = altitude[0];
+                else
+                    this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
+            }
+            if (this[target][1] != altitude[1]){
+                if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
+                    this[target][1] = altitude[1];
+                else
+                    this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
+            }
+            if (this[target][2] != altitude[2]){
+                if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
+                    this[target][2] = altitude[2];
+                else
+                    this[target][2] += this[target][2] > altitude[2] ? -1 * altitude[3] : 1* altitude[3];
+            }
+            altitude[3] += altitude[4];
+            this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
+            this.sleep(20).then(() => {
+                this.rgb_phaser(altitude,target,state_target);
+            });
+        } else
+            console.log("set " + target + " result posted to this.state." + state_target);
+    }
+    toPos(num){
+        if (num < 0)
+            return (num * -1);
+        else
+            return (num);
+    }
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -184,19 +195,19 @@ export default class User extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
+                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
             </div>
         )
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
-            <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
-            <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-            <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-            <a className="navbar-item " style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
+            <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
         </div>
         )
         if (render)
@@ -206,11 +217,12 @@ export default class User extends Component {
     }
 
     mid_constructor(){
+        var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
         var element1 = (
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
                          <figure className="image is-3by4"> 
-                            <img className="overflow" src={this.state.user.img.img1} alt="Asuna_img" />
+                            <img className="overflow" src={display1} alt="Asuna_img" />
                         </figure>
     
                         <div className="column center">
@@ -218,7 +230,7 @@ export default class User extends Component {
                 <article className="media center">
                     <figure className="media-left">
                         <figure className="image is-64x64">
-                            <img alt="Asuna" src={this.state.user.img.img1} />
+                            <img alt="Asuna" src={display1} />
                         </figure>
                     </figure>
                     <div className="media-content">
