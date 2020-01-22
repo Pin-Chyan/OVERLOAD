@@ -403,5 +403,21 @@
         "img"           : {
             "img 1" : "https://d3ieicw58ybon5.cloudfront.net/ex/610.343/u/004837a85fe14bd6b4a2c6c0d979ce96.jpg"
         }
+    },
+    {
+        "name"          : "Bot",
+        "last"          : "Gabe",
+        "password"      : "bot",
+        "gender"        : 1,
+        "age"           : 21,
+        "email"         : "BotGabe@gmail.com",
+        "sexual_pref"   : 1,
+        "tag"           : [
+            "ak-47", "Stern", "toggle", "walls"
+        ],
+        "verified"      : true,
+        "img"           : {
+            "img 1" : "https://www.meme-arsenal.com/memes/078f308085790692eb1798ed8466423e.jpg"
+        }
     }
 ]
