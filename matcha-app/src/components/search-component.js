@@ -6,17 +6,12 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import { Link } from 'react-router-dom';
-var ip = require("../server.json").ip;
 
-var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var nll = require("../images/chibi.jpg");
 var sec = require("../images/check.jpg");
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
+
 //[1,-1,-2,-2,10,-1,-1] search conditions
 export default class User extends Component {
 
@@ -33,86 +28,56 @@ export default class User extends Component {
         this.ip = require('../server.json').ip;
         this.state = {};
         console.log(this.ip);
-        async function server_check(ip){
-            let promise = await axios.post(ip + '/ping/ms');
-            if (promise.status === 200){
-                return ('eve online');
-            }
-            else
-                return ('eve offline');
-        }
-        server_check(this.ip).then(res => {
-            if (res === 'eve online'){
-                console.log('eve online');
-                ///////////////////////////////////////////////////////////
-                //      <<<< begin binding after database online >>>>
-                this.eve_mount = this.eve_mount.bind(this);
-                this.userData_getter = this.userData_getter.bind(this);
-                this.page_handler = this.page_handler.bind(this);
-                this.searchHandle = this.searchHandle.bind(this);
-                this.searcher = this.searcher.bind(this);
-                this.busy = 0;
-                this.state = {
-                    "res" : '',
-                    "html" : '',
-                    "user" : '',
-                    "display" : load,
-                    "dsiplay" : load2
-                };
-                this.userData_getter();
-            }
-            else
-                console.log('eve redirect');///     <<<< replace with redirect
-        });
-    }
-    userData_getter(){
-        console.log('getting data......');
-        async function get_email(jwt){
+        async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
-            else
-                return 'eve redirect';
         }
-        async function get_data(email,token,ip,target){
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "token":token, "target":target});
+        server_get(this.ip,this.jwt).then(res => {
+            console.log('eve online');
+            ///////////////////////////////////////////////////////////
+            //      <<<< begin binding after database online >>>>
+            this.eve_mount = this.eve_mount.bind(this);
+            this.userData_getter = this.userData_getter.bind(this);
+            this.page_handler = this.page_handler.bind(this);
+            this.searchHandle = this.searchHandle.bind(this);
+            this.searcher = this.searcher.bind(this);
+            this.busy = 0;
+            this.state = {
+                "res" : '',
+                "html" : '',
+                "user" : res
+            };
+            if (this.props.location.user){
+                this.setState({"user":this.props.location.user});
+                this.eve_mount();
+            } else
+                this.userData_getter();
+        }).catch(err => {console.log('eve redirect')});
+    }
+    userData_getter(){
+        console.log('getting data......');
+        async function get_data(email,jwt,ip,target){
+            console.log(email);
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target}, { headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
-            else
-                return 'eve redirect';
         }
-        //
-        //      <<<< target will be customised for each page for optimisation >>>>
-        //
-        get_email(this.jwt).then(emailGet_res => {
-            if (emailGet_res !== 'eve redirect')
-                get_data(emailGet_res.email,this.jwt,this.ip,"name email last").then(userGet_res => {
-                    if (userGet_res !== 'eve redirect'){
-                        this.setState({"user":userGet_res[0]});
-                        this.eve_mount();
-                    }
-                    else
-                        console.log('eve redirect');///     <<<< replace with redirect
-                })
-            else
-                console.log('eve redirect');///     <<<< replace with redirect
-        })
+        ///      <<<< target will be customised for each page for optimisation >>>>
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+                this.setState({"user":userGet_res[0]});
+                this.eve_mount();
+        }).catch(err => {console.log('eve redirect')})
     }
     eve_mount() {
-        console.log('mounted');
+        console.log('render');
         this.internal_color = [15,14,14];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
-        if (this.props.location)
-            if (this.props.location.data){
-                if (this.props.location.data === "null")
-                    this.page_handler('init',{});
-                else{
-                    this.setState({"search":this.props.location.data});
-                    this.searcher();
-                }
-            }
-        else
+        if (this.props.location.search_in && this.props.location.search_in !== 'null'){
+            this.setState({"search":this.props.location.data});
+            this.searcher();
+        } else
             this.page_handler('init',{});
     }
 
@@ -147,7 +112,7 @@ page_handler(mode, data){
     else if (mode === 'searching'){
         console.log(mode);
         this.rgb_phaser([0,0,0,1,2],'internal_color','res');
-        sleep(3).then(() => {
+        this.sleep(3).then(() => {
             if (document.getElementById(cont_div))
                 ReactDOM.render(div_load, document.getElementById(cont_div));
             if (document.getElementById(menu_div))
@@ -193,7 +158,7 @@ page_handler(mode, data){
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
-        sleep(1500).then(() => {
+        this.sleep(1500).then(() => {
             this.page_handler('init',{});
         })
     }
@@ -206,7 +171,7 @@ page_handler(mode, data){
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
-        sleep(3000).then(() => {
+        this.sleep(3000).then(() => {
             this.page_handler('init',{});
         })
     }
@@ -228,7 +193,10 @@ page_handler(mode, data){
 
     redirecthandler = e => {
         // console.log(e.target.id);
-        this.props.history.push(e.target.id);
+        this.props.history.push({
+            pathname:e.target.id,
+            user: this.state.user
+        });
     }
     //      the end >>>>
 
@@ -276,7 +244,7 @@ page_handler(mode, data){
             }
             altitude[3] += altitude[4];
             this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
-            sleep(20).then(() => {
+            this.sleep(20).then(() => {
                 this.rgb_phaser(altitude,target,state_target);
             });
         } else
@@ -287,6 +255,9 @@ page_handler(mode, data){
             return (num * -1);
         else
             return (num);
+    }
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     //      end >>>>
 

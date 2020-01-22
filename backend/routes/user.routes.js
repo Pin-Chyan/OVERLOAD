@@ -220,25 +220,42 @@ router.route('/Del_like').post( (req, res) => {
     }).catch(err => {res.json(err)})
 })
 
-router.route('/get_spec').post( (req, res) => {
-    if (req.body.token){
-        if (req.body.target != ""){
-            UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-                if ((req.body.token !== docs[0].token) && (req.body.token !== "admin")){
-                    console.log(req.body.token);
-                    console.log(docs[0].token);
-                    res.json('invalid token');
-                }
-                else
-                    res.json(docs);
-            }).catch(err => {res.status(500).send(err)});
-        }
+router.post('/get_spec', verifyToken, (req, res) => {
+    console.log(req.body);
+    if (!req.token || !req.body.target || !req.body.email)    
+        res.status(403).send('empty fields');
+    console.log('the target');
+    console.log(req.token);
+    UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+        console.log(docs[0].token);
+        if ((req.token === docs[0].token) || (req.token === "admin"))
+            res.json(docs);
         else
-            res.status(400).send("no target");
-    }
-    else
-        res.status(400).send("token not present");
+            res.status(400).send('Forbbiden');
+    }).catch(err => { res.status(500).send(err) });
 })
+
+// router.route('/get_spec').post( (req, res) => {
+//     if (req.token)
+//         console.log(req.token);
+//     if (req.body.token && req.body.email){
+//         if (req.body.target != ""){
+//             UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+//                 if ((req.body.token !== docs[0].token) && (req.body.token !== "admin")){
+//                     console.log(req.body.token);
+//                     console.log(docs[0].token);
+//                     res.status(400).send('invalid token');
+//                 }
+//                 else
+//                     res.json(docs);
+//             }).catch(err => {res.status(500).send(err)});
+//         }
+//         else
+//             res.status(400).send("no target");
+//     }
+//     else
+//         res.status(400).send("token not present");
+// })
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
