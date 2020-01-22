@@ -83,10 +83,14 @@ export default class Edit extends Component {
         var cont = this.container_constructor();
         var mid_img = this.image_edit_constructor();
         var mid_text = this.text_edit_constructor();
-        ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
-        ReactDOM.render(cont, document.getElementById('cont'+this.div_key));
-        ReactDOM.render(mid_img, document.getElementById('mid_img'+this.div_key));
-        ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+        if (document.getElementById('navMenu'+this.div_key))
+            ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
+        if (document.getElementById('cont'+this.div_key))
+            ReactDOM.render(cont, document.getElementById('cont'+this.div_key));
+        if (document.getElementById('mid_img'+this.div_key))
+            ReactDOM.render(mid_img, document.getElementById('mid_img'+this.div_key));
+        if (document.getElementById('mid_text'+this.div_key))
+            ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
