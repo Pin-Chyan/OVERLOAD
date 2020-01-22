@@ -112,7 +112,7 @@ router.route('/get_msg').post( (req, res) => {
         if (!target)
             res.json("error");
         UserModels.findOne({'email':req.body.email},"_id token").exec().then(doc => {
-            if (req.body.token == "admin" || doc.token == req.token) {
+            if (req.body.token === "admin" || doc.token === req.body.token) {
                 ChatModels.findOne({ $or:[
                     { _id1 : doc._id , _id2 : target._id},
                     { _id2 : doc._id , _id1 : target._id}
@@ -121,7 +121,7 @@ router.route('/get_msg').post( (req, res) => {
                 })
             }
             else
-                res.json("error");
+                res.json("Invalid token");
         })
     }).catch(err => {res.json(err)})
 })
