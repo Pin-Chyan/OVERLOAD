@@ -345,10 +345,10 @@ export default class cons extends Component {
     }
     message_constructor(msg_data){
         var r_element1 = "<p class='has-text-right'>";
-        var r_element2 = "<span class='tag chat-wrap is-info right'>";
+        var r_element2 = "<span class='tag chat-wrap is-info right_m'>";
         var r_element3 = "</span></p>";
         var l_element1 = "<p class='has-text-left'>";
-        var l_element2 = "<span class='tag chat-wrap is-success left'>";
+        var l_element2 = "<span class='tag chat-wrap is-success left_m'>";
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
