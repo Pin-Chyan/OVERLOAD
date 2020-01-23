@@ -145,10 +145,13 @@ export default class cons extends Component {
     page_handler(){
         var nav_bar = this.nav_constructor(1);
         var msgBox = this.msgBox_constructor();
+        var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('message foot'+this.div_key))
             ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
+        if (document.getElementById('user_display_header'+this.div_key))
+            ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         this.get_id();
     }
 
@@ -257,7 +260,6 @@ export default class cons extends Component {
                 <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
             </div>
         </nav>
-        <div id={"user"+this.div_key}></div>
         <div id={"user_display_header"+this.div_key}></div>
         <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box">huh</div></div>
         <div id={"message foot"+this.div_key} className="hero-foot"></div>
@@ -298,7 +300,7 @@ export default class cons extends Component {
                     <article className="media center">
                         <figure className="media-left">
                             <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.display} />
+                                <img alt="Asuna" src={this.state.user.img.img1} />
                             </figure>
                         </figure>
                         <div className="media-content">
@@ -315,7 +317,7 @@ export default class cons extends Component {
                     <article className="media center">
                         <figure className="media-left">
                             <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.target.display} />
+                                <img alt="Asuna" src={this.state.target.img.img1} />
                             </figure>
                         </figure>
                         <div className="media-content">
