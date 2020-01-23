@@ -23,12 +23,6 @@ var ip = require("../server.json").ip;
 var nll = require("../images/chibi.jpg");
 let sesh = undefined;
 var target = "meave@gmail.com";
-
-const fadeImages = [
-    'images/slide_5.jpg',
-    'images/slide_6.jpg',
-    'images/slide_7.jpg'
-  ];
    
   const fadeProperties = {
     duration: 5000,
@@ -308,27 +302,1569 @@ export default class Home extends Component {
                     <div className="column is-half bg_white_1">
                         <figure className="image"> {/* is-3by4 */}
                         <div className="slide-container">
-      <Fade {...fadeProperties}>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={this.state.img1} />
-          </div>
-          <h2>First Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={this.state.img2} />
-          </div>
-          <h2>Second Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={this.state.img3} />
-          </div>
-          <h2>Third Slide</h2>
-        </div>
-      </Fade>
-    </div>
+                          <Fade {...fadeProperties}>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img1} />
+                              </div>
+                              <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img2} />
+                              </div>
+                              <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                              <div className="image-container">
+                                <img src={this.state.img3} />
+                              </div>
+                              <h2>Third Slide</h2>
+                            </div>
+                          </Fade>
+                        </div>
                             {/* <Carousel autoPlay className="image img_carousel">
                                 <div>
                                     <img alt="image 1" className="m_image" src={this.state.img1} />
