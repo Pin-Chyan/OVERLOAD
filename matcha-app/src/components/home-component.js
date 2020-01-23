@@ -51,10 +51,10 @@ export default class Home extends Component {
                 this.eve_mount();
             }
             else
-                this.userData_getter();
+                this.userData_getter(0);
         }).catch(err => {console.log('eve redirect' + err)});
     }
-    userData_getter(){
+    userData_getter(reset){
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
             console.log(email);
@@ -65,7 +65,8 @@ export default class Home extends Component {
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
-                this.eve_mount();
+                if (reset === 0)
+                    this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
@@ -98,6 +99,7 @@ export default class Home extends Component {
             this.Carousel_handle(this.state.results[0]);
         }
         console.log('render');
+        this.userData_getter(1);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
