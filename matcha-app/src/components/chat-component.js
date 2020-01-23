@@ -228,7 +228,7 @@ export default class cons extends Component {
             }
             if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                this.sleep(500).then(() => {
+                this.sleep(100).then(() => {
                     this.get_id();
                 })
             }
