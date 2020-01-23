@@ -40,7 +40,7 @@ function App() {
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
-          <Route path="/chat" exact component={chat} />
+          <Route path="/chat/:target" exact component={chat} />
           <Route path="/user" exact component={User} />
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 
@@ -49,7 +49,6 @@ function App() {
           <Route path="/backup" exact component={Backup} />
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
-          {/* <Route path="/msg" exact component={msg} /> */}
         </Authenticate>
         {/* <Route path="/tags" exact component={tags} /> */}        
       </Switch>

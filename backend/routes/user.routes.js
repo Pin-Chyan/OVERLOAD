@@ -222,18 +222,34 @@ router.route('/Del_like').post( (req, res) => {
 })
 
 router.post('/get_spec', (req, res) => {
-    console.log(req.body);
     if (!req.body.token || !req.body.target || !req.body.email)    
         res.status(403).send('empty fields');
-    console.log('the target');
-    console.log(req.body.token);
     UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-        console.log(docs[0].token);
         if ((req.body.token === docs[0].token) || (req.body.token === "admin"))
             res.json(docs);
         else
             res.status(400).send('Forbbiden');
     }).catch(err => { res.status(500).send(err) });
+})
+
+router.post('/get_soft', (req, res) => {
+    if (!req.body.token || !req.body.target || !req.body.email || !req.body.target_email)    
+        res.status(403).send('empty fields');
+    else if (req.body.target.includes('password'))
+        res.status(400).send('Forbbidden');
+    else{
+        UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+            if ((req.body.token === docs[0].token) || (req.body.token === "admin")){
+                UserModels.find({"email":req.body.target_email},req.body.target).then(soft_data => {
+                    console.log(req.body.target_email);
+                    console.log(soft_data);
+                    res.json(soft_data[0]);
+                })
+            }
+            else
+                res.status(400).send('Forbbiden');
+        }).catch(err => { res.status(500).send(err) });
+    }
 })
 
 

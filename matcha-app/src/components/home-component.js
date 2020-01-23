@@ -114,18 +114,17 @@ export default class Home extends Component {
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
-    key_handle = e => {
+    keyHandle = e => {
         if (e.key == 'Enter'){
-            var search_input = {'input':'null'};
+            var search_input = 'null';
             if (this.state.search){
                 if (this.state.search.trim() != '')
-                    search_input.input = this.state.search;
+                    search_input = this.state.search;
             }
-            search_input.token = token;
-            search_input.email = sesh;
             this.props.history.push({
                 pathname: '/search',
-                data: search_input
+                user: this.state.user,
+                search_in: search_input 
             });
         }
     }
@@ -150,24 +149,27 @@ export default class Home extends Component {
                 return buttonval === 'Prev' ? 'Prev' : 'Next';
             else if (buttonval === "Like"){
                 let req = await axios.post(ip+"/users/like", data);
-                if (req.status == 200){
-                    if (req.data == "Already Liked!")
+                if (req.status === 200){
+                    if (req.data === "Already Liked!")
                         console.log("Already Liked!");
                     else
                         return 'Next';
                 }
             }
-            else if (buttonval == "Unlike"){
+            else if (buttonval === "Unlike"){
                 let req = await axios.post(ip+"/users/Del_like", data);
-                if (req.status == 200){
-                    if (req.data == "Not Liked")
+                if (req.status === 200){
+                    if (req.data === "Not Liked")
                         console.log("Not Liked");
                     else
                         console.log("Unliked");
                 }
             }
-            else if (buttonval == "Report"){
+            else if (buttonval === "Report"){
                 console.log("reported!");
+            }
+            else if (buttonval === "Message"){
+                return ('redirect');
             }
             else
                 console.log("you missed the button!");
@@ -180,6 +182,13 @@ export default class Home extends Component {
                     this.pos--;
                 this.Carousel_handle(this.state.results[this.pos]);
                 console.log(this.pos);
+            }
+            if (res === 'redirect'){
+                this.props.history.push({
+                    pathname: "/chat/new",
+                    user: this.state.user,
+                    data: this.state.results[this.pos].email
+                })
             }
         });
     }
@@ -231,7 +240,7 @@ export default class Home extends Component {
         var element1 = (
             <div className="navbar-end">
                 <div className="control is-small has-icons-right search-margin">
-                    <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.key_handle(e)}/>
+                    <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
                     <span className="icon is-small is-right">
                         <i className="fa fa-search"></i>
                     </span>
@@ -278,6 +287,7 @@ export default class Home extends Component {
                     <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                     <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                     <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+                    <button id="6" value="Message" className="button is-hovered fa"></button>
                 </div>
 
                 <div className="column center">

@@ -8,17 +8,6 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 import axios from 'axios';
-import { func } from 'prop-types';
-import { getJwt } from "./auth/jwt-helper.js";
-
-var ip = require("../server.json").ip;
-console.log(ip);
-var sesh = undefined;
-var target = "solivari@gmail.com";
-var token = "admin";
-var load = require("../images/load.gif");
-var load2 = require("../images/load2.gif");
-var nll = require("../images/err.jpg");
 
 //////////        <<Liam>>       //////////////
 // create a button on the home page that only renders
@@ -34,29 +23,6 @@ export default class cons extends Component {
 //
 //                      <<<< Eve protocol >>>>
 //
-
-    // constructor(props){
-    //     super(props);
-    //     this.componentDidMount = this.componentDidMount.bind(this);
-    //     this.get_id = this.get_id.bind(this);
-    //     this.saveMsg = this.saveMsg.bind(this);
-    //     this.message_constructor = this.message_constructor.bind(this);
-    //     this.jwt = localStorage.token;
-    //     this.state = {
-    //         name: '',
-    //         last: '',
-    //         email: '',
-    //         bio: '',
-    //         _id1:'',
-    //         _id2: '',
-    //         target: {},
-    //         ag: 0,
-    //         tags: '#tags',
-    //         display: load,
-    //         display2: load2,
-    //         msg: ["shit"]
-    //     }
-    // }
     
     constructor(props){
         super(props);
@@ -86,8 +52,9 @@ export default class cons extends Component {
                 "user" : res
             };
             if (this.props.location.user){
+                // console.log(this.props.location.user);
                 this.setState({"user":this.props.location.user});
-                this.eve_mount();
+                this.external_data1();
             }
             else
                 this.userData_getter();
@@ -102,40 +69,68 @@ export default class cons extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
-                this.setState({"user":userGet_res[0]});
-                this.eve_mount();
+        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last bio tag img").then(userGet_res => {
+            this.setState({"user":userGet_res[0]});
+            console.log(userGet_res[0]);
+            this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
+    }
+    external_data1(){
+        async function get_targetId(ip,target_email,email,jwt){
+            let promise = await axios.post(ip+"/users/get_soft",{"token":jwt,"email":email,"target_email":target_email, "target":"_id name last email img.img1"})
+            if (promise.status === 200)
+                return promise.data;
+        }
+        console.log('pulling externals........');
+        console.log(this.props.location.data);
+        if (this.props.match.params.target === 'new'){
+            if (!this.props.location.data)
+                this.props.history.push('/');
+            else if (this.props.match.params.target === 'new') {
+                get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
+                    console.log(res);
+                    this.setState({
+                        "target":res
+                    })
+                    this.external_data2();
+                }).catch(err => {console.log('eve redirect ' + err)})
+            }
+            else {
+                get_targetId(this.ip,this.props.match.params,this.state.user.email,this.jwt).then(res => {
+                    console.log(res);
+                    this.setState({
+                        "target":res
+                    })
+                    this.eve_mount();
+                }).catch(err => {console.log('eve redirect ' + err)})
+            }
+        } else {
+            get_targetId(this.ip,this.props.match.params,this.state.user.email,this.jwt).then(res => {
+                console.log(res);
+                this.setState({
+                    "target":res
+                })
+                this.eve_mount();
+            }).catch(err => {console.log('eve redirect ' + err)})
+        }
+    }
+    external_data2(){
+        console.log('room');
+        async function newroom(email,jwt,id1,id2,ip){
+            let promise = await axios.post(ip + "/chats/newroom",{"email":email,"token":jwt,"id1":id1,"id2":id2});
+            if (promise.status === 200)
+                return (promise.data);
+        }
+        newroom(this.state.user.email,this.jwt,this.state.user._id,this.state.target._id,this.ip).then(room => {
+            console.log(room);
+            this.setState({"chatroom":room});
+            this.eve_mount();
+        }).catch(err => {console.log('eve redirect ' + err)})
     }
     eve_mount(){
         console.log('render');
-        this.page_handler();
+        this.page_handler();// exit node
     }
-    // eve_mount(){
-    //     const jwt = localStorage.token;
-    //     console.log(jwt);
-    //     async function get_userdata(){
-    //         if (jwt) {
-    //             let prom = await axios.post(ip+"/users/getEmail", {} ,{ headers: { Authorization: `bearer ${jwt}` } });
-    //             if (prom.status === 200){
-    //                 console.log(prom.data.email);
-    //                 sesh = prom.data.email;
-    //                 return (sesh);
-    //             }
-    //         } else {
-    //             return ("error");
-    //         }
-    //         console.log(sesh);
-    //     }
-    //     get_userdata().then(res => {
-    //         console.log(res);
-    //         if (res !== "error"  || res != "invalid token")
-    //             console.log('got data');// this.get_id();
-    //         else
-    //             this.props.history.push('/logout');
-    //         this.page_handler();
-    //     });
-    // }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -145,11 +140,11 @@ export default class cons extends Component {
     page_handler(){
         var nav_bar = this.nav_constructor(1);
         var msgBox = this.msgBox_constructor();
-        if (document.getElementById('navMenu'))
-            ReactDOM.render(nav_bar, document.getElementById('navMenu')); 
-        if (document.getElementById('message foot'))
-            ReactDOM.render(msgBox, document.getElementById('message foot'));
-        // this.get_id();
+        if (document.getElementById('navMenu'+this.div_key))
+            ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
+        if (document.getElementById('message foot'+this.div_key))
+            ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
+        this.get_id();
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,94 +176,52 @@ export default class cons extends Component {
             });
         }
     }
-    saveMsg(msg){
-            async function post_msg(obj){
-                console.log(obj);
-                let ret = await axios.post(ip+"/chats/msg", obj);
-                if (ret.status === 200)
-                    console.log("msg saved");
-            }
-            var data = {};
-            data.email = this.state.email;
-            data.target = this.state.target.email;
-            data.msg = msg;
-            data.token = token;
-            post_msg(data)
+    msghandle = e => {
+        this.setState({newmsg:e.target.value});
+        console.log(this.state.newmsg);
+        console.log(e.target.value);
     }
-    
+    sendhandle = e => {
+        console.log('sending..........');
+            async function post_msg(ip,email,jwt,room,msg){
+                let promise = await axios.post(ip+"/chats/msg", {"email":email,"token":jwt,"room":room,"msg":msg});
+                if (promise.status === 200)
+                    return promise.data;
+            }
+            console.log(this.state.chatroom);
+            post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom,this.state.newmsg).then(res => {
+                console.log(res);
+            }).catch(err => 'eve redirect '+err)
+    }
     get_id() {
-        async function get_id1(jwt){
-            let res = await axios.post(ip+"/users/get_spec", {"email": sesh, "target":"_id name last img.img1 email"}, { headers: { Authorization: `bearer ${jwt}` } });
-            if (res.status === 200){
-                if (res.data == "invalid token"){
-                    return (window.location.href = ip+"/home");
-                }
-                else {
-                    var data = {};
-                    data.img = {};
-                    data._id1 = res.data[0]._id;
-                    data.name = res.data[0].name;
-                    data.last = res.data[0].last;
-                    data.email = res.data[0].email;
-                    if (res.data[0].img.img1 == "null")
-                        data.display = nll;
-                    else
-                        data.display = res.data[0].img.img1;
-                   	return (data);
-                }
-            }
-            else 
-                console.log("error");
-        }
-        async function get_id2(jwt){
-            let docs = await axios.post(ip+"/users/get_spec", {"email": target, "target":"_id name last img.img1"}, { headers: { Authorization: `bearer admin` } });
-            console.log(docs);
-            if (docs.status === 200){
-                if (docs.data[0].name){
-                    var set = {};
-                    set.target = {};
-                    set._id2 = docs.data[0]._id;
-                    set.target.name = docs.data[0].name;
-                    set.target.last = docs.data[0].last;
-                    if (docs.data[0].img.img1 && docs.data[0].img.img1 != "null")
-                        set.target.display = docs.data[0].img.img1;
-                    else 
-                        set.target.display = nll;
-                    set.target.email = target;
-                    console.log(set);
-                    return (set);
-                }
-            }
-            else
-                console.log("error");
-		}
-		async function get_msg(target, jwt){
-			let promise = await axios.post(ip+"/chats/get_msg", {"email":sesh, "target":target, "token":jwt});
+		async function get_msg(email, target, jwt, ip){
+			let promise = await axios.post(ip+"/chats/get_msg", {"email":email, "target":target, "token":jwt});
 			if (promise.status === 200){
-                var data = {};
-				data.chat = promise.data.message;
-				return (data);
+                // var data = {};
+				// data.chat = promise.data.message;
+				return (promise.data);
             }
         }
-
-	/////////////////////		<<<<<<Get the messages for the chat>>>>>>			/////////////////////
-		get_id1(this.jwt).then(ret => {
-			this.setState(ret);
-			get_id2(this.jwt).then(doc => {
-				this.setState(doc);
-                setInterval(() => {
-                        get_msg(target, this.jwt).then(res => {
-                        console.log(res);
-                        var msg = res.chat;
-                        this.state.msg = msg;
-                        console.log(this.state.msg);
-                        var stuff = this.message_constructor();
-                        ReactDOM.render(ReactHtmlParser(stuff), document.getElementById("msgBox"));
-                    })
-				}, 100)
-			})
-		});
+        // console.log('hi');
+        get_msg(this.state.user.email, this.state.target.email, this.jwt, this.ip).then(res => {
+            // console.log('refresh');
+            console.log(res);
+            if (document.getElementById("msgBox"+this.div_key)){
+                ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
+                this.sleep(2000).then(() => {
+                    this.get_id();
+                })
+            }
+        }).catch(err => {console.log('eve redirect ' + err)})
     }
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< render Return >>>>
+//
 
     render () {
         return (
@@ -285,12 +238,12 @@ export default class cons extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu"></div>
+                <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
             </div>
         </nav>
-        <div id="user_display_header"></div>
-        <div className="hero-body"><div id="msgBox" className="chat-box"></div></div>
-        <div id="message foot" className="hero-foot"></div>
+        <div id={"user_display_header"+this.div_key}></div>
+        <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box">huh</div></div>
+        <div id={"message foot"+this.div_key} className="hero-foot"></div>
         </section>
         )
     }
@@ -365,7 +318,8 @@ export default class cons extends Component {
             </div>
         )
     }
-    message_constructor(){
+    message_constructor(msg_data){
+        console.log('constructing');
         var r_element1 = "<p class='has-text-right'>";
         var r_element2 = "<span class='tag chat-wrap is-info right'>";
         var r_element3 = "</span></p>";
@@ -373,50 +327,30 @@ export default class cons extends Component {
         var l_element2 = "<span class='tag chat-wrap is-success left'>";
         var l_element3 = "</span></p>";
         var i = 0;
-        var max = this.state.msg.length;
+        var max = msg_data.length;
+        console.log(msg_data.length);
         var res = '';
 
         while(i < max){
-            var msg = this.state.msg;
-            var author = this.state.msg[i].author;
-            if (author != this.state.name)
-                var res = res+r_element1+r_element2+author+"\ "+msg[i].msg+r_element3;
+            if (msg_data[i].author != this.state.user.name)
+                var res = res+r_element1+r_element2+msg_data[i].author+"\ "+msg_data[i].msg+r_element3;
             else
-                var res = res+l_element1+l_element2+author+"\ "+msg[i].msg+l_element3;
+                var res = res+l_element1+l_element2+msg_data[i].author+"\ "+msg_data[i].msg+l_element3;
             i++;
         }
+        console.log(res);
         return (res);
     }
     msgBox_constructor(){
         return (
           <div className="field has-addons">
             <div className="control chat-t">
-              <input className="input" name="userInput" type="text" placeholder="Type your message" />
+              <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
             </div>
             <div className="control chat-e">
-                <button className="button is-info">Send</button>
+                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
             </div>
         </div>
         )
     }
-    // Chat = ({ saveMsg }) => (
-    //     <form onSubmit={(e) => {
-    //       e.preventDefault();
-    //       saveMsg(e.target.elements.userInput.value);
-    //       e.target.reset();
-    //     }}>
-    //       <div className="field has-addons">
-    //         <div className="control chat-t">
-    //           <input className="input" name="userInput" type="text" placeholder="Type your message" />
-    //         </div>
-    //         <div className="control chat-e">
-    //           <button className="button is-info">
-    //             Send
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </form>
-    //   )
-
-
 }
