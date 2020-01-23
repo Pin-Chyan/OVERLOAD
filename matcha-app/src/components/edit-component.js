@@ -314,7 +314,7 @@ export default class Edit extends Component {
 
             var data = {
                 "email" : this.state.user.email,
-                "token" : this.jwt,
+                "token" : this.jwt
             };
             var state_data = this.state.user;
             if (this.state.new_name){
@@ -454,6 +454,11 @@ export default class Edit extends Component {
                 </div>
         )
     }
+
+    image_constructor(id,new_img){
+        var front = '<img alt="Asuna" className="m_image" src=';
+        var back  = ' />';
+    }
     image_edit_constructor(){
         return (
             <div className="tile is-vertical">
@@ -480,7 +485,7 @@ export default class Edit extends Component {
                                 </div>
                         </div>
                       <figure className="image is-4by3">
-                      <img alt="Asuna" className="m_image" src={this.state.user.img.img1} />
+                        <div id={"img1"+this.div_key}></div>
                       </figure>
                     </article>
                   </div>
@@ -506,7 +511,7 @@ export default class Edit extends Component {
                             </div>
                         </div>
                       <figure className="image is-4by3">
-                        <img alt="Asuna" className="m_image" src={this.state.user.img.img2} />
+                        <div id={"img2"+this.div_key}></div>
                       </figure>
                       {/* <span class="tag is-black">Black</span> */}
                     </article>
@@ -533,7 +538,7 @@ export default class Edit extends Component {
                             </div>
                         </div>
                       <figure className="image is-4by3">
-                        <img alt="Asuna" className="m_image" src={this.state.user.img.img3} />
+                        <div id={"img3"+this.div_key}></div>
                       </figure>
                     </article>
                   </div>
@@ -561,7 +566,7 @@ export default class Edit extends Component {
                             </div>
                         </div>
                       <figure className="image is-4by3">
-                        <img alt="Asuna" className="m_image" src={this.state.user.img.img4} />
+                        <div id={"img4"+this.div_key}></div>
                       </figure>
                     </article>
                   </div>
@@ -587,7 +592,7 @@ export default class Edit extends Component {
                             </div>
                         </div>
                       <figure className="image is-4by3">
-                        <img alt="Asuna" className="m_image" src={this.state.user.img.img5} />
+                        <div id={"img5"+this.div_key}></div>
                       </figure>
                     </article>
                   </div>

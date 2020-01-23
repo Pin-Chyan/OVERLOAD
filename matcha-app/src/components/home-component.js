@@ -226,7 +226,7 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            // var like = this.is_liked(); NOOOOO
+            // var like = this.is_liked();
             if (document.getElementById('button'+ this.div_key))
                 ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
                 /////here<><><><><><><><><><><><><><>
