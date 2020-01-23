@@ -84,8 +84,12 @@ export default class cons extends Component {
         console.log('pulling externals........');
         console.log(this.props.location.data);
         if (this.props.match.params.target === 'new'){
-            if (!this.props.location.data)
-                this.props.history.push('/');
+            if (!this.props.location.data){
+                this.props.history.push({
+                    pathname: '/',
+                    user: this.state.user
+                })
+            }
             else if (this.props.match.params.target === 'new') {
                 get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
                     console.log(res);
@@ -96,7 +100,7 @@ export default class cons extends Component {
                 }).catch(err => {console.log('eve redirect ' + err)})
             }
             else {
-                get_targetId(this.ip,this.props.match.params,this.state.user.email,this.jwt).then(res => {
+                get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
                     console.log(res);
                     this.setState({
                         "target":res
@@ -105,7 +109,8 @@ export default class cons extends Component {
                 }).catch(err => {console.log('eve redirect ' + err)})
             }
         } else {
-            get_targetId(this.ip,this.props.match.params,this.state.user.email,this.jwt).then(res => {
+            console.log('existing chat room')
+            get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
                 console.log(res);
                 this.setState({
                     "target":res
@@ -206,13 +211,24 @@ export default class cons extends Component {
         get_msg(this.state.user.email, this.state.target.email, this.jwt, this.ip).then(res => {
             // console.log('refresh');
             console.log(res);
-            if (document.getElementById("msgBox"+this.div_key)){
+            if (!res){
+                this.props.history.push({
+                    pathname: '/',
+                    user: this.state.user
+                })
+            }
+            if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                this.sleep(2000).then(() => {
+                this.sleep(500).then(() => {
                     this.get_id();
                 })
             }
-        }).catch(err => {console.log('eve redirect ' + err)})
+        }).catch(err => {
+            this.props.history.push({
+                pathname: '/',
+                user: this.state.user
+            })
+        })
     }
     sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -319,7 +335,6 @@ export default class cons extends Component {
         )
     }
     message_constructor(msg_data){
-        console.log('constructing');
         var r_element1 = "<p class='has-text-right'>";
         var r_element2 = "<span class='tag chat-wrap is-info right'>";
         var r_element3 = "</span></p>";
@@ -328,7 +343,6 @@ export default class cons extends Component {
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
-        console.log(msg_data.length);
         var res = '';
 
         while(i < max){
@@ -338,7 +352,6 @@ export default class cons extends Component {
                 var res = res+l_element1+l_element2+msg_data[i].author+"\ "+msg_data[i].msg+l_element3;
             i++;
         }
-        console.log(res);
         return (res);
     }
     msgBox_constructor(){
