@@ -50,6 +50,10 @@ const userSchema = new Schema({
     type: Number,
     required: true
   },
+  fame: {
+    type: Number,
+    default: 0
+  },
   email: {
     type:  String,
     unique: true,
