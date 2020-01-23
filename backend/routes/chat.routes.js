@@ -111,7 +111,7 @@ router.route('/msg').post( (req, res) => {
                         msg.msg = ": "+req.body.msg;
                         what.push(msg);
                         ret.message = what;
-                        console.log(msg);
+                        // console.log(msg);
                         ret.save().then(r => {res.json("saved");console.log('saved')}).catch(err => {res.json(err)});
                     }
                     else {

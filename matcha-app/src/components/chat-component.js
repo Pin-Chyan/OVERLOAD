@@ -228,7 +228,7 @@ export default class cons extends Component {
             }
             if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                this.sleep(100).then(() => {
+                this.sleep(500).then(() => {
                     this.get_id();
                 })
             }
@@ -288,7 +288,7 @@ export default class cons extends Component {
                         </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
+                <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
             </div>
