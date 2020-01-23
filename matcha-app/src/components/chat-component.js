@@ -148,12 +148,15 @@ export default class cons extends Component {
         var nav_bar = this.nav_constructor(1);
         var user = this.userDisplay_constructor();
         var msgBox = this.msgBox_constructor();
+        var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         if (document.getElementById('message foot'+this.div_key))
             ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
+        if (document.getElementById('user_display_header'+this.div_key))
+            ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         this.get_id();
     }
 
@@ -224,9 +227,9 @@ export default class cons extends Component {
             }
             if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                this.sleep(500).then(() => {
-                    this.get_id();
-                })
+                // this.sleep(500).then(() => {
+                //     this.get_id();
+                // })
             }
         }).catch(err => {
             this.props.history.push({
@@ -304,7 +307,7 @@ export default class cons extends Component {
                     <article className="media center">
                         <figure className="media-left">
                             <figure className="image is-64x64">
-                                <img alt="monty" src={this.state.display} />
+                                <img alt="Asuna" src={this.state.user.img.img1} />
                             </figure>
                         </figure>
                         <div className="media-content">
