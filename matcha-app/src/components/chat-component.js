@@ -117,7 +117,8 @@ export default class cons extends Component {
                 this.setState({
                     "target":res
                 })
-                this.eve_mount();
+                this.external_data2();
+                // this.eve_mount();
             }).catch(err => {console.log('eve redirect ' + err)})
         }
     }
@@ -227,9 +228,9 @@ export default class cons extends Component {
             }
             if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                // this.sleep(500).then(() => {
-                //     this.get_id();
-                // })
+                this.sleep(500).then(() => {
+                    this.get_id();
+                })
             }
         }).catch(err => {
             this.props.history.push({
