@@ -346,10 +346,10 @@ export default class cons extends Component {
         var res = '';
 
         while(i < max){
-            if (msg_data[i].author != this.state.user.name)
-                var res = res+r_element1+r_element2+msg_data[i].author+"\ "+msg_data[i].msg+r_element3;
+            if (msg_data[i].author != this.state.user.email)
+                var res = res+r_element1+r_element2+this.state.target.name+"\ "+msg_data[i].msg+r_element3;
             else
-                var res = res+l_element1+l_element2+msg_data[i].author+"\ "+msg_data[i].msg+l_element3;
+                var res = res+l_element1+l_element2+this.state.user.name+"\ "+msg_data[i].msg+l_element3;
             i++;
         }
         return (res);
