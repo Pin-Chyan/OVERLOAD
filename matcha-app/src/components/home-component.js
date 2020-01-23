@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Inbox from './message-and-notification';
+import { Fade } from 'react-slideshow-image';
 var token = "";//localStorage.token;
 var load = require("../images/load.gif");
 var load2 = require("../images/load2.gif");
@@ -16,6 +17,15 @@ var nll = require("../images/chibi.jpg");
 let sesh = undefined;
 var target = "meave@gmail.com";
 
+const fadeProperties = {
+    duration: 5000,
+    transitionDuration: 500,
+    infinite: false,
+    indicators: true,
+    onChange: (oldIndex, newIndex) => {
+      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    }
+  }
 
 export default class Home extends Component {
     constructor(props){
@@ -257,29 +267,41 @@ export default class Home extends Component {
         return (
             <div className="columns is-centered shadow">
             <div className="column is-half bg_white_1">
-                <figure className="image"> {/* is-3by4 */}
-                    <Carousel autoPlay className="image img_carousel">
-                        <div>
-                            <img alt="image 1" className="m_image" src={data.carousel_img1} />
-                            <p className="legend">Legend 1</p>
-                        </div>
-                        <div>
-                            <img alt="image 2" className="m_image" src={data.carousel_img2} />
-                            <p className="legend">Legend 2</p>
-                        </div>
-                        <div>
-                            <img alt="image 3" className="m_image" src={data.carousel_img3} />
-                            <p className="legend">Legend 3</p>
-                        </div>
-                        <div>
-                            <img alt="image 4" className="m_image" src={data.carousel_img4} />
-                            <p className="legend">Legend 4</p>
-                        </div>
-                        <div>
-                            <img alt="image 5" className="m_image" src={data.carousel_img5} />
-                            <p className="legend">Legend 5</p>
-                        </div>
-                    </Carousel>
+                <figure className="image">
+                    <div className="slide-container">
+                        <Fade {...fadeProperties}>
+                            <div className="each-fade">
+                                <div className="image-container">
+                                    <img src={this.state.img1} />
+                                </div>
+                                <h2>First Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                                <div className="image-container">
+                                    <img src={this.state.img2} />
+                                </div>
+                                <h2>Second Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                                <div className="image-container">
+                                    <img src={this.state.img3} />
+                                </div>
+                                <h2>Third Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                                <div className="image-container">
+                                    <img src={this.state.img4} />
+                                </div>
+                                <h2>Forth Slide</h2>
+                            </div>
+                            <div className="each-fade">
+                                <div className="image-container">
+                                    <img src={this.state.img5} />
+                                </div>
+                                <h2>Fifth Slide</h2>
+                            </div>
+                        </Fade>
+                    </div>
                 </figure>
                 <div id="div" className="column center_b" onClick={e => this.globalbtn_handler(e)}>
                     <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
