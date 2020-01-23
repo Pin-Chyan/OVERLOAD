@@ -212,8 +212,21 @@ export default class User extends Component {
     mid_constructor(){
         var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
         var element1 = (
-                <div className="columns is-centered shadow">
-                    <div className="column is-half bg_white_1">
+
+          <section className="section hero">
+                <div className="column is-centered shadow">
+            <div>
+            <nav className="tabs is-boxed is-small is-fullwidth">
+                <ul>
+                  <li className="tab is-active"><a>Overview</a></li>
+                  <li className="tab"><a>Likes</a></li>
+                  <li className="tab"><a>Views</a></li>
+                  <li className="tab"><a>Preferences</a></li>
+                </ul>
+            </nav>
+            </div>
+            <div>
+                    <div className="column is-half bg_white_3">
                          <figure className="image is-3by4"> 
                             <img className="overflow" src={display1} alt="Asuna_img" />
                         </figure>
@@ -246,6 +259,8 @@ export default class User extends Component {
                         
                     </div>
                 </div>
+            </div>
+          </section>
         )
         return (element1);
     }

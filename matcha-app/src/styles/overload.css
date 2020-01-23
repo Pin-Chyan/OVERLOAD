@@ -48,6 +48,13 @@
     /* flex: auto !important; */
 }
 
+.bg_white_3 {
+  background-color: white !important;
+  border-radius: 0 0 2% 2%;
+  width: 500px !important;
+  /* flex: auto !important; */
+}
+
 .img_carousel {
     max-width: 480px;
     max-height: auto;
