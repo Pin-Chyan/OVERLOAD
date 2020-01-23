@@ -71,7 +71,7 @@ export default class Home extends Component {
     }
     eve_mount(){
         async function get_matches(email,jwt,ip){
-            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_conditions":[-1,-1,1,-2,-1,-1,-1],"search_input":"null"})
+            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_conditions":[-1,-1,-1,-2,-1,-1,-1],"search_input":"null"})
             if (promise.status === 200){
                 return (promise);
             }
@@ -358,7 +358,7 @@ export default class Home extends Component {
         )
     }
     button_constructor(boolean){
-        if (boolean === 1){
+        if (boolean === 0){
             return (
                 <div>
                 <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
