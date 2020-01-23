@@ -226,9 +226,9 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            var like = this.is_liked();
+            // var like = this.is_liked(); NOOOOO
             if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+                ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
                 /////here<><><><><><><><><><><><><><>
         }
     }
@@ -315,12 +315,12 @@ export default class Home extends Component {
                     </div>
                 </figure>
                 <div id={"button"+this.div_key} className="column center_b" onClick={e => this.globalbtn_handler(e)}>
-                    <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                    {/* <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
                     <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                     <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                     <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                     <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                    <button id="6" value="Message" className="button is-info fa fa-comment"></button>
+                    <button id="6" value="Message" className="button is-info fa fa-comment"></button> */}
                 </div>
 
                 <div className="column center">
@@ -360,7 +360,7 @@ export default class Home extends Component {
         )
     }
     button_constructor(boolean){
-        if (boolean === 0){
+        if (boolean === 1){
             return (
                 <div>
                 <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
