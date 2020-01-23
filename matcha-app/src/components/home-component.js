@@ -155,7 +155,7 @@ export default class Home extends Component {
                     if (req.data === "Already Liked!")
                         console.log("Already Liked!");
                     else
-                        return 'Next';
+                        console.log("liked!");
                 }
             }
             else if (buttonval === "Unlike"){
@@ -301,7 +301,7 @@ export default class Home extends Component {
                     <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                     <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                     <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                    <button id="6" value="Message" className="button is-hovered fa"></button>
+                    <button id="6" value="Message" className="button is-info fa fa-comment"></button>
                 </div>
 
                 <div className="column center">
