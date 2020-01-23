@@ -52,10 +52,10 @@ export default class Home extends Component {
                 this.eve_mount();
             }
             else
-                this.userData_getter();
+                this.userData_getter(0);
         }).catch(err => {console.log('eve redirect' + err)});
     }
-    userData_getter(){
+    userData_getter(reset){
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
             console.log(email);
@@ -66,12 +66,13 @@ export default class Home extends Component {
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
-                this.eve_mount();
+                if (reset === 0)
+                    this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
         async function get_matches(email,jwt,ip){
-            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_conditions":[-1,-1,1,-2,-1,-1,-1],"search_input":"null"})
+            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_conditions":[-1,-1,-1,-2,-1,-1,-1],"search_input":"null"})
             if (promise.status === 200){
                 return (promise);
             }
@@ -99,6 +100,7 @@ export default class Home extends Component {
             this.Carousel_handle(this.state.results[0]);
         }
         console.log('render');
+        this.userData_getter(1);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,9 +226,9 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            var like = this.is_liked();
+            // var like = this.is_liked(); NOOOOO
             if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+                ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
                 /////here<><><><><><><><><><><><><><>
         }
     }
@@ -313,12 +315,12 @@ export default class Home extends Component {
                     </div>
                 </figure>
                 <div id={"button"+this.div_key} className="column center_b" onClick={e => this.globalbtn_handler(e)}>
-                    <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                    {/* <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
                     <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                     <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                     <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                     <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                    <button id="6" value="Message" className="button is-info fa fa-comment"></button>
+                    <button id="6" value="Message" className="button is-info fa fa-comment"></button> */}
                 </div>
 
                 <div className="column center">

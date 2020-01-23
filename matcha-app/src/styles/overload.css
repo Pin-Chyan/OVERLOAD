@@ -127,10 +127,12 @@
 
 .right_m {
     text-align: right;
+    justify-content: right;
 }
 
 .left_m {
     text-align: left;
+    justify-content: left;
 }
 
 /*  */
