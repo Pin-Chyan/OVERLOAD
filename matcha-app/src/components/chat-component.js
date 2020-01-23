@@ -9,6 +9,8 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios';
 
+var load = require("../images/load.gif");
+
 //////////        <<Liam>>       //////////////
 // create a button on the home page that only renders
 // if the person is liked, the button will take you to
@@ -144,10 +146,13 @@ export default class cons extends Component {
 
     page_handler(){
         var nav_bar = this.nav_constructor(1);
+        var user = this.userDisplay_constructor();
         var msgBox = this.msgBox_constructor();
         var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
+        if (document.getElementById('user_display_header'+this.div_key))
+            ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         if (document.getElementById('message foot'+this.div_key))
             ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
         if (document.getElementById('user_display_header'+this.div_key))
@@ -294,9 +299,11 @@ export default class cons extends Component {
     }
     userDisplay_constructor(){
         return (
+            <div>
+            <br/>
             <div className="columns is-centered shadow">
             <div className="columns bg_white_1">
-                <div className="column left">
+                {/* <div className="column left">
                     <article className="media center">
                         <figure className="media-left">
                             <figure className="image is-64x64">
@@ -312,7 +319,7 @@ export default class cons extends Component {
                             </div>
                         </div>
                     </article>
-                </div>
+                </div> */}
                 <div className="column">
                     <article className="media center">
                         <figure className="media-left">
@@ -324,16 +331,15 @@ export default class cons extends Component {
                             <div className="content">
                                 <p>
                                     <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                    <span><time dateTime="2018-04-20">Apr 20</time> target</span>
+                                    <span><time dateTime="2018-04-20"></time> target</span>
                                 </p>
                             </div>
                         </div>
                     </article>
                     
                 </div>
-
-
                 </div>
+            </div>
             </div>
         )
     }
