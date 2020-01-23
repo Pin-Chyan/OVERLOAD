@@ -5,17 +5,9 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios';
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Inbox from './message-and-notification';
 import { Fade } from 'react-slideshow-image';
-var token = "";//localStorage.token;
-var load = require("../images/load.gif");
-var load2 = require("../images/load2.gif");
-var ip = require("../server.json").ip;
-var nll = require("../images/chibi.jpg");
-let sesh = undefined;
-var target = "meave@gmail.com";
 
 const fadeProperties = {
     duration: 5000,
@@ -149,7 +141,7 @@ export default class Home extends Component {
 
     globalbtn_handler(e){
         var buttonval = e.target.value;
-        async function async_hell(user,target,jwt) {
+        async function async_hell(ip,user,target,jwt) {
             var data = {};
             data.img = {};
             data.email = user;
@@ -184,7 +176,7 @@ export default class Home extends Component {
             else
                 console.log("you missed the button!");
         }
-        async_hell(this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
+        async_hell(this.ip,this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
             if (res === 'Prev' || res === 'Next'){
                 if ((this.pos + 1 < this.state.results.length) && (res === 'Next'))
                     this.pos++;
@@ -192,7 +184,7 @@ export default class Home extends Component {
                     this.pos--;
                 this.Carousel_handle(this.state.results[this.pos]);
                 console.log(this.pos);
-            }
+            } 
             if (res === 'redirect'){
                 this.props.history.push({
                     pathname: "/chat/new",
@@ -272,31 +264,31 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={this.state.img1} />
+                                    <img src={data.carousel_img1} />
                                 </div>
                                 <h2>First Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={this.state.img2} />
+                                    <img src={data.carousel_img2} />
                                 </div>
                                 <h2>Second Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={this.state.img3} />
+                                    <img src={data.carousel_img3} />
                                 </div>
                                 <h2>Third Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={this.state.img4} />
+                                    <img src={data.carousel_img4} />
                                 </div>
                                 <h2>Forth Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={this.state.img5} />
+                                    <img src={data.carousel_img5} />
                                 </div>
                                 <h2>Fifth Slide</h2>
                             </div>

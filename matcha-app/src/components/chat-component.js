@@ -219,9 +219,9 @@ export default class cons extends Component {
             }
             if (document.getElementById("msgBox"+this.div_key) && res){
                 ReactDOM.render(ReactHtmlParser(this.message_constructor(res.message)), document.getElementById("msgBox"+this.div_key));
-                this.sleep(500).then(() => {
-                    this.get_id();
-                })
+                // this.sleep(500).then(() => {
+                //     this.get_id();
+                // })
             }
         }).catch(err => {
             this.props.history.push({
@@ -257,6 +257,7 @@ export default class cons extends Component {
                 <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
             </div>
         </nav>
+        <div id={"user"+this.div_key}></div>
         <div id={"user_display_header"+this.div_key}></div>
         <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box">huh</div></div>
         <div id={"message foot"+this.div_key} className="hero-foot"></div>
