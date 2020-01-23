@@ -153,7 +153,7 @@ export default class Home extends Component {
                     if (req.data === "Already Liked!")
                         console.log("Already Liked!");
                     else
-                        return 'Next';
+                        console.log("liked!");
                 }
             }
             else if (buttonval === "Unlike"){

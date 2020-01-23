@@ -108,7 +108,7 @@ router.route('/msg').post( (req, res) => {
                         msg.author = req.body.email;
                         msg.target = "there is actually no need for a target here";
                         msg.timestamp = "["+d.toLocaleString("en-GB")+"]";
-                        msg.msg = req.body.msg;
+                        msg.msg = ": "+req.body.msg;
                         what.push(msg);
                         ret.message = what;
                         console.log(msg);
