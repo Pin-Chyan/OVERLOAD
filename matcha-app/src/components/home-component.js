@@ -47,6 +47,7 @@ export default class Home extends Component {
             ///      <<<< begin binding after database online >>>>
             this.globalbtn_handler = this.globalbtn_handler.bind(this);
             this.handleChange = this.handleChange.bind(this);
+            this.is_liked = this.is_liked.bind(this);
             this.busy = 0;
             this.curr_page = [0,0,0];
             this.other_page = [0,0,0];
@@ -71,7 +72,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -147,6 +148,19 @@ export default class Home extends Component {
         this.setState({checked})
     }
 
+    is_liked = async() => {
+        console.log(this.state.user.likes);
+        console.log(this.state.results[this.pos].likes);
+        var me = this.state.user.likes;
+        var me_id = this.state.user._id;
+        var you = this.state.results[this.pos].likes;
+        var you_id = this.state.results[this.pos]._id;
+        if (me.includes(you_id) && you.includes(me_id))
+            return (1);
+        else
+            return (0);
+    }
+
     globalbtn_handler(e){
         var buttonval = e.target.value;
         async function async_hell(user,target,jwt) {
@@ -219,6 +233,10 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
+            var like = this.is_liked();
+            if (document.getElementById('button'+ this.div_key))
+                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+                /////here<><><><><><><><><><><><><><>
         }
     }
     
@@ -303,7 +321,7 @@ export default class Home extends Component {
                         </Fade>
                     </div>
                 </figure>
-                <div id="div" className="column center_b" onClick={e => this.globalbtn_handler(e)}>
+                <div id={"button"+this.div_key} className="column center_b" onClick={e => this.globalbtn_handler(e)}>
                     <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
                     <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                     <button id="3" value="Like" className="button is-success fa fa-heart"></button>
@@ -346,6 +364,30 @@ export default class Home extends Component {
                 
             </div>
         </div>
+        )
+    }
+    button_constructor(boolean){
+        if (boolean === 1){
+            return (
+                <div>
+                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+                <button id="6" value="Message" className="button is-info fa fa-comment"></button>
+                </div>
+            )
+        }
+        else 
+        return (
+            <div>
+            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+            </div>
         )
     }
 
