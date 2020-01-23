@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Switch from 'react-switch';
+// import { Slide } from 'react-slideshow-image';
+import { Fade } from 'react-slideshow-image';
 // import Switch from 'react-bulma-switch';
 // import Switch from 'react-bulma-switch/full';
 // import Switch from 'react-bulma-switch/lib';
@@ -22,6 +24,21 @@ var nll = require("../images/chibi.jpg");
 let sesh = undefined;
 var target = "meave@gmail.com";
 
+const fadeImages = [
+    'images/slide_5.jpg',
+    'images/slide_6.jpg',
+    'images/slide_7.jpg'
+  ];
+   
+  const fadeProperties = {
+    duration: 5000,
+    transitionDuration: 500,
+    infinite: false,
+    indicators: true,
+    onChange: (oldIndex, newIndex) => {
+      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    }
+  }
 
 export default class Home extends Component {
     constructor(props){
@@ -290,7 +307,29 @@ export default class Home extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
                         <figure className="image"> {/* is-3by4 */}
-                            <Carousel autoPlay className="image img_carousel">
+                        <div className="slide-container">
+      <Fade {...fadeProperties}>
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={this.state.img1} />
+          </div>
+          <h2>First Slide</h2>
+        </div>
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={this.state.img2} />
+          </div>
+          <h2>Second Slide</h2>
+        </div>
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={this.state.img3} />
+          </div>
+          <h2>Third Slide</h2>
+        </div>
+      </Fade>
+    </div>
+                            {/* <Carousel autoPlay className="image img_carousel">
                                 <div>
                                     <img alt="image 1" className="m_image" src={this.state.img1} />
                                     <p className="legend">Legend 1</p>
@@ -311,7 +350,7 @@ export default class Home extends Component {
                                     <img alt="image 5" className="m_image" src={this.state.img5} />
                                     <p className="legend">Legend 5</p>
                                 </div>
-                            </Carousel>
+                            </Carousel> */}
                         </figure>
                         <div id="div" className="column center_b" onClick={e => this.globalbtn_handler(e)}>
                             <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
