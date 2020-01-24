@@ -28,13 +28,17 @@ require('dotenv').config();
 //     }).catch(err => {res.status(400).send('forbidden')})
 // })
 
-// router.route('/test_search').post( (req, res) => {
-//     console.log(req.body);
-//     if (req.body.token === "admin")
-//         res.json(test_data);
-//     else
-//         res.json("error");
-// })
+router.route('/test_search').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.search_conditions)
+        res.status(400).send('missing fields');
+    console.log(req.body);
+    UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
+        if (auth[0].token === req.body.token || req.body.token === "admin")
+            UserModels.find({}, "email name gender age sexual_pref tag likes img").exec().then(docs => {
+                    res.json(docs);
+            }).catch(err => {res.status(500).send(err)})
+    }).catch(err => {res.status(400).send('forbidden')})
+})
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 // //
@@ -153,17 +157,40 @@ function matcha(search_res,auth){
     while (i--){
         console.log(search_res[i].name);
         console.log(search_res[i].location);
-        var km = distance(search_res[i].location[4],auth[0].location[4],search_res[i].location[5],auth[0].location[5]);
+        var km = distance(search_res[i].location[4],search_res[i].location[5],auth[0].location[4],auth[0].location[5]);
+        console.log("distance from " + km);
     }
 }
 
+// 1 deg lat == ~110.547 km
+// 1 deg lon == ~111.320*cos(lat) km 
 
 function distance(x1,y1,x2,y2){
-    console.log(x1);
-    console.log(x2);
-    console.log(y1); 
-    console.log(y2);
-    // return Math.sqrt(Math.pow((x2 - x1),2) - Math.pow((y2 - y1),2));
+    var r = 6571;
+    var xdif2 = (x2-x1) * (x2-x1);
+    console.log(xdif2);
+    var ydif2 = (y2-y1) * (y2-y1);
+    console.log(ydif2);
+    var distance = Math.sqrt(xdif2 + ydif2);
+    console.log(distance);
+    var top = (r*r) + (r*r) - distance;
+    var bot = 2*r*r;
+    var res = top/bot;
+    console.log(res);
+    var angle = Math.acos(res) * (180/Math.PI);
+    console.log(angle);
+    var rad = (2*r*Math.PI)/360;
+    console.log(rad);
+    var res_dis = rad * angle;
+    console.log(res_dis + " km");
+    // var s = Math.pow(7,2);
+    // var top = s + s - s;
+    // console.log(top);
+    // console.log("-");
+    // var bot = 2 * 7 * 7;
+    // console.log(bot);
+    // var angle = Math.acos(top/bot) * (180/Math.PI);
+    // console.log("angle = " + angle);
 }
 
 module.exports = router;
