@@ -223,7 +223,7 @@ export default class User extends Component {
         link.className = link.className.replace("is-active", "")
       }
       document.getElementById(tabName).style.display = "block"
-      e.currentTarget.className += 'is-active'
+      e.currentTarget.className = 'tab is-active'
     }
 
     mid_constructor(){
