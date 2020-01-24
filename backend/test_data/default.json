@@ -10,7 +10,15 @@
         "tag"           : [
             "gaming","hairproducts","20klaptop","coding","#taken","currently-investing","stock prices 110% increase per anum"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            18.2387,
+            -33.0212
+        ]
     },
     {
         "name"          : "CYKO",
@@ -23,7 +31,15 @@
         "tag"           : [
             "gaming","ryzen","kunais","coding","karambit", "waifufusocks", "ineedtobuymeawatch"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            128.4259,
+            -33.2258
+        ]
     },
     {
         "name"          : "Banana",
@@ -36,7 +52,15 @@
         "tag"           : [
             "orange juice","macbook","dimension data","bunny hops", "#savage","sunburnt","##savage"
         ],
-        "verified"      : true
+        "verified"      : true,
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            18.4259,
+            33.9258
+        ]
     },
     {
         "name"          : "PC",
@@ -51,6 +75,7 @@
             "1000W watercooled psu","That's my sister im on inter 1 core","has knees"
         ],
         "verified"      : true,
+<<<<<<< HEAD
         "img"           : {
             "img1"  : "https://i.pinimg.com/236x/25/f9/b5/25f9b55e3eef2453403016f202465d85.jpg",
             "img2"  : "https://i.pinimg.com/236x/8e/26/fd/8e26fd1416c14a97ca3afb2e6e6d7c14.jpg",
@@ -58,6 +83,16 @@
             "img4"  : "https://images.wallpaperscraft.com/image/anime_face_hair_mask_85079_300x168.jpg",
             "img5"  : "http://images6.fanpop.com/image/photos/35200000/anime-sarafenix-35238505-1150-1624.jpg"
         }
+=======
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            18.4259,
+            33.9258
+        ]
+>>>>>>> dffd6adf199011cb32c694614292a312ac333f7d
     },
     {
         "name"          : "katsuki",
@@ -73,7 +108,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://imgur.com/rqyu1SW.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "megumin",
@@ -89,7 +132,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://media.discordapp.net/attachments/472313197836107780/553808062780014632/aHbnHYY.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Asuna",
@@ -105,7 +156,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://media.discordapp.net/attachments/472313197836107780/582682470571311114/6xrnhEq.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Remu",
@@ -121,7 +180,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://imgur.com/TYmZ6H7.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Yuno",
@@ -137,7 +204,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://imgur.com/H9S37yu.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Isla",
@@ -153,7 +228,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/546485482305880111/EtDiZga.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Zero Two",
@@ -169,7 +252,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/571169868276039710/bMKEgh7.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Lalatina",
@@ -185,7 +276,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/606978282872635432/qTb7AO1.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Rias",
@@ -201,7 +300,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/584161628447178854/oxjuaWX.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Takagi",
@@ -217,7 +324,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/607457521887608833/NXrpmio.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Violet",
@@ -233,7 +348,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://imgur.com/4ncyRld.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Akeno",
@@ -249,7 +372,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/608083127981572115/Kq3mswi.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Liam",
@@ -265,7 +396,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://www.facebook.com/photo.php?fbid=2435220526801278&set=a.1511779425812064&type=3&source=11&referrer_profile_id=100009400625609"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            18.4259,
+            33.9258
+        ]
     },
     {
         "name"          : "Tim",
@@ -281,7 +420,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : ""
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            18.4259,
+            33.9258
+        ]
     },
     {
         "name"          : "Albedo",
@@ -297,7 +444,15 @@
         "verified"      : true,
         "img"           : {
             "img1" : "https://media.discordapp.net/attachments/472313197836107780/547252252310765578/fewHVtR.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Yoko",
@@ -313,7 +468,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/608407684085055491/l1AqAWf.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Mai",
@@ -329,7 +492,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/546218119568556032/BcTywtw.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Kazuto",
@@ -345,7 +516,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/620004356455923748/VNvgpbN.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Levi",
@@ -361,7 +540,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/548330075213529118/Q2S4ChJ.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Sebastian",
@@ -377,7 +564,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/571933632076185610/cMWs9KN.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Rin",
@@ -393,7 +588,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://media.discordapp.net/attachments/472313197836107780/553742123699142666/TI6Pw6N.png"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Gilbert",
@@ -409,7 +612,15 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://d3ieicw58ybon5.cloudfront.net/ex/610.343/u/004837a85fe14bd6b4a2c6c0d979ce96.jpg"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            35.2135,
+            139.3498
+        ]
     },
     {
         "name"          : "Bot",
@@ -425,6 +636,14 @@
         "verified"      : true,
         "img"           : {
             "img 1" : "https://www.meme-arsenal.com/memes/078f308085790692eb1798ed8466423e.jpg"
-        }
+        },
+        "location": [
+            "South Africa",
+            "Western Cape",
+            "Cape Town",
+            "7945",
+            -76.123478,
+            -80.3727517
+        ]
     }
 ]

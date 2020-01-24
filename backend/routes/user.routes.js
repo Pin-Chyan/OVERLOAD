@@ -225,8 +225,10 @@ router.post('/get_spec', (req, res) => {
     if (!req.body.token || !req.body.target || !req.body.email)    
         res.status(403).send('empty fields');
     UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-        if ((req.body.token === docs[0].token) || (req.body.token === "admin"))
+        if ((req.body.token === docs[0].token) || (req.body.token === "admin")){
+            // console.log(docs);
             res.json(docs);
+        }
         else
             res.status(400).send('Forbbiden');
     }).catch(err => { res.status(500).send(err) });

@@ -14,59 +14,39 @@ require('dotenv').config();
 //                  <<<< Search / Mactching Routes >>>>
 //
 
-router.route('/engine').post( (req, res) => {
+// router.route('/engine').post( (req, res) => {
+//     if (!req.body.token || !req.body.email || !req.body.search_conditions)
+//         res.status(400).send('missing fields');
+//     console.log(req.body);
+//     UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
+//         if (auth[0].token === req.body.token || req.body.token === "admin")
+//             UserModels.find({}, "email name gender age sexual_pref tag likes img").exec().then(docs => {
+//                     var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
+//                     console.log(v8res.length);
+//                     res.json(v8res);
+//             }).catch(err => {res.status(500).send(err)})
+//     }).catch(err => {res.status(400).send('forbidden')})
+// })
+
+router.route('/test_search').post( (req, res) => {
     if (!req.body.token || !req.body.email || !req.body.search_conditions)
         res.status(400).send('missing fields');
     console.log(req.body);
     UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
         if (auth[0].token === req.body.token || req.body.token === "admin")
             UserModels.find({}, "email name gender age sexual_pref tag likes img").exec().then(docs => {
-                    var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
-                    console.log(v8res.length);
-                    res.json(v8res);
+                    res.json(docs);
             }).catch(err => {res.status(500).send(err)})
     }).catch(err => {res.status(400).send('forbidden')})
 })
-// router.route('/engine').post( (req, res) => {
-//     // console.log("hi");
-//     if (!req.body.token || !req.body.email)
-//         res.status(400).send("error");
-//     else {
-//         UserModels.find({"email": req.body.email}, "token gender age sexual_pref tag likes").exec().then(auth => {
-//             console.log(auth[0]);
-//             if (auth[0].token === req.body.token || req.body.token === "admin"){
-//                 // console.log("hi");
-//                 UserModels.find({}, "email name gender age sexual_pref tag likes img.img1").exec().then(docs => {
-//                     // console.log(req.body);
-//                     if (!req.body.search_conditions)
-//                         res.json("no conditions");
-//                     else{
-//                         var v8res = V8(auth[0],docs,req.body.search_input,req.body.search_conditions,req.body.debug);
-//                         res.json(v8res);
-//                     }
-//                 }).catch(err => { res.status(500).send(err)})
-//             } else {
-//                 res.status(403).send("invalid token");
-//             }
-//         }).catch(err => { res.status(500).send(err)})
-//     }
-// })
 
-router.route('/test_search').post( (req, res) => {
-    console.log(req.body);
-    if (req.body.token === "admin")
-        res.json(test_data);
-    else
-        res.json("error");
-})
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
+// //
+// //                      <<<< Search Engine >>>>
+// //
+// //
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Search Engine >>>>
-//
-//
-
-// caps => { 'agegap indefitate', 'sexuality indefinate' ,'fame' , 'location' , 'tags' }
+// // caps => { 'agegap indefitate', 'sexuality indefinate' ,'fame' , 'location' , 'tags' }
 function V8(user_data, recived_data, search_input, search_conditions, debug) {
     var recived_len = recived_data.length;
     var array = [];
@@ -96,7 +76,6 @@ function V8(user_data, recived_data, search_input, search_conditions, debug) {
             matching = [0,0,0,0,0,0,0];
             search_res = [];
         }
-        // console.log();
     }
     console.log('done');
     if (array.length)
@@ -151,6 +130,67 @@ function toPos(num){
         return (num * -1);
     else
         return (num);
+}
+
+router.route('/engine').post( (req, res) => {
+    if (!req.body.token || !req.body.email)
+        res.status(400).send('missing fields');
+    console.log(req.body.email);
+    UserModels.find({"email":req.body.email}, "token location").exec().then(auth => {
+        console.log(auth[0]);
+        console.log(req.body.token);
+        if (auth[0].token === req.body.token || req.body.token === "admin")
+            UserModels.find({}, "email name gender age sexual_pref tag likes img location").exec().then(docs => {
+                matcha(docs,auth);
+                res.json('done');
+            }).catch(err => {res.status(500).send(err)})
+    }).catch(err => {res.status(400).send('forbidden')})
+})
+
+//search = {
+//  gender:1,
+//  sexual:1
+//} 
+
+function matcha(search_res,auth){
+    var i = search_res.length;
+    while (i--){
+        console.log(search_res[i].name);
+        console.log(search_res[i].location);
+        var km = distance(search_res[i].location[4],search_res[i].location[5],auth[0].location[4],auth[0].location[5]);
+        console.log("distance from " + km);
+    }
+}
+
+// 1 deg lat == ~110.547 km
+// 1 deg lon == ~111.320*cos(lat) km 
+
+function distance(x1,y1,x2,y2){
+    var r = 6571;
+    var xdif2 = (x2-x1) * (x2-x1);
+    console.log(xdif2);
+    var ydif2 = (y2-y1) * (y2-y1);
+    console.log(ydif2);
+    var distance = Math.sqrt(xdif2 + ydif2);
+    console.log(distance);
+    var top = (r*r) + (r*r) - distance;
+    var bot = 2*r*r;
+    var res = top/bot;
+    console.log(res);
+    var angle = Math.acos(res) * (180/Math.PI);
+    console.log(angle);
+    var rad = (2*r*Math.PI)/360;
+    console.log(rad);
+    var res_dis = rad * angle;
+    console.log(res_dis + " km");
+    // var s = Math.pow(7,2);
+    // var top = s + s - s;
+    // console.log(top);
+    // console.log("-");
+    // var bot = 2 * 7 * 7;
+    // console.log(bot);
+    // var angle = Math.acos(top/bot) * (180/Math.PI);
+    // console.log("angle = " + angle);
 }
 
 module.exports = router;
