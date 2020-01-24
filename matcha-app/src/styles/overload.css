@@ -5,6 +5,12 @@
 .shadow {
     /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
     padding: 15px;
+    padding-top: 70px;
+}
+
+.shadow_2 {
+    /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
+    padding: 15px;
 }
 
 .hero {

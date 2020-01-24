@@ -277,7 +277,7 @@ export default class Home extends Component {
     }
     mid_constructor(data){
         return (
-            <div className="columns is-centered shadow">
+            <div className="column is-centered shadow">
             <div className="column is-half bg_white_1">
                 <figure className="image">
                     <div className="slide-container">

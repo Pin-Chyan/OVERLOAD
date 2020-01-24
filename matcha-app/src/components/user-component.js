@@ -231,7 +231,7 @@ export default class User extends Component {
         var element1 = (
 
           <section className="section hero">
-            <div className="column is-centered shadow">
+            <div className="column is-centered shadow_2">
                 <div>
                 <nav className="tabs is-boxed is-small is-fullwidth">
                     <ul>
