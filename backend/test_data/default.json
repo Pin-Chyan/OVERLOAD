@@ -75,15 +75,13 @@
             "1000W watercooled psu","That's my sister im on inter 1 core","has knees"
         ],
         "verified"      : true,
-<<<<<<< HEAD
         "img"           : {
             "img1"  : "https://i.pinimg.com/236x/25/f9/b5/25f9b55e3eef2453403016f202465d85.jpg",
             "img2"  : "https://i.pinimg.com/236x/8e/26/fd/8e26fd1416c14a97ca3afb2e6e6d7c14.jpg",
             "img3"  : "https://pbs.twimg.com/profile_images/1087124894075236352/O9cDVYG__400x400.jpg",
             "img4"  : "https://images.wallpaperscraft.com/image/anime_face_hair_mask_85079_300x168.jpg",
-            "img5"  : "http://images6.fanpop.com/image/photos/35200000/anime-sarafenix-35238505-1150-1624.jpg"
-        }
-=======
+            "img5"  : "http://images6.fanpop.com/image/photos/35200000/anime-sarafenix-35238505-1150-1624.jpg",
+        },
         "location": [
             "South Africa",
             "Western Cape",
@@ -92,7 +90,6 @@
             18.4259,
             33.9258
         ]
->>>>>>> dffd6adf199011cb32c694614292a312ac333f7d
     },
     {
         "name"          : "katsuki",
