@@ -214,6 +214,9 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
+            this.sleep(1000).then(() => {
+                this.page_handler('init',{});
+            })
         }
     }
     //      end >>>>

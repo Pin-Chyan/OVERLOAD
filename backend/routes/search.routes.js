@@ -140,21 +140,67 @@ router.route('/engine').post( (req, res) => {
         console.log(auth[0]);
         console.log(req.body.token);
         if (auth[0].token === req.body.token || req.body.token === "admin")
-            UserModels.find({}, "email name gender age sexual_pref tag likes img location").exec().then(docs => {
+            UserModels.find({}, "email name last gender age sexual_pref tag fame likes img location").exec().then(docs => {
+                console.log('found data');
+                searchHandler(docs,req.body.search_req,auth[0].location);
                 res.json('done');
             }).catch(err => {res.status(500).send(err)})
     }).catch(err => {res.status(400).send('forbidden')})
 })
 
-// constraints min age max age
 
-function searchHandler(docs){
-    return 1;
+function searchHandler(docs,search_req,user_locale){
+    var res = [];
+    var i = docs.length - 1;
+    console.log(validate(docs[0],search_req,user_locale));
+    // while (i--){
+    //     console.log('begin validate');
+    //     if (validate(docs[i],search_req,user_locale))
+    //        res.push(docs[i]);
+    // }
 }
 
+function validate(docs,search_req,user_locale){
+    console.log(docs);
+    console.log(search_req);
+    console.log(user_locale);
+    //      <<<< restictions >>>>
+    var age_res = agegap(docs.age,search_req.age) ? 1 : 0;
+    console.log(age_res + " " + docs.age);
+    var fame_res = famegap(docs.fame,search_req.fame) ? 1 : 0;
+    console.log(fame_res + " " + docs.fame);
+    var dist_res = distance(docs.location,user_locale,search_req.max_dist);
+    if (dist_res > search_req.distance)
+        dist_res = -1;
+    console.log(dist_res + " " + distance(docs.location,user_locale,search_req.max_dist) + " " + search_req.distance);
+    //      <<<< modes >>>>
+    var name_res = name(docs.name,docs.last,search_req.in) ? 1 : 0;
+    console.log(name_res + " " + docs.name + " " + search_req.in);
+    var email_res = email(docs.email,search_req.in) ? 1 : 0;
+    console.log(email_res + " " + docs.email + " " + search_req.in)
+    if (search_req.mode === 'any')
+        return subvalidation(search_req.mode, age_res, dist_res, fame_res);
+    else if (search_req.mode === 'name' && name_res)
+        return subvalidation(search_req.mode, age_res, dist_res, fame_res);
+    else if (search_req.mode === 'email' && email_res)
+        return subvalidation(search_req.mode, age_res, dist_res, fame_res);
+}
+
+function subvalidation(mode, age_res, dist_res, fame_res){
+    if (mode === 'any')
+        return 1
+    if (mode === 'restrict' && (age_res && dist_res && fame_res)){
+        return 1
+    }
+    return 0;
+}
+
+// constraints min age max age 
 
 function agegap(target,age){
-    if (user >= age[0] || user <= age[1])
+    // console.log('agegap ' + target);
+    // console.log(age);
+    if (target >= age[0] && target <= age[1])
         return (1);
     return (0);
 }
@@ -162,19 +208,23 @@ function agegap(target,age){
 // constraints min fame min age
 
 function famegap(target,fame){
-    if (user >= fame[0] || user <= fame[1])
+    // console.log('famegap '+target);
+    // console.log(fame);
+    if (target >= fame[0] && target <= fame[1])
         return (1);
     return (0);
 }
 // constraints max distance
 
-function distgap(target_locale,user_locale,max){
-    var distance = distance(target_locale[0],target_locale[1],user_locale[0],user_locale[1])
+function distance(target_locale,user_locale,max){
+    console.log('distance');
+    var distance = hell(target_locale[4],target_locale[5],user_locale[4],user_locale[5])
     if (distance > max)
         return -1;
+    // console.log(distance);
     return distance;
 }
-function distance(lat1,lon1,lat2,lon2) {
+function hell(lat1,lon1,lat2,lon2) {
 	var R = 6371; // km (change this constant to get miles)
 	var dLat = (lat2-lat1) * Math.PI / 180;
 	var dLon = (lon2-lon1) * Math.PI / 180;
@@ -183,14 +233,17 @@ function distance(lat1,lon1,lat2,lon2) {
 		Math.sin(dLon/2) * Math.sin(dLon/2);
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 	var d = R * c;
-	if (d>1) return Math.round(d)+"km";
-	else if (d<=1) return Math.round(d*1000)+"m";
+	if (d>1) return Math.round(d);
+	else if (d<=1) return Math.round(d*1000);
 	return d;
 }
 
 // by name 
 function name(target_name, target_last, search_input){
-    if (target_name.includes(search_input) || target_last.includes(search_input))
+    console.log(target_name);
+    console.log(target_last);
+    console.log(search_input);
+    if (target_name.toLowerCase().includes(search_input.toLowerCase()) || target_last.toLowerCase().includes(search_input.toLowerCase()))
         return(1);
     return(0);
 }
@@ -198,7 +251,7 @@ function name(target_name, target_last, search_input){
 // by email
 
 function email(target_email, search_input){
-    if (target_email.includes(search_input))
+    if (target_email.toLowerCase().includes(search_input.toLowerCase()) || target_email.toLowerCase().includes(search_input.toLowerCase()))
         return(1);
     return(0);
 }
