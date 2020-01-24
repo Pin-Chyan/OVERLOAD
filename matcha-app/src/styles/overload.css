@@ -5,6 +5,12 @@
 .shadow {
     /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
     padding: 15px;
+    padding-top: 70px;
+}
+
+.shadow_2 {
+    /* box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.2), 0 5px 5px 0 rgba(250, 250, 250, 0.24) !important; */
+    padding: 15px;
 }
 
 .hero {
@@ -46,6 +52,13 @@
     border-radius: 1%;
     /* min-width: 800px !important; */
     /* flex: auto !important; */
+}
+
+.bg_white_3 {
+  background-color: white !important;
+  border-radius: 0 0 2% 2%;
+  width: 500px !important;
+  /* flex: auto !important; */
 }
 
 .img_carousel {
@@ -127,5 +140,78 @@
     text-align: left;
     justify-content: left;
 }
+
+.tabcontent {
+  display: none;
+}
+
+.slide-container {
+  width: 100%;
+  margin: auto; }
+
+h3 {
+  text-align: center; }
+
+.each-slide > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 600px;
+}
+
+.each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
+
+.each-fade {
+    align-items: center;
+    justify-content: center;
+    object-fit: contain;
+    display: flex;
+    height: 600px;
+}
+
+.each-fade .image-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.each-fade .image-container img {
+  width: 100%;
+}
+
+.each-fade h2 {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #adceed;
+}
+
+/*  */
+
+/* .slide-container {
+    width: 480px;
+    margin: auto;
+}
+
+.image-container {
+    object-fit: contain;
+    min-height: auto;
+    max-height: 600px;
+    align-items: center;
+    justify-content: center;
+} */
+
+/* .img-center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block; 
+} */
 
 /*  */

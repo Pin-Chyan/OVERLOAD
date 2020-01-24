@@ -12,7 +12,7 @@ import { Fade } from 'react-slideshow-image';
 const fadeProperties = {
     duration: 5000,
     transitionDuration: 500,
-    infinite: false,
+    infinite: true,
     indicators: true,
     onChange: (oldIndex, newIndex) => {
       console.log(`fade transition from ${oldIndex} to ${newIndex}`);
@@ -231,7 +231,7 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            // var like = this.is_liked();
+            // var like = this.is_liked(); NOOOOO
             if (document.getElementById('button'+ this.div_key))
                 ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
                 /////here<><><><><><><><><><><><><><>
@@ -271,50 +271,46 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><i className="fa fa-inbox"></i></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
+                <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
             </div>
         )
         return(element1);
     }
     mid_constructor(data){
         return (
-            <div className="columns is-centered shadow">
+            <div className="column is-centered shadow">
             <div className="column is-half bg_white_1">
                 <figure className="image">
                     <div className="slide-container">
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} className="image is-3by4" />
+                                    <img src={data.carousel_img1} />
                                 </div>
-                                <h2>First Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} className="image is-3by4" />
+                                    <img src={data.carousel_img2} />
                                 </div>
-                                <h2>Second Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} className="image is-3by4" />
+                                    <img src={data.carousel_img3} />
                                 </div>
-                                <h2>Third Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} className="image is-3by4" />
+                                    <img src={data.carousel_img4} />
                                 </div>
-                                <h2>Forth Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} className="image is-3by4" />
+                                    <img src={data.carousel_img5} />
                                 </div>
-                                <h2>Fifth Slide</h2>
                             </div>
                         </Fade>
                     </div>
