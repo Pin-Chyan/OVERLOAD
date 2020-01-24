@@ -52,7 +52,7 @@ export default class Profile extends Component {
     }
     userData_getter(){
         console.log('getting data......');
-        console.log(this.props.match.params)
+        //console.log(this.props.match.params)
         async function get_data(email,jwt,ip,target){
             console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});

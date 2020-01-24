@@ -135,4 +135,8 @@
     justify-content: left;
 }
 
+.tabcontent {
+  display: none;
+}
+
 /*  */

@@ -34,6 +34,7 @@ export default class User extends Component {
             this.userData_getter = this.userData_getter.bind(this);
             this.page_handler = this.page_handler.bind(this);
             this.searchHandle = this.searchHandle.bind(this);
+            this.openTab = this.openTab.bind(this);
             this.busy = 0;
             this.curr_page = [0,0,0];
             this.other_page = [0,0,0];
@@ -208,57 +209,99 @@ export default class User extends Component {
         else
             return <div/>;
     }
+//                      <<<< Switch tab function >>>
+    openTab = (tabName) => (e) => {
+      let tab, tabcontent, link, tablinks
+
+      tabcontent = document.getElementsByClassName('tabcontent')
+      for (tab of tabcontent) {
+        tab.style.display = "none"
+      }
+
+      tablinks = document.getElementsByClassName('tab')
+      for (link of tablinks) {
+        link.className = link.className.replace("is-active", "")
+      }
+      document.getElementById(tabName).style.display = "block"
+      e.currentTarget.className += 'is-active'
+    }
 
     mid_constructor(){
         var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
         var element1 = (
 
           <section className="section hero">
-                <div className="column is-centered shadow">
-                    <div>
-                    <nav className="tabs is-boxed is-small is-fullwidth">
-                        <ul>
-                          <li className="tab is-active" onclick="d"><a>Preview</a></li>
-                          <li className="tab"><a>Likes</a></li>
-                          <li className="tab"><a>Viewed</a></li>
-                          <li className="tab"><a>Preferences</a></li>
-                        </ul>
-                    </nav>
-                    </div>
+            <div className="column is-centered shadow">
                 <div>
+                <nav className="tabs is-boxed is-small is-fullwidth">
+                    <ul>
+                      <li className="tab is-active" onClick={this.openTab('Preview')}>
+                        <a>Preview</a>
+                      </li>
+                      <li className="tab" onClick={this.openTab('Likes')}>
+                        <a>Likes</a>
+                      </li>
+                      <li className="tab" onClick={this.openTab('Viewed by')}>
+                        <a>Viewed by</a>
+                      </li>
+                      <li className="tab" onClick={this.openTab('Preferences')}>
+                        <a>Preferences</a>
+                      </li>
+                    </ul>
+                </nav>
+              </div>
+
+              <div className="tabcontent" id="Preview" style={{display:'block'}}>
                     <div className="column is-half bg_white_3">
-                         <figure className="image is-3by4"> 
-                            <img className="overflow" src={display1} alt="Asuna_img" />
-                        </figure>
-    
-                        <div className="column center">
-                        <div className="column center">
-                <article className="media center">
-                    <figure className="media-left">
-                        <figure className="image is-64x64">
-                            <img alt="Asuna" src={display1} />
-                        </figure>
+                      <figure className="image is-3by4"> 
+                        <img className="overflow" src={display1} alt="Asuna_img" />
                     </figure>
-                    <div className="media-content">
-                        <div className="content">
-                            <p>
-                                <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
-                                <span className="has-text-grey">{this.state.user.tag}<br />
-                                <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                            </p>
-                        </div>
+                    <div className="column center">
+                    <div className="column center">
+                      <article className="media center">
+                          <figure className="media-left">
+                            <figure className="image is-64x64">
+                              <img alt="Asuna" src={display1} />
+                            </figure>
+                          </figure>
+                          <div className="media-content">
+                            <div className="content">
+                                <p>
+                                  <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
+                                  <span className="has-text-grey">{this.state.user.tag}<br />
+                                  <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
+                                </p>
+                            </div>
+                          </div>
+                        </article>
+                    <br />
+                    <hr />
+                    <p>
+                      {this.state.user.bio}
+                    </p>
                     </div>
-                </article>
-                <br />
-                <hr />
-                <p>
-                    {this.state.user.bio}
-                </p>
-            </div>
-                        </div>
-                        
-                    </div>
+                  </div>      
                 </div>
+              </div>
+
+              <div className="tabcontent" id="Likes">
+                <div className="column is-half bg_white_3">
+                      Likes
+                </div>
+              </div>
+
+              <div className="tabcontent" id="Viewed by">
+                <div className="column is-half bg_white_3">
+                      Viewed by
+                </div>
+              </div>
+
+              <div className="tabcontent" id="Preferences">
+                <div className="column is-half bg_white_3">
+                      Preferences
+                </div>
+              </div>
+            
             </div>
           </section>
         )
