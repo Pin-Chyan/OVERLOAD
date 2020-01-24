@@ -418,21 +418,47 @@ function notification_handle(req, check, sender){
             docs = user;
             docs.save().catch(err => {console.log(err)});
         }
+        else if (check === "match"){
+            var user = docs;
+            const msg = "You have matched with "+sender+"! Don't be shy to message first!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
         else
             console.log("error");
+    }).catch(err => {console.log(err)})
+}
+
+function match_handle(req, target_id, sender, reciever){
+    UserModels.findOne({"email": req.body.email}).exec().then(docs => {
+        var liked_array = docs.liked;
+        if (liked_array.includes(target_id)){
+            notification_handle(req, "match", sender);
+            var user = docs;
+            const msg = "You have matched with "+reciever+"! Don't be shy to message first!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else
+            notification_handle(req, "like", sender);
     }).catch(err => {console.log(err)})
 }
 
 router.route('/like').post( (req, res) => {
     if (!req.body.token && !req.body.email && !req.body.target)
         req.json("error");
-    UserModels.find({"email": req.body.target}, "_id liked").exec().then(docs => {
+    UserModels.find({"email": req.body.target}, "_id liked name last").exec().then(docs => {
         UserModels.findOne({"email": req.body.email}, "_id likes name last").exec().then(docs2 => {
             if (!docs2.likes.includes(docs[0]._id)){
                 var sender = docs2.name+" "+docs2.last;
+                var reciever = docs[0].name+" "+docs[0].last;
                 fame_handle(req, "increase");
-                liked_handle(req, docs[0]._id,"add");
-                notification_handle(req, "like", sender);
+                liked_handle(req, docs2._id,"add");
+                match_handle(req,docs[0]._id, sender, reciever);
                 var like = docs2.likes;
                 like.push(docs[0]._id);
                 docs2.likes = like;
@@ -448,10 +474,11 @@ router.route('/Del_like').post( (req, res) => {
     if (!req.body.token || !req.body.target || !req.body.email)
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
+        console.log(docs[0]);
             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
                 if (docs2.likes.includes(docs[0]._id)){
                     fame_handle(req, "decrease");
-                    liked_handle(req, docs[0]._id,"remove");
+                    liked_handle(req, docs2._id,"remove");
                     var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
                     docs2.likes.splice(index,1);
                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});

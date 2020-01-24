@@ -64,7 +64,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
@@ -142,14 +142,11 @@ export default class Home extends Component {
         this.setState({checked})
     }
 
-    is_liked = async() => {
-        console.log(this.state.user.likes);
-        console.log(this.state.results[this.pos].likes);
-        var me = this.state.user.likes;
-        var me_id = this.state.user._id;
-        var you = this.state.results[this.pos].likes;
-        var you_id = this.state.results[this.pos]._id;
-        if (me.includes(you_id) && you.includes(me_id))
+    is_liked(){
+        var liked_array = this.state.user.liked;
+        var likes_array = this.state.user.likes;
+        var pos = this.state.results[this.pos]._id;
+        if (liked_array.includes(pos) && likes_array.includes(pos))
             return (1);
         else
             return (0);
@@ -170,8 +167,9 @@ export default class Home extends Component {
                 if (req.status === 200){
                     if (req.data === "Already Liked!")
                         console.log("Already Liked!");
-                    else
+                    else{
                         console.log("liked!");
+                    }
                 }
             }
             else if (buttonval === "Unlike"){
@@ -192,7 +190,7 @@ export default class Home extends Component {
             else
                 console.log("you missed the button!");
         }
-        async_hell(this.ip,this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
+        async_hell(this.ip,this.state.user.email,this.state.results[this.pos].email,this.jwt).then( res => {
             if (res === 'Prev' || res === 'Next'){
                 if (res === 'Prev')
                     this.pos--;
@@ -231,10 +229,10 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            // var like = this.is_liked(); NOOOOO
+            var like = this.is_liked();
+            console.log(like);
             if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
-                /////here<><><><><><><><><><><><><><>
+                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
         }
     }
     
