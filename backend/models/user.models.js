@@ -7,6 +7,14 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  liked: {
+    type: Array,
+    default: []
+  },
+  viewed: {
+    type: Array,
+    default: []
+  },
   chatrooms: {
     type: Array,
     default: []

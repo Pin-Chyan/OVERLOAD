@@ -18,7 +18,6 @@ import EmailSent from "./components/emailSent-component.js";
 import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
-import Backup from "./components/backup-component.js"
 import newSearch from "./components/newSearch-component.js"
 import Profile from "./components/profile-component.js";
 // import carousel from "./components/carousel.js"
@@ -48,7 +47,6 @@ function App() {
           <Route path="/search" exact component={Search}/> 
           <Route path="/" exact component={Home}/> 
           <Route path="/newSearch" exact component={newSearch}/> 
-          <Route path="/backup" exact component={Backup} />
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
         </Authenticate>
