@@ -81,6 +81,7 @@ export default class Home extends Component {
             if (res !== 'no result'){
                 console.log('results loaded...');
                 this.setState({"results":res.data});
+                console.log(res.data);
                 this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
@@ -193,10 +194,14 @@ export default class Home extends Component {
         }
         async_hell(this.ip,this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
             if (res === 'Prev' || res === 'Next'){
-                if ((this.pos + 1 < this.state.results.length) && (res === 'Next'))
-                    this.pos++;
-                else if ((this.pos - 1 > -1) && (res === 'Prev'))
+                if (res === 'Prev')
                     this.pos--;
+                if (res === 'Next')
+                    this.pos++;
+                if (this.pos === this.state.results.length)
+                    this.pos = 0;
+                else if (this.pos === -1)
+                    this.pos = this.state.results.length - 1;
                 this.Carousel_handle(this.state.results[this.pos]);
                 console.log(this.pos);
             } 
