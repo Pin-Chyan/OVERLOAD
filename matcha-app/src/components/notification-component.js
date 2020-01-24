@@ -6,18 +6,6 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Inbox from './message-and-notification';
-import { Fade } from 'react-slideshow-image';
-
-const fadeProperties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    onChange: (oldIndex, newIndex) => {
-      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    }
-  }
 
 export default class Home extends Component {
     constructor(props){
@@ -64,7 +52,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
@@ -81,7 +69,6 @@ export default class Home extends Component {
             if (res !== 'no result'){
                 console.log('results loaded...');
                 this.setState({"results":res.data});
-                console.log(res.data);
                 this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
@@ -142,11 +129,14 @@ export default class Home extends Component {
         this.setState({checked})
     }
 
-    is_liked(){
-        var liked_array = this.state.user.liked;
-        var likes_array = this.state.user.likes;
-        var pos = this.state.results[this.pos]._id;
-        if (liked_array.includes(pos) && likes_array.includes(pos))
+    is_liked = async() => {
+        console.log(this.state.user.likes);
+        console.log(this.state.results[this.pos].likes);
+        var me = this.state.user.likes;
+        var me_id = this.state.user._id;
+        var you = this.state.results[this.pos].likes;
+        var you_id = this.state.results[this.pos]._id;
+        if (me.includes(you_id) && you.includes(me_id))
             return (1);
         else
             return (0);
@@ -167,9 +157,8 @@ export default class Home extends Component {
                 if (req.status === 200){
                     if (req.data === "Already Liked!")
                         console.log("Already Liked!");
-                    else{
+                    else
                         console.log("liked!");
-                    }
                 }
             }
             else if (buttonval === "Unlike"){
@@ -190,16 +179,12 @@ export default class Home extends Component {
             else
                 console.log("you missed the button!");
         }
-        async_hell(this.ip,this.state.user.email,this.state.results[this.pos].email,this.jwt).then( res => {
+        async_hell(this.ip,this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
             if (res === 'Prev' || res === 'Next'){
-                if (res === 'Prev')
-                    this.pos--;
-                if (res === 'Next')
+                if ((this.pos + 1 < this.state.results.length) && (res === 'Next'))
                     this.pos++;
-                if (this.pos === this.state.results.length)
-                    this.pos = 0;
-                else if (this.pos === -1)
-                    this.pos = this.state.results.length - 1;
+                else if ((this.pos - 1 > -1) && (res === 'Prev'))
+                    this.pos--;
                 this.Carousel_handle(this.state.results[this.pos]);
                 console.log(this.pos);
             } 
@@ -229,10 +214,10 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            var like = this.is_liked();
-            console.log(like);
+            // var like = this.is_liked(); NOOOOO
             if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+                ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
+                /////here<><><><><><><><><><><><><><>
         }
     }
     
@@ -281,106 +266,155 @@ export default class Home extends Component {
     mid_constructor(data){
         return (
             <div className="column is-centered shadow">
-            <div className="column is-half bg_white_1">
-                <figure className="image">
-                    <div className="slide-container">
-                        <Fade {...fadeProperties}>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                <div className="column is-half bg_white_4">
+                    <div className="column center">
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src={data.carousel_img1} />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                                        <span className="has-text-grey">User viewed your image<br />
+                                        <time>Apr 20</time></span>
+                                    </p>
                                 </div>
                             </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src={data.carousel_img1} />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                                        <span className="has-text-grey">user liked your image<br />
+                                        <time>Apr 20</time></span>
+                                    </p>
                                 </div>
                             </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://media.discordapp.net/attachments/472313197836107780/553808062780014632/aHbnHYY.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Megumin</strong> <a>Megumin_Crimson</a><br />
+                                        <span className="has-text-grey">user viewed your image<br />
+                                        <time>Apr 21</time></span>
+                                    </p>
                                 </div>
                             </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://imgur.com/TYmZ6H7.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Remu</strong> <a>Remu_</a><br />
+                                        <span className="has-text-grey">user viewed your image<br />
+                                        <time>Apr 22</time></span>
+                                    </p>
                                 </div>
                             </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://imgur.com/H9S37yu.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Yuno</strong> <a>Yuno_Gasai</a><br />
+                                        <span className="has-text-grey">user viewed your image<br />
+                                        <time>Apr 24</time></span>
+                                    </p>
                                 </div>
                             </div>
-                        </Fade>
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://imgur.com/H9S37yu.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Yuno</strong> <a>Yuno_Gasai</a><br />
+                                        <span className="has-text-grey">user liked your image<br />
+                                        <time>Apr 24</time></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://media.discordapp.net/attachments/472313197836107780/571169868276039710/bMKEgh7.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Zero Two</strong> <a>Zero Two_</a><br />
+                                        <span className="has-text-grey">user viewed your image<br />
+                                        <time>Apr 26</time></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://media.discordapp.net/attachments/472313197836107780/584161628447178854/oxjuaWX.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Rias</strong> <a>Rias_Gremory</a><br />
+                                        <span className="has-text-grey">user viewed your image<br />
+                                        <time>Apr 26</time></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article className="media center">
+                            <figure className="media-left">
+                                <figure className="image is-64x64">
+                                    <img className="image is-64x64 m-scale" alt="Asuna" src='https://media.discordapp.net/attachments/472313197836107780/584161628447178854/oxjuaWX.png' />
+                                </figure>
+                            </figure>
+                            <div className="media-content">
+                                <div className="content">
+                                    <p>
+                                        <strong>Rias</strong> <a>Rias_Gremory</a><br />
+                                        <span className="has-text-grey">user liked your image<br />
+                                        <time>Apr 26</time></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
                     </div>
-                </figure>
-                <div id={"button"+this.div_key} className="column center_b" onClick={e => this.globalbtn_handler(e)}>
-                    {/* <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                    <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                    <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                    <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                    <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                    <button id="6" value="Message" className="button is-info fa fa-comment"></button> */}
                 </div>
-
-                <div className="column center">
-                <div className="column center">
-        <article className="media center">
-            <figure className="media-left">
-                <figure className="image is-64x64">
-                    <img alt="Asuna" src={data.carousel_img1} />
-                </figure>
-            </figure>
-            <div className="media-content">
-                <div className="content">
-                    <p>
-                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
-                        <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
-                    </p>
-                </div>
-            </div>
-        </article>
-        <br />
-        <hr />
-        {/* <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
-        </p> */}
-        <p>
-            {data.bio}
-        </p>
-        <div>
-          <Inbox />
-        </div>
-        </div>
-                </div>
-                
-            </div>
-        </div>
-        )
-    }
-    button_constructor(boolean){
-        if (boolean === 1){
-            return (
-                <div>
-                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                <button id="6" value="Message" className="button is-info fa fa-comment"></button>
-                </div>
-            )
-        }
-        else 
-        return (
-            <div>
-            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
             </div>
         )
     }
-
 }

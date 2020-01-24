@@ -59,7 +59,7 @@ export default class User extends Component {
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
             console.log(email);
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target}, { headers: { authorization: `bearer ${jwt}` } });
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
         }
@@ -214,6 +214,9 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
+            this.sleep(1000).then(() => {
+                this.page_handler('init',{});
+            })
         }
     }
     //      end >>>>
