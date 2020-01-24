@@ -283,31 +283,31 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                                    <img src={data.carousel_img1} className="image is-3by4" />
                                 </div>
                                 <h2>First Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                                    <img src={data.carousel_img2} className="image is-3by4" />
                                 </div>
                                 <h2>Second Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                                    <img src={data.carousel_img3} className="image is-3by4" />
                                 </div>
                                 <h2>Third Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                                    <img src={data.carousel_img4} className="image is-3by4" />
                                 </div>
                                 <h2>Forth Slide</h2>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                                    <img src={data.carousel_img5} className="image is-3by4" />
                                 </div>
                                 <h2>Fifth Slide</h2>
                             </div>
