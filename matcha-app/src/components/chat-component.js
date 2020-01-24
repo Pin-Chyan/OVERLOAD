@@ -117,7 +117,8 @@ export default class cons extends Component {
                 this.setState({
                     "target":res
                 })
-                this.eve_mount();
+                this.external_data2();
+                // this.eve_mount();
             }).catch(err => {console.log('eve redirect ' + err)})
         }
     }

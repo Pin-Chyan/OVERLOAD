@@ -366,20 +366,79 @@ router.route('/purge').post( (req, res) => {
 //
 //                      <<<< Like Routes >>>>
 //
+
+function fame_handle(req, fame){
+    UserModels.findOne({"email": req.body.target}, "fame").exec().then(docs => {
+        if (fame === "decrease"){
+            docs.fame--;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (fame === "increase"){
+            docs.fame++;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else
+            throw err;
+    }).catch(err => {console.log(err)})
+}
+
+function liked_handle(req, _id, check){
+    UserModels.findOne({"email": req.body.target}, "_id liked").exec().then(docs => {
+        console.log(docs);
+        if (check === "add"){
+            var array = docs.liked;
+            array.push(_id);
+            docs.liked = array;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (check === "remove"){
+            var array = docs.liked;
+            var pos = array.indexOf(_id);
+            if (pos === -1)
+                console.log("did not find position in liked array");
+            else
+                array.splice(pos, 1);
+            docs.liked = array;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else 
+            throw err;
+    }).catch(err => {console.log(err)})
+}
+
+function notification_handle(req, check, sender){
+    UserModels.findOne({"email": req.body.target}).exec().then(docs => {
+        if(check === "like"){
+            var user = docs;
+            const msg = sender+" has liked your profile!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else
+            console.log("error");
+    }).catch(err => {console.log(err)})
+}
+
 router.route('/like').post( (req, res) => {
     if (!req.body.token && !req.body.email && !req.body.target)
         req.json("error");
-    UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
-            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
-                if (!docs2.likes.includes(docs[0]._id)){
-                    var like = docs2.likes;
-                    like.push(docs[0]._id);
-                    docs2.likes = like;
-                    docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
-                }
-                else
-                res.json("Already Liked!");
-            })
+    UserModels.find({"email": req.body.target}, "_id liked").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "_id likes name last").exec().then(docs2 => {
+            if (!docs2.likes.includes(docs[0]._id)){
+                var sender = docs2.name+" "+docs2.last;
+                fame_handle(req, "increase");
+                liked_handle(req, docs[0]._id,"add");
+                notification_handle(req, "like", sender);
+                var like = docs2.likes;
+                like.push(docs[0]._id);
+                docs2.likes = like;
+                docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
+            }
+            else
+            res.json("Already Liked!");
+        })
     }).catch(err => {res.json(err)})
 })
 
@@ -389,6 +448,8 @@ router.route('/Del_like').post( (req, res) => {
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
                 if (docs2.likes.includes(docs[0]._id)){
+                    fame_handle(req, "decrease");
+                    liked_handle(req, docs[0]._id,"remove");
                     var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
                     docs2.likes.splice(index,1);
                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
