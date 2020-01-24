@@ -194,9 +194,6 @@ export default class Register extends Component {
         return valid;
     }
 
-
-    /* Add onChangeImage */
-    
     onSubmit = async e => {
             e.preventDefault();
 
@@ -327,7 +324,6 @@ export default class Register extends Component {
                             <p className="help is-danger">{this.state.emailErr}</p>
                         </div>
 
-
                         <div className="field">
                             <label className="label">Gender</label>
                             <div className="control">
@@ -341,23 +337,6 @@ export default class Register extends Component {
                                 </label>
                             </div>
                             <p className="help is-danger">{this.state.genderErr}</p>
-                        </div>
-
-                        <div className="file has-name is-fullwidth field is-right">
-                            <label className="file-label">
-                                <input className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                    <span className="file-icon">
-                                        <i className="fa fa-upload"></i>
-                                    </span>
-                                    <span className="file-label">
-                                        Choose a file…
-                                    </span>
-                                </span>
-                                <span className="file-name">
-                                    image...
-                                </span>
-                            </label>
                         </div>
 
                         <div className="field is-grouped">

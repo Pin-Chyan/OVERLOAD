@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom'
 
 var nll = require("../images/chibi.jpg");
 
-export default class User extends Component {
+export default class Profile extends Component {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -52,6 +52,7 @@ export default class User extends Component {
     }
     userData_getter(){
         console.log('getting data......');
+        console.log(this.props.match.params)
         async function get_data(email,jwt,ip,target){
             console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
@@ -212,21 +213,8 @@ export default class User extends Component {
     mid_constructor(){
         var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
         var element1 = (
-
-          <section className="section hero">
-                <div className="column is-centered shadow">
-                    <div>
-                    <nav className="tabs is-boxed is-small is-fullwidth">
-                        <ul>
-                          <li className="tab is-active" onclick="d"><a>Preview</a></li>
-                          <li className="tab"><a>Likes</a></li>
-                          <li className="tab"><a>Viewed</a></li>
-                          <li className="tab"><a>Preferences</a></li>
-                        </ul>
-                    </nav>
-                    </div>
-                <div>
-                    <div className="column is-half bg_white_3">
+                <div className="columns is-centered shadow">
+                    <div className="column is-half bg_white_1">
                          <figure className="image is-3by4"> 
                             <img className="overflow" src={display1} alt="Asuna_img" />
                         </figure>
@@ -259,8 +247,6 @@ export default class User extends Component {
                         
                     </div>
                 </div>
-            </div>
-          </section>
         )
         return (element1);
     }
