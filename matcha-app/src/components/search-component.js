@@ -59,7 +59,7 @@ export default class User extends Component {
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
             console.log(email);
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target}, { headers: { authorization: `bearer ${jwt}` } });
+            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
         }
@@ -214,6 +214,9 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
+            this.sleep(1000).then(() => {
+                this.page_handler('init',{});
+            })
         }
     }
     //      end >>>>
@@ -284,10 +287,21 @@ page_handler(mode, data){
                     <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
+            <div className="container bg_white_5 columns">
+                Search Filter
+            </div>
+            <div className="container bg_white_6 columns">
+                <div className="column green">
+                    test
+                    <input class="slider is-fullwidth" step="1" min="0" max="100" value="50" type="range"></input>    
+                </div>
+                <div className="column yellow">
+                    rest
+                </div>
+            </div>
             <div id={"cont"+this.div_key} className="container" >
             </div>
         </section>
-
         )
     }
 
