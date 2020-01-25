@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import ReactDOM from 'react-dom'
+import ReactDOM, { createPortal } from 'react-dom'
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -64,10 +64,11 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
+        console.log('hi');
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect')})
+        }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount() {
         console.log('render');
@@ -123,7 +124,7 @@ page_handler(mode, data){
         });
     }
     else if (mode == 'init'){
-        console.log(mode);
+        console.log("roscoe");
         ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
@@ -214,7 +215,7 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
-            this.sleep(1000).then(() => {
+            this.sleep(4000).then(() => {
                 this.page_handler('init',{});
             })
         }
