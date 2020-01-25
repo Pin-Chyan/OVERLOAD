@@ -288,10 +288,21 @@ page_handler(mode, data){
                     <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
+            <div className="container bg_white_5 columns">
+                Search Filter
+            </div>
+            <div className="container bg_white_6 columns">
+                <div className="column green">
+                    test
+                    <input class="slider is-fullwidth" step="1" min="0" max="100" value="50" type="range"></input>    
+                </div>
+                <div className="column yellow">
+                    rest
+                </div>
+            </div>
             <div id={"cont"+this.div_key} className="container" >
             </div>
         </section>
-
         )
     }
 

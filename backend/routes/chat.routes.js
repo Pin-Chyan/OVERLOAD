@@ -89,12 +89,27 @@ router.route('/newroom').post( (req, res) => {
     }
 })
 
+function notification_handle(req, check, sender){
+    UserModels.findOne({"email": req.body.target}).exec().then(docs => {
+        if(check === "message"){
+            var user = docs;
+            const msg = "You have a new message from "+sender+", how exciting!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else
+            console.log("error");
+    }).catch(err => {console.log(err)})
+}
+
 router.route('/msg').post( (req, res) => {
     console.log(req.body);
     if (!req.body.token || !req.body.email || !req.body.msg || !req.body.room)
         res.status(400).send('empty fields');
     else {
-        UserModels.find({"email":req.body.email},"token").then(auth => {
+        UserModels.find({"email":req.body.email},"token name last").then(auth => {
             // console.log(auth[0].token);
             if ((req.body.token !== "admin") && (req.body.token !== auth[0].token))
                 res.status(400).send('forbidden');
@@ -102,11 +117,13 @@ router.route('/msg').post( (req, res) => {
                 ChatModels.findOne({"_id":req.body.room}, "message").exec().then(ret => {
                     console.log(ret);
                     if (ret){
+                        var sender = auth[0].name+" "+auth[0].last;
+                        notification_handle(req, "message", sender);
                         var what = ret.message;
                         var msg = {};
                         var d = new Date();
                         msg.author = req.body.email;
-                        msg.target = "there is actually no need for a target here";
+                        msg.target = "there is actually no need for a target here (hurusai)";
                         msg.timestamp = "["+d.toLocaleString("en-GB")+"]";
                         msg.msg = ": "+req.body.msg;
                         what.push(msg);

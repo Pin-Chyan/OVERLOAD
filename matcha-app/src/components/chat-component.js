@@ -197,13 +197,13 @@ export default class cons extends Component {
     }
     sendhandle = e => {
         console.log('sending..........');
-            async function post_msg(ip,email,jwt,room,msg){
-                let promise = await axios.post(ip+"/chats/msg", {"email":email,"token":jwt,"room":room,"msg":msg});
+            async function post_msg(ip,email,jwt,room,target,msg){
+                let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
                 if (promise.status === 200)
                     return promise.data;
             }
             console.log(this.state.chatroom);
-            post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom,this.state.newmsg).then(res => {
+            post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,this.state.newmsg).then(res => {
                 console.log(res);
             }).catch(err => 'eve redirect '+err)
     }

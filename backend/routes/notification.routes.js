@@ -22,7 +22,7 @@ router.post('/addNotification', verifyToken, (req, res) => {
           user.notifications.push(newNotification)
           user.save()
           return res.send('Notification added...')
-      })
+      }).catch(err => {res.json(err)})
   })
 })
 
@@ -40,7 +40,7 @@ router.post('/getNotifications', verifyToken, (req, res) => {
               res.status(404).send("User not found") 
           }
           return res.send(user.notifications)
-      })
+      }).catch(err => {res.json(err)})
   })
 })
 
