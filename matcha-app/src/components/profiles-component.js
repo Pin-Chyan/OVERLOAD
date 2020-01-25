@@ -53,8 +53,10 @@ export default class Home extends Component {
                 "user" : {email: this.props.match.params.target},
                 "checked": false
             }
+
             if (this.props.location.user){
-                this.setState({"user":this.props.location.user})
+                this.setState({"user":this.props.location.user});
+                this.eve_mount();
             }
             else
                 this.userData_getter(0);
@@ -63,15 +65,15 @@ export default class Home extends Component {
     userData_getter(reset){
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            let promise = await axios.post(ip + '/users/get_soft',{"email":"marty@gmail.com","target_email": email, "target":target, "token":jwt});
+            let promise = await axios.post(ip + '/users/get_spec',{"email":"marty@gmail.com", "target":target, "token":"admin"});
             if (promise.status === 200)
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
-                console.log('Line 72')
-                console.log(userGet_res)
                 this.setState({"user":userGet_res[0]});
+                if (reset === 0)
+                    this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
 
