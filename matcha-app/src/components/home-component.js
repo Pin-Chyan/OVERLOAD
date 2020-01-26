@@ -64,25 +64,28 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
-        async function get_matches(email,jwt,ip){
-            let promise = await axios.post(ip +'/search/test_search', {"email":email, "token":jwt, "search_conditions":[-1,-1,-1,-2,-1,-1,-1],"search_input":"null"})
+        async function get_matches(email,jwt,ip,search_req){
+            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_req":search_req})
             if (promise.status === 200){
                 return (promise);
             }
         }
-        get_matches(this.state.user.email,this.jwt,this.ip).then(res => {
+        var req = {};
+        req.targ = [[0,100],[0,100],-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
+        req.in = '';
+        get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res !== 'no result'){
                 console.log('results loaded...');
                 this.setState({"results":res.data});
                 console.log(res.data);
-                this.Carousel_handle(this.state.results[0]);
+                // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
         }).catch(err => {console.log('eve redirect' + err)})
