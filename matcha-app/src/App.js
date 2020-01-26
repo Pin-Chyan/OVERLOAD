@@ -19,7 +19,7 @@ import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
 import newSearch from "./components/newSearch-component.js"
-import Profiles from "./components/profiles-component.js";
+import Profiles from "./components/profiles2-component.js";
 import Notification from "./components/notification-component.js";
 // import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";

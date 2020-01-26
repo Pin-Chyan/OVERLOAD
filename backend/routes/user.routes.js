@@ -254,6 +254,25 @@ router.post('/get_soft', (req, res) => {
     }
 })
 
+router.post('/get_soft_by_id', verifyToken, (req, res) => {
+  if (!req.token || !req.body.id || !req.body.target) {
+    return res.status(400).send('Missing Fields')
+  }
+  if (req.body.target.includes('password')) {
+    return res.sendStatus(403)
+  }
+  if (req.token !== 'admin') {
+    jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        return res.sendStatus(403)
+      }
+    })
+  }
+  UserModels.findById(req.body.id, req.body.target).exec().then(userData => {
+    console.log(userData)
+    return res.json(userData)
+  }).catch(err => { res.status(500).send(err) })
+})
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
