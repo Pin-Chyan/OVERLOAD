@@ -27,6 +27,7 @@ export default class Home extends Component {
         this.ip = require('../server.json').ip;
         this.nll = require("../images/chibi.jpg");
         this.pos = 0;
+        this.init = 0;
         this.state = {};
         console.log(this.ip);
         async function server_get(ip,jwt){
@@ -87,6 +88,7 @@ export default class Home extends Component {
                 console.log(res.data);
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
+                this.ping(-1);
             }
         }).catch(err => {console.log('eve redirect' + err)})
     }
@@ -106,6 +108,11 @@ export default class Home extends Component {
         console.log('render');
         this.userData_getter(1);
     }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Notification Updater >>>>
+//
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -145,16 +152,6 @@ export default class Home extends Component {
         this.setState({checked})
     }
 
-    is_liked(){
-        var liked_array = this.state.user.liked;
-        var likes_array = this.state.user.likes;
-        var pos = this.state.results[this.pos]._id;
-        if (liked_array.includes(pos) && likes_array.includes(pos))
-            return (1);
-        else
-            return (0);
-    }
-
     globalbtn_handler(e){
         var buttonval = e.target.value;
         async function async_hell(ip,user,target,jwt) {
@@ -190,6 +187,9 @@ export default class Home extends Component {
             else if (buttonval === "Message"){
                 return ('redirect');
             }
+            else if (buttonval === "view"){
+                return ("view");
+            }
             else
                 console.log("you missed the button!");
         }
@@ -213,6 +213,12 @@ export default class Home extends Component {
                     data: this.state.results[this.pos].email
                 })
             }
+            if (res === 'view'){
+                this.props.history.push({
+                    pathname: "profiles/" + this.state.results[this.pos]._id,
+                    user: this.state.user
+                })
+            }
         });
     }
 
@@ -233,13 +239,27 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            var like = this.is_liked();
-            console.log(like);
-            if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+            this.button_refresh();
         }
     }
-    
+    button_refresh(){
+        var like = this.is_liked();
+        if (document.getElementById('button'+ this.div_key)){
+            ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+            this.sleep(100).then(() => {
+                this.button_refresh();
+            })
+        }
+    }
+    is_liked(){
+        var liked_array = localStorage.liked;
+        var likes_array = localStorage.likes;
+        var pos = this.state.results[this.pos]._id;
+        if (liked_array.includes(pos) && likes_array.includes(pos))
+            return (1);
+        else
+            return (0);
+    }
     render () {
         return (
             <section className="section hero">
@@ -362,7 +382,7 @@ export default class Home extends Component {
         </div>
         )
     }
-    button_constructor(boolean){
+    button_constructor(boolean,id){
         if (boolean === 1){
             return (
                 <div>
@@ -371,6 +391,7 @@ export default class Home extends Component {
                 <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                 <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                 <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+                <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
                 <button id="6" value="Message" className="button is-info fa fa-comment"></button>
                 </div>
             )
@@ -383,6 +404,7 @@ export default class Home extends Component {
             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
             <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
             <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+            <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
             </div>
         )
     }

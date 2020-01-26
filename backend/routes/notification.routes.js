@@ -34,12 +34,12 @@ router.post('/getNotifications', verifyToken, (req, res) => {
       if (err) {
           return res.status(403).send("Invalid token")
       }
-      UserModels.find({ "email": req.body.email}).exec().then(docs => { 
-          const user = docs[0]
+      UserModels.find({ "email": req.body.email}, "likes liked notify").exec().then(docs => { 
+          const user = docs[0];
           if (!user) { 
-              res.status(404).send("User not found") 
+              res.status(404).send("User not found")
           }
-          return res.send(user.notifications)
+          return res.send(user);
       }).catch(err => {res.json(err)})
   })
 })
