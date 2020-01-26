@@ -220,6 +220,7 @@ export default class Home extends Component {
         console.log(res);
         if (res){
             var carousel_data = {
+                "distance":res.location[0],
                 "carousel_name":res.name,
                 "carousel_last":res.last,
                 "carousel_bio":res.bio,
@@ -336,7 +337,7 @@ export default class Home extends Component {
             <div className="media-content">
                 <div className="content">
                     <p>
-                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                        <strong>{data.distance + "km"}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
                         <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>

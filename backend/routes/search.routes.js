@@ -23,9 +23,12 @@ router.route('/engine').post( (req, res) => {
         console.log(req.body.token);
         if (auth[0].token === req.body.token || req.body.token === "admin")
             UserModels.find({}, "email name last gender age sexual_pref tag fame likes img location").exec().then(docs => {
-                res.json(searchHandler(docs,auth[0],req.body.search_req));
-                console.log(req.body);
-                console.log('done');
+                var request = searchHandler(docs,auth[0],req.body.search_req);
+                if (request === 'no result'){
+                    res.json('no_res')
+                } else {
+                    res.json(request);
+                }
             }).catch(err => {res.status(500).send(err)})
     }).catch(err => {res.status(400).send('forbidden')})
 })
@@ -45,8 +48,10 @@ function searchHandler(docs,user,search_req){
             res.push(docs[i]);
         }
     }
-    if (res.length > 0)
-        return (res);
+    if (res.length > 0){
+        var sorted = res.sort(function (a,b){ return a.location[0] - b.location[0]})
+        return (sorted);
+    }
     return ('no result');
 }
 
