@@ -5,6 +5,7 @@ import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import ReactDOM from 'react-dom'
+import Axios from 'axios';
 
 var nll = require("../images/chibi.jpg");
 
@@ -60,7 +61,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -210,6 +211,7 @@ export default class User extends Component {
             return <div/>;
     }
 //                      <<<< Switch tab function >>>
+
     openTab = (tabName) => (e) => {
       let tab, tabcontent, link, tablinks
 
@@ -292,7 +294,7 @@ export default class User extends Component {
 
               <div className="tabcontent" id="Viewed by">
                 <div className="column is-half bg_white_3">
-                      Viewed by
+                  {this.state.user.viewed[0]}
                 </div>
               </div>
 

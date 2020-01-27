@@ -108,7 +108,7 @@ router.route('/viewed').post( (req, res) => {
                 array.push(docs[0]._id);
                 data.viewed = array;
                 data.save().then(() => {res.json("viewed")})
-            }    
+            }
         })
     }).catch(err => {res.json(err)});
 })
