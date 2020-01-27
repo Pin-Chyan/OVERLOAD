@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import ReactDOM from 'react-dom'
+import ReactDOM, { createPortal } from 'react-dom'
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -26,6 +26,8 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
+        this.req = {};
+        this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
         this.state = {};
         console.log(this.ip);
         async function server_get(ip,jwt){
@@ -64,10 +66,11 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
+        console.log('hi');
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect')})
+        }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount() {
         console.log('render');
@@ -75,7 +78,7 @@ export default class User extends Component {
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
         if (this.props.location.search_in && this.props.location.search_in !== 'null'){
-            this.setState({"search":this.props.location.data});
+            this.req.in = this.props.location.search_in;
             this.searcher();
         } else
             this.page_handler('init',{});
@@ -123,7 +126,7 @@ page_handler(mode, data){
         });
     }
     else if (mode == 'init'){
-        console.log(mode);
+        console.log("roscoe");
         ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
@@ -175,6 +178,7 @@ page_handler(mode, data){
             this.page_handler('init',{});
         })
     }
+    this.busy = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,9 +188,11 @@ page_handler(mode, data){
 
     listener = e => {
         console.log("fuck");
-    }
-    butt_listener = e => {
-        console.log("fuck");
+        console.log(e.target.id);
+        this.props.history.push({
+            pathname:"/profiles/"+e.target.id,
+            user: this.state.user
+        });
     }
 
     //      <<<< Page routers
@@ -203,7 +209,7 @@ page_handler(mode, data){
 
     //      <<<< search functions
     searchHandle = (e) => {
-        this.setState({search:e.target.value});
+        this.req.in = e.target.value;
     }
     keyHandle = e => {
         if (e.key === 'Enter'){
@@ -211,13 +217,24 @@ page_handler(mode, data){
         }
     }
     searcher(){
+        async function search(email,jwt,ip,search_req){
+            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_req":search_req})
+            if (promise.status === 200){
+                return (promise);
+            }
+        }
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
-            this.sleep(1000).then(() => {
-                this.page_handler('init',{});
+            search(this.state.user.email,this.jwt,this.ip,this.req).then(res => {
+                console.log(res);
+                if (res.data === 'no_res')
+                    this.page_handler('no_res',{});
+                else
+                    this.page_handler('loaded',res.data);
             })
         }
+        console.log('done');
     }
     //      end >>>>
 
@@ -354,15 +371,15 @@ page_handler(mode, data){
         var name_tag = '<h1 class="center_b">' + name + '</h1>';
         var img_tag = '<figure class="image is-3by4"><img class="overflow" src=' + image + ' alt="Asuna_img" /></figure>';
         if (button === 1){
-            var res = article[0] + name_tag + img_tag + this.button_constructor() + article[1];
+            var res = article[0] + name_tag + img_tag + this.button_constructor(id) + article[1];
         }
         else
             var res = article[0] + name_tag + img_tag + article[1];
         return(res);
     }
-    button_constructor(){
+    button_constructor(id){
         var className = '"button is-warning is-rounded"';
-        return ('<button class=' + className + '>like</button><button class=' + className + '>dislike</button><button class=' + className + '>report</button>');
+        return ('<button id=' + id +' class=' + className + '>view </button>');
     }
     row_constructor(rows, columns, data, button){
         var i = 0;
@@ -380,7 +397,7 @@ page_handler(mode, data){
                     image = nll;
                 else
                     image = data[data_pos].img.img1;
-                temp = this.column_constructor(data[data_pos].name , image, button);
+                temp = this.column_constructor(data[data_pos].name , image, button, data[data_pos]._id);
                 res += divs.concat(temp);
                 i++;
                 data_pos++;

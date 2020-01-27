@@ -1,70 +1,52 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { getJwt } from "./auth/jwt-helper.js";
 const ip = require("../server.json").ip;
 
-const Notification = (props) => {
-  return(
-    <tr>
-      <td>{props.message}</td>
-    </tr>
-  )
-}
-
 export default class Inbox extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      message: '',
-      sender: '',
-      reveiver: '',
-      notifications: []
-    }
-  }
-
   componentDidMount () {
-    // Get token
     const jwt = localStorage.token
     if (!jwt) {
       this.props.history.push('/login')
     }
-
     async function getEmail () {
       const promise = await axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
       return promise
     }
-    // First time call
-
     getEmail().then( res => {
-      axios.post(ip + '/inbox/getNotifications', { email: res.data.email }, { headers: { authorization: `bearer ${jwt}` } })
-        .then( res => {
-          this.setState({ notifications: res.data })
-        })
-  
-      // Replace default with logged in user
-      setInterval(() => {
-        axios.post(ip + '/inbox/getNotifications', { email: res.data.email }, { headers: { authorization: `bearer ${jwt}` } })
-          .then( res => {
-            this.setState({ notifications: res.data })
-            console.log('retrieving...')
-          })
-      }, 4000)
-    }
-    )
+      console.log(res);
+      this.ping(res.data.email,jwt,ip);
+    })
 
   }
-
-  renderInbox () {
-    return this.state.notifications.map(item => {
-      return <Notification message={item.message} />
+  ping = (email,jwt,ip) => {
+    async function update(email,jwt,ip){
+        let promise = await axios.post(ip + '/inbox/getNotifications', { "email": email }, { headers: { authorization: `bearer ${jwt}` } });
+        if (promise.status === 200)
+            return (promise.data);
+    }
+    update(email,jwt,ip).then(res => {
+        localStorage.setItem('liked', res.liked.toString());
+        localStorage.setItem('likes', res.likes.toString());
+        localStorage.setItem('notify', res.notify.toString());
+        this.sleep(100).then(() => {
+          this.ping(email,jwt,ip);
+        })
     })
   }
-
-  render () {
-    return (
-      <div className="App">
-        {this.renderInbox()}
-      </div>
-    )
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
+  render () {return (<div className="App"></div>)}
+  // renderInbox () {
+  //   return this.state.notifications.map(item => {
+  //     return <Notification message={item.message} />
+  //   })
+  // }
+  // const Notification = (props) => {
+  //   return(
+  //     <tr>
+  //       <td>{props.message}</td>
+  //     </tr>
+  //   )
+  // }
 }

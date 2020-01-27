@@ -27,6 +27,7 @@ export default class Home extends Component {
         this.ip = require('../server.json').ip;
         this.nll = require("../images/chibi.jpg");
         this.pos = 0;
+        this.init = 0;
         this.state = {};
         console.log(this.ip);
         async function server_get(ip,jwt){
@@ -64,26 +65,30 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
-        async function get_matches(email,jwt,ip){
-            let promise = await axios.post(ip +'/search/test_search', {"email":email, "token":jwt, "search_conditions":[-1,-1,-1,-2,-1,-1,-1],"search_input":"null"})
+        async function get_matches(email,jwt,ip,search_req){
+            let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_req":search_req})
             if (promise.status === 200){
                 return (promise);
             }
         }
-        get_matches(this.state.user.email,this.jwt,this.ip).then(res => {
+        var req = {};
+        req.targ = [[0,100],[0,100],-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
+        req.in = '';
+        get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res !== 'no result'){
                 console.log('results loaded...');
                 this.setState({"results":res.data});
                 console.log(res.data);
-                this.Carousel_handle(this.state.results[0]);
+                // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
+                this.ping(-1);
             }
         }).catch(err => {console.log('eve redirect' + err)})
     }
@@ -103,6 +108,11 @@ export default class Home extends Component {
         console.log('render');
         this.userData_getter(1);
     }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< Notification Updater >>>>
+//
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -142,16 +152,6 @@ export default class Home extends Component {
         this.setState({checked})
     }
 
-    is_liked(){
-        var liked_array = this.state.user.liked;
-        var likes_array = this.state.user.likes;
-        var pos = this.state.results[this.pos]._id;
-        if (liked_array.includes(pos) && likes_array.includes(pos))
-            return (1);
-        else
-            return (0);
-    }
-
     globalbtn_handler(e){
         var buttonval = e.target.value;
         async function async_hell(ip,user,target,jwt) {
@@ -187,6 +187,9 @@ export default class Home extends Component {
             else if (buttonval === "Message"){
                 return ('redirect');
             }
+            else if (buttonval === "view"){
+                return ("view");
+            }
             else
                 console.log("you missed the button!");
         }
@@ -210,6 +213,12 @@ export default class Home extends Component {
                     data: this.state.results[this.pos].email
                 })
             }
+            if (res === 'view'){
+                this.props.history.push({
+                    pathname: "profiles/" + this.state.results[this.pos]._id,
+                    user: this.state.user
+                })
+            }
         });
     }
 
@@ -217,6 +226,7 @@ export default class Home extends Component {
         console.log(res);
         if (res){
             var carousel_data = {
+                "distance":res.location[0],
                 "carousel_name":res.name,
                 "carousel_last":res.last,
                 "carousel_bio":res.bio,
@@ -229,13 +239,27 @@ export default class Home extends Component {
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            var like = this.is_liked();
-            console.log(like);
-            if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+            this.button_refresh();
         }
     }
-    
+    button_refresh(){
+        var like = this.is_liked();
+        if (document.getElementById('button'+ this.div_key)){
+            ReactDOM.render(this.button_constructor(like), document.getElementById('button' + this.div_key));
+            this.sleep(100).then(() => {
+                this.button_refresh();
+            })
+        }
+    }
+    is_liked(){
+        var liked_array = localStorage.liked;
+        var likes_array = localStorage.likes;
+        var pos = this.state.results[this.pos]._id;
+        if (liked_array.includes(pos) && likes_array.includes(pos))
+            return (1);
+        else
+            return (0);
+    }
     render () {
         return (
             <section className="section hero">
@@ -333,7 +357,7 @@ export default class Home extends Component {
             <div className="media-content">
                 <div className="content">
                     <p>
-                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                        <strong>{data.distance + "km"}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
                         <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>
@@ -358,7 +382,7 @@ export default class Home extends Component {
         </div>
         )
     }
-    button_constructor(boolean){
+    button_constructor(boolean,id){
         if (boolean === 1){
             return (
                 <div>
@@ -367,6 +391,7 @@ export default class Home extends Component {
                 <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                 <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                 <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+                <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
                 <button id="6" value="Message" className="button is-info fa fa-comment"></button>
                 </div>
             )
@@ -379,6 +404,7 @@ export default class Home extends Component {
             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
             <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
             <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+            <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
             </div>
         )
     }
