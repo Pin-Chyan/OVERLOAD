@@ -17,9 +17,9 @@ var load2 = require("../images/load2.gif");
 var nll = require("../images/chibi.jpg");
 var ip = require("../server.json").ip;
 
-// TODO:  Add ablitity to change sexual pref and gender,
-//        (optional) show fame rating
-//        show people liked you and people how viewed your profile   
+// const Tag = props => {
+//   return <div className='button is-warning is-rounded is-small'><a className='delete is-small' onClick={props.onClick}></a> test tag</div>
+// }
 
 export default class Edit extends Component {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -642,6 +642,10 @@ export default class Edit extends Component {
       return false
     }
 
+    tag (tags) {
+      console.log(tags)
+    }
+
     text_edit_constructor(){
         return (
             <div>
@@ -714,7 +718,8 @@ export default class Edit extends Component {
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">Current Tags: {this.state.user.tag}</label>
+                    <label className="label">Current Tags: {this.state.tag}/></label>
+                    
                     <div className="control">
                         <div className="field">
                             <label className="label">Tag Name</label>
