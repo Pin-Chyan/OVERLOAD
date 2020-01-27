@@ -93,6 +93,75 @@ router.route('/email').post( (req, res) => {
 //                      <<<< Verification Routes >>>>
 //
 
+<<<<<<< HEAD
+=======
+router.route('/viewed').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target)
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
+            if (data.viewed.includes(docs[0]._id))
+                res.json("already viewed!");
+            else {
+                sender = data.name+data.last;
+                notification_handle(req, "viewed", sender)
+                var array = data.viewed;
+                array.push(docs[0]._id);
+                data.viewed = array;
+                data.save().then(() => {res.json("viewed")})
+            }    
+        })
+    }).catch(err => {res.json(err)});
+})
+
+router.route('/add').post( (req, res) => {
+    const name = req.body.name;
+    const last = req.body.last;
+    const password = req.body.password;
+    const gender = req.body.gender;
+    const age = req.body.age;
+    const email = req.body.email;
+    const sexual_pref = req.body.sexual_pref;
+    const vKey = md5(email+Date.now());
+    const verified = false;
+    const location = req.body.location
+
+    const newUser = new UserModels({
+        name,
+        last,
+        password,
+        gender,
+        age,
+        email,
+        verified,
+        sexual_pref,
+        vKey,
+        location
+    });
+
+    let mailOptions = {
+        from: mailData.email,
+        to: newUser.email,
+        subject: 'Account Verification',
+        html: `<h2>Please click <a href="http://localhost:3000/verify/${vKey}"> here </a> to verify your account</h2><p>`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            res.status(400).send(error);
+        }
+    });
+
+    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if(err) throw err;
+        newUser.password = hash;
+        newPing.save();
+        newUser.save().then( () => res.json('User added') )
+        .catch( err => res.status(400).json('Error: ' + err));
+    }));
+});
+
+>>>>>>> d0e522508a3ab66c5d45937edf6d3268087b6136
 router.route('/verifyKey/:vkey').get((req, res) => {
     const { vkey } = req.params;
 

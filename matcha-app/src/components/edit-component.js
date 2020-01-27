@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import decode from 'jwt-decode';
-import ReactDOM from 'react-dom'
+import ReactDOM, { render } from 'react-dom'
 // import "../styles/debug.css";
 import axios from 'axios';
 
@@ -100,6 +101,16 @@ export default class Edit extends Component {
             ReactDOM.render(mid_img, document.getElementById('mid_img'+this.div_key));
         if (document.getElementById('mid_text'+this.div_key))
             ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+        if (document.getElementById('img1'+this.div_key))
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img1 === 'null' ? nll : this.state.user.img.img1)),document.getElementById('img1'+this.div_key));
+        if (document.getElementById('img2'+this.div_key))
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img2 === 'null' ? nll : this.state.user.img.img2)),document.getElementById('img2'+this.div_key));
+        if (document.getElementById('img3'+this.div_key))
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img3 === 'null' ? nll : this.state.user.img.img3)),document.getElementById('img3'+this.div_key));
+        if (document.getElementById('img4'+this.div_key))
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img4 === 'null' ? nll : this.state.user.img.img4)),document.getElementById('img4'+this.div_key));
+        if (document.getElementById('img5'+this.div_key))
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img5 === 'null' ? nll : this.state.user.img.img5)),document.getElementById('img5'+this.div_key));
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,14 +243,23 @@ export default class Edit extends Component {
             var data = {};
             data.img = {};
             data.img[img] = 'null';
-            data.email = sesh;
-            data.token = token
-            console.log("start upload");
-            let req = await axios.post(ip+"/users/edit_spec", data);
-            if (req.status === 200)
-                return (1);
+            data.email = this.user.email;
+            data.token = this.jwt;
+            console.log("start erase");
+            // let req = await axios.post(ip+"/users/edit_spec", data);
+            // if (req.status === 200)
+            //     return (1);
         }
         async_edit().then( res => {
+            console.log('found div ' + img + this.div_key);
+            if (document.getElementById(img + this.div_key)){
+                var imgs = this.state.user.img;
+                imgs[img] = 'null';
+                this.setState({"user":{"img":imgs}});
+                console.log(this.state.user.img.img1);
+                console.log(this.state.user.img.img2);
+                ReactDOM.render(ReactHtmlParser(this.image_constructor(nll)), document.getElementById(img+this.div_key));
+            }
             img_data[img] = nll;
             this.setState(img_data);
         });
@@ -248,7 +268,6 @@ export default class Edit extends Component {
         var file = "selectedFile" + img.target.id;
         var img_num = "img" + img.target.id;
         console.log(sesh);
-        // console.log(img_num);
         if (this.state[file] && img.target.value === "upload"){
             console.log("file read start");
             var reader = new FileReader();
@@ -258,26 +277,33 @@ export default class Edit extends Component {
                 data.img = {};
                 data.img[img_num] = reader.result;
                 console.log("start upload");
-                data.email = sesh;
-                data.token = token;
-                var img_data = {};
-                img_data[img_num] = load;
-                this.setState(img_data);
-                let req = await axios.post(ip+"/users/edit_spec", data);
+                data.email = this.state.user.email;
+                data.token = this.jwt;
+                this.render_img(img_num,load);
+                let req = await axios.post(this.ip+"/users/edit_spec", data);
                 if (req.status === 200){
-                    var res = {};
-                    res[img_num] = data.img[img_num];
-                    this.setState(res);
+                    var res = this.state.user;
+                    res.img[img_num] = data.img[img_num];
+                    this.setState({
+                        "user":res
+                    });
+                    this.render_img(img_num,data.img[img_num]);
+                    data.img[img_num] = '';
                 }
                 var reset = {};
-                reset[file] = ""; 
+                reset[file] = "";
                 this.setState(reset);
             }.bind(this);
         }
         else if (img.target.value === "delete")
             this.globalrm(img_num);
     }
-
+    render_img(img_num,img){
+        if (document.getElementById(img_num + this.div_key)){
+            ReactDOM.render(ReactHtmlParser(this.image_constructor(img)), document.getElementById(img_num+this.div_key));
+        } else 
+            console.log('cannot find div');
+    }
     onChangeSexual_pref(e) {
       
         this.setState({
@@ -455,9 +481,10 @@ export default class Edit extends Component {
         )
     }
 
-    image_constructor(id,new_img){
+    image_constructor(new_img){
         var front = '<img alt="Asuna" className="m_image" src=';
         var back  = ' />';
+        return(front + new_img + back);
     }
     image_edit_constructor(){
         return (
