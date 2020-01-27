@@ -1,253 +1,327 @@
-import React, { Component } from 'react';
-import "../styles/overload.css";
-import "../styles/helpers.css";
-import "../styles/index.css";
-import axios from 'axios'; 
-import '../../node_modules/font-awesome/css/font-awesome.min.css';
+
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import '../styles/overload.css'
+import '../styles/helpers.css'
+import '../styles/index.css'
+import '../../node_modules/font-awesome/css/font-awesome.min.css'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Fade } from 'react-slideshow-image'
+import Axios from 'axios'
 
-var nll = require("../images/chibi.jpg");
+// Create button constructor
+// Link buttons to their actions
 
-export default class Profile extends Component {
+const fadeProperties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  onChange: (oldIndex, newIndex) => {
+    console.log(`fade transition from ${oldIndex} to ${newIndex}`)
+  }
+}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< eve protocol >>>>
-//
+export default class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.div_key = Date.now()
+    this.jwt = localStorage.token
+    this.ip = require('../server.json').ip
+    this.nll = require('../images/chibi.jpg')
+    this.id = this.props.match.params.id
+    this.handleRedirect = this.handleRedirect.bind(this)
+    this.pageHandler = this.pageHandler.bind(this)
+    this.globalBtnHandler = this.globalBtnHandler.bind(this)
+    this.isUserLiked = this.isUserLiked.bind(this)
+    this.state = {
+      viewedUser: undefined,
+      loggedInUser: undefined
+    }
 
-    constructor(props){
-        super(props);
-        this.div_key = Date.now();
-        this.jwt = localStorage.token;
-        this.ip = require('../server.json').ip;
-        this.state = {};
-        console.log(this.ip);
-        async function server_get(ip,jwt){
-            let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
-            if (promise.status === 200)
-                return promise.data;
+    async function getLoggedInUserEmail (ip, jwt) {
+      const promise = await Axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    async function getViewedUser (ip, id, jwt, target) {
+      const promise = await Axios.post(ip + '/users/get_soft_by_id', { id, target }, { headers: { authorization: `bearer ${jwt}` } })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    async function getLoggendInUserData (ip, email, target, jwt) {
+      const promise = await Axios.post(ip + '/users/get_spec', { email, target, token: jwt })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    getLoggedInUserEmail(this.ip, this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', 'admin').then(res => {
+        this.setState({ loggedInUser: res[0] })
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
+      getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+        this.setState({ viewedUser: res })
+        console.log(res)
+        this.pageHandler()
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
+    }).catch(err => {
+      console.log('fake eve redirect' + err)
+    })
+  }
+
+  componentDidMount () {
+    // Set user to viewed
+  }
+
+  // ///////////////////////////////////////////////
+  //                                             //
+  //       Page Handlers                        //
+  //                                           //
+  // ///////////////////////////////////////////
+
+  navHandler () {
+    const navbar = this.navConstructor()
+    if (document.getElementById('navMenu' + this.div_key)) {
+      ReactDOM.render(navbar, document.getElementById('navMenu' + this.div_key))
+    }
+  }
+
+  carouselHandler (user) {
+    const carouselData = {
+      carousel_name: user.name,
+      carousel_last: user.last,
+      carousel_bio: user.bio,
+      carousel_tag: user.tag,
+      carousel_img1: user.img.img1 === 'null' ? this.nll : user.img.img1,
+      carousel_img2: user.img.img2 === 'null' ? this.nll : user.img.img2,
+      carousel_img3: user.img.img3 === 'null' ? this.nll : user.img.img3,
+      carousel_img4: user.img.img4 === 'null' ? this.nll : user.img.img4,
+      carousel_img5: user.img.img5 === 'null' ? this.nll : user.img.img5
+    }
+    if (document.getElementById('cont' + this.div_key)) {
+      ReactDOM.render(this.bodyConstructor(carouselData), document.getElementById('cont' + this.div_key))
+    }
+    const liked = this.isUserLiked()
+    if (document.getElementById('button' + this.div_key)) {
+      ReactDOM.render(this.buttonConstructor(liked), document.getElementById('button' + this.div_key))
+    }
+  }
+
+  pageHandler () {
+    this.navHandler()
+    console.log(this.state.viewedUser)
+    this.carouselHandler(this.state.viewedUser)
+  }
+
+  handleRedirect (e) {
+    this.props.history.push({
+      pathname: e.target.id
+    })
+  }
+
+  isUserLiked () {
+    const likedArray = this.state.loggedInUser.liked
+    const likesArray = this.state.loggedInUser.likes
+    if (likedArray.includes(this.id) && likesArray.includes(this.id)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  globalBtnHandler (e) {
+    const buttonval = e.target.value
+
+    async function asyncHell (ip, user, target, jwt) {
+      console.log(ip + ',' + user + ',' + target)
+      let data = {}
+      data.img = {}
+      data.email = user
+      data.token = jwt
+      data.target = target
+      if (buttonval === 'Like') {
+        const req = await Axios.post(ip + '/users/like', data)
+        if (req.status === 200) {
+          if (req.data === 'Already Liked!') {
+            console.log('Already Liked!')
+          } else {
+            console.log('liked!')
+          }
         }
-        server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
-            ///      <<<< begin binding after database online >>>>
-            this.eve_mount = this.eve_mount.bind(this);
-            this.userData_getter = this.userData_getter.bind(this);
-            this.page_handler = this.page_handler.bind(this);
-            this.searchHandle = this.searchHandle.bind(this);
-            this.busy = 0;
-            this.curr_page = [0,0,0];
-            this.other_page = [0,0,0];
-            this.state = {
-                "res" : '',
-                "html" : '',
-                "user" : res
-            };
-            if (this.props.location.user){
-                this.setState({"user":this.props.location.user});
-                this.eve_mount();
-            }
-            else
-                this.userData_getter();
-        }).catch(err => {console.log('eve redirect' + err)});
-    }
-    userData_getter(){
-        console.log('getting data......');
-        //console.log(this.props.match.params)
-        async function get_data(email,jwt,ip,target){
-            console.log(email);
-            let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
-            if (promise.status === 200)
-                return promise.data;
+      } else if (buttonval === 'Unlike') {
+        const req = await Axios.post(ip + '/users/Del_like', data)
+        if (req.status === 200) {
+          if (req.data === 'Not Liked') {
+            console.log('Not Liked')
+          } else {
+            console.log('Unliked')
+          }
         }
-        ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img").then(userGet_res => {
-                this.setState({"user":userGet_res[0]});
-                this.eve_mount();
-        }).catch(err => {console.log('eve redirect' + err)})
-    }
-    eve_mount(){
-        this.page_handler();
-    }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Page states >>>>
-//
-
-    page_handler(){
-        console.log('render');
-        var nav = this.nav_constructor(1);
-        var mid = this.mid_constructor(0);
-        if (document.getElementById('navMenu'+this.div_key))
-            ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
-        if (document.getElementById('cont'+this.div_key))
-            ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
-        this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
+      } else if (buttonval === 'Report') {
+        console.log('reported!')
+      } else if (buttonval === 'Message') {
+        return ('redirect')
+      } else {
+        console.log('you missed the button!')
+      }
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Page logic >>>>
-//
-
-    redirecthandler = e => {
+    asyncHell(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
+      if (res === 'redirect') {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
-        });
-    }
+          pathname: '/chat/new',
+          user: this.state.loggedInUser.email,
+          data: this.state.viewedUser.email
+        })
+      }
+    })
+  }
 
-    searchHandle = e => {
-        this.setState({search:e.target.value});
-    }
-    keyHandle = e => {
-        if (e.key == 'Enter'){
-            var search_input = 'null';
-            if (this.state.search){
-                if (this.state.search.trim() != '')
-                    search_input = this.state.search;
-            }
-            this.props.history.push({
-                pathname: '/search',
-                user: this.state.user,
-                search_in: search_input 
-            });
-        }
-    }
+  // ///////////////////////////////////////////////
+  //                                             //
+  //       Page constructors                    //
+  //                                           //
+  // ///////////////////////////////////////////
 
-    rgb_phaser = (altitude,target,state_target) => {
-        if (   this[target][0] != altitude[0] 
-            || this[target][1] != altitude[1]
-            || this[target][2] != altitude[2] ){
-            if (this[target][0] != altitude[0]){
-                if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
-                    this[target][0] = altitude[0];
-                else
-                    this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][1] != altitude[1]){
-                if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
-                    this[target][1] = altitude[1];
-                else
-                    this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][2] != altitude[2]){
-                if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
-                    this[target][2] = altitude[2];
-                else
-                    this[target][2] += this[target][2] > altitude[2] ? -1 * altitude[3] : 1* altitude[3];
-            }
-            altitude[3] += altitude[4];
-            this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
-            this.sleep(20).then(() => {
-                this.rgb_phaser(altitude,target,state_target);
-            });
-        } else
-            console.log("set " + target + " result posted to this.state." + state_target);
-    }
-    toPos(num){
-        if (num < 0)
-            return (num * -1);
-        else
-            return (num);
-    }
-    sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
+  navConstructor () {
+    return (
+      <div className='navbar-end'>
+        <div className='control is-small has-icons-right search-margin'>
+          <input className='input is-hovered is-small is-rounded' type='text' placeholder='Search' onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+          <span className='icon is-small is-right'>
+            <i className='fa fa-search'></i>
+          </span>
+        </div>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}' ><i className='fa fa-inbox'></i></a>
+        <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>
+      </div>
+    )
+  }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Render Return >>>>
-//
-
-    render () {
-        return (
-        <section className="section hero">
-        <nav className="navbar hero-head">
-            <div className="container">
-                <div className="navbar-brand">
-                    <figure className="navbar-item image">
-                        <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
-                    </figure>
-                    <span className="navbar-burger burger" data-target="navMenu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
+  bodyConstructor (data) {
+    return (
+      <div className='column is-centered shadow'>
+        <div className='column is-half bg_white_1'>
+          <figure className='image'>
+            <div className='slide-container'>
+              <Fade {...fadeProperties}>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img1} />
+                  </div>
                 </div>
-                <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img2} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img3} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img4} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img5} />
+                  </div>
+                </div>
+              </Fade>
             </div>
+          </figure>
+          <div id={'button' + this.div_key} className='column center_b' onClick={e => this.globalBtnHandler(e)}>
+          </div>
+
+          <div className='column center'>
+            <div className='column center'>
+              <article className='media center'>
+                <figure className='media-left'>
+                  <figure className='image is-64x64'>
+                    <img alt='Asuna' src={data.carousel_img1} />
+                  </figure>
+                </figure>
+                <div className='media-content'>
+                  <div className='content'>
+                    <p>
+                      <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                      <span className='has-text-grey'>{data.carousel_tag}<br />
+                        <time datetime='2018-04-20'>Apr 20</time> · 20 min read</span>
+                    </p>
+                  </div>
+                </div>
+              </article>
+              <br />
+              <hr />
+              <p>
+                {data.bio}
+              </p>
+              <div>
+                {/* <Inbox /> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  buttonConstructor (isLiked) {
+    if (isLiked) {
+      return (
+        <div>
+          <button id='3' value='Like' className='button is-success fa fa-heart'></button>
+          <button id='4' value='Unlike' className='button is-danger fa fa-heart-o'></button>
+          <button id='5' value='Report' className='button is-hovered fa fa-exclamation'></button>
+          <button id='6' value='Message' className='button is-info fa fa-comment'></button>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <button id='3' value='Like' className='button is-success fa fa-heart'></button>
+          <button id='4' value='Unlike' className='button is-danger fa fa-heart-o'></button>
+          <button id='5' value='Report' className='button is-hovered fa fa-exclamation'></button>
+        </div>
+      )
+    }
+  }
+
+  render () {
+    return (
+      <section className='section hero'>
+        <nav className='navbar hero-head'>
+          <div className='container'>
+            <div className='navbar-brand'>
+              <figure className='navbar-item image'>
+                <img src={require('../images/logo.png')} className='logo_use' alt='Why is this logo broken' />
+              </figure>
+              <span className='navbar-burger burger' data-target='navMenu'>
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div id={'navMenu'+this.div_key} className='navbar-menu'></div>
+          </div>
         </nav>
-            <div id={"cont"+this.div_key} className="container"></div>
-        </section>
-
-        )
-    }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Contructor Functions >>>>
-//
-
-    nav_constructor(render){
-        var element1 = (
-            <div  className="navbar-end">
-                <div className="control is-small has-icons-right search-margin" >
-                    <input id="in" className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
-                        <span id="span" className="icon is-small is-right" >
-                            <i id="image" className="fa fa-search"></i>
-                        </span>
-                </div>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
-            </div>
-        )
-        if (render)
-            return element1;
-        else
-            return <div/>;
-    }
-
-    mid_constructor(){
-        var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
-        var element1 = (
-                <div className="columns is-centered shadow">
-                    <div className="column is-half bg_white_1">
-                         <figure className="image is-3by4"> 
-                            <img className="overflow" src={display1} alt="Asuna_img" />
-                        </figure>
-    
-                        <div className="column center">
-                        <div className="column center">
-                <article className="media center">
-                    <figure className="media-left">
-                        <figure className="image is-64x64">
-                            <img alt="Asuna" src={display1} />
-                        </figure>
-                    </figure>
-                    <div className="media-content">
-                        <div className="content">
-                            <p>
-                                <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
-                                <span className="has-text-grey">{this.state.user.tag}<br />
-                                <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                            </p>
-                        </div>
-                    </div>
-                </article>
-                <br />
-                <hr />
-                <p>
-                    {this.state.user.bio}
-                </p>
-            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-        )
-        return (element1);
-    }
+        <div id={'cont'+this.div_key} className='container'></div>
+      </section>
+    )
+  }
 }

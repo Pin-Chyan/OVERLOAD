@@ -76,6 +76,32 @@
   /* flex: auto !important; */
 }
 
+.bg_white_5 {
+    margin-top: 35px;
+    background-color: red !important;
+    border-radius: 2% 2% 0 0;
+    height: 50px;
+    width: 600px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    flex-grow: unset;
+    /* min-width: 800px !important; */
+    /* flex: auto !important; */
+}
+
+.bg_white_6 {
+    /* margin-top: 35px; */
+    background-color: blue !important;
+    border-radius: 0 0 2% 2%;
+    height: 200px;
+    width: 600px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    flex-grow: unset;
+    /* min-width: 800px !important; */
+    /* flex: auto !important; */
+}
+
 .bg_white_4::-webkit-scrollbar {
     display: none;
 }
@@ -214,6 +240,14 @@ h3 {
   align-items: center;
   margin: 0;
   background: #adceed;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
 }
 
 /*  */

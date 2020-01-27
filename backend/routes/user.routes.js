@@ -257,6 +257,25 @@ router.post('/get_soft', (req, res) => {
     }
 })
 
+router.post('/get_soft_by_id', verifyToken, (req, res) => {
+  if (!req.token || !req.body.id || !req.body.target) {
+    return res.status(400).send('Missing Fields')
+  }
+  if (req.body.target.includes('password')) {
+    return res.sendStatus(403)
+  }
+  if (req.token !== 'admin') {
+    jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        return res.sendStatus(403)
+      }
+    })
+  }
+  UserModels.findById(req.body.id, req.body.target).exec().then(userData => {
+    console.log(userData)
+    return res.json(userData)
+  }).catch(err => { res.status(500).send(err) })
+})
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
@@ -345,7 +364,10 @@ router.route('/load_data').post( (req, res) => {
     console.log(dlen);
     var i = 0;
     for (i  = 0; i < dlen; i++){
-        let user = new UserModels(test_data[i]);
+        var new_user = test_data[i];
+        if (new_user.age < 18)
+            new_user.age = 18;
+        let user = new UserModels(new_user);
         console.log(test_data[i].name)
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;

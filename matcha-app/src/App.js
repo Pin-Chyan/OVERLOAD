@@ -38,11 +38,11 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-        <Route path="/profiles/:id" component={Profiles}/>
         {/* <Route path="/search/:input" exact component={Search}/> */}
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
+          <Route path="/profiles/:id" component={Profiles}/>
           <Route path="/chat/:target" exact component={chat} />
           <Route path="/user" exact component={User} />
           <Route path="/logout" exact component={logout} />
@@ -55,7 +55,7 @@ function App() {
         {/* <Route path="/tags" exact component={tags} /> */}        
       </Switch>
     </Router>
-  );
+  )
 }
 
 export default App;
