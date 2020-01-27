@@ -88,11 +88,32 @@ router.route('/email').post( (req, res) => {
     }).catch(err => {res.status(500).send(err)});
 })
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//                      <<<< User Routes >>>>
+//                      <<<< Verification Routes >>>>
 //
+
+<<<<<<< HEAD
+=======
+router.route('/viewed').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target)
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
+            if (data.viewed.includes(docs[0]._id))
+                res.json("already viewed!");
+            else {
+                sender = data.name+data.last;
+                notification_handle(req, "viewed", sender)
+                var array = data.viewed;
+                array.push(docs[0]._id);
+                data.viewed = array;
+                data.save().then(() => {res.json("viewed")})
+            }    
+        })
+    }).catch(err => {res.json(err)});
+})
+
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
@@ -134,11 +155,13 @@ router.route('/add').post( (req, res) => {
     bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
         if(err) throw err;
         newUser.password = hash;
+        newPing.save();
         newUser.save().then( () => res.json('User added') )
         .catch( err => res.status(400).json('Error: ' + err));
     }));
 });
 
+>>>>>>> d0e522508a3ab66c5d45937edf6d3268087b6136
 router.route('/verifyKey/:vkey').get((req, res) => {
     const { vkey } = req.params;
 
@@ -187,39 +210,10 @@ router.route('/emailVerify/:vkey').post((req, res) => {
     })
 });
 
-// router.route('/like').post( (req, res) => {
-//     if (!req.body.token && !req.body.email && !req.body.target)
-//         req.json("error");
-//     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
-//             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
-//                 if (!docs2.likes.includes(docs._id)){
-//                     var like = docs2.likes;
-//                     like.push(docs._id);
-//                     docs2.likes = like;
-//                     console.log('like added');
-//                     docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
-//                 }
-//                 else
-//                     res.json("Already Liked!");
-//             })
-//     }).catch(err => {res.json(err)})
-// })
-
-// router.route('/Del_like').post( (req, res) => {
-//     if (!req.body.token || !req.body.target || !req.body.email)
-//         req.json("error");
-//     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
-//             UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
-//                 if (docs2.likes.includes(docs._id)){
-//                     var index = docs2.likes.findIndex(function (ret){return ret === docs._id});
-//                     docs2.likes.splice(index,1);
-//                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
-//                 }
-//                 else
-//                 res.json("Not Liked");
-//             })
-//     }).catch(err => {res.json(err)})
-// })
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< GET routes >>>>
+//
 
 router.post('/get_spec', (req, res) => {
     if (!req.body.token || !req.body.target || !req.body.email)    
@@ -273,6 +267,123 @@ router.post('/get_soft_by_id', verifyToken, (req, res) => {
     return res.json(userData)
   }).catch(err => { res.status(500).send(err) })
 })
+
+router.route('/get_next').post( (req, res) => {
+    if (req.body.token)
+            UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
+                if ((req.body.token == docs[0].token) || (req.body.token == "admin")){
+                    UserModels.find({},"img email name tag like last bio").exec().then(doc2 => {
+                        var data = {};
+                        data.max = doc2.length;
+                        var pos = req.body.position;
+                        if (doc2.find(function (res){return res.email == req.body.email;}))
+                            data.max--;
+                        if (doc2[pos].email == req.body.email){
+                            if (pos + 1 > data.max)
+                                res.status(204).send("end");
+                            else
+                                pos++;
+                        }
+                        data.ret = doc2[pos];
+                        res.json(data);
+                    }).catch(err => {console.log(err)})
+                }
+                else
+                    res.status(403).send("invalid token");
+            }).catch(err => {res.status(500).send(err)})
+        else
+            res.status(400).send("no target");
+})
+
+router.route('/load_data').post( (req, res) => {
+    // res.json(test_data);
+    var dlen = test_data.length;
+    console.log(dlen);
+    var i = 0;
+    for (i  = 0; i < dlen; i++){
+        var new_user = test_data[i];
+        if (new_user.age < 18)
+            new_user.age = 18;
+        let user = new UserModels(new_user);
+        console.log(test_data[i].name)
+        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
+            if(err) throw err;
+            user.password = hash;
+            user.save().then(() => {console.log('added')}).catch(err => {console.log(err)});
+        }));
+    }
+    res.json("done");
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< User Routes >>>>
+//
+
+router.route('/viewed').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target)
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
+            if (data.viewed.includes(docs[0]._id))
+                res.json("already viewed!");
+            else {
+                sender = data.name+" "+data.last;
+                notification_handle(req, "viewed", sender)
+                var array = data.viewed;
+                array.push(docs[0]._id);
+                data.viewed = array;
+                data.save().then(() => {res.json("viewed")})
+            }    
+        })
+    }).catch(err => {res.json(err)});
+})
+
+router.route('/add').post( (req, res) => {
+    const name = req.body.name;
+    const last = req.body.last;
+    const password = req.body.password;
+    const gender = req.body.gender;
+    const age = req.body.age;
+    const email = req.body.email;
+    const sexual_pref = req.body.sexual_pref;
+    const vKey = md5(email+Date.now());
+    const verified = false;
+    const location = req.body.location
+
+    const newUser = new UserModels({
+        name,
+        last,
+        password,
+        gender,
+        age,
+        email,
+        verified,
+        sexual_pref,
+        vKey,
+        location
+    });
+
+    let mailOptions = {
+        from: mailData.email,
+        to: newUser.email,
+        subject: 'Account Verification',
+        html: `<h2>Please click <a href="http://localhost:3000/verify/${vKey}"> here </a> to verify your account</h2><p>`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            res.status(400).send(error);
+        }
+    });
+
+    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if(err) throw err;
+        newUser.password = hash;
+        newUser.save().then( () => res.json('User added') )
+        .catch( err => res.status(400).json('Error: ' + err));
+    }));
+});
 
 router.route('/edit_spec').post( (req, res) => {
     if (req.body.token){
@@ -328,53 +439,6 @@ router.route('/email').post( (req, res) => {
     })
 })
 
-router.route('/get_next').post( (req, res) => {
-    if (req.body.token)
-            UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
-                if ((req.body.token == docs[0].token) || (req.body.token == "admin")){
-                    UserModels.find({},"img email name tag like last bio").exec().then(doc2 => {
-                        var data = {};
-                        data.max = doc2.length;
-                        var pos = req.body.position;
-                        if (doc2.find(function (res){return res.email == req.body.email;}))
-                            data.max--;
-                        if (doc2[pos].email == req.body.email){
-                            if (pos + 1 > data.max)
-                                res.status(204).send("end");
-                            else
-                                pos++;
-                        }
-                        data.ret = doc2[pos];
-                        res.json(data);
-                    }).catch(err => {console.log(err)})
-                }
-                else
-                    res.status(403).send("invalid token");
-            }).catch(err => {res.status(500).send(err)})
-        else
-            res.status(400).send("no target");
-})
-
-router.route('/load_data').post( (req, res) => {
-    // res.json(test_data);
-    var dlen = test_data.length;
-    console.log(dlen);
-    var i = 0;
-    for (i  = 0; i < dlen; i++){
-        var new_user = test_data[i];
-        if (new_user.age < 18)
-            new_user.age = 18;
-        let user = new UserModels(new_user);
-        console.log(test_data[i].name)
-        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
-            if(err) throw err;
-            user.password = hash;
-            user.save().then(() => {console.log('added')}).catch(err => {console.log(err)});
-        }));
-    }
-    res.json("done");
-})
-
 router.route('/purge').post( (req, res) => {
     if (req.body.token === "admin"){
     mongoose.connect(process.env.ATLAS_URI,function(){
@@ -383,6 +447,25 @@ router.route('/purge').post( (req, res) => {
     }).catch(err => { res.stats(500).send("mongoose not present")});
     } else {
         res.status(403).send("Forbbiden");
+    }
+})
+
+router.route('/block').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target){
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}).exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}).exec().then(docs2 => {
+            if (!docs2.blocked.includes(docs[0]._id)){
+                array = docs2.blocked;
+                sender = docs2.name+" "+docs2.last;
+                array.push(docs[0]._id);
+                notification_handle(req,"block",sender);
+                docs2.blocked = array;
+                docs2.save().then(r => {res.status(200).send("User blocked")})
+            }
+
+        })
+    }).catch(err => {res.status(500).send(err)});
     }
 })
 
@@ -448,6 +531,30 @@ function notification_handle(req, check, sender){
             docs = user;
             docs.save().catch(err => {console.log(err)});
         }
+        else if (check === "viewed"){
+            var user = docs;
+            const msg = sender+" has viewed your profile!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (check === "unlike"){
+            var user = docs;
+            const msg = sender+" has unliked you, but stay positive! there's plenty of fish in the sea";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (check === "blocked"){
+            var user = docs;
+            const msg = sender+" has blocked you... oof";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
         else
             console.log("error");
     }).catch(err => {console.log(err)})
@@ -474,8 +581,8 @@ router.route('/like').post( (req, res) => {
     if (!req.body.token && !req.body.email && !req.body.target)
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id liked name last").exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}, "_id likes name last").exec().then(docs2 => {
-            if (!docs2.likes.includes(docs[0]._id)){
+        UserModels.findOne({"email": req.body.email}, "_id likes name last blocked").exec().then(docs2 => {
+            if (!docs2.likes.includes(docs[0]._id || !docs2.blocked.includes(docs._id))){
                 var sender = docs2.name+" "+docs2.last;
                 var reciever = docs[0].name+" "+docs[0].last;
                 fame_handle(req, "increase");
@@ -486,8 +593,10 @@ router.route('/like').post( (req, res) => {
                 docs2.likes = like;
                 docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
             }
+            else if (docs2.blocked.includes(docs._id))
+                res.json("You have been blocked by this user");
             else
-            res.json("Already Liked!");
+                res.json("Already Liked!");
         })
     }).catch(err => {res.json(err)})
 })
@@ -497,10 +606,12 @@ router.route('/Del_like').post( (req, res) => {
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
         console.log(docs[0]);
-            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+            UserModels.findOne({"email": req.body.email}, "likes name last").exec().then(docs2 => {
                 if (docs2.likes.includes(docs[0]._id)){
+                    sender = docs2.name+docs2.last;
                     fame_handle(req, "decrease");
                     liked_handle(req, docs2._id,"remove");
+                    notification_handle(req, "unlike", sender);
                     var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
                     docs2.likes.splice(index,1);
                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});

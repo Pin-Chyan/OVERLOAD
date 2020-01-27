@@ -1,7 +1,6 @@
 const router = require('express').Router();
 let ChatModels = require('../models/chats.models.js');
 let UserModels = require('../models/user.models.js');
-const mongoose = require('mongoose');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Message Routes >>>>

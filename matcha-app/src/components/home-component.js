@@ -10,13 +10,13 @@ import Inbox from './message-and-notification';
 import { Fade } from 'react-slideshow-image';
 
 const fadeProperties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    onChange: (oldIndex, newIndex) => {
-      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    }
+    // duration: 5000,
+    // transitionDuration: 500,
+    // infinite: true,
+    // indicators: true,
+    // onChange: (oldIndex, newIndex) => {
+    //   console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    // }
   }
 
 export default class Home extends Component {
@@ -293,7 +293,7 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><i className="fa fa-inbox"></i></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><i className="fa fa-inbox">10</i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -390,8 +390,8 @@ export default class Home extends Component {
                 <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                 <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                 <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                <button id="5" value="view" className="button is-info fa fa-user"></button>
                 <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
                 <button id="6" value="Message" className="button is-info fa fa-comment"></button>
                 </div>
             )
@@ -403,8 +403,8 @@ export default class Home extends Component {
             <button id="2" value="Next" className="button is-danger fa fa-times"></button>
             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
             <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+            <button id="5" value="view" className="button is-info fa fa-user"></button>
             <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-            <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
             </div>
         )
     }

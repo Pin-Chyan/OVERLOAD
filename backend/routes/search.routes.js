@@ -1,12 +1,5 @@
 const router = require('express').Router();
 let UserModels = require('../models/user.models.js');
-const verifyToken = require('../auth/auth.middleware');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const md5 = require('md5');
-const test_data = require('../test_data/default.json');
-const mongoose = require('mongoose');
 require('dotenv').config();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +45,7 @@ function searchHandler(docs,user,search_req){
         var sorted = res.sort(function (a,b){ return a.location[0] - b.location[0]})
         return (sorted);
     }
-    return ('no result');
+    return ('no result'); 
 }
 
 function targHandler(doc,user,search_req){
