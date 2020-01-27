@@ -5,9 +5,26 @@ import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
 var nll = require("../images/chibi.jpg");
+
+const Viewer = props => {
+  return (
+    <div>
+      <a onClick={props.handleClick}>{props.name} {props.last}</a>
+    </div>
+  )
+}
+
+const Liked = props => {
+  return (
+    <div>
+      <a onClick={props.handleClick}>{props.name} {props.last}</a>
+    </div>
+  )
+}
 
 export default class User extends Component {
 
@@ -21,7 +38,10 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
-        this.state = {};
+        this.state = {
+          viewedUsers: null,
+          likedUsers: null
+        }
         console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -42,7 +62,8 @@ export default class User extends Component {
             this.state = {
                 "res" : '',
                 "html" : '',
-                "user" : res
+                "user" : res,
+                "viewedProfiles": []
             };
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
@@ -54,6 +75,25 @@ export default class User extends Component {
     }
     userData_getter(){
         console.log('getting data......');
+
+        async function getViewedData (ip, token, viewedArray) {
+          const promises = []
+          for (let viewer of viewedArray) {
+            const content = await Axios.post(ip + '/users/get_soft_by_id', { id: viewer, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+            promises.push(content.data)
+          }
+          return promises
+        }
+
+        async function getLikedData (ip, token, likedArray) {
+          const promises = []
+          for (let liked of likedArray) {
+            const content = await Axios.post(ip + '/users/get_soft_by_id', { id: liked, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+            promises.push(content.data)
+          }
+          return promises
+        }
+
         async function get_data(email,jwt,ip,target){
             console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
@@ -61,15 +101,26 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
-                this.eve_mount();
+                getViewedData(this.ip, this.jwt, this.state.user.viewed).then(res => {
+                  this.setState({ viewedUsers: res })
+                  getLikedData(this.ip, this.jwt, this.state.user.liked).then(res => {
+                    this.setState({ likedUsers: res })
+                    this.eve_mount();
+                  })
+                })
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
-        this.page_handler();
+      this.getViewed(this.jwt, this.ip)
+      this.page_handler()
     }
 
+    getViewed (token, ip) {
+      //return <div>Working</div>
+    }
+  
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Page states >>>>
@@ -79,10 +130,16 @@ export default class User extends Component {
         console.log('render');
         var nav = this.nav_constructor(1);
         var mid = this.mid_constructor(0);
+        const viewed = this.viewedConstructor()
+        const liked = this.likedConstructor()
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav, document.getElementById('navMenu'+this.div_key));
         if (document.getElementById('cont'+this.div_key))
             ReactDOM.render(mid, document.getElementById('cont'+this.div_key));
+        if (document.getElementById('viewed'+this.div_key))
+            ReactDOM.render(viewed, document.getElementById('viewed'+this.div_key));
+        if (document.getElementById('liked'+this.div_key))
+            ReactDOM.render(liked, document.getElementById('liked'+this.div_key));
         this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
     }
 
@@ -181,7 +238,6 @@ export default class User extends Component {
         </nav>
             <div id={"cont"+this.div_key} className="container"></div>
         </section>
-
         )
     }
 
@@ -226,6 +282,34 @@ export default class User extends Component {
       }
       document.getElementById(tabName).style.display = "block"
       e.currentTarget.className = 'tab  is-active'
+    }
+    
+    listViewed () {
+      return this.state.viewedUsers.map(user => {
+        return <Viewer name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+      })
+    }
+
+    listLiked () {
+      return this.state.likedUsers.map(user => {
+        return <Liked name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+      })
+    }
+    
+    viewedConstructor () {
+      return (
+        <div>
+          {this.listViewed()}
+        </div>
+      )
+    }
+
+    likedConstructor () {
+      return (
+        <div>
+          {this.listLiked()}
+        </div>
+      )
     }
 
     mid_constructor(){
@@ -288,13 +372,13 @@ export default class User extends Component {
 
               <div className="tabcontent" id="Likes">
                 <div className="column is-half bg_white_3">
-                      Likes
+                      <div id={'liked'+this.div_key}></div>
                 </div>
               </div>
 
               <div className="tabcontent" id="Viewed by">
                 <div className="column is-half bg_white_3">
-                  {this.state.user.viewed[0]}
+                  <div id={'viewed'+this.div_key}></div>
                 </div>
               </div>
 
