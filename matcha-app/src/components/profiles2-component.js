@@ -29,19 +29,22 @@ export default class Home extends Component {
     this.jwt = localStorage.token
     this.ip = require('../server.json').ip
     this.nll = require('../images/chibi.jpg')
-    this.pos = 0
     this.id = this.props.match.params.id
     this.handleRedirect = this.handleRedirect.bind(this)
     this.pageHandler = this.pageHandler.bind(this)
     this.globalBtnHandler = this.globalBtnHandler.bind(this)
+    this.isUserLiked = this.isUserLiked.bind(this)
     this.state = {
       viewedUser: undefined,
-      loggedInUser: 'marty@gmail.com'
+      loggedInUser: undefined
     }
-  }
 
-  componentWillMount (ip, id, target) {
-    //async function getLoggedInUser
+    async function getLoggedInUserEmail (ip, jwt) {
+      const promise = await Axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
 
     async function getViewedUser (ip, id, jwt, target) {
       const promise = await Axios.post(ip + '/users/get_soft_by_id', { id, target }, { headers: { authorization: `bearer ${jwt}` } })
@@ -50,18 +53,34 @@ export default class Home extends Component {
       }
     }
 
-    getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
-      this.setState({ user: res })
-      this.pageHandler()
+    async function getLoggendInUserData (ip, email, target, jwt) {
+      const promise = await Axios.post(ip + '/users/get_spec', { email, target, token: jwt })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    getLoggedInUserEmail(this.ip, this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', 'admin').then(res => {
+        this.setState({ loggedInUser: res[0] })
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
+      getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+        this.setState({ viewedUser: res })
+        console.log(res)
+        this.pageHandler()
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
     }).catch(err => {
       console.log('fake eve redirect' + err)
-      // this.props.history.push('/')
     })
   }
 
-  // componentDidMount () {
-  //   // Send req that user
-  // }
+  componentDidMount () {
+    // Set user to viewed
+  }
 
   // ///////////////////////////////////////////////
   //                                             //
@@ -77,8 +96,6 @@ export default class Home extends Component {
   }
 
   carouselHandler (user) {
-    console.log('---- user tags ----')
-    console.log(user.tag)
     const carouselData = {
       carousel_name: user.name,
       carousel_last: user.last,
@@ -93,15 +110,15 @@ export default class Home extends Component {
     if (document.getElementById('cont' + this.div_key)) {
       ReactDOM.render(this.bodyConstructor(carouselData), document.getElementById('cont' + this.div_key))
     }
-    // const like = this.isLiked()
-    // console.log(like)
+    const liked = this.isUserLiked()
     if (document.getElementById('button' + this.div_key)) {
-      ReactDOM.render(this.buttonConstructor(true), document.getElementById('button' + this.div_key))
+      ReactDOM.render(this.buttonConstructor(liked), document.getElementById('button' + this.div_key))
     }
   }
 
   pageHandler () {
     this.navHandler()
+    console.log(this.state.viewedUser)
     this.carouselHandler(this.state.viewedUser)
   }
 
@@ -111,11 +128,22 @@ export default class Home extends Component {
     })
   }
 
+  isUserLiked () {
+    const likedArray = this.state.loggedInUser.liked
+    const likesArray = this.state.loggedInUser.likes
+    if (likedArray.includes(this.id) && likesArray.includes(this.id)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   globalBtnHandler (e) {
     const buttonval = e.target.value
 
     async function asyncHell (ip, user, target, jwt) {
-      var data = {}
+      console.log(ip + ',' + user + ',' + target)
+      let data = {}
       data.img = {}
       data.email = user
       data.token = jwt
@@ -147,12 +175,12 @@ export default class Home extends Component {
       }
     }
 
-    asyncHell(this.ip, "marty@gmail.com", this.state.viewedUser.email, this.jwt).then(res => {
+    asyncHell(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
       if (res === 'redirect') {
         this.props.history.push({
           pathname: '/chat/new',
-          user: "marty@gmail.com",
-          data: this.state.veiwedUser.email
+          user: this.state.loggedInUser.email,
+          data: this.state.viewedUser.email
         })
       }
     })

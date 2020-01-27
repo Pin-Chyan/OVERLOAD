@@ -104,7 +104,7 @@ export default class User extends Component {
         if (e.key == 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -116,22 +116,22 @@ export default class User extends Component {
     }
 
     rgb_phaser = (altitude,target,state_target) => {
-        if (   this[target][0] != altitude[0] 
-            || this[target][1] != altitude[1]
-            || this[target][2] != altitude[2] ){
-            if (this[target][0] != altitude[0]){
+        if (   this[target][0] !== altitude[0] 
+            || this[target][1] !== altitude[1]
+            || this[target][2] !== altitude[2] ){
+            if (this[target][0] !== altitude[0]){
                 if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
                     this[target][0] = altitude[0];
                 else
                     this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
             }
-            if (this[target][1] != altitude[1]){
+            if (this[target][1] !== altitude[1]){
                 if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
                     this[target][1] = altitude[1];
                 else
                     this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
             }
-            if (this[target][2] != altitude[2]){
+            if (this[target][2] !== altitude[2]){
                 if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
                     this[target][2] = altitude[2];
                 else
