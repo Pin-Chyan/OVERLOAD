@@ -93,6 +93,26 @@ router.route('/email').post( (req, res) => {
 //
 //                      <<<< User Routes >>>>
 //
+
+router.route('/viewed').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target)
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
+            if (data.viewed.includes(docs[0]._id))
+                res.json("already viewed!");
+            else {
+                sender = data.name+data.last;
+                notification_handle(req, "viewed", sender)
+                var array = data.viewed;
+                array.push(docs[0]._id);
+                data.viewed = array;
+                data.save().then(() => {res.json("viewed")})
+            }    
+        })
+    }).catch(err => {res.json(err)});
+})
+
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
@@ -449,6 +469,22 @@ function notification_handle(req, check, sender){
             docs = user;
             docs.save().catch(err => {console.log(err)});
         }
+        else if (check === "viewed"){
+            var user = docs;
+            const msg = sender+" has viewed your profile!";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (check === "unlike"){
+            var user = docs;
+            const msg = sender+" has unliked you, but stay positive! there's plenty of fish in the sea";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
         else
             console.log("error");
     }).catch(err => {console.log(err)})
@@ -498,10 +534,12 @@ router.route('/Del_like').post( (req, res) => {
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
         console.log(docs[0]);
-            UserModels.findOne({"email": req.body.email}, "likes").exec().then(docs2 => {
+            UserModels.findOne({"email": req.body.email}, "likes name last").exec().then(docs2 => {
                 if (docs2.likes.includes(docs[0]._id)){
+                    sender = docs2.name+docs2.last;
                     fame_handle(req, "decrease");
                     liked_handle(req, docs2._id,"remove");
+                    notification_handle(req, "unlike", sender);
                     var index = docs2.likes.findIndex(function (ret){return ret === docs[0]._id});
                     docs2.likes.splice(index,1);
                     docs2.save().then(r => {res.json("Like removed")}).catch(err => {res.json(err)});
