@@ -107,6 +107,7 @@ export default class Home extends Component {
         }
         console.log('render');
         this.userData_getter(1);
+        this.notification_updater();
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,6 +143,23 @@ export default class Home extends Component {
                 search_in: search_input 
             });
         }
+    }
+
+    notification_updater() {
+        var email = this.state.user.email;
+        var token = this.jwt;
+        var ip = this.ip;
+        axios.post(ip + '/users/get_spec',{"email":email, "target": "notifications", "token":token}).then(res => {
+            var data = {};
+            data.count = res.data[0].notifications.length;
+            // this.state.count = data.count;
+            this.setState(data);
+            console.log(this.state.count);
+            var nav_bar = this.nav_constructor();
+            if (document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+        })
+
     }
 
     sleep = (milliseconds) => {
@@ -301,7 +319,7 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><i className="fa fa-inbox">10</i></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><i className="fa fa-inbox"> {this.state.count}</i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
