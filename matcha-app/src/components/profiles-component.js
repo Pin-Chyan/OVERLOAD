@@ -61,7 +61,7 @@ export default class Home extends Component {
     }
 
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', 'admin').then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
       }).catch(err => {
         console.log('fake eve redirect' + err)

@@ -239,13 +239,13 @@ export default class User extends Component {
                         <a>Preview</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Likes')}>
-                        <a>Likes</a>
+                        <a>Who liked you</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Viewed by')}>
-                        <a>Viewed by</a>
+                        <a>Who viewed you</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Preferences')}>
-                        <a>Preferences</a>
+                        <a>Match Preferences</a>
                       </li>
                     </ul>
                 </nav>
