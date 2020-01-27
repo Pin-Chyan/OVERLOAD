@@ -252,6 +252,21 @@ h3 {
 
 /*  */
 
+.form {
+    margin: 0 auto;
+    /* padding: 100px 30px 0; */
+    @media (min-width: 800px) {
+      max-width: 60%;
+    }
+  }
+  
+  .input-range {
+    margin-bottom: 10px;
+  }
+  
+
+/*  */
+
 /* .slide-container {
     width: 480px;
     margin: auto;
