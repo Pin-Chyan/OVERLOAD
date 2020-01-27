@@ -1,374 +1,327 @@
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import "../styles/overload.css";
-import "../styles/helpers.css";
-import "../styles/index.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
-import axios from 'axios';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Inbox from './message-and-notification';
-import { Fade } from 'react-slideshow-image';
+import '../styles/overload.css'
+import '../styles/helpers.css'
+import '../styles/index.css'
+import '../../node_modules/font-awesome/css/font-awesome.min.css'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Fade } from 'react-slideshow-image'
+import Axios from 'axios'
 
-// Check if there is a valid email address
-// Get user information from that email
-// Display user information
-// Remove unnecessary features
+// Create button constructor
+// Link buttons to their actions
 
 const fadeProperties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    onChange: (oldIndex, newIndex) => {
-      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  onChange: (oldIndex, newIndex) => {
+    console.log(`fade transition from ${oldIndex} to ${newIndex}`)
+  }
+}
+
+export default class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.div_key = Date.now()
+    this.jwt = localStorage.token
+    this.ip = require('../server.json').ip
+    this.nll = require('../images/chibi.jpg')
+    this.id = this.props.match.params.id
+    this.handleRedirect = this.handleRedirect.bind(this)
+    this.pageHandler = this.pageHandler.bind(this)
+    this.globalBtnHandler = this.globalBtnHandler.bind(this)
+    this.isUserLiked = this.isUserLiked.bind(this)
+    this.state = {
+      viewedUser: undefined,
+      loggedInUser: undefined
+    }
+
+    async function getLoggedInUserEmail (ip, jwt) {
+      const promise = await Axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    async function getViewedUser (ip, id, jwt, target) {
+      const promise = await Axios.post(ip + '/users/get_soft_by_id', { id, target }, { headers: { authorization: `bearer ${jwt}` } })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    async function getLoggendInUserData (ip, email, target, jwt) {
+      const promise = await Axios.post(ip + '/users/get_spec', { email, target, token: jwt })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
+    getLoggedInUserEmail(this.ip, this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', 'admin').then(res => {
+        this.setState({ loggedInUser: res[0] })
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
+      getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+        this.setState({ viewedUser: res })
+        console.log(res)
+        this.pageHandler()
+      }).catch(err => {
+        console.log('fake eve redirect' + err)
+      })
+    }).catch(err => {
+      console.log('fake eve redirect' + err)
+    })
+  }
+
+  componentDidMount () {
+    // Set user to viewed
+  }
+
+  // ///////////////////////////////////////////////
+  //                                             //
+  //       Page Handlers                        //
+  //                                           //
+  // ///////////////////////////////////////////
+
+  navHandler () {
+    const navbar = this.navConstructor()
+    if (document.getElementById('navMenu' + this.div_key)) {
+      ReactDOM.render(navbar, document.getElementById('navMenu' + this.div_key))
     }
   }
 
-export default class Home extends Component {
-    constructor(props){
-        super(props);
-        this.div_key = Date.now();
-        this.jwt = localStorage.token;
-        this.ip = require('../server.json').ip;
-        this.nll = require("../images/chibi.jpg");
-        this.pos = 0;
-        this.state = {};
-
-        async function server_get(ip, email){
-            let promise = axios.post(ip+'/users/email', { email });
-            if (promise.status === 200)
-                return promise.data;
-        }
-        server_get(this.ip,this.props.match.params.target).then(res => {
-            console.log('eve online');
-            ///      <<<< begin binding after database online >>>>
-            this.globalbtn_handler = this.globalbtn_handler.bind(this);
-            this.handleChange = this.handleChange.bind(this);
-            this.is_liked = this.is_liked.bind(this);
-            this.busy = 0;
-            this.curr_page = [0,0,0];
-            this.other_page = [0,0,0];
-            this.state = {
-                "user" : {email: this.props.match.params.target},
-                "checked": false
-            }
-
-            if (this.props.location.user){
-                this.setState({"user":this.props.location.user});
-                this.eve_mount();
-            }
-            else
-                this.userData_getter(0);
-        }).catch(err => {console.log('eve redirect ' + err)});
+  carouselHandler (user) {
+    const carouselData = {
+      carousel_name: user.name,
+      carousel_last: user.last,
+      carousel_bio: user.bio,
+      carousel_tag: user.tag,
+      carousel_img1: user.img.img1 === 'null' ? this.nll : user.img.img1,
+      carousel_img2: user.img.img2 === 'null' ? this.nll : user.img.img2,
+      carousel_img3: user.img.img3 === 'null' ? this.nll : user.img.img3,
+      carousel_img4: user.img.img4 === 'null' ? this.nll : user.img.img4,
+      carousel_img5: user.img.img5 === 'null' ? this.nll : user.img.img5
     }
-    userData_getter(reset){
-        console.log('getting data......');
-        async function get_data(email,jwt,ip,target){
-            let promise = await axios.post(ip + '/users/get_spec',{"email":"marty@gmail.com", "target":target, "token":"admin"});
-            if (promise.status === 200)
-                return promise.data;
+    if (document.getElementById('cont' + this.div_key)) {
+      ReactDOM.render(this.bodyConstructor(carouselData), document.getElementById('cont' + this.div_key))
+    }
+    const liked = this.isUserLiked()
+    if (document.getElementById('button' + this.div_key)) {
+      ReactDOM.render(this.buttonConstructor(liked), document.getElementById('button' + this.div_key))
+    }
+  }
+
+  pageHandler () {
+    this.navHandler()
+    console.log(this.state.viewedUser)
+    this.carouselHandler(this.state.viewedUser)
+  }
+
+  handleRedirect (e) {
+    this.props.history.push({
+      pathname: e.target.id
+    })
+  }
+
+  isUserLiked () {
+    const likedArray = this.state.loggedInUser.liked
+    const likesArray = this.state.loggedInUser.likes
+    if (likedArray.includes(this.id) && likesArray.includes(this.id)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  globalBtnHandler (e) {
+    const buttonval = e.target.value
+
+    async function asyncHell (ip, user, target, jwt) {
+      console.log(ip + ',' + user + ',' + target)
+      let data = {}
+      data.img = {}
+      data.email = user
+      data.token = jwt
+      data.target = target
+      if (buttonval === 'Like') {
+        const req = await Axios.post(ip + '/users/like', data)
+        if (req.status === 200) {
+          if (req.data === 'Already Liked!') {
+            console.log('Already Liked!')
+          } else {
+            console.log('liked!')
+          }
         }
-        ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes").then(userGet_res => {
-                this.setState({"user":userGet_res[0]});
-                if (reset === 0)
-                    this.eve_mount();
-        }).catch(err => {console.log('eve redirect' + err)})
+      } else if (buttonval === 'Unlike') {
+        const req = await Axios.post(ip + '/users/Del_like', data)
+        if (req.status === 200) {
+          if (req.data === 'Not Liked') {
+            console.log('Not Liked')
+          } else {
+            console.log('Unliked')
+          }
+        }
+      } else if (buttonval === 'Report') {
+        console.log('reported!')
+      } else if (buttonval === 'Message') {
+        return ('redirect')
+      } else {
+        console.log('you missed the button!')
+      }
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Page states >>>>
-//
-
-    page_handler(mode){
-        if (mode === 'found'){
-            var nav_bar = this.nav_constructor();
-            if (document.getElementById('navMenu'+this.div_key))
-                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
-            this.Carousel_handle(this.state.results[0]);
-        }
-        console.log('render');
-        this.userData_getter(1);
-    }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                      <<<< Page logic >>>>
-//
-
-    redirecthandler = e => {
+    asyncHell(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
+      if (res === 'redirect') {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
-        });
-    }
+          pathname: '/chat/new',
+          user: this.state.loggedInUser.email,
+          data: this.state.viewedUser.email
+        })
+      }
+    })
+  }
 
-    searchHandle = e => {
-        this.setState({search:e.target.value});
-    }
-    keyHandle = e => {
-        if (e.key == 'Enter'){
-            var search_input = 'null';
-            if (this.state.search){
-                if (this.state.search.trim() != '')
-                    search_input = this.state.search;
-            }
-            this.props.history.push({
-                pathname: '/search',
-                user: this.state.user,
-                search_in: search_input 
-            });
-        }
-    }
+  // ///////////////////////////////////////////////
+  //                                             //
+  //       Page constructors                    //
+  //                                           //
+  // ///////////////////////////////////////////
 
-    sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
+  navConstructor () {
+    return (
+      <div className='navbar-end'>
+        <div className='control is-small has-icons-right search-margin'>
+          <input className='input is-hovered is-small is-rounded' type='text' placeholder='Search' onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+          <span className='icon is-small is-right'>
+            <i className='fa fa-search'></i>
+          </span>
+        </div>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}' ><i className='fa fa-inbox'></i></a>
+        <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>
+      </div>
+    )
+  }
 
-    handleChange(checked) {
-        this.setState({checked})
-    }
-
-    is_liked = async() => {
-        console.log(this.state.user.likes);
-        console.log(this.state.results[this.pos].likes);
-        var me = this.state.user.likes;
-        var me_id = this.state.user._id;
-        var you = this.state.results[this.pos].likes;
-        var you_id = this.state.results[this.pos]._id;
-        if (me.includes(you_id) && you.includes(me_id))
-            return (1);
-        else
-            return (0);
-    }
-
-    globalbtn_handler(e){
-        var buttonval = e.target.value;
-        async function async_hell(ip,user,target,jwt) {
-            var data = {};
-            data.img = {};
-            data.email = user;
-            data.token = jwt;
-            data.target = target;
-            if (buttonval === 'Prev' || buttonval === 'Next')
-                return buttonval === 'Prev' ? 'Prev' : 'Next';
-            else if (buttonval === "Like"){
-                let req = await axios.post(ip+"/users/like", data);
-                if (req.status === 200){
-                    if (req.data === "Already Liked!")
-                        console.log("Already Liked!");
-                    else
-                        console.log("liked!");
-                }
-            }
-            else if (buttonval === "Unlike"){
-                let req = await axios.post(ip+"/users/Del_like", data);
-                if (req.status === 200){
-                    if (req.data === "Not Liked")
-                        console.log("Not Liked");
-                    else
-                        console.log("Unliked");
-                }
-            }
-            else if (buttonval === "Report"){
-                console.log("reported!");
-            }
-            else if (buttonval === "Message"){
-                return ('redirect');
-            }
-            else
-                console.log("you missed the button!");
-        }
-        async_hell(this.ip,this.state.user.email,this.jwt,this.state.results[this.pos].email).then( res => {
-            if (res === 'Prev' || res === 'Next'){
-                if ((this.pos + 1 < this.state.results.length) && (res === 'Next'))
-                    this.pos++;
-                else if ((this.pos - 1 > -1) && (res === 'Prev'))
-                    this.pos--;
-                this.Carousel_handle(this.state.results[this.pos]);
-                console.log(this.pos);
-            } 
-            if (res === 'redirect'){
-                this.props.history.push({
-                    pathname: "/chat/new",
-                    user: this.state.user,
-                    data: this.state.results[this.pos].email
-                })
-            }
-        });
-    }
-
-    Carousel_handle(res){
-        console.log(res);
-        if (res){
-            var carousel_data = {
-                "carousel_name":res.name,
-                "carousel_last":res.last,
-                "carousel_bio":res.bio,
-                "carousel_tag":res.tag,
-                "carousel_img1":res.img.img1 === 'null' ? this.nll : res.img.img1,
-                "carousel_img2":res.img.img2 === 'null' ? this.nll : res.img.img2,
-                "carousel_img3":res.img.img3 === 'null' ? this.nll : res.img.img3,
-                "carousel_img4":res.img.img4 === 'null' ? this.nll : res.img.img4,
-                "carousel_img5":res.img.img5 === 'null' ? this.nll : res.img.img5
-            }
-            if (document.getElementById('cont' + this.div_key))
-                ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
-            // var like = this.is_liked(); NOOOOO
-            if (document.getElementById('button'+ this.div_key))
-                ReactDOM.render(this.button_constructor(1), document.getElementById('button' + this.div_key));
-                /////here<><><><><><><><><><><><><><>
-        }
-    }
-    
-    render () {
-        return (
-            <section className="section hero">
-                <nav className="navbar hero-head">
-                    <div className="container">
-                        <div className="navbar-brand">
-                            <figure className="navbar-item image">
-                                <img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
-                            </figure>
-                            <span className="navbar-burger burger" data-target="navMenu">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </span>
-                        </div>
-                        <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
-                    </div>
-                </nav>
-            <div id={"cont"+this.div_key} className="container"></div>
-        </section>
-
-        )
-    }
-
-    nav_constructor(){
-        var element1 = (
-            <div className="navbar-end">
-                <div className="control is-small has-icons-right search-margin">
-                    <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
-                    <span className="icon is-small is-right">
-                        <i className="fa fa-search"></i>
-                    </span>
+  bodyConstructor (data) {
+    return (
+      <div className='column is-centered shadow'>
+        <div className='column is-half bg_white_1'>
+          <figure className='image'>
+            <div className='slide-container'>
+              <Fade {...fadeProperties}>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img1} />
+                  </div>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><i className="fa fa-inbox"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img2} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img3} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img4} />
+                  </div>
+                </div>
+                <div className='each-fade'>
+                  <div className='image-container'>
+                    <img src={data.carousel_img5} />
+                  </div>
+                </div>
+              </Fade>
             </div>
-        )
-        return(element1);
-    }
-    mid_constructor(data){
-        return (
-            <div className="column is-centered shadow">
-            <div className="column is-half bg_white_1">
-                <figure className="image">
-                    <div className="slide-container">
-                        <Fade {...fadeProperties}>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img1} />
-                                </div>
-                            </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img2} />
-                                </div>
-                            </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img3} />
-                                </div>
-                            </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img4} />
-                                </div>
-                            </div>
-                            <div className="each-fade">
-                                <div className="image-container">
-                                    <img src={data.carousel_img5} />
-                                </div>
-                            </div>
-                        </Fade>
-                    </div>
-                </figure>
-                <div id={"button"+this.div_key} className="column center_b" onClick={e => this.globalbtn_handler(e)}>
-                    {/* <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                    <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                    <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                    <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                    <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                    <button id="6" value="Message" className="button is-info fa fa-comment"></button> */}
-                </div>
+          </figure>
+          <div id={'button' + this.div_key} className='column center_b' onClick={e => this.globalBtnHandler(e)}>
+          </div>
 
-                <div className="column center">
-                <div className="column center">
-        <article className="media center">
-            <figure className="media-left">
-                <figure className="image is-64x64">
-                    <img alt="Asuna" src={data.carousel_img1} />
+          <div className='column center'>
+            <div className='column center'>
+              <article className='media center'>
+                <figure className='media-left'>
+                  <figure className='image is-64x64'>
+                    <img alt='Asuna' src={data.carousel_img1} />
+                  </figure>
                 </figure>
-            </figure>
-            <div className="media-content">
-                <div className="content">
+                <div className='media-content'>
+                  <div className='content'>
                     <p>
-                        <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
-                        <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                      <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                      <span className='has-text-grey'>{data.carousel_tag}<br />
+                        <time datetime='2018-04-20'>Apr 20</time> · 20 min read</span>
                     </p>
+                  </div>
                 </div>
+              </article>
+              <br />
+              <hr />
+              <p>
+                {data.bio}
+              </p>
+              <div>
+                {/* <Inbox /> */}
+              </div>
             </div>
-        </article>
-        <br />
-        <hr />
-        {/* <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eveniet neque dignissimos aperiam nemo quas mollitia aspernatur quis alias, odit veniam necessitatibus pariatur recusandae libero placeat magnam voluptas. Odio, in.
-        </p> */}
-        <p>
-            {data.bio}
-        </p>
-        <div>
-          <Inbox />
+          </div>
         </div>
-        </div>
-                </div>
-                
-            </div>
-        </div>
-        )
-    }
-    button_constructor(boolean){
-        if (boolean === 1){
-            return (
-                <div>
-                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                <button id="6" value="Message" className="button is-info fa fa-comment"></button>
-                </div>
-            )
-        }
-        else 
-        return (
-            <div>
-            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-            </div>
-        )
-    }
+      </div>
+    )
+  }
 
+  buttonConstructor (isLiked) {
+    if (isLiked) {
+      return (
+        <div>
+          <button id='3' value='Like' className='button is-success fa fa-heart'></button>
+          <button id='4' value='Unlike' className='button is-danger fa fa-heart-o'></button>
+          <button id='5' value='Report' className='button is-hovered fa fa-exclamation'></button>
+          <button id='6' value='Message' className='button is-info fa fa-comment'></button>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <button id='3' value='Like' className='button is-success fa fa-heart'></button>
+          <button id='4' value='Unlike' className='button is-danger fa fa-heart-o'></button>
+          <button id='5' value='Report' className='button is-hovered fa fa-exclamation'></button>
+        </div>
+      )
+    }
+  }
+
+  render () {
+    return (
+      <section className='section hero'>
+        <nav className='navbar hero-head'>
+          <div className='container'>
+            <div className='navbar-brand'>
+              <figure className='navbar-item image'>
+                <img src={require('../images/logo.png')} className='logo_use' alt='Why is this logo broken' />
+              </figure>
+              <span className='navbar-burger burger' data-target='navMenu'>
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div id={'navMenu'+this.div_key} className='navbar-menu'></div>
+          </div>
+        </nav>
+        <div id={'cont'+this.div_key} className='container'></div>
+      </section>
+    )
+  }
 }
- 
