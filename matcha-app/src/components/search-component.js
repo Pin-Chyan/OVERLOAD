@@ -7,7 +7,8 @@ import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import styled from 'styled-components';
-import Slider from './Slider.js';
+import Slider from './filter/Slider.js';
+import Filter from './filter/Filter.js';
 var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var nll = require("../images/chibi.jpg");
@@ -310,17 +311,17 @@ page_handler(mode, data){
                     <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
-            <div className="container bg_white_5 columns">
+            <div className="container bg_white_5 columns center_b">
                 Search Filter
             </div>
             <div className="container bg_white_6 columns">
-                <div className="column green">
+                <div className="column grey_1">
                     <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
                         <Slider />
                     </Styles>
+                    <Filter />
                 </div>
-                <div className="column yellow">
-                    rest
+                <div className="column grey_2">
                 </div>
             </div>
             <div id={"cont"+this.div_key} className="container" >
