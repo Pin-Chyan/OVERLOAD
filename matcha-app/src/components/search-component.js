@@ -6,13 +6,19 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-
+import styled from 'styled-components';
+import Slider from './Slider.js';
 var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var nll = require("../images/chibi.jpg");
 var sec = require("../images/check.jpg");
 
 //[1,-1,-2,-2,10,-1,-1] search conditions
+
+const Styles = styled.div`
+
+`;
+
 export default class User extends Component {
 
 
@@ -309,8 +315,9 @@ page_handler(mode, data){
             </div>
             <div className="container bg_white_6 columns">
                 <div className="column green">
-                    test
-                    <input class="slider is-fullwidth" step="1" min="0" max="100" value="50" type="range"></input>    
+                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
+                        <Slider />
+                    </Styles>
                 </div>
                 <div className="column yellow">
                     rest
