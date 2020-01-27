@@ -15,6 +15,10 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  ping: {
+    type: Number,
+    default: 0
+  },
   chatrooms: {
     type: Array,
     default: []
