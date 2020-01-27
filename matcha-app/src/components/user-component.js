@@ -64,12 +64,14 @@ export default class User extends Component {
                 viewedUsers: null,
                 likedUsers: null
             }
-            if (this.props.location.user) {
-                this.setState({"user":this.props.location.user});
+            if (this.props.location.user && this.props.location.user.liked && this.props.location.user.viewed) {
+                this.setState({"user":this.props.location.user})
+                console.log(this.state.user)
                 this.userHistory_getter()
             }
-            else
-                this.userData_getter()
+            else {
+              this.userData_getter()
+            }
         }).catch(err => {console.log('eve redirect' + err)});
     }
 
