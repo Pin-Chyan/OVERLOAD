@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
+// import FilePickerManager from 'react-native-file-picker';
 import ReactDOM, { createPortal, render } from 'react-dom'
 import "../styles/overload.css";
 import "../styles/helpers.css";
@@ -104,17 +105,8 @@ export default class User extends Component {
         if (document.getElementById('mid_img'+this.div_key))
             ReactDOM.render(mid_img, document.getElementById('mid_img'+this.div_key));
         if (document.getElementById('mid_text'+this.div_key))
-            ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
-        if (document.getElementById('bruh'+this.div_key))
-            ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img1 === 'null' ? nll : this.state.user.img.img1)),document.getElementById('bruh'+this.div_key));
-        // if (document.getElementById('img2'+this.div_key))
-        //     ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img2 === 'null' ? nll : this.state.user.img.img2)),document.getElementById('img2'+this.div_key));
-        // if (document.getElementById('img3'+this.div_key))
-        //     ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img3 === 'null' ? nll : this.state.user.img.img3)),document.getElementById('img3'+this.div_key));
-        // if (document.getElementById('img4'+this.div_key))
-        //     ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img4 === 'null' ? nll : this.state.user.img.img4)),document.getElementById('img4'+this.div_key));
-        // if (document.getElementById('img5'+this.div_key))
-        //     ReactDOM.render(ReactHtmlParser(this.image_constructor(this.state.user.img.img5 === 'null' ? nll : this.state.user.img.img5)),document.getElementById('img5'+this.div_key));
+			ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+		this.img_render(this.state.user.img);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +120,19 @@ export default class User extends Component {
 	listener2 = e => {
 		console.log("yes2");
 	}
-
+	img_render(img_obj){
+		if (document.getElementById('img1'+this.div_key) && img_obj.img1)
+            ReactDOM.render(this.image_constructor(img_obj.img1 === 'null' ? nll : img_obj.img1,'img1'),document.getElementById('img1'+this.div_key));
+        if (document.getElementById('img2'+this.div_key) && img_obj.img2)
+            ReactDOM.render(this.image_constructor(img_obj.img2 === 'null' ? nll : img_obj.img2,'img2'),document.getElementById('img2'+this.div_key));
+        if (document.getElementById('img3'+this.div_key) && img_obj.img3)
+            ReactDOM.render(this.image_constructor(img_obj.img3 === 'null' ? nll : img_obj.img3,'img3'),document.getElementById('img3'+this.div_key));
+        if (document.getElementById('img4'+this.div_key) && img_obj.img4)
+            ReactDOM.render(this.image_constructor(img_obj.img4 === 'null' ? nll : img_obj.img4,'img4'),document.getElementById('img4'+this.div_key));
+        if (document.getElementById('img5'+this.div_key) && img_obj.img5)
+            ReactDOM.render(this.image_constructor(img_obj.img5 === 'null' ? nll : img_obj.img5,'img5'),document.getElementById('img5'+this.div_key));
+	}
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Redner return >>>>
@@ -190,35 +194,27 @@ export default class User extends Component {
 		)
 	}
 
-	image_constructor(new_img){
+	image_constructor(new_img,img_num){
 		// var front = '<img alt="Asuna" className="m_image" src=';
 		// var back  = ' />';
 		// return(front + new_img + back);
 		var element = (
-		<div className="tile is-parent is-vertical"><article className="tile is-child notification light-yellow">
-		<div className="file is-small"><label onChange={this.globalhander} className="file-label">
-		<input id="1" className="file-input" type="file" name="resume" />
-		<span className="file-cta"><span className="file-icon"><i className="fa fa-upload"></i></span>
-		<span className="file-label">Choose a file…</span></span></label>
-		<div onClick={e => this.globalimg(e)}><button id="1" className="file-name" value="upload">upload</button>
-		<button id="1" className="file-name" value="delete">delete</button></div></div>
-		<figure className="image is-4by3"><div id={"img1"+this.div_key}></div></figure></article></div>
+		<div className="tile is-parent is-vertical"><article className="tile is-child notification" style={{backgroundColor: "rgb(240, 240, 240)"}}>
+		<div className="file is-small"></div>
+		<figure className="image is-4by3">
+		<img id={img_num + this.div_key + ' the actual img'} alt="Asuna" class="m_image" src={new_img}/>
+		</figure></article></div>
 		)
-		var b1 = '<div class="tile is-parent is-vertical"><article class="tile is-child notification light-yellow">'; 
-		var b2 = '<div class="file is-small"><label onChange={this.globalhander} class="file-label">';
-		var b3 = '<input id="1" className="file-input" type="file" name="resume" />';
-		var b4 = '<span className="file-cta"><span className="file-icon"><i className="fa fa-upload"></i></span>';
-		var b5 = '<span className="file-label">Choose a file…</span></span></label>';
-		var b6 = '<div><button id="1" className="file-name" value="upload">upload</button>';
-		var b7 = '<button id="1" className="file-name" value="delete">delete</button></div></div>';
-		var b8 = '<figure className="image is-4by3"><img alt="Asuna" className="m_image" src=' + this.nll + '/></div></figure></article></div>';
-		var res = b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8;
-		return (res + res);
+		return (element);
 	}
 	image_edit_constructor(images){
 		var element = (
 			<div className="tile is-vertical">
-				<div id={"bruh" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
+				<div id={"img1" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
+				<div id={"img2" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
+				<div id={"img3" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
+				<div id={"img4" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
+				<div id={"img5" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
 				<div className="tile"></div>
 			</div>
 		)

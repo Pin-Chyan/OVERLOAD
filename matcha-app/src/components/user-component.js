@@ -4,8 +4,7 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import Axios from 'axios';
 
 var nll = require("../images/chibi.jpg");
