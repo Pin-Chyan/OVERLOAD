@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
 var nll = require("../images/chibi.jpg");
-
+   
 const Viewer = props => {
   return (
     <div>
