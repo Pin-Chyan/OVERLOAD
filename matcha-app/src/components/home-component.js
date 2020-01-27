@@ -190,6 +190,14 @@ export default class Home extends Component {
             else if (buttonval === "view"){
                 return ("view");
             }
+            else if (buttonval === "block"){
+                console.log("what is happening");
+                let req = await axios.post(ip+"/users/block", data);
+                console.log(req.status);
+                if (req.status === 200){
+                    console.log(req.data);
+                }
+            }
             else
                 console.log("you missed the button!");
         }
@@ -391,8 +399,9 @@ export default class Home extends Component {
                 <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                 <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
                 <button id="5" value="view" className="button is-info fa fa-user"></button>
-                <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                <button id="6" value="Message" className="button is-info fa fa-comment"></button>
+                <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+                <button id="8" value="Message" className="button is-info fa fa-comment"></button>
+                <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
                 </div>
             )
         }
@@ -404,7 +413,8 @@ export default class Home extends Component {
             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
             <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
             <button id="5" value="view" className="button is-info fa fa-user"></button>
-            <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
+            <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+            <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
             </div>
         )
     }

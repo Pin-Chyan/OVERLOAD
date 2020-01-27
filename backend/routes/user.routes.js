@@ -93,27 +93,6 @@ router.route('/email').post( (req, res) => {
 //                      <<<< Verification Routes >>>>
 //
 
-<<<<<<< HEAD
-=======
-router.route('/viewed').post( (req, res) => {
-    if (!req.body.token || !req.body.email || !req.body.target)
-        res.json("empty fields");
-    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
-            if (data.viewed.includes(docs[0]._id))
-                res.json("already viewed!");
-            else {
-                sender = data.name+data.last;
-                notification_handle(req, "viewed", sender)
-                var array = data.viewed;
-                array.push(docs[0]._id);
-                data.viewed = array;
-                data.save().then(() => {res.json("viewed")})
-            }    
-        })
-    }).catch(err => {res.json(err)});
-})
-
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
@@ -161,7 +140,6 @@ router.route('/add').post( (req, res) => {
     }));
 });
 
->>>>>>> d0e522508a3ab66c5d45937edf6d3268087b6136
 router.route('/verifyKey/:vkey').get((req, res) => {
     const { vkey } = req.params;
 
@@ -451,22 +429,42 @@ router.route('/purge').post( (req, res) => {
 })
 
 router.route('/block').post( (req, res) => {
-    if (!req.body.token || !req.body.email || !req.body.target){
+    if (!req.body.token || !req.body.email || !req.body.target)
         res.json("empty fields");
-    UserModels.find({ "email": req.body.target}).exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}).exec().then(docs2 => {
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "name last blocked").exec().then(docs2 => {
             if (!docs2.blocked.includes(docs[0]._id)){
                 array = docs2.blocked;
                 sender = docs2.name+" "+docs2.last;
                 array.push(docs[0]._id);
                 notification_handle(req,"block",sender);
                 docs2.blocked = array;
-                docs2.save().then(r => {res.status(200).send("User blocked")})
+                docs2.save().then(r => {res.json("User blocked")})
             }
-
+            else 
+                res.json("user already blocked");
         })
-    }).catch(err => {res.status(500).send(err)});
-    }
+    }).catch(err => {res.json(err)});
+})
+
+router.route('/unblock').post( (req, res) => {
+    if (!req.body.token || !req.body.email || !req.body.target)
+        res.json("empty fields");
+    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
+        UserModels.findOne({"email": req.body.email}, "name last blocked").exec().then(docs2 => {
+            if (docs2.blocked.includes(docs[0]._id)){
+                array = docs2.blocked;
+                sender = docs2.name+" "+docs2.last;
+                pos = array.indexOf(docs[0]._id);
+                array.splice(pos, 1);
+                notification_handle(req,"unblock",sender);
+                docs2.blocked = array;
+                docs2.save().then(r => {res.json("User unblocked")})
+            }
+            else 
+                res.json("user already blocked");
+        })
+    }).catch(err => {res.json(err)});
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -550,6 +548,14 @@ function notification_handle(req, check, sender){
         else if (check === "blocked"){
             var user = docs;
             const msg = sender+" has blocked you... oof";
+            const NewNotify = { message: msg, viewed: false }
+            user.notifications.push(NewNotify);
+            docs = user;
+            docs.save().catch(err => {console.log(err)});
+        }
+        else if (check === "unblocked"){
+            var user = docs;
+            const msg = sender+" has unblocked you... yay!";
             const NewNotify = { message: msg, viewed: false }
             user.notifications.push(NewNotify);
             docs = user;

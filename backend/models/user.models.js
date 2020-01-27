@@ -23,7 +23,7 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
-  Blocked: {
+  blocked: {
     type: Array,
     default: []
   },
