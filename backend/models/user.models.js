@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  Blocked: {
+    type: Array,
+    default: []
+  },
   location: {
     type: Array,
     required: true,

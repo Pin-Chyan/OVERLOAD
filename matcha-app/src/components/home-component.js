@@ -390,8 +390,8 @@ export default class Home extends Component {
                 <button id="2" value="Next" className="button is-danger fa fa-times"></button>
                 <button id="3" value="Like" className="button is-success fa fa-heart"></button>
                 <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                <button id="5" value="view" className="button is-info fa fa-user"></button>
                 <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-                <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
                 <button id="6" value="Message" className="button is-info fa fa-comment"></button>
                 </div>
             )
@@ -403,8 +403,8 @@ export default class Home extends Component {
             <button id="2" value="Next" className="button is-danger fa fa-times"></button>
             <button id="3" value="Like" className="button is-success fa fa-heart"></button>
             <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+            <button id="5" value="view" className="button is-info fa fa-user"></button>
             <button id="5" value="Report" className="button is-hovered fa fa-exclamation"></button>
-            <button id="5" value="view" className="button is-hovered fa fa-exclamation"></button>
             </div>
         )
     }
