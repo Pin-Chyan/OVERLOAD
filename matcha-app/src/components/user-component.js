@@ -71,7 +71,8 @@ export default class User extends Component {
             }
             else
                 this.userData_getter();
-        }).catch(err => {console.log('eve redirect' + err)});
+        })
+        //.catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(){
         console.log('getting data......');
@@ -103,17 +104,18 @@ export default class User extends Component {
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
+                console.log('--- GETTTING USER ---')
                 getViewedData(this.ip, this.jwt, this.state.user.viewed).then(res => {
                   this.setState({ viewedUsers: res })
                   getLikedData(this.ip, this.jwt, this.state.user.liked).then(res => {
                     this.setState({ likedUsers: res })
+                    console.log('--- MOUNTING ---')
                     this.eve_mount();
                   })
                 })
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
-      this.getViewed(this.jwt, this.ip)
       this.page_handler()
     }
 
@@ -283,33 +285,17 @@ export default class User extends Component {
       document.getElementById(tabName).style.display = "block"
       e.currentTarget.className = 'tab  is-active'
     }
-    
-    listViewed () {
+        
+    viewedConstructor () {
       return this.state.viewedUsers.map(user => {
         return <Viewer name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
       })
     }
 
-    listLiked () {
+    likedConstructor () {
       return this.state.likedUsers.map(user => {
         return <Liked name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
       })
-    }
-    
-    viewedConstructor () {
-      return (
-        <div>
-          {this.listViewed()}
-        </div>
-      )
-    }
-
-    likedConstructor () {
-      return (
-        <div>
-          {this.listLiked()}
-        </div>
-      )
     }
 
     mid_constructor(){
@@ -325,10 +311,10 @@ export default class User extends Component {
                         <a>Preview</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Likes')}>
-                        <a>Who liked you</a>
+                        <a>Like history</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Viewed by')}>
-                        <a>Who viewed you</a>
+                        <a>View history</a>
                       </li>
                       <li className="tab" onClick={this.openTab('Preferences')}>
                         <a>Match Preferences</a>
