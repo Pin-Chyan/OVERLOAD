@@ -38,10 +38,7 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
-        this.state = {
-          viewedUsers: null,
-          likedUsers: null
-        }
+        this.state = {}
         console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -53,6 +50,7 @@ export default class User extends Component {
             ///      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
             this.userData_getter = this.userData_getter.bind(this);
+            this.userHistory_getter = this.userHistory_getter.bind(this);
             this.page_handler = this.page_handler.bind(this);
             this.searchHandle = this.searchHandle.bind(this);
             this.openTab = this.openTab.bind(this);
@@ -63,38 +61,52 @@ export default class User extends Component {
                 "res" : '',
                 "html" : '',
                 "user" : res,
-                "viewedProfiles": []
-            };
-            if (this.props.location.user){
+                viewedUsers: null,
+                likedUsers: null
+            }
+            if (this.props.location.user) {
                 this.setState({"user":this.props.location.user});
-                this.eve_mount();
+                this.userHistory_getter()
             }
             else
-                this.userData_getter();
-        })
-        //.catch(err => {console.log('eve redirect' + err)});
+                this.userData_getter()
+        }).catch(err => {console.log('eve redirect' + err)});
     }
+
+    userHistory_getter () {
+      async function getViewedData (ip, token, viewedArray) {
+        const promises = []
+        for (let viewer of viewedArray) {
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: viewer, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+          promises.push(content.data)
+        }
+        return promises
+      }
+  
+      async function getLikedData (ip, token, likedArray) {
+        const promises = []
+        for (let liked of likedArray) {
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: liked, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+          promises.push(content.data)
+        }
+        return promises
+      }
+
+      async function getAllData (ip, token, likedArray, viewedArray) {
+        const viewedRes = await getViewedData(ip, token, viewedArray)
+        const likedRes = await getLikedData(ip, token, likedArray)
+        const response = [viewedRes, likedRes]
+        return response
+      }
+
+      getAllData(this.ip, this.jwt, this.state.user.liked, this.state.user.viewed).then(res => {
+        this.setState({ viewedUsers: res[0], likedUsers: res[1] })
+        this.eve_mount()
+      })
+    }
+
     userData_getter(){
         console.log('getting data......');
-
-        async function getViewedData (ip, token, viewedArray) {
-          const promises = []
-          for (let viewer of viewedArray) {
-            const content = await Axios.post(ip + '/users/get_soft_by_id', { id: viewer, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
-            promises.push(content.data)
-          }
-          return promises
-        }
-
-        async function getLikedData (ip, token, likedArray) {
-          const promises = []
-          for (let liked of likedArray) {
-            const content = await Axios.post(ip + '/users/get_soft_by_id', { id: liked, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
-            promises.push(content.data)
-          }
-          return promises
-        }
-
         async function get_data(email,jwt,ip,target){
             console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
@@ -103,24 +115,12 @@ export default class User extends Component {
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked").then(userGet_res => {
-                this.setState({"user":userGet_res[0]});
-                console.log('--- GETTTING USER ---')
-                getViewedData(this.ip, this.jwt, this.state.user.viewed).then(res => {
-                  this.setState({ viewedUsers: res })
-                  getLikedData(this.ip, this.jwt, this.state.user.liked).then(res => {
-                    this.setState({ likedUsers: res })
-                    console.log('--- MOUNTING ---')
-                    this.eve_mount();
-                  })
-                })
+                this.setState({"user":userGet_res[0]})
+                this.userHistory_getter()
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
       this.page_handler()
-    }
-
-    getViewed (token, ip) {
-      //return <div>Working</div>
     }
   
 ///////////////////////////////////////////////////////////////////////////////////////////////////
