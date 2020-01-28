@@ -308,6 +308,10 @@ h3 {
     padding-top: 10px;
 }
 
+.btn-label {
+    display: inline-flex;
+}
+
 /* .slide-container {
     width: 480px;
     margin: auto;
