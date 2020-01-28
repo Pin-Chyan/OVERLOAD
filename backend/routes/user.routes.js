@@ -153,7 +153,6 @@ router.route('/add').post( (req, res) => {
     bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
         if(err) throw err;
         newUser.password = hash;
-        newPing.save();
         newUser.save().then( () => res.json('User added') )
         .catch( err => res.status(400).json('Error: ' + err));
     }));
