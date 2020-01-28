@@ -2,22 +2,37 @@ import React, { Component } from 'react';
 
 export default class Search extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            personname: '',
+            personemail: '',
+            agegap: '',
+            min: '',
+            max: '',
+        }
+    }
+
     onChangeNameOfPerson = (e) => {
-        this.setState({value: e.target.value})
+        this.setState({personname: e.target.value})
     }
     
     onChangeFinderEmail = (e) => {
-        this.setState({value: e.target.value})
+        this.setState({personemail: e.target.value})
+    }
+
+    onChangeAgeGap = (e) => {
+        this.setState({agegap: e.taget.value})
     }
 
     render() {
         return (
             <div>
-                <div className="field">
+                <div className="field padding-top">
                     <label className="label center_b search-t">E-Mail</label>
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Email" onChange={this.onChangeFinderEmail} required /> */}
-                        <input className="input" type="text" placeholder="Email" required />
+                        <input className="input is-small" type="text" placeholder="Email" required />
                     </div>
                 </div>
                 
@@ -25,9 +40,19 @@ export default class Search extends React.Component {
                     <label className="label center_b search-t">Name Of Person</label>
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Name Of Person" onChange={this.onChangeNameOfPerson} required /> */}
-                        <input className="input" type="text" placeholder="Name" required />
+                        <input className="input is-small" type="text" placeholder="Name" required />
                     </div>
                 </div>
+                
+                <div className="field">
+                    <label className="label center_b search-t">Age Gape</label>
+                    <div className="control has-icons-left has-icons-right">
+                        {/* <input className="input" type="text" placeholder="Age Gap" onChange={this.onChangeAgeGap} required /> */}
+                        <input className="input is-small" type="text" placeholder="Age Gape" required />
+                    </div>
+                </div>
+
+                <button id="Search" className="button is-warning is-rounded is-small">Search</button>
             </div>
         )
     }

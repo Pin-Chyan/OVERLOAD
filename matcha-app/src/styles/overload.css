@@ -92,7 +92,7 @@
 
 .bg_white_6 {
     /* margin-top: 35px; */
-    background-color: blue !important;
+    background-color: white !important;
     border-radius: 0 0 10px 10px;
     /* height: 200px; */
     width: 600px;
@@ -310,6 +310,10 @@ h3 {
 
 .btn-label {
     display: inline-flex;
+}
+
+.c-margin {
+    /* margin: none !important; */
 }
 
 /* .slide-container {
