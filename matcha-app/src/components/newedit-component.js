@@ -6,6 +6,7 @@ import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
+import decode from 'jwt-decode';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import styled from 'styled-components';
 // import Slider from './Slider.js';
@@ -51,7 +52,23 @@ export default class User extends Component {
             ///////////////////////////////////////////////////////////
             //      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
-            this.userData_getter = this.userData_getter.bind(this);
+			this.userData_getter = this.userData_getter.bind(this);
+			this.onChangeEmail = this.onChangeEmail.bind(this);
+            this.onChangeName = this.onChangeName.bind(this);
+            this.onChangeLast = this.onChangeLast.bind(this);
+            this.reset_state = this.reset_state.bind(this);
+            this.onChangeSurname = this.onChangeSurname.bind(this);
+            this.onChangePwd = this.onChangePwd.bind(this);
+            this.onChangePwdCon = this.onChangePwdCon.bind(this);
+            this.onChangebio = this.onChangebio.bind(this);
+            this.onChangeAge = this.onChangeAge.bind(this);
+            this.onSubmit = this.onSubmit.bind(this);
+            this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
+            this.onChangeTag = this.onChangeTag.bind(this);
+            this.setDefault = this.setDefault.bind(this);
+            this.setDefaultGender = this.setDefaultGender.bind(this);
+            this.onChangeGender = this.onChangeGender.bind(this);
+            this.busy = 0;
             this.state = {
                 "res" : '',
                 "html" : '',
@@ -204,7 +221,7 @@ export default class User extends Component {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//                      <<<< Redner return >>>>
+//                      <<<< Render return >>>>
 //
 	render () {
 		return (
@@ -307,6 +324,136 @@ export default class User extends Component {
 		return (element);
 	}
 
+	redirecthandler = e => {
+        this.props.history.push({
+            pathname:e.target.id,
+            user: this.state.user
+        });
+    }
+    searchHandle = e => {
+        this.setState({search:e.target.value});
+    }
+    keyHandle = e => {
+        if (e.key == 'Enter'){
+            var search_input = 'null';
+            if (this.state.search){
+                if (this.state.search.trim() != '')
+                    search_input = this.state.search;
+            }
+            this.props.history.push({
+                pathname: '/search',
+                user: this.state.user,
+                search_in: search_input 
+            });
+        }
+    }
+    
+    toggleCheckbox = label => {
+        if (this.selectedCheckboxes.has(label)) {
+            this.selectedCheckboxes.delete(label);
+        }
+        else {
+            this.selectedCheckboxes.add(label);
+        }
+    }
+	
+	setDefault (value) {
+		if (value === this.state.user.sexual_pref) {
+		  return true
+		}
+		return false
+	  }
+  
+	setDefaultGender (value) {
+		if (value === this.state.user.gender) {
+		  return true
+		}
+		return false
+	  }
+
+	reset_state() {
+		var poes = this.state;
+		poes.new_email = undefined;
+		poes.new_name = undefined;
+		poes.new_surname = undefined;
+		poes.new_bio = undefined;
+		poes.new_tag = undefined;
+		this.setState({poes})
+	}
+
+	onChangeSexual_pref(e) {
+      
+        this.setState({
+                new_sexual_pref: parseInt(e.target.value, 10),
+                checked: !this.state.checked
+            });
+
+            console.log(this.state.new_sexual_pref)
+    }
+
+	onChangeName(e) {
+        this.setState({
+            new_name: e.target.value
+        });
+    }
+
+    onChangeTag(e) {
+        this.setState({
+            new_tag: e.target.value
+        });
+    }
+
+    onChangeLast(e) {
+        this.setState({
+            new_last: e.target.value
+        });
+    }
+
+    onChangeSurname(e) {
+        this.setState({
+                surname: e.target.value
+            });
+    }
+
+    onChangePwd(e) {
+        this.setState({
+                pwd: e.target.value
+            });
+    }    
+
+    onChangeEmail(e) {
+        this.setState({
+                new_email: e.target.value
+            });
+    }
+    
+    onChangebio(e) {
+        this.setState({
+                bio: e.target.value
+            });
+    }
+
+    onChangePwdCon(e) {
+        this.setState({
+                pwdCon: e.target.value
+            });
+    }
+
+    onChangeGender(e) {
+        this.setState({
+                new_gender: parseInt(e.target.value, 10),
+                checked2: !this.state.checked2
+            });
+            console.log('--- new gender --- ')
+          console.log(this.state.new_gender)
+    }
+    
+    onChangeAge(e) {
+        this.setState({
+                age: e.target.value
+            });
+    }
+
 	setDefault (value) {
 	  if (value === this.state.user.sexual_pref) {
 		return true
@@ -327,7 +474,147 @@ export default class User extends Component {
 	  return false
 	}
 
+	tag_handle(tag_arr, new_tag, mode){
+        if (mode === "upload"){
+            var tag  = tag_arr;
+            new_tag = new_tag.trim();
+            if (!tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
+                tag.push(new_tag);
+                return (tag);
+            }
+            return (tag);
+        } else if (mode === "delete") {
+            var tag  = tag_arr;
+            new_tag = new_tag.trim();
+            if (tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
+                var pos = tag.findIndex(function (res){return res === new_tag;});
+                tag.splice(pos,1);
+                return (tag);
+            }
+            return (tag);
+        }
+	}
+
+	onTagSubmit = e => {
+        console.log(e.target.id);
+        if (this.state.new_tag)
+            var new_tag = this.state.new_tag;
+        else
+			var new_tag = '';
+		console.log(this.state.user.tag);
+		var res = this.tag_handle(this.state.user.tag,new_tag,e.target.id);
+		var obj = this.state.user;
+		obj.tag = res;
+        console.log(res);
+        axios.post(this.ip+"/users/edit_spec", {"email": this.state.user.email,"token":this.jwt, "tag":res}).then(res => {
+			this.reset_state();
+			this.setState({"user":obj});
+			var mid_text = this.text_edit_constructor(this.state.user);
+			ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+		})
+	}
+	
+	onSubmit = async e => {
+            e.preventDefault();
+
+            var data = {
+                "email" : this.state.user.email,
+                "token" : this.jwt
+            };
+            var state_data = this.state.user;
+            if (this.state.new_name){
+                data.name = this.state.new_name.trim();
+                state_data.name = data.name; 
+            }
+            if (this.state.new_last){
+                data.last = this.state.new_last;
+                state_data.last = data.last; 
+            }
+            if (this.state.bio){
+                data.bio = this.state.bio;
+                state_data.bio = data.bio; 
+            }
+            if (this.state.new_sexual_pref !== undefined) {
+              data.sexual_pref = this.state.new_sexual_pref;
+              state_data.sexual_pref = data.sexual_pref; 
+            }
+            if (this.state.new_gender !== undefined) {
+              data.gender = this.state.new_gender;
+              state_data.gender = data.gender; 
+            }
+            axios.post(this.ip+"/users/edit_spec", data);
+            this.setState({
+                "user" : state_data
+			})
+            if (this.state.new_email){
+				var tester = this.state.new_email;
+				axios.post(this.ip+"/users/check_dup", {"email":tester}).then(res => {
+					if (res.data != "none"){
+						alert("email already exists");
+					}
+					else {
+						if (tester.match(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/)){
+							axios.post(this.ip+"/users/email", {"email":this.state.new_email}).then(res => {
+							if (res.data.present !== 1){
+								data.target = "password";
+								axios.post(this.ip+"/users/get_spec", data).then(docs => {
+										var user = {};
+										user.password = decode(this.jwt).password;
+										user.email = this.state.new_email;
+										var email_reset = {};
+										email_reset.token = this.jwt;
+										email_reset.email = this.state.user.email;
+										email_reset.new_email = this.state.new_email;
+										axios.post(this.ip+"/users/edit_spec", email_reset).then( res => {
+											axios.post('http://localhost:5001/auth/getToken', user)
+											.then(res => {
+												if (res.data.resCode === 1) {
+													alert("You are not who you say you are!");
+													this.props.history.push("/logout");
+												} else {
+													localStorage.setItem('token', res.data.token);
+													this.jwt = res.data.token;
+													state_data.email = this.state.new_email;
+													this.reset_state();
+													this.setState({"user":state_data});
+												}
+												console.log(this.state);
+												var mid_text = this.text_edit_constructor(this.state.user);
+												ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+												///
+											})
+											console.log("done");
+										});
+									})
+								} else {
+									state_data.new_email = "email in use!";
+									this.reset_state();
+									this.setState({"user":state_data});
+									var mid_text = this.text_edit_constructor(this.state.user);
+									ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+									///
+								}
+							})
+						} else {
+							state_data.new_email = "Invalid email";
+							this.reset_state();
+							this.setState({"user":state_data});
+							var mid_text = this.text_edit_constructor(this.state.user);
+							ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+							///
+						}
+					}
+				})
+		}
+		this.reset_state();
+		this.setState({"user":state_data});
+		var mid_text = this.text_edit_constructor(this.state.user);
+		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
+    }
+
 	text_edit_constructor(user){
+		this.reset_state();
+		console.log(this.state.user.tag);
 		return (
 			<div>
 				<div className="field">

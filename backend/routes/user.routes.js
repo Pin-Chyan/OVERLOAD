@@ -23,6 +23,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+router.route('/check_dup').post((req, res) => {
+    UserModels.find({"email":req.body.email}, "email").then(docs => {
+        if (docs.length != 0)
+            res.json(docs);
+        else
+            res.json("none");
+    }).catch(err => {res.status(500).send(err)});
+})
+
 router.route('/sendResetLink').post((req, res) => {
     const { email } = req.body;
 
