@@ -13,7 +13,6 @@ import axios from 'axios';
 var token;
 var sesh = "";
 var load = require("../images/load.gif");
-var load2 = require("../images/load2.gif");
 var nll = require("../images/chibi.jpg");
 var ip = require("../server.json").ip;
 

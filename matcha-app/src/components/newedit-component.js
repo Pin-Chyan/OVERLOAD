@@ -33,12 +33,13 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
-		this.req = {};
 		this.nll = require("../images/chibi.jpg");
-		this.input = document.createElement('input');
-		this.input.type = 'file';
+		this.load = require("../images/load2.gif");
+		this.req = {};
         this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
-        this.state = {};
+		this.buffer = [];
+		this.state = {};
+		this.busy = {};
         console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -51,7 +52,6 @@ export default class User extends Component {
             //      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
             this.userData_getter = this.userData_getter.bind(this);
-            this.busy = 0;
             this.state = {
                 "res" : '',
                 "html" : '',
@@ -97,7 +97,7 @@ export default class User extends Component {
         var nav_bar = this.nav_constructor();
         var cont = this.container_constructor();
         var mid_img = this.image_edit_constructor();
-        var mid_text = this.text_edit_constructor();
+        var mid_text = this.text_edit_constructor(this.state.user);
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
         if (document.getElementById('cont'+this.div_key))
@@ -107,6 +107,7 @@ export default class User extends Component {
         if (document.getElementById('mid_text'+this.div_key))
 			ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 		this.img_render(this.state.user.img);
+		this.image_sender();
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,23 +117,91 @@ export default class User extends Component {
 
 	listener = e => {
 		console.log("yes");
+		console.log(e.target.id);
 	}
 	listener2 = e => {
 		console.log("yes2");
 	}
-	img_render(img_obj){
-		if (document.getElementById('img1'+this.div_key) && img_obj.img1)
-            ReactDOM.render(this.image_constructor(img_obj.img1 === 'null' ? nll : img_obj.img1,'img1'),document.getElementById('img1'+this.div_key));
-        if (document.getElementById('img2'+this.div_key) && img_obj.img2)
-            ReactDOM.render(this.image_constructor(img_obj.img2 === 'null' ? nll : img_obj.img2,'img2'),document.getElementById('img2'+this.div_key));
-        if (document.getElementById('img3'+this.div_key) && img_obj.img3)
-            ReactDOM.render(this.image_constructor(img_obj.img3 === 'null' ? nll : img_obj.img3,'img3'),document.getElementById('img3'+this.div_key));
-        if (document.getElementById('img4'+this.div_key) && img_obj.img4)
-            ReactDOM.render(this.image_constructor(img_obj.img4 === 'null' ? nll : img_obj.img4,'img4'),document.getElementById('img4'+this.div_key));
-        if (document.getElementById('img5'+this.div_key) && img_obj.img5)
-            ReactDOM.render(this.image_constructor(img_obj.img5 === 'null' ? nll : img_obj.img5,'img5'),document.getElementById('img5'+this.div_key));
+	image_selector = e => {
+		console.log(e.target.id);
+		var num = e.target.id[3];
+		var id = 'img' + num;
+		if (!this.buffer.find(function (input){return input[0] === id})){
+			var img_arr = [id];
+			img_arr.push(document.createElement('input'));
+			img_arr[1].type = 'file';
+			img_arr[1].click();
+			this.buffer.push(img_arr);
+		} else {
+			console.log('already in buffer');
+		}
+		console.log(this.buffer);
 	}
-	
+	image_sender(){
+		if (this.buffer.length){
+			var new_img = this.buffer[0];
+			if (new_img[1].files.length === 1){
+				var name = new_img[1].files[0].name.split('.');
+				var size = new_img[1].files[0].size;
+				if (!(name[name.length - 1] === 'jpg' || name[name.length - 1] === 'png' || name[name.length - 1] === 'jpeg' || name[name.length - 1] === 'gif')){
+					alert('invalid file');
+					this.buffer.splice(0,1);
+				} else if (size > 20000000){
+					alert('image too large');
+					this.buffer.splice(0,1);
+				} else {
+					var imgRender = {};
+					imgRender[new_img[0]] = this.load;
+					console.log(imgRender);
+					this.img_render(imgRender);
+					var reader = new FileReader();
+					reader.readAsDataURL(new_img[1].files[0]);
+					reader.onload = async function() {
+						console.log('uploading...........');
+						var data = {};
+						data.email = this.state.user.email;
+						data.token = this.jwt;
+						imgRender[new_img[0]] = reader.result;
+						data.img = imgRender;
+						this.buffer.splice(0,1);
+						let promise = await axios.post(this.ip+"/users/edit_spec",data)
+						if (promise.status === 200){
+							if (promise.data === 'exceeded'){
+								alert("exceeded space allocated for individual user, upload smaller images");
+								this.img_render(this.state.user.img);
+							} else {
+								console.log('uploaded ' + new_img[0]);
+								var old = this.state.user.img;
+								old[new_img[0]] = imgRender[new_img[0]];
+								this.setState({"img":old});
+								this.img_render(imgRender);
+							}
+							this.buffer.splice(0,1);
+						}
+					}.bind(this);
+				}
+			}
+		}
+		this.sleep(1000).then(() => {
+			this.image_sender();
+		})
+	}
+	img_render(img_obj){
+		if (document.getElementById('tile1'+this.div_key) && img_obj.img1)
+            ReactDOM.render(this.image_constructor(img_obj.img1 === 'null' ? this.nll : img_obj.img1,'img1'),document.getElementById('tile1'+this.div_key));
+        if (document.getElementById('tile2'+this.div_key) && img_obj.img2)
+            ReactDOM.render(this.image_constructor(img_obj.img2 === 'null' ? this.nll : img_obj.img2,'img2'),document.getElementById('tile2'+this.div_key));
+        if (document.getElementById('tile3'+this.div_key) && img_obj.img3)
+            ReactDOM.render(this.image_constructor(img_obj.img3 === 'null' ? this.nll : img_obj.img3,'img3'),document.getElementById('tile3'+this.div_key));
+        if (document.getElementById('tile4'+this.div_key) && img_obj.img4)
+            ReactDOM.render(this.image_constructor(img_obj.img4 === 'null' ? this.nll : img_obj.img4,'img4'),document.getElementById('tile4'+this.div_key));
+        if (document.getElementById('tile5'+this.div_key) && img_obj.img5)
+            ReactDOM.render(this.image_constructor(img_obj.img5 === 'null' ? this.nll : img_obj.img5,'img5'),document.getElementById('tile5'+this.div_key));
+	}
+	sleep = (milliseconds) => {
+		return new Promise(resolve => setTimeout(resolve, milliseconds))
+	}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Redner return >>>>
@@ -195,27 +264,44 @@ export default class User extends Component {
 	}
 
 	image_constructor(new_img,img_num){
-		// var front = '<img alt="Asuna" className="m_image" src=';
-		// var back  = ' />';
-		// return(front + new_img + back);
 		var element = (
-		<div className="tile is-parent is-vertical"><article className="tile is-child notification" style={{backgroundColor: "rgb(240, 240, 240)"}}>
-		<div className="file is-small"></div>
-		<figure className="image is-4by3">
-		<img id={img_num + this.div_key + ' the actual img'} alt="Asuna" class="m_image" src={new_img}/>
-		</figure></article></div>
+			<div className="tile is-parent is-vertical">
+			<article className="tile is-child notification light-yellow">
+				{/* <div className="file is-small">
+					<a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a>
+					<label onChange={this.globalhander} className="file-label">
+						<input id="1" className="file-input" type="file" name="resume" />
+						<span className="file-cta">
+							<span className="file-icon">
+								<i className="fa fa-upload"></i>
+							</span>
+							<span className="file-label">
+								Choose a file…
+					</span>
+						</span>
+					</label>
+					<button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button>
+					<div onClick={e => this.globalimg(e)}>
+						<button id="1" className="file-name" value="upload">upload</button>
+						<button id="1" className="file-name" value="delete">delete</button>
+					</div>
+				</div> */}
+				<figure className="image s-image">
+				<img id={img_num + this.div_key} alt="Asuna" class="m_image" src={new_img}/>
+				</figure>
+			</article>
+		</div>
 		)
 		return (element);
 	}
 	image_edit_constructor(images){
 		var element = (
 			<div className="tile is-vertical">
-				<div id={"img1" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
-				<div id={"img2" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
-				<div id={"img3" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
-				<div id={"img4" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
-				<div id={"img5" + this.div_key} onClick={e => this.listener(e)} className="tile"></div>
-				<div className="tile"></div>
+				<div id={"tile1" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile2" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile3" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile4" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile5" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
 			</div>
 		)
 		return (element);
@@ -226,20 +312,26 @@ export default class User extends Component {
 		return true
 	  }
 	  return false
+	  
 	}
+	
 
+	
 	setDefaultGender (value) {
+		
 	  if (value === this.state.user.gender) {
+		  
 		return true
+		
 	  }
 	  return false
 	}
 
-	text_edit_constructor(){
+	text_edit_constructor(user){
 		return (
 			<div>
 				<div className="field">
-					<label className="label">Current Email: {this.state.user.email}</label>
+					<label className="label">Current Email: {user.email}</label>
 					<div className="control has-icons-left has-icons-right">
 						<input className="input" type="email" placeholder="New E-mail" value={this.state.new_email} onChange={this.onChangeEmail} required />
 						<span className="icon is-small is-left">
@@ -252,13 +344,13 @@ export default class User extends Component {
 					{/* <p className="help is-danger">This email is required</p> */}
 				</div>
 				<div className="field">
-					<label className="label">Current Name: {this.state.user.name}</label>
+					<label className="label">Current Name: {user.name}</label>
 					<div className="control has-icons-left has-icons-right">
 						<input className="input" type="email" placeholder="New Name" value={this.state.new_name} onChange={this.onChangeName} required />
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Surname: {this.state.user.last}</label>
+					<label className="label">Current Surname: {user.last}</label>
 					<div className="control has-icons-left has-icons-right">
 						<input className="input" type="email" placeholder="New Name" value={this.state.new_last} onChange={this.onChangeLast} required />
 					</div>
@@ -307,7 +399,7 @@ export default class User extends Component {
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Tags: {this.state.user.tag}</label>
+					<label className="label">Current Tags: {user.tag}</label>
 					<div className="control">
 						<div className="field">
 							<label className="label">Tag Name</label>
