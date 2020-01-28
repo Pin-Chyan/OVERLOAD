@@ -471,9 +471,9 @@ export default class Edit extends Component {
     container_constructor(){
         return (
                 <div className="columns is-centered shadow">
-                    <div className="column bg_white">
+                    <div className="column bg_white_7">
                         <div className="column center">
-                            <div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
+                            <div id={'mid_img' + this.div_key} className="columns"></div>
                             <div id={'mid_text' + this.div_key}></div>
                         </div>
                     </div>
@@ -482,7 +482,7 @@ export default class Edit extends Component {
     }
 
     image_constructor(new_img){
-        var front = '<img alt="Asuna" className="m_image" src=';
+        var front = '<img alt="Asuna" className="m-scale" src=';
         var back  = ' />';
         return(front + new_img + back);
     }
@@ -490,139 +490,145 @@ export default class Edit extends Component {
         return (
             <div className="tile is-vertical">
                 <div className="tile">
-                  <div className="tile is-parent is-vertical">
-                  <article className="tile is-child notification light-yellow">
-                        <div className="file is-small">
-                            {/* <a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a> */}
+                    <div className="tile is-parent is-vertical">
+                        <article className="tile is-child notification light-yellow">
+                            <div className="file is-small">
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a> */}
                                 <label onChange={this.globalhander} className="file-label">
                                     <input id="1" className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                <span className="file-icon">
-                                    <i className="fa fa-upload"></i>
+                                    <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fa fa-upload"></i>
+                                        </span>
+                                        <span className="file-label">
+                                            Choose a file…
                                 </span>
-                                <span className="file-label">
-                                    Choose a file…
-                                </span>
-                                </span>
+                                    </span>
                                 </label>
                                 {/* <button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button> */}
                                 <div onClick={e => this.globalimg(e)}>
                                     <button id="1" className="file-name" value="upload">upload</button>
                                     <button id="1" className="file-name" value="delete">delete</button>
                                 </div>
-                        </div>
-                      <figure className="image is-4by3">
-                        <div id={"img1"+this.div_key}></div>
-                      </figure>
-                    </article>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child notification light-yellow">
-                    <div className="file is-small">
-                       {/* <a className="button is-light subtitle is-small" onClick={this.rm2} >Remove</a> */}
-                                <label onChange={this.globalhander} className="file-label">
-                                    <input id="2" className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                <span className="file-icon">
-                                    <i className="fa fa-upload"></i>
-                                </span>
-                                <span className="file-label">
-                                    Choose a file…
-                                </span>
-                                </span>
-                            </label>
-                            {/* <button className="file-name" onClick={this.fileUploadHandlerimg2}>Upload</button> */}
-                            <div onClick={e => this.globalimg(e)}>
-                                    <button id="2" className="file-name" value="upload">upload</button>
-                                    <button id="2" className="file-name" value="delete">delete</button>
                             </div>
-                        </div>
-                      <figure className="image is-4by3">
-                        <div id={"img2"+this.div_key}></div>
-                      </figure>
-                      {/* <span class="tag is-black">Black</span> */}
-                    </article>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child notification light-yellow">
-                    <div className="file is-small">
-                            {/* <a className="button is-light subtitle is-small" onClick={this.rm3} >Remove</a> */}
-                                <label onChange={this.globalhander} className="file-label">
-                                    <input id="3" className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                <span className="file-icon">
-                                    <i className="fa fa-upload"></i>
-                                </span>
-                                <span className="file-label">
-                                    Choose a file…
-                                </span>
-                                </span>
-                            </label>
-                            {/* <button className="file-name" onClick={this.fileUploadHandlerimg3}>Upload</button> */}
-                            <div onClick={e => this.globalimg(e)}>
-                                    <button id="3" className="file-name" value="upload">upload</button>
-                                    <button id="3" className="file-name" value="delete">delete</button>
-                            </div>
-                        </div>
-                      <figure className="image is-4by3">
-                        <div id={"img3"+this.div_key}></div>
-                      </figure>
-                    </article>
-                  </div>
+                            <figure className="image s-image">
+                                <div id={"img1" + this.div_key}></div>
+                            </figure>
+                        </article>
+                    </div>
                 </div>
                 <div className="tile">
-                  <div className="tile is-parent is-vertical">
-                  <article className="tile is-child notification light-yellow">
-                  <div className="file is-small">
-                        {/* <a className="button is-light subtitle is-small" onClick={this.rm4} >Remove</a> */}
+                    <div className="tile is-parent is-verticle">
+                        <article className="tile is-child notification light-yellow">
+                            <div className="file is-small">
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm2} >Remove</a> */}
+                                <label onChange={this.globalhander} className="file-label">
+                                    <input id="2" className="file-input" type="file" name="resume" />
+                                    <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fa fa-upload"></i>
+                                        </span>
+                                        <span className="file-label">
+                                            Choose a file…
+                                </span>
+                                    </span>
+                                </label>
+                                {/* <button className="file-name" onClick={this.fileUploadHandlerimg2}>Upload</button> */}
+                                <div onClick={e => this.globalimg(e)}>
+                                    <button id="2" className="file-name" value="upload">upload</button>
+                                    <button id="2" className="file-name" value="delete">delete</button>
+                                </div>
+                            </div>
+                            <figure className="image s-image">
+                                <div id={"img2" + this.div_key}></div>
+                            </figure>
+                            {/* <span class="tag is-black">Black</span> */}
+                        </article>
+                    </div>
+                </div>
+                <div className="tile">
+                    <div className="tile is-parent">
+                        <article className="tile is-child notification light-yellow">
+                            <div className="file is-small">
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm3} >Remove</a> */}
+                                <label onChange={this.globalhander} className="file-label">
+                                    <input id="3" className="file-input" type="file" name="resume" />
+                                    <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fa fa-upload"></i>
+                                        </span>
+                                        <span className="file-label">
+                                            Choose a file…
+                                </span>
+                                    </span>
+                                </label>
+                                {/* <button className="file-name" onClick={this.fileUploadHandlerimg3}>Upload</button> */}
+                                <div onClick={e => this.globalimg(e)}>
+                                    <button id="3" className="file-name" value="upload">upload</button>
+                                    <button id="3" className="file-name" value="delete">delete</button>
+                                </div>
+                            </div>
+                            <figure className="image s-image">
+                                <div id={"img3" + this.div_key}></div>
+                            </figure>
+                        </article>
+                    </div>
+                </div>
+                <div className="tile">
+                    <div className="tile is-parent is-vertical">
+                        <article className="tile is-child notification light-yellow">
+                            <div className="file is-small">
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm4} >Remove</a> */}
                                 <label onChange={this.globalhander} className="file-label">
                                     <input id="4" className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                <span className="file-icon">
-                                    <i className="fa fa-upload"></i>
+                                    <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fa fa-upload"></i>
+                                        </span>
+                                        <span className="file-label">
+                                            Choose a file…
                                 </span>
-                                <span className="file-label">
-                                    Choose a file…
-                                </span>
-                                </span>
-                            </label>
-                            {/* <button className="file-name" onClick={this.fileUploadHandlerimg4}>Upload</button> */}
-                            <div onClick={e => this.globalimg(e)}>
+                                    </span>
+                                </label>
+                                {/* <button className="file-name" onClick={this.fileUploadHandlerimg4}>Upload</button> */}
+                                <div onClick={e => this.globalimg(e)}>
                                     <button id="4" className="file-name" value="upload">upload</button>
                                     <button id="4" className="file-name" value="delete">delete</button>
+                                </div>
                             </div>
-                        </div>
-                      <figure className="image is-4by3">
-                        <div id={"img4"+this.div_key}></div>
-                      </figure>
-                    </article>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child notification light-yellow">
-                    <div className="file is-small">
-                            {/* <a className="button is-light subtitle is-small" onClick={this.rm5} >Remove</a> */}
+                            <figure className="image s-image">
+                                <div id={"img4" + this.div_key}></div>
+                            </figure>
+                        </article>
+                    </div>
+                </div>
+                <div className="tile">
+                    <div className="tile is-parent">
+                        <article className="tile is-child notification light-yellow">
+                            <div className="file is-small">
+                                {/* <a className="button is-light subtitle is-small" onClick={this.rm5} >Remove</a> */}
                                 <label onChange={this.globalhander} className="file-label">
                                     <input id="5" className="file-input" type="file" name="resume" />
-                                <span className="file-cta">
-                                <span className="file-icon">
-                                    <i className="fa fa-upload"></i>
+                                    <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fa fa-upload"></i>
+                                        </span>
+                                        <span className="file-label">
+                                            Choose a file…
                                 </span>
-                                <span className="file-label">
-                                    Choose a file…
-                                </span>
-                                </span>
-                            </label>
-                            {/* <button className="file-name" onClick={this.fileUploadHandlerimg5}>Upload</button> */}
-                            <div onClick={e => this.globalimg(e)}>
+                                    </span>
+                                </label>
+                                {/* <button className="file-name" onClick={this.fileUploadHandlerimg5}>Upload</button> */}
+                                <div onClick={e => this.globalimg(e)}>
                                     <button id="5" className="file-name" value="upload">upload</button>
                                     <button id="5" className="file-name" value="delete">delete</button>
+                                </div>
                             </div>
-                        </div>
-                      <figure className="image is-4by3">
-                        <div id={"img5"+this.div_key}></div>
-                      </figure>
-                    </article>
-                  </div>
+                            <figure className="image s-image">
+                                <div id={"img5" + this.div_key}></div>
+                            </figure>
+                        </article>
+                    </div>
                 </div>
             </div>
         )

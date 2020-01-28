@@ -211,7 +211,7 @@ export default class User extends Component {
 		var b5 = '<span className="file-label">Choose a file…</span></span></label>';
 		var b6 = '<div><button id="1" className="file-name" value="upload">upload</button>';
 		var b7 = '<button id="1" className="file-name" value="delete">delete</button></div></div>';
-		var b8 = '<figure className="image is-4by3"><img alt="Asuna" className="m_image" src=' + this.nll + '/></div></figure></article></div>';
+		var b8 = '<figure className="image is-4by3"><img alt="Asuna" className="m-image" src=' + this.nll + '/></div></figure></article></div>';
 		var res = b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8;
 		return (res + res);
 	}

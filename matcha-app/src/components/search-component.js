@@ -9,6 +9,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
+import Search from './filter/Search.js';
 var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var nll = require("../images/chibi.jpg");
@@ -320,8 +321,7 @@ page_handler(mode, data){
                         <Slider />
                     </Styles>
                     <Filter />
-                </div>
-                <div className="column grey_2">
+                    <Search />
                 </div>
             </div>
             <div id={"cont"+this.div_key} className="container" >
