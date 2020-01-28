@@ -60,8 +60,15 @@ export default class Home extends Component {
       }
     }
 
+    async function addView (ip, email, target, jwt) {
+      const promise = await Axios.post(ip + '/users/viewed', { email, target, token: jwt })
+      if (promise.status === 200) {
+        return promise.data
+      }
+    }
+
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', 'admin').then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
       }).catch(err => {
         console.log('fake eve redirect' + err)
@@ -70,16 +77,15 @@ export default class Home extends Component {
         this.setState({ viewedUser: res })
         console.log(res)
         this.pageHandler()
+        addView(this.ip, this.state.viewedUser.email, this.state.loggedInUser.email, this.jwt).then(res => {
+          console.log(res)
+        }).catch(err => { console.log(err) })
       }).catch(err => {
         console.log('fake eve redirect' + err)
       })
     }).catch(err => {
       console.log('fake eve redirect' + err)
     })
-  }
-
-  componentDidMount () {
-    // Set user to viewed
   }
 
   // ///////////////////////////////////////////////

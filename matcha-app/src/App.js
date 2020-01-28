@@ -21,6 +21,7 @@ import Search from "./components/search-component.js"
 import newSearch from "./components/newSearch-component.js"
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
+import newEdit from "./components/newedit-component.js";
 // import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";
 
@@ -48,7 +49,7 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 
           <Route path="/" exact component={Home}/> 
-          <Route path="/newSearch" exact component={newSearch}/> 
+          <Route path="/newedit" exact component={newEdit}/> 
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
         </Authenticate>
