@@ -4,25 +4,30 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import axios from 'axios'; 
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import Axios from 'axios';
 
 var nll = require("../images/chibi.jpg");
    
-const Viewer = props => {
+const Profile = props => {
   return (
-    <div>
-      <a onClick={props.handleClick}>{props.name} {props.last}</a>
-    </div>
-  )
-}
-
-const Liked = props => {
-  return (
-    <div>
-      <a onClick={props.handleClick}>{props.name} {props.last}</a>
-    </div>
+    <article className="media center">
+      <figure className="media-left">
+        <figure className="image is-64x64">
+          <img className="image is-64x64 m-scale" alt="Asuna" src={props.img} />
+        </figure>
+      </figure>
+      <div className="media-content">
+        <div className="content">
+          <p>
+            <a onClick={props.handleClick}>
+              <strong>{props.name} </strong>
+              <p>{props.last}</p>
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
   )
 }
 
@@ -48,12 +53,13 @@ export default class User extends Component {
         server_get(this.ip,this.jwt).then(res => {
             console.log('eve online');
             ///      <<<< begin binding after database online >>>>
-            this.eve_mount = this.eve_mount.bind(this);
-            this.userData_getter = this.userData_getter.bind(this);
-            this.userHistory_getter = this.userHistory_getter.bind(this);
-            this.page_handler = this.page_handler.bind(this);
-            this.searchHandle = this.searchHandle.bind(this);
-            this.openTab = this.openTab.bind(this);
+            this.eve_mount = this.eve_mount.bind(this)
+            this.userData_getter = this.userData_getter.bind(this)
+            this.userHistory_getter = this.userHistory_getter.bind(this)
+            this.page_handler = this.page_handler.bind(this)
+            this.searchHandle = this.searchHandle.bind(this)
+            this.openTab = this.openTab.bind(this)
+            this.nll = require("../images/chibi.jpg")
             this.busy = 0;
             this.curr_page = [0,0,0];
             this.other_page = [0,0,0];
@@ -79,7 +85,7 @@ export default class User extends Component {
       async function getViewedData (ip, token, viewedArray) {
         const promises = []
         for (let viewer of viewedArray) {
-          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: viewer, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: viewer, target: 'name last img' }, { headers: { authorization: `bearer ${token}` } })
           promises.push(content.data)
         }
         return promises
@@ -88,7 +94,7 @@ export default class User extends Component {
       async function getLikedData (ip, token, likedArray) {
         const promises = []
         for (let liked of likedArray) {
-          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: liked, target: 'name last' }, { headers: { authorization: `bearer ${token}` } })
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: liked, target: 'name last img' }, { headers: { authorization: `bearer ${token}` } })
           promises.push(content.data)
         }
         return promises
@@ -289,15 +295,25 @@ export default class User extends Component {
     }
         
     viewedConstructor () {
-      return this.state.viewedUsers.map(user => {
-        return <Viewer name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
-      })
+      if (Array.isArray(this.state.viewedUsers) && this.state.viewedUsers.length) {
+          return this.state.viewedUsers.map(user => {
+            let img = user.img.img1 === 'null' ? this.nll : user.img.img1
+            return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          })
+      } else {
+        return <div>Nobody has viewed your profile yet...</div>
+      }
     }
 
     likedConstructor () {
-      return this.state.likedUsers.map(user => {
-        return <Liked name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
-      })
+      if (Array.isArray(this.state.likedUsers) && this.state.likedUsers.length) {
+        return this.state.likedUsers.map(user => {
+          let img = user.img.img1 === 'null' ? this.nll : user.img.img1
+          return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+        })
+      } else {
+        return <div>Nobody has liked your profile yet...</div>
+      }
     }
 
     mid_constructor(){
@@ -360,13 +376,14 @@ export default class User extends Component {
 
               <div className="tabcontent" id="Likes">
                 <div className="column is-half bg_white_3">
-                      <div id={'liked'+this.div_key}></div>
+                  <div className="column center" id={'liked'+this.div_key}>
+                  </div>
                 </div>
               </div>
 
               <div className="tabcontent" id="Viewed by">
                 <div className="column is-half bg_white_3">
-                  <div id={'viewed'+this.div_key}></div>
+                  <div className="column center" id={'viewed'+this.div_key}></div>
                 </div>
               </div>
 
