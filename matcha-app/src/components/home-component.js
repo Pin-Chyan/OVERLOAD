@@ -88,7 +88,6 @@ export default class Home extends Component {
                 console.log(res.data);
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
-                this.ping(-1);
             }
         }).catch(err => {console.log('eve redirect' + err)})
     }
