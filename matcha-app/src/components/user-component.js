@@ -375,20 +375,20 @@ export default class User extends Component {
               </div>
 
               <div className="tabcontent" id="Likes">
-                <div className="column is-half bg_white_4">
+                <div className="column is-half bg_white_3">
                   <div className="column center" id={'liked'+this.div_key}>
                   </div>
                 </div>
               </div>
 
               <div className="tabcontent" id="Viewed by">
-                <div className="column is-half bg_white_4">
+                <div className="column is-half bg_white_3">
                   <div className="column center" id={'viewed'+this.div_key}></div>
                 </div>
               </div>
 
               <div className="tabcontent" id="Preferences">
-                <div className="column is-half bg_white_4">
+                <div className="column is-half bg_white_3">
                       Preferences
                 </div>
               </div>
