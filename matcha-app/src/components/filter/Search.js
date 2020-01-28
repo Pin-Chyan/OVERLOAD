@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 export default class Search extends React.Component {
 
     onChangeNameOfPerson = (e) => {
@@ -12,15 +14,15 @@ export default class Search extends React.Component {
         return (
             <div>
                 <div className="field">
-                    <label className="label">E-Mail</label>
+                    <label className="label center_b search-t">E-Mail</label>
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Email" onChange={this.onChangeFinderEmail} required /> */}
-                        <input className="input" type="text" placeholder="Enail" required />
+                        <input className="input" type="text" placeholder="Email" required />
                     </div>
                 </div>
                 
                 <div className="field">
-                    <label className="label">Name Of Person</label>
+                    <label className="label center_b search-t">Name Of Person</label>
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Name Of Person" onChange={this.onChangeNameOfPerson} required /> */}
                         <input className="input" type="text" placeholder="Name" required />
