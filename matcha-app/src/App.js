@@ -18,7 +18,6 @@ import EmailSent from "./components/emailSent-component.js";
 import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
-import newSearch from "./components/newSearch-component.js"
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
 import newEdit from "./components/newedit-component.js";
@@ -49,8 +48,8 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 
           <Route path="/" exact component={Home}/> 
-          <Route path="/newedit" exact component={newEdit}/> 
-          <Route path="/edit" exact component={Edit} />
+          {/* <Route path="/newedit" exact component={newEdit}/>  */}
+          <Route path="/edit" exact component={newEdit} />
           <Route path="/upload" exact component={upload} />
         </Authenticate>
         {/* <Route path="/tags" exact component={tags} /> */}        
