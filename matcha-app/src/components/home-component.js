@@ -248,7 +248,7 @@ export default class Home extends Component {
     }
 
     Carousel_handle(res){
-        console.log(res);
+        // console.log(res);
         if (res){
             var carousel_data = {
                 "distance":res.location[0],

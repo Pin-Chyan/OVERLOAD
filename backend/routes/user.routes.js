@@ -237,8 +237,8 @@ router.post('/get_soft', (req, res) => {
         UserModels.find({ "email": req.body.email},req.body.target + " token").exec().then(docs => {
             if ((req.body.token === docs[0].token) || (req.body.token === "admin")){
                 UserModels.find({"email":req.body.target_email},req.body.target).then(soft_data => {
-                    console.log(req.body.target_email);
-                    console.log(soft_data);
+                    // console.log(req.body.target_email);
+                    // console.log(soft_data);
                     res.json(soft_data[0]);
                 })
             }
@@ -263,7 +263,7 @@ router.post('/get_soft_by_id', verifyToken, (req, res) => {
     })
   }
   UserModels.findById(req.body.id, req.body.target).exec().then(userData => {
-    console.log(userData)
+    // console.log(userData)
     return res.json(userData)
   }).catch(err => { res.status(500).send(err) })
 })
@@ -298,14 +298,14 @@ router.route('/get_next').post( (req, res) => {
 router.route('/load_data').post( (req, res) => {
     // res.json(test_data);
     var dlen = test_data.length;
-    console.log(dlen);
+    // console.log(dlen);
     var i = 0;
     for (i  = 0; i < dlen; i++){
         var new_user = test_data[i];
         if (new_user.age < 18)
             new_user.age = 18;
         let user = new UserModels(new_user);
-        console.log(test_data[i].name)
+        // console.log(test_data[i].name)
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;
             user.password = hash;
@@ -634,7 +634,7 @@ router.route('/Del_like').post( (req, res) => {
     if (!req.body.token || !req.body.target || !req.body.email)
         req.json("error");
     UserModels.find({"email": req.body.target}, "_id").exec().then(docs => {
-        console.log(docs[0]);
+        // console.log(docs[0]);
             UserModels.findOne({"email": req.body.email}, "likes name last").exec().then(docs2 => {
                 if (docs2.likes.includes(docs[0]._id)){
                     sender = docs2.name+docs2.last;
