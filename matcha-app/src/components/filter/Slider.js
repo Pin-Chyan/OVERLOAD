@@ -54,7 +54,7 @@ export default class Slider extends React.Component {
     render() {
         return (
             <Styles>
-                <div className="value center_b">
+                <div className="value center_b search-t">
                     <label>Tags Related: {this.state.value}
                     </label>
                 </div>
