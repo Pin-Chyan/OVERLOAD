@@ -320,25 +320,6 @@ router.route('/load_data').post( (req, res) => {
 //                      <<<< User Routes >>>>
 //
 
-router.route('/viewed').post( (req, res) => {
-    if (!req.body.token || !req.body.email || !req.body.target)
-        res.json("empty fields");
-    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
-            if (data.viewed.includes(docs[0]._id))
-                res.json("already viewed!");
-            else {
-                sender = data.name+" "+data.last;
-                notification_handle(req, "viewed", sender)
-                var array = data.viewed;
-                array.push(docs[0]._id);
-                data.viewed = array;
-                data.save().then(() => {res.json("viewed")})
-            }    
-        })
-    }).catch(err => {res.json(err)});
-})
-
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
     const last = req.body.last;
