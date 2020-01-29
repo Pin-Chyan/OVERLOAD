@@ -11,11 +11,11 @@ router.route('/engine').post( (req, res) => {
     if (!req.body.token || !req.body.email)
         res.status(400).send('missing fields');
     console.log(req.body.email);
-    UserModels.find({"email":req.body.email}, "token location email gender tag").exec().then(auth => {
+    UserModels.find({"email":req.body.email}, "token location email gender tag blocked").exec().then(auth => {
         console.log(auth[0]);
         console.log(req.body.token);
         if (auth[0].token === req.body.token || req.body.token === "admin")
-            UserModels.find({}, "email name last gender age sexual_pref tag fame likes img location").exec().then(docs => {
+            UserModels.find({}, "email name last gender age sexual_pref blocked tag fame likes img location").exec().then(docs => {
                 var request = searchHandler(docs,auth[0],req.body.search_req);
                 if (request === 'no result'){
                     res.json('no_res')
@@ -52,6 +52,12 @@ function targHandler(doc,user,search_req){
     var res = [];
     if (doc.email === user.email)
         return ([0]);
+    console.log(user._id);
+    console.log(doc._id);
+    console.log(doc.blocked);
+    console.log(user.blocked);
+    if (doc.blocked.includes(user._id) || user.blocked.includes(doc._id))
+        return ([0])
     res.push((doc.age >= search_req.targ[0][0] && doc.age <= search_req.targ[0][1]) ? 1 : 0)
     res.push((doc.fame >= search_req.targ[1][0] && doc.fame <= search_req.targ[1][1]) ? 1 : 0);
     var dist = hell(doc.location[4],doc.location[5],user.location[4],user.location[5]);

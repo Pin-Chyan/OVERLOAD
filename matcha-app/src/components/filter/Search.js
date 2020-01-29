@@ -33,14 +33,6 @@ export default class Search extends React.Component {
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Email" onChange={this.onChangeFinderEmail} required /> */}
                         <input className="input is-small" type="text" placeholder="Email" required />
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="-1" onChange={this.on} />
-                            Ascending
-                        </label>
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="1" onChange={this.on} />
-                            Descending
-                        </label>
                     </div>
                 </div>
                 
@@ -49,14 +41,6 @@ export default class Search extends React.Component {
                     <div className="control has-icons-left has-icons-right">
                         {/* <input className="input" type="text" placeholder="Name Of Person" onChange={this.onChangeNameOfPerson} required /> */}
                         <input className="input is-small" type="text" placeholder="Name" required />
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="-1" onChange={this.on} />
-                            Ascending
-                        </label>
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="1" onChange={this.on} />
-                            Descending
-                        </label>
                     </div>
                 </div>
                 
