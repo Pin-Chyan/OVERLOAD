@@ -199,7 +199,7 @@ export default class Profiles extends Component {
           </span>
         </div>
         <a className='navbar-item ' style={{ color: this.state.other_page }}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></a>
-        <a className="navbar-item " style={{color: this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
+        <a className="navbar-item " style={{color: this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
         <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>

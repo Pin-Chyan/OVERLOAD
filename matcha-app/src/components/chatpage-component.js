@@ -76,7 +76,7 @@ export default class ChatPage extends Component {
               return promise.data
       }
       ///      <<<< target will be customised for each page for optimisation >>>>
-      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms").then(userGet_res => {
+      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name last img bio tag email").then(userGet_res => {
               this.setState({"user":userGet_res[0]});
               this.getChats()
               
@@ -189,7 +189,7 @@ export default class ChatPage extends Component {
                   </span>
               </div>
               <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-              <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
+              <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
               <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
               <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
               <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>

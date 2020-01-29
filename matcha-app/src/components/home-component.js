@@ -48,6 +48,7 @@ export default class Home extends Component {
             }
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
+                console.log(this.props.location.user)
                 this.eve_mount();
             }
             else
@@ -308,7 +309,7 @@ export default class Home extends Component {
                     </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
