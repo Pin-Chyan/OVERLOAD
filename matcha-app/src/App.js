@@ -17,7 +17,7 @@ import Forgot from "./components/forgot-component.js";
 import EmailSent from "./components/emailSent-component.js";
 import ResetPass from "./components/resetPass-component.js";
 import PasswordUpdated from "./components/passwordUpdated-component";
-import Search from "./components/search-component.js"
+import Search from "./components/search-component.js";
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
 
@@ -41,11 +41,11 @@ function App() {
           <Route path="/chat/:target" exact component={chat} />
           <Route path="/user" exact component={User} />
           <Route path="/logout" exact component={logout} />
-          <Route path="/search" exact component={Search}/> 
-          <Route path="/" exact component={Home}/> 
+          <Route path="/search" exact component={Search}/>
+          <Route path="/" exact component={Home}/>
           <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
-        </Authenticate>      
+        </Authenticate>
       </Switch>
     </Router>
   )
