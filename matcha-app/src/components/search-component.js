@@ -10,10 +10,7 @@ import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
-var load2 = require("../images/load2.gif");
-var load3 = require("../images/scifi.gif");
-var nll = require("../images/chibi.jpg");
-var sec = require("../images/check.jpg");
+
 
 //[1,-1,-2,-2,10,-1,-1] search conditions
 
@@ -34,6 +31,10 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
+        this.load2 = require("../images/load2.gif");
+        this.load3 = require("../images/scifi.gif");
+        this.nll = require("../images/chibi.jpg");
+        this.sec = require("../images/check.jpg");
         this.req = {};
         this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
         this.state = {};
@@ -101,7 +102,7 @@ export default class User extends Component {
 page_handler(mode, data){
     console.log(window.innerHeight);
     var div_onload = (<div className="columns is-centered shadow"><div className="column bg_white_2"><div onClick={e => this.listener(e)} id={"result"+this.div_key}></div></div></div>);
-    var div_load = (<div><img src={load3}></img></div>);
+    var div_load = (<div><img src={this.load3}></img></div>);
     var cont_div = 'cont' + this.div_key;
     var menu_div = 'navMenu' + this.div_key;
     var res_div = 'result' + this.div_key;
@@ -129,7 +130,7 @@ page_handler(mode, data){
             if (document.getElementById(menu_div))
                 ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));              
             var head = this.header_constructor("Senpais are searching");
-            var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":load3}}],0);
+            var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":this.load3}}],0);
             var result = head.concat(body);
         });
     }
@@ -141,10 +142,12 @@ page_handler(mode, data){
         if (document.getElementById(menu_div))
             ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         var head = this.header_constructor("Whatcha waiting for");
-        var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":load2}}],0);
+        var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":this.load2}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
     }
     else if (mode == 'no_res'){
         console.log(mode);
@@ -154,7 +157,7 @@ page_handler(mode, data){
         if (document.getElementById(menu_div))
             ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         var head = this.header_constructor("Cannot Notice senpai");
-        var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":nll}}],0);
+        var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":this.nll}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
@@ -165,7 +168,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("gomenasai");
-        var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":nll}}],0);
+        var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":this.nll}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
@@ -178,7 +181,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("Sorry dear user");
-        var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":sec}}],0);
+        var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":this.sec}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
@@ -238,8 +241,11 @@ page_handler(mode, data){
                 console.log(res);
                 if (res.data === 'no_res')
                     this.page_handler('no_res',{});
-                else
-                    this.page_handler('loaded',res.data);
+                else {
+                    this.sleep(3000).then(() => {
+                        this.page_handler('loaded',res.data);
+                    })
+                }
             })
         }
         console.log('done');
@@ -312,18 +318,7 @@ page_handler(mode, data){
                     <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
-            <div className="container bg_white_5 columns center_b">
-                Search Filter
-            </div>
-            <div className="container bg_white_6 columns">
-                <div className="column">
-                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
-                        <Slider />
-                    </Styles>
-                    <Filter />
-                    <Search />
-                </div>
-            </div>
+            <div id={"filter"+this.div_key}></div>
             <div id={"cont"+this.div_key} className="container" >
             </div>
         </section>
@@ -369,6 +364,24 @@ page_handler(mode, data){
         else
             return <div/>;
     }
+    filter_constructor(){
+        return (
+        <div>
+            <div className="container bg_white_5 columns center_b">
+                Search Filter
+            </div>
+            <div className="container bg_white_6 columns">
+                <div className="column">
+                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
+                        <Slider />
+                    </Styles>
+                    <Filter />
+                    <Search />
+                </div>
+            </div>
+        </div>
+        )
+    }
     header_constructor(heading){
         var start = '<div class="tile is-ancestor"><div class="tile is-parent"><article class="tile is-child box"><p class="title center_b">';
         var header = '<p class="title center_b">' + heading + '</p></article></div></div>';
@@ -402,7 +415,7 @@ page_handler(mode, data){
             res += '<div class="tile is-ancestor">';
             while (i < columns && data_pos < max){
                 if (data[data_pos].img.img1 == 'null')
-                    image = nll;
+                    image = this.nll;
                 else
                     image = data[data_pos].img.img1;
                 temp = this.column_constructor(data[data_pos].name , image, button, data[data_pos]._id);

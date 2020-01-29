@@ -9,7 +9,7 @@ export default class Filter extends React.Component {
     render() {
         return (
             <div className="control search-t padding-top">
-            <label className="label center_b search-t">Sexual Preference</label>
+            <label className="label center_b search-t">Gender</label>
                 <div className="center_b">
                     <label className="radio c-margin search-r">
                         <input type="radio" name="gender" value="-1" onChange={this.onChangeGender} />
@@ -20,30 +20,23 @@ export default class Filter extends React.Component {
                         Female
                     </label>
                     <label className="radio c-margin search-r">
-                        <input type="radio" name="gender" value="0" onChange={this.onChangeGender} />
+                        <input type="radio" name="gender" value="-2" onChange={this.onChangeGender} />
+                        Either
+                    </label>
+                </div>
+            <label className="label center_b search-t">With sexual pref:</label>
+                <div className="center_b">
+                    <label className="radio c-margin search-r">
+                        <input type="radio" name="pref" value="-1" onChange={this.onChangeGender} />
+                        Male
+                    </label>
+                    <label className="radio c-margin search-r">
+                        <input type="radio" name="pref" value="1" onChange={this.onChangeGender} />
+                        Female
+                    </label>
+                    <label className="radio c-margin search-r">
+                        <input type="radio" name="pref" value="0" onChange={this.onChangeGender} />
                         Bisexual
-                    </label>
-                </div>
-            <label className="label center_b search-t">Fame</label>
-                <div className="center_b">
-                    <label className="radio c-margin search-r">
-                        <input type="radio" name="fame" value="" onChange={this.on} />
-                        Most
-                    </label>
-                    <label className="radio c-margin search-r">
-                        <input type="radio" name="fame" value="" onChange={this.on} />
-                        Least
-                    </label>
-                </div>
-            <label className="label center_b search-t">Distance</label>
-                <div className="center_b">
-                    <label className="radio c-margin search-r">
-                        <input type="radio" name="distance" value="-1" onChange={this.on} />
-                        Closest
-                    </label>
-                    <label className="radio c-margin search-r">
-                        <input type="radio" name="distance" value="1" onChange={this.on} />
-                        Furthest
                     </label>
                 </div>
             </div>
