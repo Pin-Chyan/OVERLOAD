@@ -322,6 +322,10 @@ h3 {
     display: inline-flex;
 }
 
+.adjust {
+    object-fit: contain;
+}
+
 .c-margin {
     /* margin: none !important; */
 }
