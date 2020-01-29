@@ -25,7 +25,6 @@ export default class Inbox extends Component {
       return promise
     }
     getEmail().then( res => {
-      console.log(res);
       this.ping(res.data.email,jwt,ip);
     })
 
@@ -44,7 +43,6 @@ export default class Inbox extends Component {
           notifyCount++
         }
       }
-      console.log('getting notifications...')
       this.setState({ notifyCount })
       localStorage.setItem('liked', res.liked.toString());
       localStorage.setItem('likes', res.likes.toString());

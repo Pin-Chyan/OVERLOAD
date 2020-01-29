@@ -15,6 +15,29 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 // Add to navbar
 // Fix no results showing up
 
+const Profile = props => {
+  return (
+    <article className="media center">
+      <figure className="media-left">
+        <figure className="image is-64x64">
+          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+        </figure>
+      </figure>
+      <div className="media-content">
+        <div className="content">
+          <p>
+          {/* onClick={props.handleClick} */}
+              <a>
+              <strong>{props.name} </strong>
+              <p>{props.last}</p>
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 export default class ChatPage extends Component {
   constructor(props){
       super(props);
@@ -41,7 +64,6 @@ export default class ChatPage extends Component {
               "checked": false
           }
           if (this.props.location.user && this.props.location.user.chatrooms){
-              console.log('found all the data')
               this.setState({"user":this.props.location.user});
               this.eve_mount();
           }
@@ -50,7 +72,6 @@ export default class ChatPage extends Component {
       }).catch(err => {console.log('eve redirect' + err)});
   }
   userData_getter(){
-      console.log('getting data......');
       async function get_data(email,jwt,ip,target){
           console.log(email);
           let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
@@ -75,7 +96,6 @@ export default class ChatPage extends Component {
   page_handler () {
     const nav_bar = this.nav_constructor()
     const cont = this.mid_constructor()
-    console.log(this.state.user)
     if (document.getElementById('navMenu'+this.div_key))
         ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
     if (document.getElementById('cont'+this.div_key))
@@ -100,10 +120,10 @@ export default class ChatPage extends Component {
       this.setState({search:e.target.value});
   }
   keyHandle = e => {
-      if (e.key == 'Enter'){
+      if (e.key === 'Enter'){
           var search_input = 'null';
           if (this.state.search){
-              if (this.state.search.trim() != '')
+              if (this.state.search.trim() !== '')
                   search_input = this.state.search;
           }
           this.props.history.push({
@@ -152,6 +172,7 @@ export default class ChatPage extends Component {
                   </span>
               </div>
               <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+              <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
               <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
               <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
               <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -161,11 +182,23 @@ export default class ChatPage extends Component {
       return(element1);
   }
 
+  // chatsContructor () {
+  //   if (Array.isArray(this.state.user) && this.state.likedUsers.length) {
+  //     return this.state.likedUsers.map(user => {
+  //       let img = user.img.img1 === 'null' ? this.nll : user.img.img1
+  //       return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+  //     })
+  //   } else {
+  //     return <div>Nobody has liked your profile yet...</div>
+  //   }
+  // }
+
   mid_constructor(data){
       return (
           <div className="column is-centered shadow">
               <div className="column is-half bg_white_4">
                   <div className="column center" id={"notifications"+this.div_key}>
+                    <Profile name={'test'} last={'user'} img={this.nll} />
                   </div>
               </div>
           </div>

@@ -59,7 +59,6 @@ export default class Home extends Component {
     userData_getter(reset){
         console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
@@ -85,7 +84,6 @@ export default class Home extends Component {
             if (res !== 'no result'){
                 console.log('results loaded...');
                 this.setState({"results":res.data});
-                console.log(res.data);
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
@@ -130,10 +128,10 @@ export default class Home extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -153,7 +151,6 @@ export default class Home extends Component {
             data.count = res.data[0].notifications.length;
             // this.state.count = data.count;
             this.setState(data);
-            console.log(this.state.count);
             var nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
@@ -320,6 +317,7 @@ export default class Home extends Component {
                     </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -385,7 +383,7 @@ export default class Home extends Component {
                     <p>
                         <strong>{data.distance + "km"}</strong> <a onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>
                 </div>
             </div>

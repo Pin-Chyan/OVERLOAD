@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
+import Inbox from './message-and-notification';
 var load2 = require("../images/load2.gif");
 var load3 = require("../images/scifi.gif");
 var nll = require("../images/chibi.jpg");
@@ -344,6 +345,8 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -353,6 +356,8 @@ page_handler(mode, data){
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
+            <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}>Chats</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
