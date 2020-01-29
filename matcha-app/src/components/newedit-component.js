@@ -394,7 +394,8 @@ export default class User extends Component {
 	onChangeName(e) {
         this.setState({
             new_name: e.target.value
-        });
+		});
+		console.log(this.state.new_name);
     }
 
     onChangeTag(e) {
@@ -679,7 +680,7 @@ export default class User extends Component {
 
 				<div className="field is-grouped">
 					<div className="control">
-						<button className="button is-warning is-rounded" onClick={this.onSubmit}>Change</button>
+						<button className="button is-warning is-rounded" onClick={(e) => this.onSubmit(e)}>Change</button>
 					</div>
 					<div className="control">
 						<button className="button is-warning is-rounded is-light">Cancel</button>
@@ -695,7 +696,7 @@ export default class User extends Component {
 							</div>
 						</div>
 						<div className="field is-grouped">
-							<div className="control" onClick={this.onTagSubmit}>
+							<div className="control" onClick={(e) => this.onTagSubmit(e)}>
 								<button id="upload" className="button is-warning is-rounded">Change</button>
 								<button id="delete" className="button is-warning is-rounded">delete</button>
 							</div>
