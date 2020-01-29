@@ -23,9 +23,9 @@
 }
 
 .logo_use {
-    width: 10rem !important;
-    height: 2rem !important;
-    object-fit: cover !important;
+    width: 120px !important;
+    height: 50px !important;
+    /* object-fit: contain !important; */
 }
 
 .svg_icon {
@@ -35,7 +35,7 @@
 
 .bg_white {
     background-color: white !important;
-    border-radius: 2%;
+    border-radius: 25px;
     /* width: 500px !important; */
     /* flex: auto !important; */
 }
@@ -156,6 +156,7 @@
     object-fit: scale-down;
     justify-content: center;
     align-items: center;
+    margin: auto !important;
     /* overflow-wrap: v; */
 }
 
