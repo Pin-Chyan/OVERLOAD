@@ -86,7 +86,7 @@
 
 .bg_white_5 {
     margin-top: 35px;
-    background-color: white !important;
+    background-color: rgb(180, 180, 180) !important;
     border-radius: 10px 10px 0 0;
     height: 50px;
     width: 600px;
@@ -100,7 +100,7 @@
 
 .bg_white_6 {
     /* margin-top: 35px; */
-    background-color: white !important;
+    background-color: rgb(40, 40, 40) !important;
     border-radius: 0 0 10px 10px;
     /* height: 200px; */
     width: 600px;
@@ -283,11 +283,6 @@ h3 {
   background: #adceed;
 }
 
-.grey_1 {
-    background-color: rgb(90, 90, 90);
-}
-
-
 /*  */
 
 .form {
@@ -309,7 +304,13 @@ h3 {
 .search-t {
     font-weight: unset !important;
     align-items: center;
-    color: #888;
+    color: white;
+}
+
+.search-r {
+    font-weight: unset !important;
+    align-items: center;
+    color: #888;  
 }
 
 .padding-top{
