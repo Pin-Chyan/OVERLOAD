@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NotificationBadge from 'react-notification-badge';
 import {Effect} from 'react-notification-badge';
+import ReactDOM from 'react-dom'
 const ip = require("../server.json").ip;
 
 export default class Inbox extends Component {
   constructor(props) {
     super(props)
+    this.ip = ip
     this.state ={
       notifyCount: 0
     }
@@ -14,8 +17,9 @@ export default class Inbox extends Component {
   componentDidMount () {
     const jwt = localStorage.token
     if (!jwt) {
-      this.props.history.push('/login')
+      this.props.redirectHandler()
     }
+    
     async function getEmail () {
       const promise = await axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
       return promise
@@ -55,8 +59,8 @@ export default class Inbox extends Component {
   }
   render () {
     return (
-        <div>
-          <i className="fa fa-inbox"><NotificationBadge count={this.state.notifyCount} effect={Effect.SCALE}/></i>
+        <div className="fa fa-inbox" onClick={this.props.redirectHandler}>
+          <NotificationBadge count={this.state.notifyCount} effect={Effect.SCALE}/>
         </div>
       )
     }

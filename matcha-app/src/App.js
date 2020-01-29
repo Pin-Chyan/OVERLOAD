@@ -21,6 +21,7 @@ import Search from "./components/search-component.js"
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
 import newEdit from "./components/newedit-component.js";
+import ChatPage from "./components/chatpage-component.js";
 // import carousel from "./components/carousel.js"
 // import tags from "./components/tags-input.js";
 
@@ -32,7 +33,6 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
         <Route path="/logout" exact component={logout} />
-        <Route path="/notification" exact component={Notification} />
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/emailSent" exact component={EmailSent} />
         <Route path="/verify/:vkey" component={Verify}/>
@@ -42,6 +42,8 @@ function App() {
         {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
+          <Route path="/notification" exact component={Notification} />
+          <Route path="/mychats" exact component={ChatPage} />
           <Route path="/profiles/:id" component={Profiles}/>
           <Route path="/chat/:target" exact component={chat} />
           <Route path="/user" exact component={User} />
