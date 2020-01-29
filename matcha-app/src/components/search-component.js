@@ -11,7 +11,7 @@ import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
 import cons from './chat-component';
-
+import Inbox from './message-and-notification';
 //[1,-1,-2,-2,10,-1,-1] search conditions
 
 const Styles = styled.div`
@@ -36,7 +36,7 @@ export default class User extends Component {
         this.nll = require("../images/chibi.jpg");
         this.sec = require("../images/check.jpg");
         this.req = {};
-        this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
+        this.req.targ = [[0,100],-2,-2,-2,-2,1];
         this.state = {};
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -71,7 +71,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last age bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -208,14 +208,30 @@ page_handler(mode, data){
 
     //      <<<< search functions
     searchHandle = (e) => {
+        console.log(e.target.value);
         this.req.in = e.target.value;
     }
     keyHandle = e => {
-        if (e.key === 'Enter'){
-            this.searcher();
+        if (e.target.id === 'filter' || e.target.id === 'withfilter'){
+            var req = [[-2,-2],-2,-2,-2,-2,-2];
+            if (localStorage.age_gap !== 'max')
+                req[0] = [this.state.user.age - parseInt(localStorage.age_gap) < 18 ? 18 : this.state.user.age - parseInt(localStorage.age_gap) ,parseInt(localStorage.age_gap) + this.state.user.age];
+            if (localStorage.max_fam !== 'anyone')
+                req[1] = parseInt(localStorage.max_fam);
+            if (localStorage.max_dst !== 'anywhere')
+                req[2] = parseInt(localStorage.max_dst);
+            req[3] = parseInt(localStorage.filter_gen);
+            req[4] = parseInt(localStorage.filter_pref);
+            if (e.target.id === 'withfilter')
+                req[5] = 1;
+            console.log(req);
+            this.searcher({"targ":req,"in":this.req.in});
+        }
+        if (e.target.id === 'exclude'){
+            this.searcher(this.req);
         }
     }
-    searcher(){
+    searcher(req){
         async function search(email,jwt,ip,search_req){
             let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_req":search_req})
             if (promise.status === 200){
@@ -225,7 +241,8 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
-            search(this.state.user.email,this.jwt,this.ip,this.req).then(res => {
+            // this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
+            search(this.state.user.email,this.jwt,this.ip,req).then(res => {
                 if (res.data === 'no_res')
                     this.page_handler('no_res',{});
                 else {
@@ -325,7 +342,7 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                {/* <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a> */}
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
@@ -336,7 +353,7 @@ page_handler(mode, data){
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
-            {/* <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a> */}
+            <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
             <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
@@ -363,15 +380,15 @@ page_handler(mode, data){
                 <div className="column">
                     <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}><Slider /></Styles><Filter />
                     <div>
-                        <button id="Search" className="button is-rounded is-small">Search using filters</button>
-                            <div className="field">
-                                <label className="label center_b search-t">Search by name/email</label>
-                                <div className="control has-icons-left has-icons-right">
-                                    <input className="input is-small" type="text" placeholder="Name" />
-                                    <button id="Searchex" className="button is-rounded is-small" onClick={e => this.filter_handler(e)}>Search name/email only</button>
-                                    <button id="Searchwith" className="button is-rounded is-small"  onClick={e => this.filter_handler(e)}>Search name/email using filter</button>
-                                </div>
+                        <button id="filter" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search using filters</button>
+                        <div className="field">
+                            <label className="label center_b search-t" >Search by name/email</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input is-small" type="text" placeholder="Name" onChange={this.searchHandle}/>
+                                <button id="exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search name/email only</button>
+                                <button id="withfilter" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>Search name/email using filter</button>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

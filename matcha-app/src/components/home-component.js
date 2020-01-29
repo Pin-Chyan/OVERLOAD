@@ -76,7 +76,7 @@ export default class Home extends Component {
             }
         }
         var req = {};
-        req.targ = [[0,100],[0,100],-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
+        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
         req.in = '';
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res !== 'no result'){
