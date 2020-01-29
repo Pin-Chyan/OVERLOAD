@@ -36,8 +36,7 @@ const userSchema = new Schema({
     type: Boolean
   },
   vKey: {
-    type: String,
-    unique: true
+    type: String
   },
   name: {
     type: String,
@@ -84,10 +83,6 @@ const userSchema = new Schema({
     default: 0
   },
   tag: {
-    type: Array,
-    default: ["start"]
-  },
-  notify: {
     type: Array,
     default: ["start"]
   },

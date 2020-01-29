@@ -119,9 +119,6 @@ export default class Login extends Component {
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>
-                                <span className="icon is-small is-right">
-                                    <i className="fa fa-exclamation-triangle"></i>
-                                </span>
                             </div>
                             <p className="help is-danger">{this.state.emailErr}</p>
                         </div>
@@ -141,12 +138,10 @@ export default class Login extends Component {
                             <div className="control">
                                 <button className="button is-warning is-rounded" onClick={this.onSumbit}>Submit</button>
                             </div>
-                            <div className="control">
-                                <Link to="/register" className="button borrow-btn has-text-info">Register</Link>
-                                <Link to="/forgot" className="button borrow-btn has-text-info">Forgot password?</Link>
-                            </div>
                         </div>
-
+                          <article className="media center">
+                            <Link to="/forgot" className="button borrow-btn has-text-info is-small">Forgot password?</Link>
+                          </article>
                     </div>
                 </div>
             </div>

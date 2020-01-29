@@ -8,6 +8,7 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 // import "../styles/debug.css";
 import axios from 'axios';
+import Inbox from './message-and-notification';
 
 var load = require("../images/load.gif");
 
@@ -287,6 +288,7 @@ export default class cons extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
