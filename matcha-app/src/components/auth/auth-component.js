@@ -27,7 +27,6 @@ class Authenticated extends Component {
                 this.props.history.push('/login'); 
             });
         }
-        //console.log(jwt);
     }
 
     render() {

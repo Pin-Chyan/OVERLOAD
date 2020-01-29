@@ -10,7 +10,6 @@ import { getJwt } from "./auth/jwt-helper.js";
 var sesh = "meave@gmail.com";
 var ip = require("../server.json").ip;
 var token = "admin";
-console.log(ip);
 
 
 export default class Home extends Component {
@@ -22,7 +21,6 @@ export default class Home extends Component {
     }
     componentDidMount () {
         axios.post(ip+"/users/get_spec", {"email": sesh, "target":"img name tag", "token":token}).then(res => {
-            console.log(res.data[0]);
             if (res.data === "invalid token" || res.data === "token not present"){
                 return (window.location.href = ip+"/login");
             }
@@ -35,7 +33,6 @@ export default class Home extends Component {
     }
 
     tag_handler = event => {
-        // console.log(event.target.value);
         this.setState({ntag : event.target.value});
     }
 
@@ -58,10 +55,6 @@ export default class Home extends Component {
             this.setState({ctag : tag});
             axios.post(ip+"/users/edit_spec", {"email": sesh,"token":token, "tag":tag});
         }
-    }
-
-    event_catch(event){
-        console.log(event.target.id);
     }
 
     render () {

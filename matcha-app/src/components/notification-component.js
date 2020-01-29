@@ -17,14 +17,12 @@ export default class Notifications extends Component {
         this.nll = require("../images/chibi.jpg");
         this.pos = 0;
         this.state = {}
-        console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
         }
         server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
             ///      <<<< begin binding after database online >>>>
             this.busy = 0;
             this.curr_page = [0,0,0];
@@ -42,9 +40,7 @@ export default class Notifications extends Component {
         }).catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(){
-        console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data
@@ -71,8 +67,6 @@ export default class Notifications extends Component {
           ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
       if (document.getElementById('cont'+this.div_key))
           ReactDOM.render(cont, document.getElementById('cont'+this.div_key))
-      console.log('render');
-        //this.userData_getter(1);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
