@@ -26,9 +26,8 @@ const Profile = props => {
       <div className="media-content">
         <div className="content">
           <p>
-          {/* onClick={props.handleClick} */}
-              <a>
-              <strong>{props.name} </strong>
+              <a onClick={props.handleClick}>
+              <strong>{props.name}</strong>
               <p>{props.last}</p>
             </a>
           </p>
@@ -47,25 +46,24 @@ export default class ChatPage extends Component {
       this.nll = require("../images/chibi.jpg");
       this.pos = 0;
       this.state = {}
-      console.log(this.ip);
       async function server_get(ip,jwt){
           let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
           if (promise.status === 200)
               return promise.data;
       }
       server_get(this.ip,this.jwt).then(res => {
-          console.log('eve online');
           ///      <<<< begin binding after database online >>>>
           this.busy = 0;
           this.curr_page = [0,0,0];
           this.other_page = [0,0,0];
           this.state = {
               "user" : res,
-              "checked": false
+              "chats": undefined
+
           }
           if (this.props.location.user && this.props.location.user.chatrooms){
               this.setState({"user":this.props.location.user});
-              this.eve_mount();
+              this.getChats();
           }
           else
               this.userData_getter();
@@ -73,7 +71,6 @@ export default class ChatPage extends Component {
   }
   userData_getter(){
       async function get_data(email,jwt,ip,target){
-          console.log(email);
           let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
           if (promise.status === 200)
               return promise.data
@@ -81,9 +78,27 @@ export default class ChatPage extends Component {
       ///      <<<< target will be customised for each page for optimisation >>>>
       get_data(this.state.user.email,this.jwt,this.ip,"chatrooms").then(userGet_res => {
               this.setState({"user":userGet_res[0]});
-              this.eve_mount();
+              this.getChats()
+              
       }).catch(err => {console.log('eve redirect' + err)})
   }
+
+  getChats () {
+    async function getChatsData (ip, token, chatrooms) {
+      const promises = []
+      for (let userid of chatrooms) {
+        const content = await axios.post(ip + '/users/get_soft_by_id', { id: userid , target: 'name last img email' }, { headers: { authorization: `bearer ${token}` } })
+        promises.push(content.data)
+      }
+      return promises
+    }
+
+    getChatsData(this.ip, this.jwt, this.state.user.chatrooms).then(res => {
+      this.setState({ chats: res})
+      this.eve_mount()
+    }).catch(err => {console.log('eve redirect' + err)})
+  }
+
   eve_mount(){
       this.page_handler()
   }
@@ -96,11 +111,13 @@ export default class ChatPage extends Component {
   page_handler () {
     const nav_bar = this.nav_constructor()
     const cont = this.mid_constructor()
+    const chats = this.chatContructor()
     if (document.getElementById('navMenu'+this.div_key))
         ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
     if (document.getElementById('cont'+this.div_key))
         ReactDOM.render(cont, document.getElementById('cont'+this.div_key))
-    console.log('render');
+    if (document.getElementById('chats'+this.div_key))
+        ReactDOM.render(chats, document.getElementById('chats'+this.div_key))
       //this.userData_getter(1);
   }
 
@@ -130,7 +147,7 @@ export default class ChatPage extends Component {
               pathname: '/search',
               user: this.state.user,
               search_in: search_input 
-          });
+          })
       }
   }
 
@@ -182,23 +199,22 @@ export default class ChatPage extends Component {
       return(element1);
   }
 
-  // chatsContructor () {
-  //   if (Array.isArray(this.state.user) && this.state.likedUsers.length) {
-  //     return this.state.likedUsers.map(user => {
-  //       let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-  //       return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
-  //     })
-  //   } else {
-  //     return <div>Nobody has liked your profile yet...</div>
-  //   }
-  // }
+  chatContructor () {
+    if (Array.isArray(this.state.chats) && this.state.chats.length) {
+      return this.state.chats.map(room => {
+        let img = room.img.img1 === 'null' ? this.nll : room.img.img1
+        return <Profile img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
+      })
+    } else {
+      return <div>No chats yet...</div>
+    }
+  }
 
   mid_constructor(data){
       return (
           <div className="column is-centered shadow">
               <div className="column is-half bg_white_4">
-                  <div className="column center" id={"notifications"+this.div_key}>
-                    <Profile name={'test'} last={'user'} img={this.nll} />
+                  <div className="column center" id={'chats'+this.div_key}>
                   </div>
               </div>
           </div>
