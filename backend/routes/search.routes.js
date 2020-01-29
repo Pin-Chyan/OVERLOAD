@@ -10,10 +10,7 @@ require('dotenv').config();
 router.route('/engine').post( (req, res) => {
     if (!req.body.token || !req.body.email)
         res.status(400).send('missing fields');
-    console.log(req.body.email);
     UserModels.find({"email":req.body.email}, "token location email gender tag blocked").exec().then(auth => {
-        console.log(auth[0]);
-        console.log(req.body.token);
         if (auth[0].token === req.body.token || req.body.token === "admin")
             UserModels.find({}, "email name last gender age sexual_pref blocked tag fame likes img location").exec().then(docs => {
                 var request = searchHandler(docs,auth[0],req.body.search_req);
@@ -52,10 +49,6 @@ function targHandler(doc,user,search_req){
     var res = [];
     if (doc.email === user.email)
         return ([0]);
-    console.log(user._id);
-    console.log(doc._id);
-    console.log(doc.blocked);
-    console.log(user.blocked);
     if (doc.blocked.includes(user._id) || user.blocked.includes(doc._id))
         return ([0])
     res.push((doc.age >= search_req.targ[0][0] && doc.age <= search_req.targ[0][1]) ? 1 : 0)
@@ -89,7 +82,7 @@ function tags(tag,search_req){
     return (ret);
 }
 function hell(lat1,lon1,lat2,lon2) {
-	var R = 6371; // km (change this constant to get miles)
+	var R = 6371;
 	var dLat = (lat2-lat1) * Math.PI / 180;
 	var dLon = (lon2-lon1) * Math.PI / 180;
 	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -105,5 +98,4 @@ function displacement(x1,x2){
     return (x2 - x1);
 }
 
-// function handler(limit)
 module.exports = router;

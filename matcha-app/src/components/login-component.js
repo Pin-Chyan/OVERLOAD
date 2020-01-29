@@ -43,15 +43,12 @@ export default class Login extends Component {
     }
 
     onSumbit = async e => {
-       // e.preventDefault();
         const user = { email: this.state.email, password: this.state.password};
         this.setState({ emailErr: '', passwordErr: ''});      
 
         if (!(user.email === "" || user.password === "")) {
             axios.post(ip+'/auth/getToken', user)
             .then(res => {
-                //codes [0 : OK] [1 : Inccorect password or username]
-                console.log(res);
                 if (res.data.resCode === 1) {
                     this.setState({ emailErr: "Email or Password incorrect" });
                 } else if (res.data.resCode) {

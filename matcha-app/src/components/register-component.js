@@ -215,18 +215,13 @@ export default class Register extends Component {
                             sexual_pref: 0,
                             location: this.state.location
                         }
-                        console.log(dat);
-                        console.log(ip);
-                        console.log(this.props.history);
                         axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
                         ).catch(err => (console.log("Error adding user" + err)));
                     } else {
-                        console.log("Email in use");
                         this.setState({emailErr: 'Email already in use!'});
                     }
              });
             }
-            //test is email is available
 
         }
     render () {
