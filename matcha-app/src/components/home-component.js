@@ -251,16 +251,17 @@ export default class Home extends Component {
         // console.log(res);
         if (res){
             var carousel_data = {
-                "distance":res.location[0],
-                "carousel_name":res.name,
-                "carousel_last":res.last,
-                "carousel_bio":res.bio,
-                "carousel_tag":res.tag,
-                "carousel_img1":res.img.img1 === 'null' ? this.nll : res.img.img1,
-                "carousel_img2":res.img.img2 === 'null' ? this.nll : res.img.img2,
-                "carousel_img3":res.img.img3 === 'null' ? this.nll : res.img.img3,
-                "carousel_img4":res.img.img4 === 'null' ? this.nll : res.img.img4,
-                "carousel_img5":res.img.img5 === 'null' ? this.nll : res.img.img5
+              "id": res._id,
+              "distance":res.location[0],
+              "carousel_name":res.name,
+              "carousel_last":res.last,
+              "carousel_bio":res.bio,
+              "carousel_tag":res.tag,
+              "carousel_img1":res.img.img1 === 'null' ? this.nll : res.img.img1,
+              "carousel_img2":res.img.img2 === 'null' ? this.nll : res.img.img2,
+              "carousel_img3":res.img.img3 === 'null' ? this.nll : res.img.img3,
+              "carousel_img4":res.img.img4 === 'null' ? this.nll : res.img.img4,
+              "carousel_img5":res.img.img5 === 'null' ? this.nll : res.img.img5
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
@@ -382,7 +383,7 @@ export default class Home extends Component {
             <div className="media-content">
                 <div className="content">
                     <p>
-                        <strong>{data.distance + "km"}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                        <strong>{data.distance + "km"}</strong> <a onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
                         <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>
