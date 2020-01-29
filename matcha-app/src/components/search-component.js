@@ -12,7 +12,6 @@ import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
 import cons from './chat-component';
 
-
 //[1,-1,-2,-2,10,-1,-1] search conditions
 
 const Styles = styled.div`
@@ -326,6 +325,8 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
+                {/* <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a> */}
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -335,6 +336,8 @@ page_handler(mode, data){
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
+            {/* <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a> */}
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>

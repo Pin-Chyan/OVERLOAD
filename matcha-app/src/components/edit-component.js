@@ -386,7 +386,7 @@ export default class User extends Component {
 		poes.new_email = undefined;
 		poes.new_name = undefined;
 		poes.new_surname = undefined;
-		poes.new_bio = undefined;
+		poes.bio = undefined;
 		poes.new_tag = undefined;
 		this.setState({poes})
 	}

@@ -10,9 +10,6 @@ import { Fade } from 'react-slideshow-image'
 import Axios from 'axios'
 import Inbox from './message-and-notification'
 
-// Create button constructor
-// Link buttons to their actions
-
 const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
@@ -20,7 +17,7 @@ const fadeProperties = {
   indicators: true,
 }
 
-export default class Home extends Component {
+export default class Profiles extends Component {
   constructor (props) {
     super(props)
     this.div_key = Date.now()
@@ -68,14 +65,14 @@ export default class Home extends Component {
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
       getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
-      }).catch(err => {
-        console.log('fake eve redirect' + err)
-      })
-      getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
-        this.setState({ viewedUser: res })
-        this.pageHandler()
-        addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
-        }).catch(err => { console.log(err) })
+        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+          this.setState({ viewedUser: res })
+          this.pageHandler()
+          addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
+          }).catch(err => { console.log(err) })
+        }).catch(err => {
+          console.log('fake eve redirect' + err)
+        })
       }).catch(err => {
         console.log('fake eve redirect' + err)
       })
@@ -201,8 +198,9 @@ export default class Home extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
+        <a className='navbar-item ' style={{ color: this.state.other_page }}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></a>
+        <a className="navbar-item " style={{color: this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></a>
         <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>
@@ -261,7 +259,7 @@ export default class Home extends Component {
                     <p>
                       <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
                       <span className='has-text-grey'>{data.carousel_tag}<br />
-                        <time datetime='2018-04-20'>Apr 20</time> · 20 min read</span>
+                        <time dateTime='2018-04-20'>Apr 20</time> · 20 min read</span>
                     </p>
                   </div>
                 </div>
