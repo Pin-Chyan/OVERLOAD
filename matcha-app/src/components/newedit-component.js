@@ -157,6 +157,8 @@ export default class User extends Component {
 	image_sender(){
 		if (this.buffer.length){
 			var new_img = this.buffer[0];
+			console.log('waiting......');
+			console.log(new_img);
 			if (new_img[1].files.length === 1){
 				var name = new_img[1].files[0].name.split('.');
 				var size = new_img[1].files[0].size;
@@ -199,7 +201,7 @@ export default class User extends Component {
 				}
 			}
 		}
-		this.sleep(1000).then(() => {
+		this.sleep(5000).then(() => {
 			this.image_sender();
 		})
 	}
