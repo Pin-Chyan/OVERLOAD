@@ -105,17 +105,17 @@ router.route('/email').post( (req, res) => {
 router.route('/viewed').post( (req, res) => {
     if (!req.body.token || !req.body.email || !req.body.target)
         res.json("empty fields");
-    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
-            if (data.viewed.includes(docs[0]._id))
+    UserModels.find({"email": req.body.email}, "_id name last").exec().then(data => {
+        UserModels.findOne({ "email": req.body.target}, "viewed").exec().then(docs => {
+            if (docs.viewed.includes(data[0]._id))
                 res.json("already viewed!");
             else {
-                sender = data.name+data.last;
+                sender = data[0].name+data[0].last;
                 notification_handle(req, "viewed", sender)
-                var array = data.viewed;
-                array.push(docs[0]._id);
-                data.viewed = array;
-                data.save().then(() => {res.json("viewed")})
+                var array = docs.viewed;
+                array.push(data[0]._id);
+                docs.viewed = array;
+                docs.save().then(() => {res.json("viewed")})
             }
         })
     }).catch(err => {res.json(err)});
@@ -319,25 +319,6 @@ router.route('/load_data').post( (req, res) => {
 //
 //                      <<<< User Routes >>>>
 //
-
-router.route('/viewed').post( (req, res) => {
-    if (!req.body.token || !req.body.email || !req.body.target)
-        res.json("empty fields");
-    UserModels.find({ "email": req.body.target}, "_id").exec().then(docs => {
-        UserModels.findOne({"email": req.body.email}, "viewed name last").exec().then(data => {
-            if (data.viewed.includes(docs[0]._id))
-                res.json("already viewed!");
-            else {
-                sender = data.name+" "+data.last;
-                notification_handle(req, "viewed", sender)
-                var array = data.viewed;
-                array.push(docs[0]._id);
-                data.viewed = array;
-                data.save().then(() => {res.json("viewed")})
-            }    
-        })
-    }).catch(err => {res.json(err)});
-})
 
 router.route('/add').post( (req, res) => {
     const name = req.body.name;
