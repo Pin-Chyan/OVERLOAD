@@ -76,10 +76,10 @@ export default class Home extends Component {
       })
       getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
         this.setState({ viewedUser: res })
-        console.log(res)
+        // console.log(res)
         this.pageHandler()
-        addView(this.ip, this.state.viewedUser.email, this.state.loggedInUser.email, this.jwt).then(res => {
-          console.log(res)
+        addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
+          // console.log(res)
         }).catch(err => { console.log(err) })
       }).catch(err => {
         console.log('fake eve redirect' + err)
