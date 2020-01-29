@@ -37,14 +37,12 @@ export default class User extends Component {
         this.req = {};
         this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
         this.state = {};
-        console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
         }
         server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
             ///////////////////////////////////////////////////////////
             //      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
@@ -66,22 +64,18 @@ export default class User extends Component {
         }).catch(err => {console.log('eve redirect')});
     }
     userData_getter(){
-        console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        console.log('hi');
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount() {
-        console.log('render');
         this.internal_color = [15,14,14];
         this.state.res = '';
         this.state.links = 'rgb(50, 170, 225)';
@@ -99,14 +93,12 @@ export default class User extends Component {
 //
 
 page_handler(mode, data){
-    console.log(window.innerHeight);
     var div_onload = (<div className="columns is-centered shadow"><div className="column bg_white_2"><div onClick={e => this.listener(e)} id={"result"+this.div_key}></div></div></div>);
     var div_load = (<div><img src={load3}></img></div>);
     var cont_div = 'cont' + this.div_key;
     var menu_div = 'navMenu' + this.div_key;
     var res_div = 'result' + this.div_key;
     if (mode == 'loaded'){
-        console.log(mode);
         this.rgb_phaser([15,14,14,1,0],'internal_color','res');
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
@@ -121,7 +113,6 @@ page_handler(mode, data){
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
     }
     else if (mode === 'searching'){
-        console.log(mode);
         this.rgb_phaser([0,0,0,1,2],'internal_color','res');
         this.sleep(3).then(() => {
             if (document.getElementById(cont_div))
@@ -134,7 +125,6 @@ page_handler(mode, data){
         });
     }
     else if (mode == 'init'){
-        console.log("roscoe");
         ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
@@ -147,7 +137,6 @@ page_handler(mode, data){
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
     }
     else if (mode == 'no_res'){
-        console.log(mode);
         this.rgb_phaser([15,14,14,1,0],'internal_color','res');
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
@@ -161,7 +150,6 @@ page_handler(mode, data){
 
     }
     else if (mode == 'no_term'){
-        console.log(mode);
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("gomenasai");
@@ -174,7 +162,6 @@ page_handler(mode, data){
         })
     }
     else if (mode == 'nice_try'){
-        console.log(mode);
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("Sorry dear user");
@@ -195,8 +182,6 @@ page_handler(mode, data){
 //
 
     listener = e => {
-        console.log("fuck");
-        console.log(e.target.id);
         this.props.history.push({
             pathname:"/profiles/"+e.target.id,
             user: this.state.user
@@ -206,7 +191,6 @@ page_handler(mode, data){
     //      <<<< Page routers
 
     redirecthandler = e => {
-        // console.log(e.target.id);
         this.props.history.push({
             pathname:e.target.id,
             user: this.state.user
@@ -235,14 +219,12 @@ page_handler(mode, data){
             this.busy = 1;
             this.page_handler('searching',{});
             search(this.state.user.email,this.jwt,this.ip,this.req).then(res => {
-                console.log(res);
                 if (res.data === 'no_res')
                     this.page_handler('no_res',{});
                 else
                     this.page_handler('loaded',res.data);
             })
         }
-        console.log('done');
     }
     //      end >>>>
 
@@ -359,7 +341,6 @@ page_handler(mode, data){
             <a className="navbar-item " style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
         </div>
         )
-        console.log(this.state.links);
         if (render){
             if (render == 1)
                 return element1;

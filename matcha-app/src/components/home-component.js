@@ -29,14 +29,12 @@ export default class Home extends Component {
         this.pos = 0;
         this.init = 0;
         this.state = {};
-        console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
         }
         server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
             ///      <<<< begin binding after database online >>>>
             this.globalbtn_handler = this.globalbtn_handler.bind(this);
             this.handleChange = this.handleChange.bind(this);
@@ -57,9 +55,7 @@ export default class Home extends Component {
         }).catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(reset){
-        console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
@@ -83,9 +79,7 @@ export default class Home extends Component {
         req.in = '';
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res !== 'no result'){
-                console.log('results loaded...');
                 this.setState({"results":res.data});
-                console.log(res.data);
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
@@ -104,7 +98,6 @@ export default class Home extends Component {
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             this.Carousel_handle(this.state.results[0]);
         }
-        console.log('render');
         this.userData_getter(1);
         this.notification_updater();
     }
@@ -153,7 +146,6 @@ export default class Home extends Component {
             data.count = res.data[0].notifications.length;
             // this.state.count = data.count;
             this.setState(data);
-            console.log(this.state.count);
             var nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
@@ -183,9 +175,9 @@ export default class Home extends Component {
                 let req = await axios.post(ip+"/users/like", data);
                 if (req.status === 200){
                     if (req.data === "Already Liked!")
-                        console.log("Already Liked!");
+                        alert("Already Liked!");
                     else{
-                        console.log("liked!");
+                        alert("liked!");
                     }
                 }
             }
@@ -193,9 +185,9 @@ export default class Home extends Component {
                 let req = await axios.post(ip+"/users/Del_like", data);
                 if (req.status === 200){
                     if (req.data === "Not Liked")
-                        console.log("Not Liked");
+                        alert("You have not Liked this user");
                     else
-                        console.log("Unliked");
+                        alert("Unliked");
                 }
             }
             else if (buttonval === "Report"){
@@ -208,11 +200,9 @@ export default class Home extends Component {
                 return ("view");
             }
             else if (buttonval === "block"){
-                console.log("what is happening");
                 let req = await axios.post(ip+"/users/block", data);
-                console.log(req.status);
                 if (req.status === 200){
-                    console.log(req.data);
+                    alert("User has been blocked")
                 }
             }
             else
@@ -229,7 +219,6 @@ export default class Home extends Component {
                 else if (this.pos === -1)
                     this.pos = this.state.results.length - 1;
                 this.Carousel_handle(this.state.results[this.pos]);
-                console.log(this.pos);
             } 
             if (res === 'redirect'){
                 this.props.history.push({
@@ -248,7 +237,6 @@ export default class Home extends Component {
     }
 
     Carousel_handle(res){
-        // console.log(res);
         if (res){
             var carousel_data = {
                 "distance":res.location[0],

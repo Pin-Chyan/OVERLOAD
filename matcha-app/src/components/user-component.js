@@ -45,14 +45,12 @@ export default class User extends Component {
         this.jwt = localStorage.token
         this.ip = require('../server.json').ip;
         this.state = {}
-        console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
         }
         server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
             ///      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this)
             this.userData_getter = this.userData_getter.bind(this)
@@ -73,7 +71,6 @@ export default class User extends Component {
             }
             if (this.props.location.user && this.props.location.user.liked && this.props.location.user.viewed) {
                 this.setState({"user":this.props.location.user})
-                console.log(this.state.user)
                 this.userHistory_getter()
             }
             else {
@@ -115,9 +112,7 @@ export default class User extends Component {
     }
 
     userData_getter(){
-        console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
@@ -138,7 +133,6 @@ export default class User extends Component {
 //
 
     page_handler(){
-        console.log('render');
         var nav = this.nav_constructor(1);
         var mid = this.mid_constructor(0);
         const viewed = this.viewedConstructor()

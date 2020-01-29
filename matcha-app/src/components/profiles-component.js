@@ -18,9 +18,6 @@ const fadeProperties = {
   transitionDuration: 500,
   infinite: true,
   indicators: true,
-  onChange: (oldIndex, newIndex) => {
-    console.log(`fade transition from ${oldIndex} to ${newIndex}`)
-  }
 }
 
 export default class Home extends Component {
@@ -76,10 +73,8 @@ export default class Home extends Component {
       })
       getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
         this.setState({ viewedUser: res })
-        // console.log(res)
         this.pageHandler()
         addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
-          // console.log(res)
         }).catch(err => { console.log(err) })
       }).catch(err => {
         console.log('fake eve redirect' + err)
@@ -125,7 +120,6 @@ export default class Home extends Component {
 
   pageHandler () {
     this.navHandler()
-    console.log(this.state.viewedUser)
     this.carouselHandler(this.state.viewedUser)
   }
 
@@ -149,7 +143,6 @@ export default class Home extends Component {
     const buttonval = e.target.value
 
     async function asyncHell (ip, user, target, jwt) {
-      console.log(ip + ',' + user + ',' + target)
       let data = {}
       data.img = {}
       data.email = user
@@ -159,26 +152,26 @@ export default class Home extends Component {
         const req = await Axios.post(ip + '/users/like', data)
         if (req.status === 200) {
           if (req.data === 'Already Liked!') {
-            console.log('Already Liked!')
+            alert('Already Liked!')
           } else {
-            console.log('liked!')
+            alert('liked!')
           }
         }
       } else if (buttonval === 'Unlike') {
         const req = await Axios.post(ip + '/users/Del_like', data)
         if (req.status === 200) {
           if (req.data === 'Not Liked') {
-            console.log('Not Liked')
+            alert('You have not Liked this user')
           } else {
-            console.log('Unliked')
+            alert('Unliked')
           }
         }
       } else if (buttonval === 'Report') {
-        console.log('reported!')
+          alert('reported!')
       } else if (buttonval === 'Message') {
-        return ('redirect')
+          return ('redirect')
       } else {
-        console.log('you missed the button!')
+          console.log('you missed the button!')
       }
     }
 

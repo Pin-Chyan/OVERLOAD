@@ -20,9 +20,6 @@ import PasswordUpdated from "./components/passwordUpdated-component";
 import Search from "./components/search-component.js"
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
-import newEdit from "./components/newedit-component.js";
-// import carousel from "./components/carousel.js"
-// import tags from "./components/tags-input.js";
 
 function App() {
   return (
@@ -38,8 +35,6 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-        {/* <Route path="/search/:input" exact component={Search}/> */}
-        {/* <Route path="/carousel" component={carousel}/> */}
         <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
           <Route path="/profiles/:id" component={Profiles}/>
@@ -48,11 +43,9 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/> 
           <Route path="/" exact component={Home}/> 
-          {/* <Route path="/newedit" exact component={newEdit}/>  */}
-          <Route path="/edit" exact component={newEdit} />
+          <Route path="/edit" exact component={Edit} />
           <Route path="/upload" exact component={upload} />
-        </Authenticate>
-        {/* <Route path="/tags" exact component={tags} /> */}        
+        </Authenticate>      
       </Switch>
     </Router>
   )

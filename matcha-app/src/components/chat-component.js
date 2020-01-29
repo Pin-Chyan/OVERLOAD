@@ -33,14 +33,12 @@ export default class cons extends Component {
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
         this.state = {};
-        console.log(this.ip);
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
                 return promise.data;
         }
         server_get(this.ip,this.jwt).then(res => {
-            console.log('eve online');
             ///      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
             this.userData_getter = this.userData_getter.bind(this);
@@ -55,7 +53,6 @@ export default class cons extends Component {
                 "user" : res
             };
             if (this.props.location.user){
-                // console.log(this.props.location.user);
                 this.setState({"user":this.props.location.user});
                 this.external_data1();
             }
@@ -64,9 +61,7 @@ export default class cons extends Component {
         }).catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(){
-        console.log('getting data......');
         async function get_data(email,jwt,ip,target){
-            console.log(email);
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
@@ -74,7 +69,6 @@ export default class cons extends Component {
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"_id name email last bio tag img liked viewed").then(userGet_res => {
             this.setState({"user":userGet_res[0]});
-            console.log(userGet_res[0]);
             this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
     }
@@ -84,8 +78,6 @@ export default class cons extends Component {
             if (promise.status === 200)
                 return promise.data;
         }
-        console.log('pulling externals........');
-        console.log(this.props.location.data);
         if (this.props.match.params.target === 'new'){
             if (!this.props.location.data){
                 this.props.history.push({
@@ -95,7 +87,6 @@ export default class cons extends Component {
             }
             else if (this.props.match.params.target === 'new') {
                 get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
-                    console.log(res);
                     this.setState({
                         "target":res
                     })
@@ -104,7 +95,6 @@ export default class cons extends Component {
             }
             else {
                 get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
-                    console.log(res);
                     this.setState({
                         "target":res
                     })
@@ -112,32 +102,26 @@ export default class cons extends Component {
                 }).catch(err => {console.log('eve redirect ' + err)})
             }
         } else {
-            console.log('existing chat room')
             get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
-                console.log(res);
                 this.setState({
                     "target":res
                 })
                 this.external_data2();
-                // this.eve_mount();
             }).catch(err => {console.log('eve redirect ' + err)})
         }
     }
     external_data2(){
-        console.log('room');
         async function newroom(email,jwt,id1,id2,ip){
             let promise = await axios.post(ip + "/chats/newroom",{"email":email,"token":jwt,"id1":id1,"id2":id2});
             if (promise.status === 200)
                 return (promise.data);
         }
         newroom(this.state.user.email,this.jwt,this.state.user._id,this.state.target._id,this.ip).then(room => {
-            console.log(room);
             this.setState({"chatroom":room});
             this.eve_mount();
         }).catch(err => {console.log('eve redirect ' + err)})
     }
     eve_mount(){
-        console.log('render');
         this.page_handler();// exit node
     }
 
@@ -193,34 +177,24 @@ export default class cons extends Component {
     }
     msghandle = e => {
         this.setState({newmsg:e.target.value});
-        console.log(this.state.newmsg);
-        console.log(e.target.value);
     }
     sendhandle = e => {
-        console.log('sending..........');
             async function post_msg(ip,email,jwt,room,target,msg){
                 let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
                 if (promise.status === 200)
                     return promise.data;
             }
-            console.log(this.state.chatroom);
             post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,this.state.newmsg).then(res => {
-                console.log(res);
             }).catch(err => 'eve redirect '+err)
     }
     get_id() {
 		async function get_msg(email, target, jwt, ip){
 			let promise = await axios.post(ip+"/chats/get_msg", {"email":email, "target":target, "token":jwt});
 			if (promise.status === 200){
-                // var data = {};
-				// data.chat = promise.data.message;
 				return (promise.data);
             }
         }
-        // console.log('hi');
         get_msg(this.state.user.email, this.state.target.email, this.jwt, this.ip).then(res => {
-            // console.log('refresh');
-            console.log(res);
             if (!res){
                 this.props.history.push({
                     pathname: '/',
