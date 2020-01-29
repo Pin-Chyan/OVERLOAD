@@ -242,7 +242,7 @@ export default class cons extends Component {
             </div>
         </nav>
         <div id={"user_display_header"+this.div_key}></div>
-        <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box">huh</div></div>
+        <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box"></div></div>
         <div id={"message foot"+this.div_key} className="hero-foot"></div>
         </section>
         )
