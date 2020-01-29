@@ -316,7 +316,7 @@ page_handler(mode, data){
                 Search Filter
             </div>
             <div className="container bg_white_6 columns">
-                <div className="column grey_1">
+                <div className="column">
                     <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
                         <Slider />
                     </Styles>
