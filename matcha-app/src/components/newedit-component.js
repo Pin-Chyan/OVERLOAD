@@ -686,7 +686,7 @@ export default class User extends Component {
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Tags: {user.tag}</label>
+					<label className="label">Current Tags: {user.tag.toString()}</label>
 					<div className="control">
 						<div className="field">
 							<label className="label">Tag Name</label>
