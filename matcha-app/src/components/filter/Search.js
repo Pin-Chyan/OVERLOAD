@@ -34,6 +34,8 @@ export default class Search extends React.Component {
                     <div className="control has-icons-left has-icons-right">
                         <input className="input is-small" type="text" placeholder="Name" />
                     </div>
+                    <button id="Search" className="button is-rounded is-small">Search using filters</button>
+                    <button id="Search" className="button is-rounded is-small">Search using filters</button>
                 </div>
 
             </div>

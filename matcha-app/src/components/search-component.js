@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
+import cons from './chat-component';
 
 
 //[1,-1,-2,-2,10,-1,-1] search conditions
@@ -104,7 +105,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var column = window.innerWidth > 1400 ? 3 : 2;
         var row = Math.ceil(data.length/column);
         var head = this.header_constructor("Here you go");
@@ -112,6 +113,8 @@ page_handler(mode, data){
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
     }
     else if (mode === 'searching'){
         this.rgb_phaser([0,0,0,1,2],'internal_color','res');
@@ -130,7 +133,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var head = this.header_constructor("Whatcha waiting for");
         var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":this.load2}}],0);
         var result = head.concat(body);
@@ -144,12 +147,14 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var head = this.header_constructor("Cannot Notice senpai");
         var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":this.nll}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
 
     }
     else if (mode == 'no_term'){
@@ -353,11 +358,18 @@ page_handler(mode, data){
             </div>
             <div className="container bg_white_6 columns">
                 <div className="column">
-                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
-                        <Slider />
-                    </Styles>
-                    <Filter />
-                    <Search />
+                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}><Slider /></Styles><Filter />
+                    <div>
+                        <button id="Search" className="button is-rounded is-small">Search using filters</button>
+                            <div className="field">
+                                <label className="label center_b search-t">Search by name/email</label>
+                                <div className="control has-icons-left has-icons-right">
+                                    <input className="input is-small" type="text" placeholder="Name" />
+                                    <button id="Searchex" className="button is-rounded is-small" onClick={e => this.filter_handler(e)}>Search name/email only</button>
+                                    <button id="Searchwith" className="button is-rounded is-small"  onClick={e => this.filter_handler(e)}>Search name/email using filter</button>
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
