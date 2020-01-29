@@ -372,7 +372,7 @@ export default class Home extends Component {
                     <p>
                         <strong>{data.distance + "km"}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time datetime="2018-04-20">Apr 20</time> · 20 min read</span>
+                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>
                 </div>
             </div>
