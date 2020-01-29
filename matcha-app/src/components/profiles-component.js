@@ -8,6 +8,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Fade } from 'react-slideshow-image'
 import Axios from 'axios'
+import Inbox from './message-and-notification'
 
 // Create button constructor
 // Link buttons to their actions
@@ -208,7 +209,7 @@ export default class Home extends Component {
           </span>
         </div>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}' ><i className='fa fa-inbox'></i></a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></a>
         <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>

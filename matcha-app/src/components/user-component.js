@@ -6,6 +6,8 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
+import Inbox from './message-and-notification';
+
 
 var nll = require("../images/chibi.jpg");
    
@@ -14,7 +16,7 @@ const Profile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Asuna" src={props.img} />
+          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
         </figure>
       </figure>
       <div className="media-content">
@@ -37,11 +39,10 @@ export default class User extends Component {
 //
 //                      <<<< eve protocol >>>>
 //
-
     constructor(props){
         super(props);
         this.div_key = Date.now();
-        this.jwt = localStorage.token;
+        this.jwt = localStorage.token
         this.ip = require('../server.json').ip;
         this.state = {}
         console.log(this.ip);
@@ -265,7 +266,8 @@ export default class User extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
