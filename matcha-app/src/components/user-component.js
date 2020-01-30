@@ -338,6 +338,16 @@ export default class User extends Component {
       }
     }
 
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
     mid_constructor(){
         var display1 = this.state.user.img.img1 !== 'null' ? this.state.user.img.img1 : nll;
         var element1 = (
@@ -376,16 +386,16 @@ export default class User extends Component {
                               <img alt="Asuna" src={display1} />
                             </figure>
                           </figure>
-                          <div className="media-content">
-                            <div className="content">
-                              <strong>{this.state.user.name}</strong>
-                              <a>{this.state.user.last}</a><br />
-                              <time dateTime="2018-04-20"></time> · offline< br/>
-                              <span className='fa fa-fire is-danger' style={{color: 'red'}}>{this.state.user.fame}</span>
+                          <div className='media-content'>
+                            <div className='content'>
+                            <strong>{this.state.user.name} {this.state.user.last}  </strong>
+                              {this.state.user.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                              {this.state.user.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
                               <br></br>
-                              <span className="has-text-grey">{this.state.user.tag}<br /></span>
-                            </div>
+                              <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{this.state.user.fame}</span><br />
+                            <span className='has-text-grey'>{this.listTags(this.state.user.tag)}</span>
                           </div>
+                        </div>
                       </article>
                     <br />
                     <hr />
