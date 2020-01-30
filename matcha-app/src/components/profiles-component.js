@@ -63,7 +63,7 @@ export default class Profiles extends Component {
     }
 
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked', this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender sexual_pref', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
         getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
           this.setState({ viewedUser: res })
@@ -176,7 +176,7 @@ export default class Profiles extends Component {
       if (res === 'redirect') {
         this.props.history.push({
           pathname: '/chat/new',
-          user: this.state.loggedInUser.email,
+          user: this.state.loggedInUser,
           data: this.state.viewedUser.email
         })
       }
