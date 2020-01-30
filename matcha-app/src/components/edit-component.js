@@ -268,6 +268,7 @@ export default class User extends Component {
 							</span>
 						</div>
             <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments"></i></a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
 						<a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -314,7 +315,7 @@ export default class User extends Component {
 					</div>
 				</div> */}
 				<figure className="image s-image">
-				<img id={img_num + this.div_key} alt="Asuna" class="m_image" src={new_img}/>
+				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
 				</figure>
 			</article>
 		</div>

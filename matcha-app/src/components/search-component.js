@@ -343,7 +343,7 @@ page_handler(mode, data){
                         </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
+                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -354,7 +354,7 @@ page_handler(mode, data){
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
             <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
+             <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -396,14 +396,14 @@ page_handler(mode, data){
         )
     }
     header_constructor(heading){
-        var start = '<div class="tile is-ancestor"><div class="tile is-parent"><article class="tile is-child box"><p class="title center_b">';
-        var header = '<p class="title center_b">' + heading + '</p></article></div></div>';
+        var start = '<div className="tile is-ancestor"><div className="tile is-parent"><article className="tile is-child box"><p className="title center_b">';
+        var header = '<p className="title center_b">' + heading + '</p></article></div></div>';
         return start + header;
     }
     column_constructor(name, image , button, id){
-        var article = ['<div class="tile is-parent" style="width=800px "><article class="tile is-child box">','</article></div>'];
-        var name_tag = '<h1 class="center_b">' + name + '</h1>';
-        var img_tag = '<figure class="image is-3by4"><img class="overflow" src=' + image + ' alt="Asuna_img" /></figure>';
+        var article = ['<div className="tile is-parent" style="width=800px "><article className="tile is-child box">','</article></div>'];
+        var name_tag = '<h1 className="center_b">' + name + '</h1>';
+        var img_tag = '<figure className="image is-3by4"><img className="overflow" src=' + image + ' alt="Asuna_img" /></figure>';
         if (button === 1){
             var res = article[0] + name_tag + img_tag + this.button_constructor(id) + article[1];
         }
@@ -413,7 +413,7 @@ page_handler(mode, data){
     }
     button_constructor(id){
         var className = '"button is-warning is-rounded"';
-        return ('<button id=' + id +' class=' + className + '>view </button>');
+        return ('<button id=' + id +' className=' + className + '>view </button>');
     }
     row_constructor(rows, columns, data, button){
         var i = 0;
@@ -425,7 +425,7 @@ page_handler(mode, data){
         var max = data.length;
         var image;
         while (j < rows){
-            res += '<div class="tile is-ancestor">';
+            res += '<div className="tile is-ancestor">';
             while (i < columns && data_pos < max){
                 if (data[data_pos].img.img1 == 'null')
                     image = this.nll;

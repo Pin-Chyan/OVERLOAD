@@ -278,7 +278,7 @@ export default class cons extends Component {
                         </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
+                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -320,11 +320,11 @@ export default class cons extends Component {
         )
     }
     message_constructor(msg_data){
-        var r_element1 = "<p class='has-text-right'>";
-        var r_element2 = "<span class='tag chat-wrap is-info right_m'>";
+        var r_element1 = "<p className='has-text-right'>";
+        var r_element2 = "<span className='tag chat-wrap is-info right_m'>";
         var r_element3 = "</span></p>";
-        var l_element1 = "<p class='has-text-left'>";
-        var l_element2 = "<span class='tag chat-wrap is-success left_m'>";
+        var l_element1 = "<p className='has-text-left'>";
+        var l_element2 = "<span className='tag chat-wrap is-success left_m'>";
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
