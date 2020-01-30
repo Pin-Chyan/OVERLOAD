@@ -43,13 +43,13 @@ const BlockedProfile = props => {
       </figure>
       <div className="media-content">
         <div className="content">
+            <div className='button is-rounded is-warning' onClick={props.handleUnblock}>
+              Unblock
+            </div>
             <a onClick={props.handleClick}>
               <strong>{props.name} </strong>
               <p>{props.last}</p>
             </a>
-            <div className='button is-rounded is-warning'>
-              Unblock
-            </div>
         </div>
       </div>
     </article>
@@ -126,7 +126,7 @@ export default class User extends Component {
       async function getBlockedData (ip, token, blockedArray) {
         const promises = []
         for (let userid of blockedArray) {
-          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: userid, target: 'name last img' }, { headers: { authorization: `bearer ${token}` } })
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: userid, target: 'name last img email' }, { headers: { authorization: `bearer ${token}` } })
           promises.push(content.data)
         }
         return promises
@@ -328,6 +328,18 @@ export default class User extends Component {
       document.getElementById(tabName).style.display = "block"
       e.currentTarget.className = 'tab  is-active'
     }
+
+    unblockUser (email) {
+      async function unblock (ip, token, email, target) {
+        const promise = Axios.post(ip+'/users/unblock')
+        if (promise.status === 200) {
+          return promise.data
+        }
+      }
+      unblock(this.ip, this.jwt, this.state.user.email, email).then(res => {
+        this.props.history.push('/user')
+      })
+    }
         
     viewedConstructor () {
       if (Array.isArray(this.state.viewedUsers) && this.state.viewedUsers.length) {
@@ -356,7 +368,7 @@ export default class User extends Component {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
         return this.state.blockedUsers.map(user => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <BlockedProfile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile handleUnblock={this.unblockUser(user.email)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>
