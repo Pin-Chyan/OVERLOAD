@@ -183,7 +183,9 @@ export default class Profiles extends Component {
           }
         }
       } else if (buttonval === 'Report') {
-          alert('reported!')
+        Axios.post(ip+'/users/report', { user, reported_email: target }, { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+          alert('You have reported them')
+        })
       } else if (buttonval === 'Message') {
           return ('redirect')
       } else {

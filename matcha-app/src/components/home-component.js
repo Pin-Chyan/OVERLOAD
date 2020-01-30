@@ -201,7 +201,9 @@ export default class Home extends Component {
                 }
             }
             else if (buttonval === "Report"){
-                console.log("reported!");
+              axios.post(ip+'/users/report', { user, reported_email: target }, { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+                alert('You have reported them')
+              })
             }
             else if (buttonval === "Message"){
                 return ('redirect');
