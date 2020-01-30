@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<style>
+  footer {
+      position: relative;
+      height: 300px;
+      width: 100%;
+  }
+
+  p.copyright {
+      position: absolute;
+      width: 100%;
+      color: #fff;
+      line-height: 40px;
+      font-size: 0.7em;
+      text-align: center;
+      bottom:0;
+  }
+</style>
 <html lang="en" class="bg-color">
   <head>
       <meta charset="UTF-8">
@@ -40,16 +57,22 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <footer>
+    <p class="copyright">© LOVE BUG 2020</p>
+  </footer>
   <script type="text/javascript">
-    (function() {
+    (
+      function() {
       var burger = document.querySelector('.burger');
       var nav = document.querySelector('#'+burger.dataset.target);
       var test = "pass";
       burger.addEventListener('click', function(){
         burger.classList.toggle('is-active');
         nav.classList.toggle('is-active');
-        console.log(pass);
+        console.log('pass');
       });
-    })();
+    }
+    )
+    ();
   </script>
 </html>

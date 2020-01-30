@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import NotificationBadge from 'react-notification-badge';
 import {Effect} from 'react-notification-badge';
+import decode from 'jwt-decode';
 const ip = require("../server.json").ip;
 
 export default class Inbox extends Component {
   constructor(props) {
     super(props)
+    this.ip = ip
     this.state ={
       notifyCount: 0
     }
@@ -14,8 +16,9 @@ export default class Inbox extends Component {
   componentDidMount () {
     const jwt = localStorage.token
     if (!jwt) {
-      this.props.history.push('/login')
+      this.props.redirectHandler()
     }
+    
     async function getEmail () {
       const promise = await axios.post(ip + '/users/getEmail', {}, { headers: { authorization: `bearer ${jwt}` } })
       return promise
@@ -26,7 +29,6 @@ export default class Inbox extends Component {
 
   }
   ping = (email,jwt,ip) => {
-    
     async function update(email,jwt,ip){
         let promise = await axios.post(ip + '/inbox/getNotifications', { "email": email }, { headers: { authorization: `bearer ${jwt}` } });
         if (promise.status === 200)
@@ -46,15 +48,15 @@ export default class Inbox extends Component {
       this.sleep(200).then(() => {
         this.ping(email,jwt,ip);
       })
-    })
+    }).catch(() => {this.ping(decode(localStorage.token).email,localStorage.token,this.ip)})
   }
   sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
   render () {
     return (
-        <div>
-          <i className="fa fa-inbox"><NotificationBadge count={this.state.notifyCount} effect={Effect.SCALE}/></i>
+        <div className="fa fa-inbox" onClick={this.props.redirectHandler}>
+          <NotificationBadge count={this.state.notifyCount} effect={Effect.SCALE}/>
         </div>
       )
     }

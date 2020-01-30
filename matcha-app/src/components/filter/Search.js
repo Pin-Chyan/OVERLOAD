@@ -28,39 +28,16 @@ export default class Search extends React.Component {
     render() {
         return (
             <div>
-                <div className="field padding-top">
-                    <label className="label center_b search-t">E-Mail</label>
-                    <div className="control has-icons-left has-icons-right">
-                        {/* <input className="input" type="text" placeholder="Email" onChange={this.onChangeFinderEmail} required /> */}
-                        <input className="input is-small" type="text" placeholder="Email" required />
-                    </div>
-                </div>
-                
+                <button id="Search" className="button is-rounded is-small">Search using filters</button>
                 <div className="field">
-                    <label className="label center_b search-t">Name Of Person</label>
+                    <label className="label center_b search-t">Search by name/email</label>
                     <div className="control has-icons-left has-icons-right">
-                        {/* <input className="input" type="text" placeholder="Name Of Person" onChange={this.onChangeNameOfPerson} required /> */}
-                        <input className="input is-small" type="text" placeholder="Name" required />
+                        <input className="input is-small" type="text" placeholder="Name" />
                     </div>
-                </div>
-                
-                <div className="field">
-                    <label className="label center_b search-t">Age Gap</label>
-                    <div className="control has-icons-left has-icons-right">
-                        {/* <input className="input" type="text" placeholder="Age Gap" onChange={this.onChangeAgeGap} required /> */}
-                        <input className="input is-small" type="text" placeholder="Age Gap" required />
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="-1" onChange={this.on} />
-                            Ascending
-                        </label>
-                        <label className="radio c-margin center_t search-r">
-                            <input type="radio" name="sort" value="1" onChange={this.on} />
-                            Descending
-                        </label>
-                    </div>
+                    <button id="Search" className="button is-rounded is-small">Search using filters</button>
+                    <button id="Search" className="button is-rounded is-small">Search using filters</button>
                 </div>
 
-                <button id="Search" className="button is-warning is-rounded is-small">Search</button>
             </div>
         )
     }

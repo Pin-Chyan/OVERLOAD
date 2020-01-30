@@ -268,6 +268,7 @@ export default class User extends Component {
 							</span>
 						</div>
             <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments"></i></a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
 						<a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -314,7 +315,7 @@ export default class User extends Component {
 					</div>
 				</div> */}
 				<figure className="image s-image">
-				<img id={img_num + this.div_key} alt="Asuna" class="m_image" src={new_img}/>
+				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
 				</figure>
 			</article>
 		</div>
@@ -336,8 +337,7 @@ export default class User extends Component {
 
 	redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
         });
     }
     searchHandle = e => {
@@ -352,8 +352,7 @@ export default class User extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
-                search_in: search_input 
+                search_in: search_input
             });
         }
     }
@@ -385,8 +384,8 @@ export default class User extends Component {
 		var poes = this.state;
 		poes.new_email = undefined;
 		poes.new_name = undefined;
-		poes.new_surname = undefined;
-		poes.new_bio = undefined;
+		poes.new_last = undefined;
+		poes.bio = undefined;
 		poes.new_tag = undefined;
 		this.setState({poes})
 	}
@@ -595,24 +594,26 @@ export default class User extends Component {
 											axios.post('http://localhost:5001/auth/getToken', user)
 											.then(res => {
 												if (res.data.resCode === 1) {
+													console.log("rescode is 1 what?")
 													alert("You are not who you say you are!");
 													this.props.history.push("/logout");
 												} else {
+													console.log("changing email");
 													localStorage.setItem('token', res.data.token);
 													this.jwt = res.data.token;
 													state_data.email = this.state.new_email;
-													this.reset_state();
+													// this.reset_state();
 													this.setState({"user":state_data});
+													var mid_text = this.text_edit_constructor(this.state.user);
+													ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												}
-												var mid_text = this.text_edit_constructor(this.state.user);
-												ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												///
 											})
 										});
 									})
 								} else {
 									state_data.new_email = "email in use!";
-									this.reset_state();
+									// this.reset_state();
 									this.setState({"user":state_data});
 									var mid_text = this.text_edit_constructor(this.state.user);
 									ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -621,7 +622,7 @@ export default class User extends Component {
 							})
 						} else {
 							state_data.new_email = "Invalid email";
-							this.reset_state();
+							// this.reset_state();
 							this.setState({"user":state_data});
 							var mid_text = this.text_edit_constructor(this.state.user);
 							ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -630,7 +631,7 @@ export default class User extends Component {
 					}
 				})
 		}
-		this.reset_state();
+		// this.reset_state();
 		this.setState({"user":state_data});
 		var mid_text = this.text_edit_constructor(this.state.user);
 		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -638,6 +639,8 @@ export default class User extends Component {
 
 	text_edit_constructor(user){
 		this.reset_state();
+		console.log(this.state.new_email);
+		console.log(user.email);
 		return (
 			<div>
 				<div className="field">
