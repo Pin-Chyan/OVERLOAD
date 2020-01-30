@@ -41,15 +41,18 @@
     -->
   </body>
   <script type="text/javascript">
-    (function() {
+    (
+      function() {
       var burger = document.querySelector('.burger');
       var nav = document.querySelector('#'+burger.dataset.target);
       var test = "pass";
       burger.addEventListener('click', function(){
         burger.classList.toggle('is-active');
         nav.classList.toggle('is-active');
-        console.log(pass);
+        console.log('pass');
       });
-    })();
+    }
+    )
+    ();
   </script>
 </html>
