@@ -85,16 +85,22 @@ export default class cons extends Component {
                     user: this.state.user
                 })
             }
-            get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
-                this.setState({
-                    "target":res
-                })
-                this.props.history.push({
-                    pathname : '/chat/'+res.email,
-                    user : this.state.user.email
-                });
-                // this.external_data2();
-            }).catch(err => {console.log('eve redirect ' + err)})
+            else if (this.props.match.params.target === 'new') {
+                get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
+                    this.setState({
+                        "target":res
+                    })
+                    this.external_data2();
+                }).catch(err => {console.log('eve redirect ' + err)})
+            }
+            else {
+                get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
+                    this.setState({
+                        "target":res
+                    })
+                    this.eve_mount();
+                }).catch(err => {console.log('eve redirect ' + err)})
+            }
         } else {
             get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
                 this.setState({
@@ -111,6 +117,12 @@ export default class cons extends Component {
                 return (promise.data);
         }
         newroom(this.state.user.email,this.jwt,this.state.user._id,this.state.target._id,this.ip).then(room => {
+            if (this.props.match.params.target === 'new'){
+                this.props.history.push({
+                    pathname : '/chat/'+this.state.target.email,
+                    user : this.state.user
+                });
+            }
             this.setState({"chatroom":room});
             this.eve_mount();
         }).catch(err => {console.log('eve redirect ' + err)})
@@ -173,16 +185,15 @@ export default class cons extends Component {
         this.setState({newmsg:e.target.value});
     }
     sendhandle = e => {
-        if (e.key === 'Enter' || e.target.id === 'send'){
-            this.setState({newmsg:''});
-            async function post_msg(ip,email,jwt,room,target,msg){
-                let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
-                if (promise.status === 200)
-                    return promise.data;
-            }
-            post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,this.state.newmsg).then(res => {
-            }).catch(err => 'eve redirect '+err)
+        var newmsg = this.state.newmsg;
+        this.setState({"newmsg":''});
+        async function post_msg(ip,email,jwt,room,target,msg){
+            let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
+            if (promise.status === 200)
+            return promise.data;
         }
+        post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,newmsg).then(res => {
+        }).catch(err => 'eve redirect '+err)
     }
     get_id() {
 		async function get_msg(email, target, jwt, ip){
@@ -240,16 +251,14 @@ export default class cons extends Component {
         </nav>
         <div id={"user_display_header"+this.div_key}></div>
         <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box"></div></div>
-        <div id={"message foot"+this.div_key} className="hero-foot">
-        <div className="field has-addons">
+        <div id={"message foot"+this.div_key} className="hero-foot">          <div className="field has-addons">
             <div className="control chat-t">
-              <input className="input" type="text" placeholder="Type your message" value={this.state.newmsg} onChange={this.msghandle}  onKeyDown={(e) => this.sendhandle(e)}/>
+              <input className="input" type="text" placeholder="Type your message" value={this.state.newmsg} onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
             </div>
             <div className="control chat-e">
-                <button className="button is-info" id="send" onClick={e => this.sendhandle(e)}>Send</button>
+                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
             </div>
-        </div>
-        </div>
+        </div></div>
         </section>
         )
     }
@@ -330,14 +339,14 @@ export default class cons extends Component {
         }
         return (res);
     }
-    msgBox_constructor(hi){
+    msgBox_constructor(){
         return (
           <div className="field has-addons">
             <div className="control chat-t">
-              <input className="input" type="text" placeholder="Type your message" value={hi} onChange={this.msghandle}  onKeyDown={(e) => this.sendhandle(e)}/>
+              <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
             </div>
             <div className="control chat-e">
-                <button className="button is-info" id="send" onClick={e => this.sendhandle(e)}>Send</button>
+                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
             </div>
         </div>
         )
