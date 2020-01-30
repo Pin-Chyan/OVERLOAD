@@ -637,6 +637,16 @@ export default class User extends Component {
 		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
     }
 
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
 	text_edit_constructor(user){
 		this.reset_state();
 		console.log(this.state.new_email);
@@ -702,7 +712,7 @@ export default class User extends Component {
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Tags: {user.tag.toString()}</label>
+					<label className="label">Current Tags: {this.listTags(user.tag)}</label>
 					<div className="control">
 						<div className="field">
 							<label className="label">Tag Name</label>
