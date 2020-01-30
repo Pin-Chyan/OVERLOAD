@@ -76,7 +76,7 @@ export default class ChatPage extends Component {
               return promise.data
       }
       ///      <<<< target will be customised for each page for optimisation >>>>
-      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref last img bio tag email").then(userGet_res => {
+      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref last img bio tag email fame").then(userGet_res => {
               this.setState({"user":userGet_res[0]});
               this.getChats()
               
