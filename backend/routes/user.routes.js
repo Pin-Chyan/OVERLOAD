@@ -295,10 +295,11 @@ router.route('/load_data').post( (req, res) => {
     var dlen = test_data.length;
     var i = 0;
     for (i  = 0; i < dlen; i++){
-        var new_user = test_data[i];
-        if (new_user.age < 18)
-            new_user.age = 18;
-        let user = new UserModels(new_user);
+        // var new_user = test_data[i];
+        // if (new_user.age < 18)
+        //     new_user.age = 18;
+        // let user = new UserModels(new_user);
+        let user = new UserModels(test_data[i]);
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;
             user.password = hash;
