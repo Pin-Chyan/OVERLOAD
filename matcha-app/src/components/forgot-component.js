@@ -70,7 +70,7 @@ export default class Verify extends Component {
                             <div className="column center has-text-centered">
 								<hr></hr>
                                 <p>
-								<figure class="image"> {/* is-3by4 */}
+								<figure className="image"> {/* is-3by4 */}
                             		<img src="https://media0.giphy.com/media/vsdTFrwHciR7G/source.gif" />
                         		</figure>
 								<br></br>

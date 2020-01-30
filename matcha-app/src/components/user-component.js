@@ -43,7 +43,7 @@ const BlockedProfile = props => {
       </figure>
       <div className="media-content">
         <div className="content">
-            <div className='button is-rounded is-warning btn-right'>
+            <div className='button is-rounded is-warning btn-right' onClick={props.unblock}>
               Unblock
             </div>
             <a onClick={props.handleClick}>
@@ -67,7 +67,9 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token
         this.ip = require('../server.json').ip;
-        this.state = {}
+        this.state = {
+          updating: false
+        }
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
@@ -135,7 +137,7 @@ export default class User extends Component {
       async function getAllData (ip, token, likedArray, viewedArray, blockedArray) {
         const viewedRes = await getViewedData(ip, token, viewedArray)
         const likedRes = await getLikedData(ip, token, likedArray)
-        const blockedRes = await getLikedData(ip, token, blockedArray)
+        const blockedRes = await getBlockedData(ip, token, blockedArray)
         const response = [viewedRes, likedRes, blockedRes]
         return response
       }
@@ -299,7 +301,7 @@ export default class User extends Component {
                         </span>
                 </div>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
+                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -329,22 +331,21 @@ export default class User extends Component {
       e.currentTarget.className = 'tab  is-active'
     }
 
-    unblockUser (email) {
+    unblockUser = (email) => e => {
+      e.preventDefault()
       async function unblock (ip, token, email, target) {
-        const promise = Axios.post(ip+'/users/unblock')
+        const promise = Axios.post(ip+'/users/unblock', { token, email, target })
         if (promise.status === 200) {
           return promise.data
         }
       }
       unblock(this.ip, this.jwt, this.state.user.email, email).then(res => {
-        this.props.history.push('/user')
       })
     }
         
     viewedConstructor () {
       if (Array.isArray(this.state.viewedUsers) && this.state.viewedUsers.length) {
           return this.state.viewedUsers.map(user => {
-            console.log(user)
             let img = user.img.img1 === 'null' ? this.nll : user.img.img1
             return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
           })
@@ -368,7 +369,7 @@ export default class User extends Component {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
         return this.state.blockedUsers.map(user => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <BlockedProfile handleUnblock={this.unblockUser(user.email)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile unblock={this.unblockUser(user.email)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>

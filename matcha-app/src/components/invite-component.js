@@ -46,7 +46,7 @@ export default class Home extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
                         <hr></hr>
-                        <figure class="image"> {/* is-3by4 */}
+                        <figure className="image"> {/* is-3by4 */}
                             <img src="https://media2.giphy.com/media/aldA8c4X6mk9O/source.gif" />
                         </figure>
                         <div className="column center has-text-centered">
