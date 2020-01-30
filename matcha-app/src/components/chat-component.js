@@ -67,7 +67,7 @@ export default class cons extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last bio tag img liked viewed").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last likes liked gender bio tag img liked sexual_pref viewed").then(userGet_res => {
             this.setState({"user":userGet_res[0]});
             this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
