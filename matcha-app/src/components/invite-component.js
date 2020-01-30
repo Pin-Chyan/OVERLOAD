@@ -28,16 +28,7 @@ export default class Home extends Component {
                 </div>
                 <div id="navMenu" className="navbar-menu">
                     <div className="navbar-end">
-                        <div className="control is-small has-icons-right search-margin">
-                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
-                            <span className="icon is-small is-right">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </div>
-                        <Link to="/" className="navbar-item has-text-info">Home</Link>
-                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link>
-                        <Link to="/logout" className="navbar-item has-text-info">Logout</Link>
+                        <Link to="/login" className="navbar-item has-text-info">Login</Link>
                     </div>
                 </div>
             </div>
@@ -52,10 +43,10 @@ export default class Home extends Component {
                         <div className="column center has-text-centered">
                             <p>
                                 <hr></hr>
-                                Thank you for Register to Wotaku.
+                                Thank you for Register to LoveBug.
                                 <br></br>
                                 <br></br>
-                                An email was sent to you master.
+                                An email was sent to confirm your email address.
                                 <br></br>
                                 <br></br>
                                 We hope you will find your matching lover as soon as possible.

@@ -91,7 +91,6 @@ export default class Verify extends Component {
 												<i className="fa fa-envelope"></i>
 											</span>
 											<span className="icon is-small is-right">
-												<i className="fa fa-exclamation-triangle"></i>
 											</span>
 										</div>
 										<p className="help is-danger">{this.state.emailErr}</p>

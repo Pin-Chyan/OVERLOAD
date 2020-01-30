@@ -61,7 +61,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
@@ -250,7 +250,9 @@ export default class Home extends Component {
     Carousel_handle(res){
         if (res){
             var carousel_data = {
+              "gender": res.gender,
               "id": res._id,
+              "fame": res.fame,
               "distance":res.location[0],
               "carousel_name":res.name,
               "carousel_last":res.last,
@@ -327,6 +329,17 @@ export default class Home extends Component {
         )
         return(element1);
     }
+
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
     mid_constructor(data){
         return (
             <div className="column is-centered shadow">
@@ -379,15 +392,19 @@ export default class Home extends Component {
                     <img alt="Asuna" src={data.carousel_img1} />
                 </figure>
             </figure>
-            <div className="media-content">
-                <div className="content">
-                    <p>
-                        <strong>{data.distance + "km"}</strong> <a onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name}_{data.carousel_last}</a><br />
-                        <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                    </p>
+              {/* <strong>{data.distance + "km"}</strong> <br /> */}
+              <div className='media-content'>
+                <div className='content'>
+                <strong onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name} {data.carousel_last}  </strong>
+                  {data.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                  {data.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
+                  <br></br>
+                  <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.fame}</span><br />
+                  <time dateTime='2018-04-20'>Apr 20</time> · offline
                 </div>
-            </div>
+                {console.log(data.tag)}
+                <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>
+              </div>
         </article>
         <br />
         <hr />

@@ -94,7 +94,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref fame").then(userGet_res => {
 				var obj = userGet_res[0];
 				obj.setpref = this.setpref_start(userGet_res[0].sexual_pref);
 				obj.setgender = this.setgender_start(userGet_res[0].gender);

@@ -63,9 +63,9 @@ export default class Profiles extends Component {
     }
 
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender sexual_pref', this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender sexual_pref fame', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
-        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked fame gender').then(res => {
           this.setState({ viewedUser: res })
           this.pageHandler()
           addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
@@ -96,7 +96,9 @@ export default class Profiles extends Component {
 
   carouselHandler (user) {
     const carouselData = {
+      carousel_gender: user.gender,
       carousel_name: user.name,
+      carousel_fame: user.fame,
       carousel_last: user.last,
       carousel_bio: user.bio,
       carousel_tag: user.tag,
@@ -256,19 +258,19 @@ export default class Profiles extends Component {
                 </figure>
                 <div className='media-content'>
                   <div className='content'>
-                    <p>
-                      <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
-                      <span className='has-text-grey'>{data.carousel_tag}<br />
-                        <time dateTime='2018-04-20'>Apr 20</time> · 20 min read</span>
-                    </p>
+                    <strong> {data.carousel_name} {data.carousel_last}   </strong>
+                    {data.carousel_gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                    {data.carousel_gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
+                    <br></br>
+                    <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.carousel_fame}</span><br />
+                    <time dateTime='2018-04-20'>Apr 20</time> · offline
                   </div>
+                  <span className='has-text-grey'>{data.carousel_tag}</span>
                 </div>
               </article>
               <br />
               <hr />
-              <p>
-                {data.bio}
-              </p>
+              {data.bio}
               <div>
                 {/* <Inbox /> */}
               </div>

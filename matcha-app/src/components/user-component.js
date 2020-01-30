@@ -153,7 +153,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked likes sexual_pref gender blocked").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked likes sexual_pref gender blocked fame").then(userGet_res => {
           this.setState({"user":userGet_res[0]})
           this.userHistory_getter()
         }).catch(err => {console.log('eve redirect' + err)})
@@ -378,14 +378,15 @@ export default class User extends Component {
                           </figure>
                           <div className="media-content">
                             <div className="content">
-                                <p>
-                                  <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
-                                  <span className="has-text-grey">{this.state.user.tag}<br />
-                                  <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                                </p>
+                              <strong>{this.state.user.name}</strong>
+                              <a>{this.state.user.last}</a><br />
+                              <time dateTime="2018-04-20"></time> · offline< br/>
+                              <span className='fa fa-fire is-danger' style={{color: 'red'}}>{this.state.user.fame}</span>
+                              <br></br>
+                              <span className="has-text-grey">{this.state.user.tag}<br /></span>
                             </div>
                           </div>
-                        </article>
+                      </article>
                     <br />
                     <hr />
                     <p>
