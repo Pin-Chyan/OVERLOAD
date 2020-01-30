@@ -63,7 +63,7 @@ export default class Profiles extends Component {
     }
 
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender sexual_pref fame', this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender ping sexual_pref fame', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
         getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked fame gender').then(res => {
           this.setState({ viewedUser: res })
