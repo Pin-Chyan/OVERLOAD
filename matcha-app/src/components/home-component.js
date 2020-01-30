@@ -48,7 +48,6 @@ export default class Home extends Component {
             }
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
-                console.log(this.props.location.user)
                 this.eve_mount();
             }
             else
