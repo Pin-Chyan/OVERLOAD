@@ -67,9 +67,7 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token
         this.ip = require('../server.json').ip;
-        this.state = {
-          updating: false
-        }
+        this.state = {}
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
@@ -185,7 +183,6 @@ export default class User extends Component {
             ReactDOM.render(liked, document.getElementById('liked'+this.div_key));
         if (document.getElementById('blocked'+this.div_key))
             ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key));
-        this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,43 +213,6 @@ export default class User extends Component {
                 search_in: search_input 
             });
         }
-    }
-
-    rgb_phaser = (altitude,target,state_target) => {
-        if (   this[target][0] !== altitude[0] 
-            || this[target][1] !== altitude[1]
-            || this[target][2] !== altitude[2] ){
-            if (this[target][0] !== altitude[0]){
-                if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
-                    this[target][0] = altitude[0];
-                else
-                    this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][1] !== altitude[1]){
-                if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
-                    this[target][1] = altitude[1];
-                else
-                    this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][2] !== altitude[2]){
-                if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
-                    this[target][2] = altitude[2];
-                else
-                    this[target][2] += this[target][2] > altitude[2] ? -1 * altitude[3] : 1* altitude[3];
-            }
-            altitude[3] += altitude[4];
-            this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
-            this.sleep(20).then(() => {
-                this.rgb_phaser(altitude,target,state_target);
-            });
-        } else
-            console.log("set " + target + " result posted to this.state." + state_target);
-    }
-    toPos(num){
-        if (num < 0)
-            return (num * -1);
-        else
-            return (num);
     }
     sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -340,6 +300,8 @@ export default class User extends Component {
         }
       }
       unblock(this.ip, this.jwt, this.state.user.email, email).then(res => {
+        const blocked = this.blockedConstructor()
+        ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key))
       })
     }
         

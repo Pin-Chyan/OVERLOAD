@@ -382,7 +382,7 @@ export default class User extends Component {
 
 	reset_state() {
 		var poes = this.state;
-		// poes.new_email = undefined;
+		poes.new_email = undefined;
 		poes.new_name = undefined;
 		poes.new_last = undefined;
 		poes.bio = undefined;
@@ -604,9 +604,9 @@ export default class User extends Component {
 													state_data.email = this.state.new_email;
 													// this.reset_state();
 													this.setState({"user":state_data});
+													var mid_text = this.text_edit_constructor(this.state.user);
+													ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												}
-												var mid_text = this.text_edit_constructor(this.state.user);
-												ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												///
 											})
 										});
@@ -640,6 +640,7 @@ export default class User extends Component {
 	text_edit_constructor(user){
 		this.reset_state();
 		console.log(this.state.new_email);
+		console.log(user.email);
 		return (
 			<div>
 				<div className="field">
