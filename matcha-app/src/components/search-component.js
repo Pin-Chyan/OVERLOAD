@@ -35,7 +35,7 @@ export default class User extends Component {
         this.nll = require("../images/chibi.jpg");
         this.sec = require("../images/check.jpg");
         this.req = {};
-        this.req.targ = [[0,100],-2,-2,-2,-2,1];
+        this.req.targ = [[0,100],-2,-2,-2,-2,1,-2];
         this.req.in = '';
         this.sort = 0;
         this.method = '';
@@ -224,7 +224,7 @@ page_handler(mode, data){
     keyHandle = e => {
         if (e.target.id === 'filter' || e.target.id === 'withfilter'){
             var res = {};
-            var req = [[-2,-2],-2,-2,-2,-2,-2];
+            var req = [[-2,-2],-2,-2,-2,-2,-2,-2];
             if (localStorage.age_gap !== 'max')
                 req[0] = [this.state.user.age - parseInt(localStorage.age_gap) < 18 ? 18 : this.state.user.age - parseInt(localStorage.age_gap) ,parseInt(localStorage.age_gap) + this.state.user.age];
             if (localStorage.max_fam !== 'anyone')
@@ -237,6 +237,8 @@ page_handler(mode, data){
                 req[5] = 1;
                 res.in = this.req.in;
             } else res.in = 'null';
+            if (localStorage.max_tag !== 'anyone')
+                req[6] = parseInt(localStorage.max_tag);
             res.targ = req;
             console.log(req);
             this.searcher(res);
