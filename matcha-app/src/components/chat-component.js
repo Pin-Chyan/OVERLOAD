@@ -85,22 +85,16 @@ export default class cons extends Component {
                     user: this.state.user
                 })
             }
-            else if (this.props.match.params.target === 'new') {
-                get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
-                    this.setState({
-                        "target":res
-                    })
-                    this.external_data2();
-                }).catch(err => {console.log('eve redirect ' + err)})
-            }
-            else {
-                get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
-                    this.setState({
-                        "target":res
-                    })
-                    this.eve_mount();
-                }).catch(err => {console.log('eve redirect ' + err)})
-            }
+            get_targetId(this.ip,this.props.location.data,this.state.user.email,this.jwt).then(res => {
+                this.setState({
+                    "target":res
+                })
+                this.props.history.push({
+                    pathname : '/chat/'+res.email,
+                    user : this.state.user.email
+                });
+                // this.external_data2();
+            }).catch(err => {console.log('eve redirect ' + err)})
         } else {
             get_targetId(this.ip,this.props.match.params.target,this.state.user.email,this.jwt).then(res => {
                 this.setState({
@@ -139,8 +133,8 @@ export default class cons extends Component {
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
-        if (document.getElementById('message foot'+this.div_key))
-            ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
+        // if (document.getElementById('message foot'+this.div_key))
+        //     ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         this.get_id();
@@ -179,6 +173,8 @@ export default class cons extends Component {
         this.setState({newmsg:e.target.value});
     }
     sendhandle = e => {
+        if (e.key === 'Enter' || e.target.id === 'send'){
+            this.setState({newmsg:''});
             async function post_msg(ip,email,jwt,room,target,msg){
                 let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
                 if (promise.status === 200)
@@ -186,6 +182,7 @@ export default class cons extends Component {
             }
             post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,this.state.newmsg).then(res => {
             }).catch(err => 'eve redirect '+err)
+        }
     }
     get_id() {
 		async function get_msg(email, target, jwt, ip){
@@ -243,7 +240,16 @@ export default class cons extends Component {
         </nav>
         <div id={"user_display_header"+this.div_key}></div>
         <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box"></div></div>
-        <div id={"message foot"+this.div_key} className="hero-foot"></div>
+        <div id={"message foot"+this.div_key} className="hero-foot">
+        <div className="field has-addons">
+            <div className="control chat-t">
+              <input className="input" type="text" placeholder="Type your message" value={this.state.newmsg} onChange={this.msghandle}  onKeyDown={(e) => this.sendhandle(e)}/>
+            </div>
+            <div className="control chat-e">
+                <button className="button is-info" id="send" onClick={e => this.sendhandle(e)}>Send</button>
+            </div>
+        </div>
+        </div>
         </section>
         )
     }
@@ -281,23 +287,6 @@ export default class cons extends Component {
             <br/>
             <div className="columns is-centered shadow">
             <div className="columns bg_white_1">
-                {/* <div className="column left">
-                    <article className="media center">
-                        <figure className="media-left">
-                            <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.user.img.img1} />
-                            </figure>
-                        </figure>
-                        <div className="media-content">
-                            <div className="content">
-                                <p>
-                                    <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                    <span><time dateTime="2018-04-20">Apr 20</time> Author</span>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div> */}
                 <div className="column">
                     <article className="media center">
                         <figure className="media-left">
@@ -341,14 +330,14 @@ export default class cons extends Component {
         }
         return (res);
     }
-    msgBox_constructor(){
+    msgBox_constructor(hi){
         return (
           <div className="field has-addons">
             <div className="control chat-t">
-              <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
+              <input className="input" type="text" placeholder="Type your message" value={hi} onChange={this.msghandle}  onKeyDown={(e) => this.sendhandle(e)}/>
             </div>
             <div className="control chat-e">
-                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
+                <button className="button is-info" id="send" onClick={e => this.sendhandle(e)}>Send</button>
             </div>
         </div>
         )
