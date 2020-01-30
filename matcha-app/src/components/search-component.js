@@ -35,8 +35,9 @@ export default class User extends Component {
         this.nll = require("../images/chibi.jpg");
         this.sec = require("../images/check.jpg");
         this.req = {};
-        this.req.targ = [[0,100],-2,-2,-2,-2,1,-2];
+        this.req.targ = [[0,100],-2,-2,-2,-2,1,-2,-2];
         this.req.in = '';
+        this.req.tags = '';
         this.sort = 0;
         this.method = '';
         this.order = '';
@@ -129,7 +130,8 @@ page_handler(mode, data){
         });
     }
     else if (mode == 'init'){
-        ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+        if (document.getElementById(menu_div))
+            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
@@ -218,13 +220,18 @@ page_handler(mode, data){
 
     //      <<<< search functions
     searchHandle = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.req.in = e.target.value;
     }
+    tagsearchHandle = (e) => {
+        // console.log(e.target.value);
+        this.req.tags = e.target.value;
+    }
     keyHandle = e => {
-        if (e.target.id === 'filter' || e.target.id === 'withfilter'){
+        // console.log(this.req);
+        if (e.target.id === 'filter' || e.target.id === 'withfilter' || e.target.id === 'all3' || e.target.id === 'tag_withfilter'){
             var res = {};
-            var req = [[-2,-2],-2,-2,-2,-2,-2,-2];
+            var req = [[-2,-2],-2,-2,-2,-2,-2,-2,-2];
             if (localStorage.age_gap !== 'max')
                 req[0] = [this.state.user.age - parseInt(localStorage.age_gap) < 18 ? 18 : this.state.user.age - parseInt(localStorage.age_gap) ,parseInt(localStorage.age_gap) + this.state.user.age];
             if (localStorage.max_fam !== 'anyone')
@@ -233,18 +240,48 @@ page_handler(mode, data){
                 req[2] = parseInt(localStorage.max_dst);
             req[3] = parseInt(localStorage.filter_gen);
             req[4] = parseInt(localStorage.filter_pref);
-            if (e.target.id === 'withfilter'){
+            if (e.target.id === 'withfilter' || e.target.id === 'all3'){
+                if (this.req.in === ''){this.page_handler('no_term',{});return;}
                 req[5] = 1;
                 res.in = this.req.in;
             } else res.in = 'null';
             if (localStorage.max_tag !== 'anyone')
                 req[6] = parseInt(localStorage.max_tag);
+            if (e.target.id === 'all3' || e.target.id === 'tag_withfilter'){
+                if (this.req.tags === ''){this.page_handler('no_term',{});return;}
+                req[7] = 1;
+                res.tags = this.req.tags.split(',');
+            } else res.tags = ['null'];
             res.targ = req;
-            console.log(req);
+            console.log(res);
             this.searcher(res);
         }
-        if (e.target.id === 'exclude'){
-            this.searcher(this.req);
+        if (e.target.id === 'exclude' || e.target.id === 'tag_exclude' || e.target.id === 'withtag'){
+            if (e.target.id === 'exclude'){
+                if (this.req.in === ''){this.page_handler('no_term',{});return;}
+                var res = {};
+                res.targ = [[-2,-2],-2,-2,-2,-2,1,-2,-2];
+                res.in = this.req.in;
+                res.tags = ['null'];
+                console.log(res);
+                this.searcher(res);
+            } else if (e.target.id === 'tag_exclude') {
+                if (this.req.tags === ''){this.page_handler('no_term',{});return;}
+                var res = {};
+                res.targ = [[0,100],-2,-2,-2,-2,-2,-2,1];
+                res.in = 'null';
+                res.tags = this.req.tags.split(',');
+                console.log(res);
+                this.searcher(res);
+            } else {
+                if (this.req.tags === '' || this.req.in === ''){this.page_handler('no_term',{});return;}
+                var res = {};
+                res.targ = [[-2,-2],-2,-2,-2,-2,1,-2,1];
+                res.in = this.req.in;
+                res.tags = this.req.tags.split(',');
+                console.log(res);
+                this.searcher(res);
+            }
         }
     }
     searcher(req){
@@ -258,30 +295,26 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             // this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
-            if (req.in !== ''){
-                if (req.in.includes('<script>'))
+            if (req.in.includes('<script>') || req.tags.includes('<script>'))
                 this.page_handler('nice_try',{});
-                else{
-                    this.page_handler('searching',{});
-                    search(this.state.user.email,this.jwt,this.ip,req).then(res => {
-                        if (res.data === 'no_res')
-                            this.page_handler('no_res',{});
-                        else {
-                            this.sleep(0).then(() => {
-                                this.page_handler('loaded',res.data);
-                            })
-                        }
-                    })
-                }
-            } else if (req.targ[5] === 1){
-                this.page_handler('no_term');
+            else{
+                this.page_handler('searching',{});
+                console.log(req);
+                search(this.state.user.email,this.jwt,this.ip,req).then(res => {
+                    if (res.data === 'no_res')
+                        this.page_handler('no_res',{});
+                    else {
+                        this.sleep(0).then(() => {
+                            this.page_handler('loaded',res.data);
+                        })
+                    }
+                })
             }
         }
         this.req.in = '';
     }
     onloaded(div_id, data){
         if (localStorage.sort_order && localStorage.sort_method){
-            // console.log('all true')
             if (this.method != localStorage.sort_method || this.order != localStorage.sort_order){
                 this.method = localStorage.sort_method;
                 this.order = localStorage.sort_order;
@@ -430,7 +463,7 @@ page_handler(mode, data){
 
     render () {
         return (
-        <section className="section hero" style={{backgroundColor: this.state.res,height: (window.innerHeight * 2)+"px"}}>
+        <section className="section hero" style={{backgroundColor: this.state.res,height: (window.innerHeight * 5)+"px"}}>
         <nav className="navbar hero-head">
             <div className="container">
                 <div className="navbar-brand">
@@ -479,7 +512,7 @@ page_handler(mode, data){
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
             <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-             <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -507,11 +540,24 @@ page_handler(mode, data){
                         <div>
                             <button id="filter" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search using filters</button>
                             <div className="field">
+                                <label className="label center_b search-t" >Search by Tags</label>
+                                <label className="label center_b search-t" >Saparate multiple tags by commas</label>
+                                <div className="control has-icons-left has-icons-right">
+                                    <input className="input is-small" type="text" placeholder="Name" onChange={this.tagsearchHandle}/>
+                                    <button id="tag_exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search tags only</button>
+                                    <button id="tag_withfilter" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>Search tags using filter</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="field">
                                 <label className="label center_b search-t" >Search by name/email</label>
                                 <div className="control has-icons-left has-icons-right">
                                     <input className="input is-small" type="text" placeholder="Name" onChange={this.searchHandle}/>
-                                    <button id="exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search name/email only</button>
-                                    <button id="withfilter" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>Search name/email using filter</button>
+                                    <button id="exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>name/email only</button>
+                                    <button id="withtag" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>name/email and tags</button>
+                                    <button id="withfilter" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>name/email using filter</button>
+                                    <button id="all3" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>Search with all</button>
                                 </div>
                             </div>
                         </div>
@@ -527,6 +573,7 @@ page_handler(mode, data){
             <div className="container bg_white_6 columns">
                 <div className="column">
                     <Sort />
+                    <button id="withfilter" className="button is-rounded is-small" onClick={() => {this.sort = 0; this.sleep(200).then(() => {this.page_handler('init',{})})}}>Return to search</button>
                 </div>
             </div>
         </div>

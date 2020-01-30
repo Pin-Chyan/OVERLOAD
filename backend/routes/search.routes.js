@@ -13,6 +13,7 @@ router.route('/engine').post( (req, res) => {
     UserModels.find({"email":req.body.email}, "token location email gender tag blocked").exec().then(auth => {
         if (auth[0].token === req.body.token || req.body.token === "admin")
             UserModels.find({}, "email name last gender age sexual_pref blocked tag fame likes img location ping").exec().then(docs => {
+                console.log(req.body.search_req);
                 var request = searchHandler(docs,auth[0],req.body.search_req);
                 if (request === 'no result'){
                     res.json('no_res')
@@ -50,6 +51,7 @@ function searchHandler(docs,user,search_req){
 
 function targHandler(doc,user,search_req){
     var res = [];
+    console.log(doc.name);
     if (doc.email === user.email)
         return ([0]);
     if (doc.blocked.includes(user._id) || user.blocked.includes(doc._id))
@@ -61,7 +63,8 @@ function targHandler(doc,user,search_req){
     res.push((displacement(doc.gender,search_req.targ[3]) === 0) ? 1 : search_req.targ[3] === -2 ? 1 : 0);
     res.push((displacement(doc.sexual_pref,search_req.targ[4]) === 0) ? 1 : search_req.targ[4] === -2 ? 1 : 0);
     res.push((doc.name.toLowerCase().includes(search_req.in.toLowerCase()) || doc.last.toLowerCase().includes(search_req.in.toLowerCase()) || doc.email.split('@')[0].toLowerCase().includes(search_req.in.toLowerCase()) ) ? 1 : search_req.targ[5] === -2 ? 1 : 0);
-    // res.push(tag_match(doc.tag,user.tag) === search_req.in[6] ? 1 : search_req.in[6] === -2 ? 1 : 0);
+    res.push(tag_match(doc.tag,user.tag) >= search_req.targ[6] ? 1 : search_req.targ[6] === -2 ? 1 : 0);
+    res.push(tag_match(doc.tag,search_req.tags) >= search_req.targ[7] ? 1 : search_req.targ[7] === -2 ? 1 : 0);
     // console.log(tag_match(doc.tag,user.tag));
     console.log(res);
     return (res);
@@ -69,10 +72,14 @@ function targHandler(doc,user,search_req){
 
 function tag_match(target,user){
     var i = user.length;
+    var i2 = target.length;
     var amm = 0;
-    while (i--){
-        if (target.includes(user[i]))
-            amm++;
+    while (i2--){
+        i = user.length;
+        while (i--){
+            if (target[i2].trim().toLowerCase().includes(user[i].trim().toLowerCase()))
+                amm++;
+        }
     }
     return (amm);
 }

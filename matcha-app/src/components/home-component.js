@@ -10,13 +10,14 @@ import Inbox from './message-and-notification';
 import { Fade } from 'react-slideshow-image';
 
 const fadeProperties = {
-    // duration: 5000,
-    // transitionDuration: 500,
-    // infinite: true,
-    // indicators: true,
-    // onChange: (oldIndex, newIndex) => {
-    //   console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    // }
+    duration: 5000,
+    transitionDuration: 500,
+    infinite: true,
+    indicators: true,
+    autoplay: false,
+    onChange: (oldIndex, newIndex) => {
+      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    }
   }
 
 export default class Home extends Component {
@@ -75,8 +76,9 @@ export default class Home extends Component {
             }
         }
         var req = {};
-        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-1,-1];
-        req.in = '';
+        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-1,-1,-2,-2];
+        req.in = 'null';
+        req.tags = ['null'];
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             console.log(res);
             if (res.data !== 'no_res'){
