@@ -32,12 +32,15 @@ router.route('/test_search').post( (req, res) => {
 function searchHandler(docs,user,search_req){
     var res = [];
     var i = docs.length;
+    console.log('start');
+    console.log(search_req);
     while (i--){
         if (!targHandler(docs[i],user,search_req).toString().includes('0')){
             docs[i].location = hell(docs[i].location[4],docs[i].location[5],user.location[4],user.location[5]);
             res.push(docs[i]);
         }
     }
+    console.log('done');
     if (res.length > 0){
         var sorted = res.sort(function (a,b){ return a.location[0] - b.location[0]})
         return (sorted);
@@ -51,14 +54,14 @@ function targHandler(doc,user,search_req){
         return ([0]);
     if (doc.blocked.includes(user._id) || user.blocked.includes(doc._id))
         return ([0])
-    res.push((doc.age >= search_req.targ[0][0] && doc.age <= search_req.targ[0][1]) ? 1 : 0)
-    res.push((doc.fame >= search_req.targ[1][0] && doc.fame <= search_req.targ[1][1]) ? 1 : 0);
+    res.push((doc.age >= search_req.targ[0][0] && doc.age <= search_req.targ[0][1]) ? 1 : search_req.targ[0][1] === -2 ? 1 : 0);
+    res.push(doc.fame <= search_req.targ[1] ? 1 : search_req.targ[1] === -2 ? 1 : 0);
     var dist = hell(doc.location[4],doc.location[5],user.location[4],user.location[5]);
     res.push((dist <= search_req.targ[2] ? 1 : search_req.targ[2] === -2 ? 1 : 0));
     res.push((displacement(doc.gender,search_req.targ[3]) === 0) ? 1 : search_req.targ[3] === -2 ? 1 : 0);
     res.push((displacement(doc.sexual_pref,search_req.targ[4]) === 0) ? 1 : search_req.targ[4] === -2 ? 1 : 0);
-    res.push((doc.name.toLowerCase().includes(search_req.in.toLowerCase()) || doc.last.toLowerCase().includes(search_req.in.toLowerCase())) ? 1 : search_req.targ[5] === 1 ? 0 : 1);
-    res.push((doc.email.toLowerCase().includes(search_req.in.toLowerCase()) || doc.email.toLowerCase().includes(search_req.in.toLowerCase())) ? 1 : search_req.targ[6] === 1 ? 0 : 1);
+    res.push((doc.name.toLowerCase().includes(search_req.in.toLowerCase()) || doc.last.toLowerCase().includes(search_req.in.toLowerCase()) || doc.email.split('@')[0].toLowerCase().includes(search_req.in.toLowerCase()) ) ? 1 : search_req.targ[5] === -2 ? 1 : 0);
+    console.log(res);
     return (res);
 }
 
