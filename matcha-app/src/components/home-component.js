@@ -78,10 +78,13 @@ export default class Home extends Component {
         req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-1,-1];
         req.in = '';
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
-            if (res !== 'no result'){
+            console.log(res);
+            if (res.data !== 'no_res'){
                 this.setState({"results":res.data});
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
+            } else if (res.data === 'no_res'){
+                this.page_handler('not_found');
             }
         })//.catch(err => {console.log('eve redirect' + err)})
     }
@@ -98,7 +101,15 @@ export default class Home extends Component {
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             this.Carousel_handle(this.state.results[0]);
         }
-        this.userData_getter(1);
+        if (mode === 'not_found'){
+            var nav_bar = this.nav_constructor();
+            if (document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+            // this.Carousel_handle(this.state.results[0]);
+            if (document.getElementById('cont' + this.div_key))
+                ReactDOM.render((<text>looks like theres no one here</text>), document.getElementById('cont' + this.div_key));
+        }
+        // this.userData_getter(1);
         this.notification_updater();
     }
 
@@ -148,7 +159,7 @@ export default class Home extends Component {
             this.setState(data);
             var nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
-                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
         })
 
     }
@@ -294,9 +305,8 @@ export default class Home extends Component {
                         <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
                     </div>
                 </nav>
-            <div id={"cont"+this.div_key} className="container"></div>
-        </section>
-
+                <div id={"cont"+this.div_key} className="container"></div>
+            </section>
         )
     }
 
@@ -417,27 +427,27 @@ export default class Home extends Component {
         if (boolean === 1){
             return (
                 <div>
-                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                <button id="5" value="view" className="button is-info fa fa-user"></button>
-                <button id="6" value="block" className="button is-black fa fa-user-times"></button>
-                <button id="8" value="Message" className="button is-info fa fa-comment"></button>
-                <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
+                    <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                    <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                    <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                    <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                    <button id="5" value="view" className="button is-info fa fa-user"></button>
+                    <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+                    <button id="8" value="Message" className="button is-info fa fa-comment"></button>
+                    <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
                 </div>
             )
         }
         else 
         return (
             <div>
-            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-            <button id="5" value="view" className="button is-info fa fa-user"></button>
-            <button id="6" value="block" className="button is-black fa fa-user-times"></button>
-            <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
+                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                <button id="5" value="view" className="button is-info fa fa-user"></button>
+                <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+                <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
             </div>
         )
     }

@@ -9,7 +9,7 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
-import Sort from './filter/sort.js';
+import Sort from './filter/Sort.js';
 import Inbox from './message-and-notification';
 //[1,-1,-2,-2,10,-1,-1] search conditions
 
@@ -37,6 +37,9 @@ export default class User extends Component {
         this.req = {};
         this.req.targ = [[0,100],-2,-2,-2,-2,1];
         this.req.in = '';
+        this.sort = 0;
+        this.method = '';
+        this.order = '';
         this.state = {};
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -105,15 +108,11 @@ page_handler(mode, data){
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
             ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
-        var column = window.innerWidth > 1400 ? 3 : 2;
-        var row = Math.ceil(data.length/column);
-        var head = this.header_constructor("Here you go");
-        var body = this.row_constructor(row,column,data,1);
-        var result = head.concat(body);
-        if (document.getElementById(res_div))
-            ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        this.sort_render(data);
         if (document.getElementById("filter"+this.div_key))
             ReactDOM.render(this.filter_constructor(2), document.getElementById("filter"+this.div_key))
+        this.sort = 1;
+        this.onloaded(this.div_key,data);
     }
     else if (mode === 'searching'){
         if (document.getElementById("filter"+this.div_key))
@@ -266,7 +265,7 @@ page_handler(mode, data){
                         if (res.data === 'no_res')
                             this.page_handler('no_res',{});
                         else {
-                            this.sleep(3000).then(() => {
+                            this.sleep(0).then(() => {
                                 this.page_handler('loaded',res.data);
                             })
                         }
@@ -277,6 +276,105 @@ page_handler(mode, data){
             }
         }
         this.req.in = '';
+    }
+    onloaded(div_id, data){
+        if (localStorage.sort_order && localStorage.sort_method){
+            // console.log('all true')
+            if (this.method != localStorage.sort_method || this.order != localStorage.sort_order){
+                this.method = localStorage.sort_method;
+                this.order = localStorage.sort_order;
+                if (this.sort === 1){
+                    if (this.method === 'Age')
+                        this.age_sort(data, this.order);
+                    if (this.method === 'Fame')
+                        this.fame_sort(data, this.order);
+                    if (this.method === 'Location')
+                        this.dist_sort(data, this.order);
+                }
+            }
+        }
+        console.log('await new');
+        if (this.sort === 1 && document.getElementById('result' + div_id))
+            this.sleep(200).then(() => {this.onloaded(div_id, data)});
+    }
+    age_sort(data, order){
+        console.log('age render');
+        console.log(order);
+        console.log(order === 'ascending');
+        console.log(order === 'descending');
+        if (order === 'ascending')
+            this.sort_render(data.sort(function (a,b){
+                if (a.age < b.age)
+                    return -1;
+                if (a.age > b.age)
+                    return 1;
+                return (0);
+        }));
+        if (order === 'descending')
+            this.sort_render(data.sort(function (a,b){ 
+                if (a.age > b.age)
+                    return -1;
+                if (a.age < b.age)
+                    return 1;
+                return (0);
+        }));
+    }
+    dist_sort(data, order){
+        console.log('age render');
+        console.log(order);
+        console.log(order === 'ascending');
+        console.log(order === 'descending');
+        console.log(data[0].location);
+        if (order === 'ascending')
+            this.sort_render(data.sort(function (a,b){
+                if (a.location[0] < b.location[0])
+                    return -1;
+                if (a.location[0] > b.location[0])
+                    return 1;
+                return (0);
+        }));
+        if (order === 'descending')
+            this.sort_render(data.sort(function (a,b){ 
+                if (a.location[0] > b.location[0])
+                    return -1;
+                if (a.location[0] < b.location[0])
+                    return 1;
+                return (0);
+        }));
+    }
+    fame_sort(data, order){
+        console.log('age render');
+        console.log(order);
+        console.log(order === 'ascending');
+        console.log(order === 'descending');
+        if (order === 'ascending')
+            this.sort_render(data.sort(function (a,b){
+                if (a.fame < b.fame)
+                    return -1;
+                if (a.fame > b.fame)
+                    return 1;
+                return (0);
+        }));
+        if (order === 'descending')
+            this.sort_render(data.sort(function (a,b){ 
+                if (a.fame > b.fame)
+                    return -1;
+                if (a.fame < b.fame)
+                    return 1;
+                return (0);
+        }));
+    }
+    sort_render(data){
+        var res_div = 'result' + this.div_key;
+        var column = window.innerWidth > 1400 ? 3 : 2;
+        var row = Math.ceil(data.length/column);
+        var head = this.header_constructor("Here you go");
+        var body = this.row_constructor(row,column,data,1);
+        var result = head.concat(body);
+        if (document.getElementById(res_div)){
+            ReactDOM.render((<div/>), document.getElementById(res_div));
+            ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        }
     }
     //      end >>>>
 
@@ -454,7 +552,7 @@ page_handler(mode, data){
     }
     button_constructor(id){
         var className = '"button is-warning is-rounded"';
-        return ('<button id=' + id +' className=' + className + '>view </button>');
+        return ('<button id=' + id +' class=' + className + '>view </button>');
     }
     row_constructor(rows, columns, data, button){
         var i = 0;
