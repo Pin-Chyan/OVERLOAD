@@ -20,7 +20,7 @@ const Profile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" src={props.img} alt="img of personal"/>
         </figure>
       </figure>
       <div className="media-content">

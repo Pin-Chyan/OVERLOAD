@@ -114,7 +114,6 @@ export default class Profiles extends Component {
       carousel_distance: distance,
       carousel_gender: user.gender,
       carousel_name: user.name,
-      carousel_fame: user.fame,
       carousel_last: user.last,
       carousel_bio: user.bio,
       carousel_tag: user.tag,
@@ -216,8 +215,7 @@ export default class Profiles extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
-        <a className='navbar-item ' style={{ color: this.state.other_page }}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></a>
-        <a className="navbar-item " style={{color: this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments"></i></a>
+        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
         <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
         <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
@@ -245,27 +243,27 @@ export default class Profiles extends Component {
               <Fade {...fadeProperties}>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img1} />
+                    <img src={data.carousel_img1} alt="profile img/img 1" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img2} />
+                    <img src={data.carousel_img2} alt="img2" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img3} />
+                    <img src={data.carousel_img3} alt="img3" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img4} />
+                    <img src={data.carousel_img4} alt="img4" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img5} />
+                    <img src={data.carousel_img5} alt="img5" />
                   </div>
                 </div>
               </Fade>

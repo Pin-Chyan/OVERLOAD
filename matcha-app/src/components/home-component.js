@@ -333,7 +333,7 @@ export default class Home extends Component {
     listTags (tags) {
       if (Array.isArray(tags) && tags.length) {
         return tags.map(tag => {
-          return <span class="tag is-warning">{tag}  </span>
+          return <span className="tag is-warning">{tag}  </span>
         })
       } else {
         return <span>No tags ...</span>
@@ -357,27 +357,27 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                                    <img src={data.carousel_img1} alt="profile img/img 1" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                                    <img src={data.carousel_img2} alt="img2" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                                    <img src={data.carousel_img3} alt="img3" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                                    <img src={data.carousel_img4} alt="img4" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                                    <img src={data.carousel_img5} alt="img5" />
                                 </div>
                             </div>
                         </Fade>

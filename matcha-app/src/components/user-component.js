@@ -16,7 +16,7 @@ const Profile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" alt="Profile img" src={props.img} />
         </figure>
       </figure>
       <div className="media-content">
@@ -38,7 +38,7 @@ const BlockedProfile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" alt="Profile img" src={props.img} />
         </figure>
       </figure>
       <div className="media-content">
@@ -201,7 +201,7 @@ export default class User extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
                 if (this.state.search.trim() !== '')
