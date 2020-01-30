@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 export default class Filter extends React.Component {
 
-    onChangeGender = (e) => {
-        this.setState({value: e.target.value})
-    }
     onChangeGen = (e) => {
         localStorage.setItem('filter_gen', e.target.value)
     }
