@@ -176,7 +176,7 @@ export default class Profiles extends Component {
       if (res === 'redirect') {
         this.props.history.push({
           pathname: '/chat/new',
-          user: this.state.loggedInUser.email,
+          // user: this.state.loggedInUser.email,
           data: this.state.viewedUser.email
         })
       }
