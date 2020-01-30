@@ -33,6 +33,29 @@ const Profile = props => {
   )
 }
 
+const BlockedProfile = props => {
+  return (
+    <article className="media center">
+      <figure className="media-left">
+        <figure className="image is-64x64">
+          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+        </figure>
+      </figure>
+      <div className="media-content">
+        <div className="content">
+            <a onClick={props.handleClick}>
+              <strong>{props.name} </strong>
+              <p>{props.last}</p>
+            </a>
+            <div className='button is-rounded is-warning'>
+              Unblock
+            </div>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 export default class User extends Component {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -333,7 +356,7 @@ export default class User extends Component {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
         return this.state.blockedUsers.map(user => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>
