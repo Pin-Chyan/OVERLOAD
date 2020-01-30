@@ -357,27 +357,27 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                                    <img src={data.carousel_img1} alt="profile img/img 1" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                                    <img src={data.carousel_img2} alt="img2" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                                    <img src={data.carousel_img3} alt="img3" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                                    <img src={data.carousel_img4} alt="img4" />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                                    <img src={data.carousel_img5} alt="img5" />
                                 </div>
                             </div>
                         </Fade>

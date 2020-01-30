@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import ReactDOM from 'react-dom'
 import "../styles/overload.css";
@@ -9,8 +8,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios';
 import Inbox from './message-and-notification';
-
-var load = require("../images/load.gif");
 
 //////////        <<Liam>>       //////////////
 // create a button on the home page that only renders
@@ -139,8 +136,6 @@ export default class cons extends Component {
     page_handler(){
         var nav_bar = this.nav_constructor(1);
         var user = this.userDisplay_constructor();
-        var msgBox = this.msgBox_constructor();
-        var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
@@ -168,10 +163,10 @@ export default class cons extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -327,16 +322,16 @@ export default class cons extends Component {
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
-        var res = '';
+        var result = '';
 
         while (i < max) {
-            if (msg_data[i].author != this.state.user.email)
-                var res = res + r_element1 + r_element2 + this.state.target.name + "\ " + msg_data[i].msg + r_element3;
+            if (msg_data[i].author !== this.state.user.email)
+                result = result + r_element1 + r_element2 + this.state.target.name + "\" " + msg_data[i].msg + r_element3;
             else
-                var res = res + l_element1 + l_element2 + this.state.user.name + "\ " + msg_data[i].msg + l_element3;
+                result = result + l_element1 + l_element2 + this.state.user.name + "\" " + msg_data[i].msg + l_element3;
             i++;
         }
-        return (res);
+        return (result);
     }
     msgBox_constructor() {
         return (
