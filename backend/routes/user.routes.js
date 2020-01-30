@@ -445,6 +445,32 @@ router.route('/block').post( (req, res) => {
     }).catch(err => {res.json(err)});
 })
 
+router.post('/report', verifyToken, (req, res) => {
+
+  if (!req.body.user || !req.token || !req.body.reported_email) {
+    return res.send('empty fields')
+  }
+  jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+        res.sendStatus(403);
+    } else {
+      let mailOptions = {
+        from: mailData.email,
+        to: "marthen.vandereems@gmail.com",
+        subject: 'User Reported',
+        html: `<h3>User ${req.body.reported_email} has been reported by ${req.body.user}</h3><p>`
+      };
+    
+      transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              return res.status(400).send(error);
+          }
+      });
+    return res.send('email sent');
+    }
+  })
+})
+
 router.route('/unblock').post( (req, res) => {
     if (!req.body.token || !req.body.email || !req.body.target)
         res.json("empty fields");

@@ -94,7 +94,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref fame").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
 				var obj = userGet_res[0];
 				obj.setpref = this.setpref_start(userGet_res[0].sexual_pref);
 				obj.setgender = this.setgender_start(userGet_res[0].gender);
@@ -268,7 +268,7 @@ export default class User extends Component {
 							</span>
 						</div>
             <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments"></i></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
 						<a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
 						<a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -637,6 +637,16 @@ export default class User extends Component {
 		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
     }
 
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
 	text_edit_constructor(user){
 		this.reset_state();
 		console.log(this.state.new_email);
@@ -702,7 +712,7 @@ export default class User extends Component {
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Tags: {user.tag.toString()}</label>
+					<label className="label">Current Tags: {this.listTags(user.tag)}</label>
 					<div className="control">
 						<div className="field">
 							<label className="label">Tag Name</label>

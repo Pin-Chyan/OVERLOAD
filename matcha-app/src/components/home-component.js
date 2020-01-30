@@ -62,7 +62,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref fame").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
@@ -80,7 +80,6 @@ export default class Home extends Component {
         req.in = 'null';
         req.tags = ['null'];
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
-            console.log(res);
             if (res.data !== 'no_res'){
                 this.setState({"results":res.data});
                 // this.Carousel_handle(this.state.results[0]);
@@ -204,7 +203,9 @@ export default class Home extends Component {
                 }
             }
             else if (buttonval === "Report"){
-                console.log("reported!");
+              axios.post(ip+'/users/report', { user, reported_email: target }, { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+                alert('You have reported them')
+              })
             }
             else if (buttonval === "Message"){
                 return ('redirect');
@@ -252,6 +253,7 @@ export default class Home extends Component {
     Carousel_handle(res){
         if (res){
             var carousel_data = {
+              "ping": res.ping,
               "gender": res.gender,
               "id": res._id,
               "fame": res.fame,
@@ -342,6 +344,14 @@ export default class Home extends Component {
       }
     }
 
+    getFormatedDate (ping) {
+      const currDate = new Date(ping)
+      let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+      + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+      + currDate.getSeconds()
+      return formattedDate
+    }
+
     mid_constructor(data){
         return (
             <div className="column is-centered shadow">
@@ -394,17 +404,18 @@ export default class Home extends Component {
                     <img alt="Asuna" src={data.carousel_img1} />
                 </figure>
             </figure>
-              {/* <strong>{data.distance + "km"}</strong> <br /> */}
               <div className='media-content'>
                 <div className='content'>
+                <strong>{data.distance + "km"}</strong> <br />
                 <strong onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name} {data.carousel_last}  </strong>
                   {data.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
                   {data.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
                   <br></br>
                   <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.fame}</span><br />
-                  <time dateTime='2018-04-20'>Apr 20</time> · offline
+                  <time dateTime='2018-04-20'>{data.ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
+                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) <= 60000) && (data.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) > 60000) && (data.ping !== 0)) && <strong>last online: {this.getFormatedDate(data.ping)}</strong>}</time>
                 </div>
-                {console.log(data.tag)}
                 <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>
               </div>
         </article>

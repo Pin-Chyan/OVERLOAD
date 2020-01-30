@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import ReactDOM from 'react-dom'
 import "../styles/overload.css";
@@ -9,8 +8,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios';
 import Inbox from './message-and-notification';
-
-var load = require("../images/load.gif");
 
 //////////        <<Liam>>       //////////////
 // create a button on the home page that only renders
@@ -67,7 +64,7 @@ export default class cons extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last likes liked gender bio tag img liked sexual_pref viewed fame").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last likes liked gender bio tag img liked sexual_pref viewed fame ping").then(userGet_res => {
             this.setState({"user":userGet_res[0]});
             this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -139,8 +136,6 @@ export default class cons extends Component {
     page_handler(){
         var nav_bar = this.nav_constructor(1);
         var user = this.userDisplay_constructor();
-        var msgBox = this.msgBox_constructor();
-        var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
@@ -168,10 +163,10 @@ export default class cons extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -293,62 +288,61 @@ export default class cons extends Component {
     userDisplay_constructor(){
         return (
             <div>
-            <br/>
-            <div className="columns is-centered shadow">
-            <div className="columns bg_white_1">
-                <div className="column">
-                    <article className="media center">
-                        <figure className="media-left">
-                            <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.target.img.img1} />
-                            </figure>
-                        </figure>
-                        <div className="media-content">
-                            <div className="content">
-                                <p>
-                                    <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                    <span><time dateTime="2018-04-20"></time> target</span>
-                                </p>
-                            </div>
+                <div className="columns is-centered shadow">
+                    <div className="columns bg_white_1">
+                        <div className="column">
+                            <article className="media center">
+                                <figure className="media-left">
+                                    <figure className="image is-64x64">
+                                        <img className="image is-64x64 adjust" alt="Asuna" src={this.state.target.img.img1} />
+                                    </figure>
+                                </figure>
+                                <div className="media-content">
+                                    <div className="content">
+                                        <p>
+                                            <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+                                            <span><time dateTime="2018-04-20"></time> target</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
-                    
+                    </div>
                 </div>
-                </div>
-            </div>
             </div>
         )
     }
-    message_constructor(msg_data){
-        var r_element1 = "<p className='has-text-right'>";
-        var r_element2 = "<span className='tag chat-wrap is-info right_m'>";
+    
+    message_constructor(msg_data) {
+        var r_element1 = "<p class='has-text-right'>";
+        var r_element2 = "<span class='tag chat-wrap is-info right_m'>";
         var r_element3 = "</span></p>";
         var l_element1 = "<p className='has-text-left'>";
         var l_element2 = "<span className='tag chat-wrap is-success left_m'>";
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
-        var res = '';
+        var result = '';
 
-        while(i < max){
-            if (msg_data[i].author != this.state.user.email)
-                var res = res+r_element1+r_element2+this.state.target.name+"\ "+msg_data[i].msg+r_element3;
+        while (i < max) {
+            if (msg_data[i].author !== this.state.user.email)
+                result = result + r_element1 + r_element2 + this.state.target.name + "\" " + msg_data[i].msg + r_element3;
             else
-                var res = res+l_element1+l_element2+this.state.user.name+"\ "+msg_data[i].msg+l_element3;
+                result = result + l_element1 + l_element2 + this.state.user.name + "\" " + msg_data[i].msg + l_element3;
             i++;
         }
-        return (res);
+        return (result);
     }
-    msgBox_constructor(){
+    msgBox_constructor() {
         return (
-          <div className="field has-addons">
-            <div className="control chat-t">
-              <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
+            <div className="field has-addons">
+                <div className="control chat-t">
+                    <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*/ />
+                </div>
+                <div className="control chat-e">
+                    <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
+                </div>
             </div>
-            <div className="control chat-e">
-                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
-            </div>
-        </div>
         )
     }
 }

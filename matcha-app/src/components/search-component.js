@@ -75,7 +75,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last age bio tag img likes liked viewed gender sexual_pref fame").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last age bio tag img likes liked viewed gender ping sexual_pref fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})

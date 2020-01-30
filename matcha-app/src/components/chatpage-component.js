@@ -20,7 +20,7 @@ const Profile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" src={props.img} alt="img of personal"/>
         </figure>
       </figure>
       <div className="media-content">
@@ -76,7 +76,7 @@ export default class ChatPage extends Component {
               return promise.data
       }
       ///      <<<< target will be customised for each page for optimisation >>>>
-      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref last img bio tag email fame").then(userGet_res => {
+      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref ping last img bio tag email fame").then(userGet_res => {
               this.setState({"user":userGet_res[0]});
               this.getChats()
               
