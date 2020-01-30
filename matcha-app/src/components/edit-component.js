@@ -314,7 +314,7 @@ export default class User extends Component {
 					</div>
 				</div> */}
 				<figure className="image s-image">
-				<img id={img_num + this.div_key} alt="Asuna" class="m_image" src={new_img}/>
+				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
 				</figure>
 			</article>
 		</div>
@@ -383,9 +383,9 @@ export default class User extends Component {
 
 	reset_state() {
 		var poes = this.state;
-		poes.new_email = undefined;
+		// poes.new_email = undefined;
 		poes.new_name = undefined;
-		poes.new_surname = undefined;
+		poes.new_last = undefined;
 		poes.bio = undefined;
 		poes.new_tag = undefined;
 		this.setState({poes})
@@ -595,13 +595,15 @@ export default class User extends Component {
 											axios.post('http://localhost:5001/auth/getToken', user)
 											.then(res => {
 												if (res.data.resCode === 1) {
+													console.log("rescode is 1 what?")
 													alert("You are not who you say you are!");
 													this.props.history.push("/logout");
 												} else {
+													console.log("changing email");
 													localStorage.setItem('token', res.data.token);
 													this.jwt = res.data.token;
 													state_data.email = this.state.new_email;
-													this.reset_state();
+													// this.reset_state();
 													this.setState({"user":state_data});
 												}
 												var mid_text = this.text_edit_constructor(this.state.user);
@@ -612,7 +614,7 @@ export default class User extends Component {
 									})
 								} else {
 									state_data.new_email = "email in use!";
-									this.reset_state();
+									// this.reset_state();
 									this.setState({"user":state_data});
 									var mid_text = this.text_edit_constructor(this.state.user);
 									ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -621,7 +623,7 @@ export default class User extends Component {
 							})
 						} else {
 							state_data.new_email = "Invalid email";
-							this.reset_state();
+							// this.reset_state();
 							this.setState({"user":state_data});
 							var mid_text = this.text_edit_constructor(this.state.user);
 							ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -630,7 +632,7 @@ export default class User extends Component {
 					}
 				})
 		}
-		this.reset_state();
+		// this.reset_state();
 		this.setState({"user":state_data});
 		var mid_text = this.text_edit_constructor(this.state.user);
 		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -638,6 +640,7 @@ export default class User extends Component {
 
 	text_edit_constructor(user){
 		this.reset_state();
+		console.log(this.state.new_email);
 		return (
 			<div>
 				<div className="field">
