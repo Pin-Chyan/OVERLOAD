@@ -336,8 +336,7 @@ export default class User extends Component {
 
 	redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
         });
     }
     searchHandle = e => {
@@ -352,8 +351,7 @@ export default class User extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
-                search_in: search_input 
+                search_in: search_input
             });
         }
     }

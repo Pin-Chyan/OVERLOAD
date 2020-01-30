@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import NotificationBadge from 'react-notification-badge';
 import {Effect} from 'react-notification-badge';
-import ReactDOM from 'react-dom'
+import decode from 'jwt-decode';
 const ip = require("../server.json").ip;
 
 export default class Inbox extends Component {
@@ -30,7 +29,6 @@ export default class Inbox extends Component {
 
   }
   ping = (email,jwt,ip) => {
-    
     async function update(email,jwt,ip){
         let promise = await axios.post(ip + '/inbox/getNotifications', { "email": email }, { headers: { authorization: `bearer ${jwt}` } });
         if (promise.status === 200)
@@ -50,7 +48,7 @@ export default class Inbox extends Component {
       this.sleep(200).then(() => {
         this.ping(email,jwt,ip);
       })
-    })
+    }).catch(() => {this.ping(decode(localStorage.token).email,localStorage.token,this.ip)})
   }
   sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
