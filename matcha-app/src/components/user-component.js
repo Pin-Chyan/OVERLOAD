@@ -22,10 +22,10 @@ const Profile = props => {
       <div className="media-content">
         <div className="content">
           <p>
-            <a onClick={props.handleClick}>
+            <button onClick={props.handleClick}>
               <strong>{props.name} </strong>
               <p>{props.last}</p>
-            </a>
+            </button>
           </p>
         </div>
       </div>
@@ -46,10 +46,10 @@ const BlockedProfile = props => {
             <div className='button is-rounded is-warning btn-right' onClick={props.unblock}>
               Unblock
             </div>
-            <a onClick={props.handleClick}>
+            <button onClick={props.handleClick}>
               <strong>{props.name} </strong>
               <p>{props.last}</p>
-            </a>
+            </button>
         </div>
       </div>
     </article>
@@ -260,12 +260,12 @@ export default class User extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -358,16 +358,16 @@ export default class User extends Component {
                 <nav className="tabs is-boxed is-small is-fullwidth">
                     <ul>
                       <li className="tab is-active" onClick={this.openTab('Preview')}>
-                        <a>Preview</a>
+                        <button>Preview</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Likes')}>
-                        <a>Who liked me</a>
+                        <button>Who liked me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Viewed by')}>
-                        <a>Who viewed me</a>
+                        <button>Who viewed me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Preferences')}>
-                        <a>Blocked users</a>
+                        <button>Blocked users</button>
                       </li>
                     </ul>
                 </nav>

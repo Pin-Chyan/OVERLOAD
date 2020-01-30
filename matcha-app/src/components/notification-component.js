@@ -85,10 +85,10 @@ export default class Notifications extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -136,12 +136,12 @@ export default class Notifications extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></a>
-                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         return(element1);

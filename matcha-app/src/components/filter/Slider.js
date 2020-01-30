@@ -1,16 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const sliderThumbStyles = (props) => (`
-  width: 15px;
-  height: 15px;
-  background: ${props.color};
-  cursor: pointer;
-  outline: 5px solid #333;
-  opacity: 0.8;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-`);
 
 // const Styles = styled.div`
 //   align-items: center;

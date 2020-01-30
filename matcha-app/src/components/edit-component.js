@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ReactHtmlParser from 'react-html-parser';
-// import FilePickerManager from 'react-native-file-picker';
-import ReactDOM, { createPortal, render } from 'react-dom'
+import ReactDOM from 'react-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -9,18 +7,7 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import Inbox from './message-and-notification';
-// import styled from 'styled-components';
-// import Slider from './Slider.js';
-var load2 = require("../images/load2.gif");
-var load3 = require("../images/scifi.gif");
-var nll = require("../images/chibi.jpg");
-var sec = require("../images/check.jpg");
 
-//[1,-1,-2,-2,10,-1,-1] search conditions
-
-// const Styles = styled.div`
-
-// `;
 
 export default class User extends Component {
 
@@ -104,8 +91,7 @@ export default class User extends Component {
     }
     eve_mount() {
         this.internal_color = [15,14,14];
-        this.state.res = '';
-        this.state.links = 'rgb(50, 170, 225)';
+        this.setState({"res":'',"links":'rgb(50, 170, 225)'});
         this.Page_states("init");
 	}
 
@@ -267,12 +253,12 @@ export default class User extends Component {
 								<i className="fa fa-search"></i>
 							</span>
 						</div>
-            <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
-            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-						<a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+            			<button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
+            			<button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+						<button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
 					</div>
 				</div>
 			</div>
@@ -344,10 +330,10 @@ export default class User extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -480,29 +466,10 @@ export default class User extends Component {
             });
     }
 
-	setDefault (value) {
-		if (value === this.state.user.sexual_pref) {
-			return true
-		}
-		return false
-	  
-	}
-	
-
-	
-	setDefaultGender (value) {
-		
-	  if (value === this.state.user.gender) {
-		  
-		return true
-		
-	  }
-	  return false
-	}
-
 	tag_handle(tag_arr, new_tag, mode){
+		var tag
         if (mode === "upload"){
-            var tag  = tag_arr;
+        	tag  = tag_arr;
             new_tag = new_tag.trim();
             if (!tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
                 tag.push(new_tag);
@@ -510,7 +477,7 @@ export default class User extends Component {
             }
             return (tag);
         } else if (mode === "delete") {
-            var tag  = tag_arr;
+            tag  = tag_arr;
             new_tag = new_tag.trim();
             if (tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
                 var pos = tag.findIndex(function (res){return res === new_tag;});
@@ -522,10 +489,11 @@ export default class User extends Component {
 	}
 
 	onTagSubmit = e => {
+		var new_tag
         if (this.state.new_tag)
-            var new_tag = this.state.new_tag;
+            new_tag = this.state.new_tag;
         else
-			var new_tag = '';
+			new_tag = '';
 		var res = this.tag_handle(this.state.user.tag,new_tag,e.target.id);
 		var obj = this.state.user;
 		obj.tag = res;
@@ -574,7 +542,7 @@ export default class User extends Component {
             if (this.state.new_email){
 				var tester = this.state.new_email;
 				axios.post(this.ip+"/users/check_dup", {"email":tester}).then(res => {
-					if (res.data != "none"){
+					if (res.data !== "none"){
 						alert("email already exists");
 					}
 					else {

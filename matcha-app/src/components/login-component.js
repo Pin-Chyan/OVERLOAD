@@ -4,8 +4,7 @@ import "../styles/helpers.css";
 import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; 
-import { getJwt } from "./auth/jwt-helper.js";
+import axios from 'axios';
 // import "../styles/debug.css";
 var ip = require("../server.json").ip;
 
