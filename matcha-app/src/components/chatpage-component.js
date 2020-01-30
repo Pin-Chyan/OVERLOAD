@@ -8,13 +8,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-// List all current chats
-  // Get user
-  // Pull all chats
-  // Display list of chats
-// Add to navbar
-// Fix no results showing up
-
 const Profile = props => {
   return (
     <article className="media center">
@@ -25,12 +18,12 @@ const Profile = props => {
       </figure>
       <div className="media-content">
         <div className="content">
-          <p>
               <a onClick={props.handleClick}>
-              <strong>{props.name}</strong>
-              <p>{props.last}</p>
+              <strong>{props.name} {props.last}</strong><br />
+              <time dateTime='2018-04-20'>{props.ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
+              <time dateTime='2018-04-20'>{(((Date.now() - props.ping) <= 60000) && (props.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+              <time dateTime='2018-04-20'>{(((Date.now() - props.ping) > 60000) && (props.ping !== 0)) && <strong>last online: {props.Fdate(props.ping)}</strong>}</time>
             </a>
-          </p>
         </div>
       </div>
     </article>
@@ -87,7 +80,7 @@ export default class ChatPage extends Component {
     async function getChatsData (ip, token, chatrooms) {
       const promises = []
       for (let userid of chatrooms) {
-        const content = await axios.post(ip + '/users/get_soft_by_id', { id: userid , target: 'name last img email' }, { headers: { authorization: `bearer ${token}` } })
+        const content = await axios.post(ip + '/users/get_soft_by_id', { id: userid , target: 'name last img email ping' }, { headers: { authorization: `bearer ${token}` } })
         promises.push(content.data)
       }
       return promises
@@ -199,11 +192,19 @@ export default class ChatPage extends Component {
       return(element1);
   }
 
+  getFormatedDate (ping) {
+    const currDate = new Date(ping)
+    let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+    + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+    + currDate.getSeconds()
+    return formattedDate
+  }
+
   chatContructor () {
     if (Array.isArray(this.state.chats) && this.state.chats.length) {
       return this.state.chats.map(room => {
         let img = room.img.img1 === 'null' ? this.nll : room.img.img1
-        return <Profile img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
+        return <Profile ping={room.ping} Fdate={this.getFormatedDate} img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
       })
     } else {
       return <div>No chats yet...</div>
