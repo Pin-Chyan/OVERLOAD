@@ -65,7 +65,7 @@ export default class Profiles extends Component {
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
       getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender ping sexual_pref fame location', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
-        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked fame gender location').then(res => {
+        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked fame gender location ping').then(res => {
           this.setState({ viewedUser: res })
           this.pageHandler()
           addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
@@ -112,6 +112,8 @@ export default class Profiles extends Component {
     const distance = this.calcDistance(user.location[4], user.location[5], this.state.loggedInUser.location[4], this.state.loggedInUser.location[5])
     const carouselData = {
       carousel_distance: distance,
+      carousel_fame: user.fame,
+      carousel_ping: user.ping,
       carousel_gender: user.gender,
       carousel_name: user.name,
       carousel_last: user.last,
@@ -234,6 +236,14 @@ export default class Profiles extends Component {
     }
   }
 
+  getFormatedDate (ping) {
+    const currDate = new Date(ping)
+    let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+    + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+    + currDate.getSeconds()
+    return formattedDate
+  }
+
   bodyConstructor (data) {
     return (
       <div className='column is-centered shadow'>
@@ -289,7 +299,7 @@ export default class Profiles extends Component {
                     <br></br>
                     <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.carousel_fame}</span><br />
                     <time dateTime='2018-04-20'>{data.carousel_ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
-                    <time dateTime='2018-04-20'>{(((Date.now() - data.carousel_ping) < 60000) && (data.carousel_ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                    <time dateTime='2018-04-20'>{(((Date.now() - data.carousel_ping) <= 60000) && (data.carousel_ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
                     <time dateTime='2018-04-20'>{(((Date.now() - data.carousel_ping) > 60000) && (data.carousel_ping !== 0)) && <strong>last online: {this.getFormatedDate(data.carousel_ping)}</strong>}</time>
                   </div>
                   <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>

@@ -333,7 +333,7 @@ export default class Home extends Component {
     listTags (tags) {
       if (Array.isArray(tags) && tags.length) {
         return tags.map(tag => {
-          return <span className="tag is-warning">{tag}  </span>
+          return <span class="tag is-warning">{tag}  </span>
         })
       } else {
         return <span>No tags ...</span>
@@ -357,27 +357,27 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} alt="profile img/img 1" />
+                                    <img src={data.carousel_img1} />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} alt="img2" />
+                                    <img src={data.carousel_img2} />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} alt="img3" />
+                                    <img src={data.carousel_img3} />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} alt="img4" />
+                                    <img src={data.carousel_img4} />
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} alt="img5" />
+                                    <img src={data.carousel_img5} />
                                 </div>
                             </div>
                         </Fade>
@@ -409,7 +409,7 @@ export default class Home extends Component {
                   <br></br>
                   <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.fame}</span><br />
                   <time dateTime='2018-04-20'>{data.ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
-                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) < 60000) && (data.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) <= 60000) && (data.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
                   <time dateTime='2018-04-20'>{(((Date.now() - data.ping) > 60000) && (data.ping !== 0)) && <strong>last online: {this.getFormatedDate(data.ping)}</strong>}</time>
                 </div>
                 <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>
