@@ -196,7 +196,7 @@
 .chat-box {
     background: white;
     margin: auto;
-    width: 40%;
+    width: 500px;
     height: 500px;
     overflow-y: scroll;
 }
@@ -325,6 +325,33 @@ h3 {
 .btn-right {
     float: right;
     position: relative;
+}
+
+.contain {
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 800px) {
+
+.bg_white_1 {
+    width: auto !important;
+}
+
+.bg_white_3 {
+    width: auto !important;
+}
+
+.container {
+    margin: 1px;
+}
+
+.m_image {
+    width: 210px !important;
+}
+
+.chat-box {
+    width: auto;
+}
 }
 
 /* .slide-container {

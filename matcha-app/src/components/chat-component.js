@@ -293,29 +293,27 @@ export default class cons extends Component {
     userDisplay_constructor(){
         return (
             <div>
-            <br/>
-            <div className="columns is-centered shadow">
-            <div className="columns bg_white_1">
-                <div className="column">
-                    <article className="media center">
-                        <figure className="media-left">
-                            <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.target.img.img1} />
-                            </figure>
-                        </figure>
-                        <div className="media-content">
-                            <div className="content">
-                                <p>
-                                    <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                    <span><time dateTime="2018-04-20"></time> target</span>
-                                </p>
-                            </div>
+                <div className="columns is-centered shadow">
+                    <div className="columns bg_white_1">
+                        <div className="column">
+                            <article className="media center">
+                                <figure className="media-left">
+                                    <figure>
+                                        <img className="image is-64x64 contain" alt="Asuna" src={this.state.target.img.img1} />
+                                    </figure>
+                                </figure>
+                                <div className="media-content">
+                                    <div className="content">
+                                        <p>
+                                            <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+                                            <span><time dateTime="2018-04-20"></time> target</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
-                    
+                    </div>
                 </div>
-                </div>
-            </div>
             </div>
         )
     }
@@ -341,14 +339,14 @@ export default class cons extends Component {
     }
     msgBox_constructor(){
         return (
-          <div className="field has-addons">
-            <div className="control chat-t">
-              <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
+            <div className="field has-addons">
+                <div className="control chat-t">
+                    <input className="input" type="text" placeholder="Type your message" onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*/ />
+                </div>
+                <div className="control chat-e">
+                    <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
+                </div>
             </div>
-            <div className="control chat-e">
-                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
-            </div>
-        </div>
         )
     }
 }
