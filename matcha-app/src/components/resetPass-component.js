@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -45,10 +44,8 @@ function PasswordInput(props){
                 </div>
             </div>
         )
-    } else {
+    } else
         return <h1>This Link is invalid</h1>
-    }
-    return <h1>Loading...</h1>
 }
 
 export default class ResetPass extends Component {

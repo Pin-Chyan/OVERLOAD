@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -14,7 +13,7 @@ export default class Verify extends Component {
 		super(props);
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
-
+		this.load = require("../images/load.gif");
         this.state = {
 			email: '',
 			emailErr: ''
@@ -71,7 +70,7 @@ export default class Verify extends Component {
 								<hr></hr>
                                 <p>
 								<figure className="image"> {/* is-3by4 */}
-                            		<img src="https://media0.giphy.com/media/vsdTFrwHciR7G/source.gif" />
+                            		<img src="https://media0.giphy.com/media/vsdTFrwHciR7G/source.gif" alt={this.load} />
                         		</figure>
 								<br></br>
 									<div className="media-content center_b">

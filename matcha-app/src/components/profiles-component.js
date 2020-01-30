@@ -87,6 +87,23 @@ export default class Profiles extends Component {
   //                                           //
   // ///////////////////////////////////////////
 
+  searchHandle = e => {
+    this.setState({search:e.target.value});
+  }
+  keyHandle = e => {
+      if (e.key === 'Enter'){
+          var search_input = 'null';
+          if (this.state.search){
+              if (this.state.search.trim() !== '')
+                  search_input = this.state.search;
+          }
+          this.props.history.push({
+              pathname: '/search',
+              user: this.state.user,
+              search_in: search_input 
+          });
+      }
+  }
   navHandler () {
     const navbar = this.navConstructor()
     if (document.getElementById('navMenu' + this.div_key)) {
@@ -219,11 +236,11 @@ export default class Profiles extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
-        <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</button>
+        <button className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</button>
       </div>
     )
   }
@@ -231,7 +248,7 @@ export default class Profiles extends Component {
   listTags (tags) {
     if (Array.isArray(tags) && tags.length) {
       return tags.map(tag => {
-        return <span class="tag is-warning">{tag}  </span>
+        return <span className="tag is-warning">{tag}  </span>
       })
     } else {
       return <span>No tags ...</span>

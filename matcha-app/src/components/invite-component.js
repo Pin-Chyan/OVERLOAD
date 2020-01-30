@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
-import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
-import axios from 'axios'; 
-// import "../styles/debug.css";
-import { Carousel } from "react-responsive-carousel";
+import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default class Home extends Component {
@@ -38,7 +35,7 @@ export default class Home extends Component {
                     <div className="column is-half bg_white_1">
                         <hr></hr>
                         <figure className="image"> {/* is-3by4 */}
-                            <img src="https://media2.giphy.com/media/aldA8c4X6mk9O/source.gif" />
+                            <img src="https://media2.giphy.com/media/aldA8c4X6mk9O/source.gif" alt="../images/load.gif" />
                         </figure>
                         <div className="column center has-text-centered">
                             <p>

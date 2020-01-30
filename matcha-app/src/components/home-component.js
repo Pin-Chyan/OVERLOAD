@@ -10,13 +10,14 @@ import Inbox from './message-and-notification';
 import { Fade } from 'react-slideshow-image';
 
 const fadeProperties = {
-    // duration: 5000,
-    // transitionDuration: 500,
-    // infinite: true,
-    // indicators: true,
-    // onChange: (oldIndex, newIndex) => {
-    //   console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    // }
+    duration: 5000,
+    transitionDuration: 500,
+    infinite: true,
+    indicators: true,
+    autoplay: false,
+    onChange: (oldIndex, newIndex) => {
+      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    }
   }
 
 export default class Home extends Component {
@@ -75,8 +76,9 @@ export default class Home extends Component {
             }
         }
         var req = {};
-        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-1,-1];
-        req.in = '';
+        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-2,-2,-2,-2];
+        req.in = 'null';
+        req.tags = ['null'];
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res.data !== 'no_res'){
                 this.setState({"results":res.data});
@@ -94,14 +96,15 @@ export default class Home extends Component {
 //
 
     page_handler(mode){
+        var nav_bar;
         if (mode === 'found'){
-            var nav_bar = this.nav_constructor();
+            nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             this.Carousel_handle(this.state.results[0]);
         }
         if (mode === 'not_found'){
-            var nav_bar = this.nav_constructor();
+            nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             // this.Carousel_handle(this.state.results[0]);
@@ -321,12 +324,12 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         return(element1);
@@ -359,27 +362,27 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                                    <img src={data.carousel_img1} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                                    <img src={data.carousel_img2} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                                    <img src={data.carousel_img3} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                                    <img src={data.carousel_img4} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                                    <img src={data.carousel_img5} alt={this.nll}/>
                                 </div>
                             </div>
                         </Fade>

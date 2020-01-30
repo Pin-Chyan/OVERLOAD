@@ -280,12 +280,12 @@ export default class cons extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -307,9 +307,10 @@ export default class cons extends Component {
                                 </figure>
                                 <div className="media-content">
                                     <div className="content">
-                                      <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                      <time dateTime='2018-04-20'>{(((Date.now() - this.state.target.ping) <= 60000) && (this.state.target.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
-                                      <time dateTime='2018-04-20'>{(((Date.now() - this.state.target.ping) > 60000) && (this.state.target.ping !== 0)) && <strong>last online: {this.getFormatedDate(this.state.target.ping)}</strong>}</time>
+                                        <p>
+                                            <strong>{this.state.target.name}</strong> <button>{this.state.target.last}</button><br />
+                                            <span><time dateTime="2018-04-20"></time> target</span>
+                                        </p>
                                     </div>
                                 </div>
                             </article>
