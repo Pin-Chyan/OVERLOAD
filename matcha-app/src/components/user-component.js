@@ -43,7 +43,7 @@ const BlockedProfile = props => {
       </figure>
       <div className="media-content">
         <div className="content">
-            <div className='button is-rounded is-warning' onClick={props.handleUnblock}>
+            <div className='button is-rounded is-warning btn-right'>
               Unblock
             </div>
             <a onClick={props.handleClick}>
