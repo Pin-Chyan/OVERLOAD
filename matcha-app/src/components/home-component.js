@@ -400,9 +400,9 @@ export default class Home extends Component {
                     <img alt="Asuna" src={data.carousel_img1} />
                 </figure>
             </figure>
-              {/* <strong>{data.distance + "km"}</strong> <br /> */}
               <div className='media-content'>
                 <div className='content'>
+                <strong>{data.distance + "km"}</strong> <br />
                 <strong onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name} {data.carousel_last}  </strong>
                   {data.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
                   {data.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
