@@ -71,7 +71,7 @@ export default class cons extends Component {
     }
     external_data1(){
         async function get_targetId(ip,target_email,email,jwt){
-            let promise = await axios.post(ip+"/users/get_soft",{"token":jwt,"email":email,"target_email":target_email, "target":"_id name last email img.img1"})
+            let promise = await axios.post(ip+"/users/get_soft",{"token":jwt,"email":email,"target_email":target_email, "target":"_id name last email img.img1 ping"})
             if (promise.status === 200)
                 return promise.data;
         }
@@ -221,6 +221,14 @@ export default class cons extends Component {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
+    getFormatedDate (ping) {
+      const currDate = new Date(ping)
+      let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+      + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+      + currDate.getSeconds()
+      return formattedDate
+    }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< render Return >>>>
@@ -299,10 +307,9 @@ export default class cons extends Component {
                                 </figure>
                                 <div className="media-content">
                                     <div className="content">
-                                        <p>
-                                            <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-                                            <span><time dateTime="2018-04-20"></time> target</span>
-                                        </p>
+                                      <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+                                      <time dateTime='2018-04-20'>{(((Date.now() - this.state.target.ping) <= 60000) && (this.state.target.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                                      <time dateTime='2018-04-20'>{(((Date.now() - this.state.target.ping) > 60000) && (this.state.target.ping !== 0)) && <strong>last online: {this.getFormatedDate(this.state.target.ping)}</strong>}</time>
                                     </div>
                                 </div>
                             </article>
@@ -317,8 +324,8 @@ export default class cons extends Component {
         var r_element1 = "<p class='has-text-right'>";
         var r_element2 = "<span class='tag chat-wrap is-info right_m'>";
         var r_element3 = "</span></p>";
-        var l_element1 = "<p className='has-text-left'>";
-        var l_element2 = "<span className='tag chat-wrap is-success left_m'>";
+        var l_element1 = "<p class='has-text-left'>";
+        var l_element2 = "<span class='tag chat-wrap is-success left_m'>";
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
