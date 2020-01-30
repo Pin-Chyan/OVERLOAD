@@ -67,7 +67,7 @@ export default class cons extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last bio tag img liked viewed").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last likes liked gender bio tag img liked sexual_pref viewed").then(userGet_res => {
             this.setState({"user":userGet_res[0]});
             this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -117,6 +117,12 @@ export default class cons extends Component {
                 return (promise.data);
         }
         newroom(this.state.user.email,this.jwt,this.state.user._id,this.state.target._id,this.ip).then(room => {
+            if (this.props.match.params.target === 'new'){
+                this.props.history.push({
+                    pathname : '/chat/'+this.state.target.email,
+                    user : this.state.user
+                });
+            }
             this.setState({"chatroom":room});
             this.eve_mount();
         }).catch(err => {console.log('eve redirect ' + err)})
@@ -139,8 +145,8 @@ export default class cons extends Component {
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
-        if (document.getElementById('message foot'+this.div_key))
-            ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
+        // if (document.getElementById('message foot'+this.div_key))
+        //     ReactDOM.render(msgBox, document.getElementById('message foot'+this.div_key));
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         this.get_id();
@@ -179,13 +185,15 @@ export default class cons extends Component {
         this.setState({newmsg:e.target.value});
     }
     sendhandle = e => {
-            async function post_msg(ip,email,jwt,room,target,msg){
-                let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
-                if (promise.status === 200)
-                    return promise.data;
-            }
-            post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,this.state.newmsg).then(res => {
-            }).catch(err => 'eve redirect '+err)
+        var newmsg = this.state.newmsg;
+        this.setState({"newmsg":''});
+        async function post_msg(ip,email,jwt,room,target,msg){
+            let promise = await axios.post(ip+"/chats/msg", {"email":email,"target":target,"token":jwt,"room":room,"msg":msg});
+            if (promise.status === 200)
+            return promise.data;
+        }
+        post_msg(this.ip,this.state.user.email,this.jwt,this.state.chatroom, this.state.target.email,newmsg).then(res => {
+        }).catch(err => 'eve redirect '+err)
     }
     get_id() {
 		async function get_msg(email, target, jwt, ip){
@@ -243,7 +251,14 @@ export default class cons extends Component {
         </nav>
         <div id={"user_display_header"+this.div_key}></div>
         <div className="hero-body"><div id={"msgBox"+this.div_key}className="chat-box"></div></div>
-        <div id={"message foot"+this.div_key} className="hero-foot"></div>
+        <div id={"message foot"+this.div_key} className="hero-foot">          <div className="field has-addons">
+            <div className="control chat-t">
+              <input className="input" type="text" placeholder="Type your message" value={this.state.newmsg} onChange={this.msghandle}  /*onKeyDown={(e) => this.sendhandle(e)}*//>
+            </div>
+            <div className="control chat-e">
+                <button className="button is-info" onClick={e => this.sendhandle(e)}>Send</button>
+            </div>
+        </div></div>
         </section>
         )
     }
@@ -262,7 +277,8 @@ export default class cons extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -280,23 +296,6 @@ export default class cons extends Component {
             <br/>
             <div className="columns is-centered shadow">
             <div className="columns bg_white_1">
-                {/* <div className="column left">
-                    <article className="media center">
-                        <figure className="media-left">
-                            <figure className="image is-64x64">
-                                <img alt="Asuna" src={this.state.user.img.img1} />
-                            </figure>
-                        </figure>
-                        <div className="media-content">
-                            <div className="content">
-                                <p>
-                                    <strong>{this.state.name}</strong> <a>{this.state.last}</a><br />
-                                    <span><time dateTime="2018-04-20">Apr 20</time> Author</span>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div> */}
                 <div className="column">
                     <article className="media center">
                         <figure className="media-left">

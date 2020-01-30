@@ -48,6 +48,7 @@ export default class Home extends Component {
             }
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
+                console.log(this.props.location.user)
                 this.eve_mount();
             }
             else
@@ -75,7 +76,7 @@ export default class Home extends Component {
             }
         }
         var req = {};
-        req.targ = [[0,100],[0,100],-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
+        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
         req.in = '';
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
             if (res !== 'no result'){
@@ -83,7 +84,7 @@ export default class Home extends Component {
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
             }
-        }).catch(err => {console.log('eve redirect' + err)})
+        })//.catch(err => {console.log('eve redirect' + err)})
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,10 +124,10 @@ export default class Home extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
@@ -239,16 +240,17 @@ export default class Home extends Component {
     Carousel_handle(res){
         if (res){
             var carousel_data = {
-                "distance":res.location[0],
-                "carousel_name":res.name,
-                "carousel_last":res.last,
-                "carousel_bio":res.bio,
-                "carousel_tag":res.tag,
-                "carousel_img1":res.img.img1 === 'null' ? this.nll : res.img.img1,
-                "carousel_img2":res.img.img2 === 'null' ? this.nll : res.img.img2,
-                "carousel_img3":res.img.img3 === 'null' ? this.nll : res.img.img3,
-                "carousel_img4":res.img.img4 === 'null' ? this.nll : res.img.img4,
-                "carousel_img5":res.img.img5 === 'null' ? this.nll : res.img.img5
+              "id": res._id,
+              "distance":res.location[0],
+              "carousel_name":res.name,
+              "carousel_last":res.last,
+              "carousel_bio":res.bio,
+              "carousel_tag":res.tag,
+              "carousel_img1":res.img.img1 === 'null' ? this.nll : res.img.img1,
+              "carousel_img2":res.img.img2 === 'null' ? this.nll : res.img.img2,
+              "carousel_img3":res.img.img3 === 'null' ? this.nll : res.img.img3,
+              "carousel_img4":res.img.img4 === 'null' ? this.nll : res.img.img4,
+              "carousel_img5":res.img.img5 === 'null' ? this.nll : res.img.img5
             }
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render(this.mid_constructor(carousel_data), document.getElementById('cont' + this.div_key));
@@ -306,7 +308,8 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -370,7 +373,7 @@ export default class Home extends Component {
             <div className="media-content">
                 <div className="content">
                     <p>
-                        <strong>{data.distance + "km"}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
+                        <strong>{data.distance + "km"}</strong> <a onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name}_{data.carousel_last}</a><br />
                         <span className="has-text-grey">{data.carousel_tags}<br />
                         <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
                     </p>

@@ -10,11 +10,8 @@ import styled from 'styled-components';
 import Slider from './filter/Slider.js';
 import Filter from './filter/Filter.js';
 import Search from './filter/Search.js';
-var load2 = require("../images/load2.gif");
-var load3 = require("../images/scifi.gif");
-var nll = require("../images/chibi.jpg");
-var sec = require("../images/check.jpg");
-
+import cons from './chat-component';
+import Inbox from './message-and-notification';
 //[1,-1,-2,-2,10,-1,-1] search conditions
 
 const Styles = styled.div`
@@ -34,8 +31,12 @@ export default class User extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
+        this.load2 = require("../images/load2.gif");
+        this.load3 = require("../images/scifi.gif");
+        this.nll = require("../images/chibi.jpg");
+        this.sec = require("../images/check.jpg");
         this.req = {};
-        this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
+        this.req.targ = [[0,100],-2,-2,-2,-2,1];
         this.state = {};
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
@@ -70,7 +71,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last age bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
         }).catch(err => {console.log('eve redirect' + err)})
@@ -94,7 +95,7 @@ export default class User extends Component {
 
 page_handler(mode, data){
     var div_onload = (<div className="columns is-centered shadow"><div className="column bg_white_2"><div onClick={e => this.listener(e)} id={"result"+this.div_key}></div></div></div>);
-    var div_load = (<div><img src={load3}></img></div>);
+    var div_load = (<div><img src={this.load3}></img></div>);
     var cont_div = 'cont' + this.div_key;
     var menu_div = 'navMenu' + this.div_key;
     var res_div = 'result' + this.div_key;
@@ -103,7 +104,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var column = window.innerWidth > 1400 ? 3 : 2;
         var row = Math.ceil(data.length/column);
         var head = this.header_constructor("Here you go");
@@ -111,6 +112,8 @@ page_handler(mode, data){
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
     }
     else if (mode === 'searching'){
         this.rgb_phaser([0,0,0,1,2],'internal_color','res');
@@ -120,7 +123,7 @@ page_handler(mode, data){
             if (document.getElementById(menu_div))
                 ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));              
             var head = this.header_constructor("Senpais are searching");
-            var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":load3}}],0);
+            var body = this.row_constructor(1,1,[{"name":"Give them a sec","img":{"img1":this.load3}}],0);
             var result = head.concat(body);
         });
     }
@@ -129,31 +132,35 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var head = this.header_constructor("Whatcha waiting for");
-        var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":load2}}],0);
+        var body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":this.load2}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
     }
     else if (mode == 'no_res'){
         this.rgb_phaser([15,14,14,1,0],'internal_color','res');
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         var head = this.header_constructor("Cannot Notice senpai");
-        var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":nll}}],0);
+        var body = this.row_constructor(1,1,[{"name":"try another term to find senpai's","img":{"img1":this.nll}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
+        if (document.getElementById("filter"+this.div_key))
+            ReactDOM.render(this.filter_constructor(), document.getElementById("filter"+this.div_key))
 
     }
     else if (mode == 'no_term'){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("gomenasai");
-        var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":nll}}],0);
+        var body = this.row_constructor(1,1,[{"name":"cannot find nobody","img":{"img1":this.nll}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
@@ -165,7 +172,7 @@ page_handler(mode, data){
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
         var head = this.header_constructor("Sorry dear user");
-        var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":sec}}],0);
+        var body = this.row_constructor(1,1,[{"name":"But you appear to have been Reckt","img":{"img1":this.sec}}],0);
         var result = head.concat(body);
         if (document.getElementById(res_div))
             ReactDOM.render(ReactHtmlParser(result), document.getElementById(res_div));
@@ -201,14 +208,30 @@ page_handler(mode, data){
 
     //      <<<< search functions
     searchHandle = (e) => {
+        console.log(e.target.value);
         this.req.in = e.target.value;
     }
     keyHandle = e => {
-        if (e.key === 'Enter'){
-            this.searcher();
+        if (e.target.id === 'filter' || e.target.id === 'withfilter'){
+            var req = [[-2,-2],-2,-2,-2,-2,-2];
+            if (localStorage.age_gap !== 'max')
+                req[0] = [this.state.user.age - parseInt(localStorage.age_gap) < 18 ? 18 : this.state.user.age - parseInt(localStorage.age_gap) ,parseInt(localStorage.age_gap) + this.state.user.age];
+            if (localStorage.max_fam !== 'anyone')
+                req[1] = parseInt(localStorage.max_fam);
+            if (localStorage.max_dst !== 'anywhere')
+                req[2] = parseInt(localStorage.max_dst);
+            req[3] = parseInt(localStorage.filter_gen);
+            req[4] = parseInt(localStorage.filter_pref);
+            if (e.target.id === 'withfilter')
+                req[5] = 1;
+            console.log(req);
+            this.searcher({"targ":req,"in":this.req.in});
+        }
+        if (e.target.id === 'exclude'){
+            this.searcher(this.req);
         }
     }
-    searcher(){
+    searcher(req){
         async function search(email,jwt,ip,search_req){
             let promise = await axios.post(ip +'/search/engine', {"email":email, "token":jwt, "search_req":search_req})
             if (promise.status === 200){
@@ -218,11 +241,15 @@ page_handler(mode, data){
         if (this.busy === 0){
             this.busy = 1;
             this.page_handler('searching',{});
-            search(this.state.user.email,this.jwt,this.ip,this.req).then(res => {
+            // this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
+            search(this.state.user.email,this.jwt,this.ip,req).then(res => {
                 if (res.data === 'no_res')
                     this.page_handler('no_res',{});
-                else
-                    this.page_handler('loaded',res.data);
+                else {
+                    this.sleep(3000).then(() => {
+                        this.page_handler('loaded',res.data);
+                    })
+                }
             })
         }
     }
@@ -294,18 +321,7 @@ page_handler(mode, data){
                     <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
             </div>
         </nav>
-            <div className="container bg_white_5 columns center_b">
-                Search Filter
-            </div>
-            <div className="container bg_white_6 columns">
-                <div className="column">
-                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}>
-                        <Slider />
-                    </Styles>
-                    <Filter />
-                    <Search />
-                </div>
-            </div>
+            <div id={"filter"+this.div_key}></div>
             <div id={"cont"+this.div_key} className="container" >
             </div>
         </section>
@@ -326,6 +342,8 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
+                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
                 <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -335,6 +353,8 @@ page_handler(mode, data){
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
+            <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
+            <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</a>
             <a className="navbar-item " style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
@@ -349,6 +369,31 @@ page_handler(mode, data){
         }
         else
             return <div/>;
+    }
+    filter_constructor(){
+        return (
+        <div>
+            <div className="container bg_white_5 columns center_b">
+                Search Filter
+            </div>
+            <div className="container bg_white_6 columns">
+                <div className="column">
+                    <Styles opacity={this.state.value > 10 ? (this.state.value / 100) : 1} color ={this.props.color}><Slider /></Styles><Filter />
+                    <div>
+                        <button id="filter" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search using filters</button>
+                        <div className="field">
+                            <label className="label center_b search-t" >Search by name/email</label>
+                            <div className="control has-icons-left has-icons-right">
+                                <input className="input is-small" type="text" placeholder="Name" onChange={this.searchHandle}/>
+                                <button id="exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search name/email only</button>
+                                <button id="withfilter" className="button is-rounded is-small"  onClick={(e) => this.keyHandle(e)}>Search name/email using filter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        )
     }
     header_constructor(heading){
         var start = '<div class="tile is-ancestor"><div class="tile is-parent"><article class="tile is-child box"><p class="title center_b">';
@@ -383,7 +428,7 @@ page_handler(mode, data){
             res += '<div class="tile is-ancestor">';
             while (i < columns && data_pos < max){
                 if (data[data_pos].img.img1 == 'null')
-                    image = nll;
+                    image = this.nll;
                 else
                     image = data[data_pos].img.img1;
                 temp = this.column_constructor(data[data_pos].name , image, button, data[data_pos]._id);
