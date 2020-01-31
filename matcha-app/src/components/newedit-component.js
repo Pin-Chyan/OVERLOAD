@@ -6,7 +6,6 @@ import "../styles/index.css";
 import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import Inbox from './message-and-notification';
-import cons from './chat-component';
 
 export default class Edit extends Component {
 
@@ -121,7 +120,6 @@ export default class Edit extends Component {
 		console.log(this.imgUploadBusy[parseInt(e.target.id[3])])
 	}
 	fileHandler(e){
-		console.log(e.target.files);
 		if (e.target.files.length){
 			var fileSplit = e.target.files[0].name.split('.');
 			var fileExt = fileSplit[fileSplit.length - 1];
@@ -136,8 +134,6 @@ export default class Edit extends Component {
 		}
 	}
 	imageUploader(id,file){
-		console.log(id);
-		console.log(file);
 		var reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onload = async function() {
