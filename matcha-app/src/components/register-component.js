@@ -12,7 +12,8 @@ const ip = require("../server.json").ip;
 export default class Register extends Component {
     constructor(props) {
         super(props);
-
+        this.div_key = Date.now();
+        localStorage.setItem('div_key',this.div_key);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeSurname = this.onChangeSurname.bind(this);

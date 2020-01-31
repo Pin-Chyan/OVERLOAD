@@ -19,7 +19,8 @@ export default class User extends Component {
 
     constructor(props){
         super(props);
-        this.div_key = Date.now();
+		this.div_key = Date.now();
+		localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
 		this.nll = require("../images/chibi.jpg");

@@ -28,6 +28,7 @@ export default class User extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
+        localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
         this.load1 = require("../images/load.gif");
@@ -79,7 +80,7 @@ export default class User extends Component {
         get_data(this.state.user.email,this.jwt,this.ip,"name email last age bio tag img likes liked viewed gender ping sexual_pref fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect' + err)})
+        }).catch(err => {this.props.history.push('/logout')})
     }
     eve_mount() {
         this.internal_color = [15,14,14];
@@ -500,23 +501,23 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-                 <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+                <button className="navbar-item nav-color "id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                 <button className="navbar-item nav-color " id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item nav-color " id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item nav-color " id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item nav-color " id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item nav-color " id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
-            <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-            <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+            <button className="navbar-item nav-color "id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+            <button className="navbar-item nav-color " id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+            <button className="navbar-item nav-color " id='/' onClick={this.redirecthandler}>Home</button>
+            <button className="navbar-item nav-color " id='/user' onClick={this.redirecthandler}>Profile</button>
+            <button className="navbar-item nav-color " id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+            <button className="navbar-item nav-color " id='/logout' onClick={this.redirecthandler}>Logout</button>
         </div>
         )
         if (render){

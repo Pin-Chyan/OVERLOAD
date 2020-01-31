@@ -10,6 +10,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 export default class EmailSent extends Component {
     
     render () {
+        var div_key = Date.now();
+        localStorage.setItem('div_key',div_key);
         return (
             <section className="section hero">
         <nav className="navbar hero-head">
@@ -24,7 +26,7 @@ export default class EmailSent extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
+                <div id={"navMenu" + div_key} className="navbar-menu">
                     <div className="navbar-end">
                         <Link to="/login" className="navbar-item has-text-info">Login</Link>
                     </div>

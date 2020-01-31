@@ -20,7 +20,8 @@ const fadeProperties = {
 export default class Profiles extends Component {
   constructor (props) {
     super(props)
-    this.div_key = Date.now()
+    this.div_key = Date.now();
+    localStorage.setItem('div_key',this.div_key);
     this.jwt = localStorage.token
     this.ip = require('../server.json').ip
     this.nll = require('../images/chibi.jpg')
@@ -71,13 +72,13 @@ export default class Profiles extends Component {
           addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
           }).catch(err => { console.log(err) })
         }).catch(err => {
-          console.log('fake eve redirect' + err)
+          this.props.history.push('/logout')
         })
       }).catch(err => {
-        console.log('fake eve redirect' + err)
+        this.props.history.push('/logout')
       })
     }).catch(err => {
-      console.log('fake eve redirect' + err)
+      this.props.history.push('/logout')
     })
   }
 

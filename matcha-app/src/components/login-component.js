@@ -11,7 +11,8 @@ var ip = require("../server.json").ip;
 export default class Login extends Component {
     constructor(props) {
         super(props);
-
+        this.div_key = Date.now();
+        localStorage.setItem('div_key',this.div_key);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSumbit = this.onSumbit.bind(this);
@@ -87,7 +88,7 @@ export default class Login extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
+                <div id={"navMenu"+this.div_key} className="navbar-menu">
                     <div className="navbar-end">
                         {/* <div className="control is-small has-icons-right search-margin">
                             <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />

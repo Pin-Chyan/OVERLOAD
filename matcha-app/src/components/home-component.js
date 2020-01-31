@@ -24,6 +24,7 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
+        localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
         this.nll = require("../images/chibi.jpg");
@@ -66,7 +67,7 @@ export default class Home extends Component {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
-        }).catch(err => {console.log('eve redirect' + err)})
+        }).catch(err => {this.props.history.push('/logout')})
     }
     eve_mount(){
         async function get_matches(email,jwt,ip,search_req){
@@ -87,7 +88,7 @@ export default class Home extends Component {
             } else if (res.data === 'no_res'){
                 this.page_handler('not_found');
             }
-        })//.catch(err => {console.log('eve redirect' + err)})
+        }).catch(err => {this.props.history.push('/logout')})
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
