@@ -25,7 +25,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/newedit" exact component={NewEdit} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
@@ -35,8 +34,8 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-        <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
+          <Route path="/edit" exact component={NewEdit} />
           <Route path="/notification" exact component={Notification} />
           <Route path="/mychats" exact component={ChatPage} />
           <Route path="/profiles/:id" component={Profiles}/>
@@ -45,7 +44,6 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/>
           <Route path="/" exact component={Home}/>
-          <Route path="/edit" exact component={Edit} />
         </Authenticate>
       </Switch>
     </Router>

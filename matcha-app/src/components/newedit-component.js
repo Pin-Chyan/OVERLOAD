@@ -28,7 +28,8 @@ export default class Edit extends Component {
 		this.imgUploadBusy = [0,0,0,0,0,0];
 		this.state = {
 			new_sexual_pref: Number,
-			new_gender: Number
+			new_gender: Number,
+			user : {}
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -46,15 +47,16 @@ export default class Edit extends Component {
      		this.onChangeEmail = this.onChangeEmail.bind(this)
      		this.onChangeLast = this.onChangeLast.bind(this)
      		this.onChangeBio = this.onChangeBio.bind(this)
-     		this.onBasicSubmit = this.onBasicSubmit.bind(this)
+			this.onBasicSubmit = this.onBasicSubmit.bind(this)
+			this.mid_text_constructor = this.mid_text_constructor.bind(this);
 			this.busy = 0;
 			this.state = {
 				"res" : '',
 				"html" : '',
         		"user" : res,
-        		"lastBuff": '',
-        		"bioBuff": '',
-        		"nameBuff": ''
+        		"lastBuff": 'test1',
+        		"bioBuff": 'test2',
+        		"nameBuff": 'test3'
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -91,14 +93,10 @@ export default class Edit extends Component {
 		if (state === 'init'){
 			if (document.getElementById('navMenu'+this.div_key))
 				ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
-			if (document.getElementById('cont'+this.div_key))
-        		ReactDOM.render(this.container_constructor(), document.getElementById('cont'+this.div_key));
-      		if (document.getElementById('mid_text'+this.div_key))
-        		ReactDOM.render(this.mid_text_constructor(), document.getElementById('mid_text'+this.div_key));
      		if (document.getElementById('mid_img'+this.div_key))
 				ReactDOM.render(this.image_edit_constructor(), document.getElementById('mid_img'+this.div_key));
 			this.imageRenderer(this.state.user.img,'init');
-			this.textRenderer();
+			// this.textRenderer();
 		}
 	}
 
@@ -198,13 +196,13 @@ export default class Edit extends Component {
 	}
 	textRenderer(){
 		if (document.getElementById('name'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.name}</text>), document.getElementById('name'+this.div_key));
+			ReactDOM.render((<text>Name: {this.state.user.name}</text>), document.getElementById('name'+this.div_key));
 		if (document.getElementById('last'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.last}</text>), document.getElementById('last'+this.div_key));
+			ReactDOM.render((<text>Surname: {this.state.user.last}</text>), document.getElementById('last'+this.div_key));
 		if (document.getElementById('email'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.email}</text>), document.getElementById('email'+this.div_key));
+			ReactDOM.render((<text>Email: {this.state.user.email}</text>), document.getElementById('email'+this.div_key));
 		if (document.getElementById('bio'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.bio}</text>), document.getElementById('bio'+this.div_key));
+			ReactDOM.render((<text>Bio: {this.state.user.bio}</text>), document.getElementById('bio'+this.div_key));
 	}
 	sleep = (milliseconds) => {
 		return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -287,8 +285,7 @@ onBasicSubmit (e) {
       lastBuff: '',
       nameBuff: '',
       bioBuff: ''}
-      )
-	this.textRenderer();
+		)
 	})
 }
 
@@ -301,7 +298,53 @@ onBasicSubmit (e) {
 		return (
 			<section className="section hero">
 				<nav id={'navMenu'+this.div_key} className="navbar hero-head"></nav>
-				<div id={'cont'+this.div_key}  className="container"></div>
+				<div id={'cont'+this.div_key}  className="container">
+				<div className="columns is-centered shadow">
+				<div className="column bg_white">
+					<div className="column center">
+						<div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
+						<div id={'mid_text' + this.div_key}>      <div className="container">
+          			<div className="field">
+          			  <label className="label">Name: {this.state.user.name}</label>
+          			  <div className="control has-icons-left has-icons-right">
+          			    <input className="input" type="text" placeholder="Change name" value={this.state.nameBuff} onChange={e => this.onChangeName(e)} />
+          			    <span className="icon is-small is-left">
+          			    </span>
+          			  </div>
+          			</div>
+          			  <div className="field">
+          			  <label className="label">Surname: {this.state.user.last}</label>
+          			  <div className="control has-icons-left has-icons-right">
+          			    <input className="input" type="text" placeholder="New surname" value={this.state.lastBuff} onChange={this.onChangeLast} />
+          			    <span className="icon is-small is-left">
+          			    </span>
+          			  </div>
+          			</div>
+          			<div className="field">
+          			  <label className="label">Bio: {this.state.user.bio}</label>
+          			  <div className="control has-icons-left has-icons-right">
+          			    <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
+          			    <span className="icon is-small is-left">
+          			    </span>
+          			  </div>
+          			</div>
+          			<button className="button is-rounded is-warning" onClick={this.onBasicSubmit}>Save</button>
+          			<br></br>
+          			<br></br>
+          			  <div className="field">
+          			  <label className="label">Email: {this.state.user.email}</label>
+          			  <div className="control has-icons-left has-icons-right">
+          			    <input className="input" type="email" placeholder="New E-mail" value={this.state.emailBuff} onChange={this.onChangeEmail} />
+          			    <span className="icon is-small is-left">
+          			    </span>
+          			  </div>
+          			</div>
+          			<button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
+      			</div></div>
+					</div>
+				</div>
+			</div>
+				</div>
 			</section>
 		)
 	}
@@ -434,11 +477,13 @@ onBasicSubmit (e) {
     }
   }
 
-  mid_text_constructor () {
+  mid_text_constructor = () => {
     return (
       <div className="container">
           <div className="field">
-            <label className="label">Name: <div id={"name"+this.div_key}></div></label>
+            <label className="label">
+				<div className="" id={"name"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="Change name" value={this.state.nameBuff} onChange={this.onChangeName} />
               <span className="icon is-small is-left">
@@ -446,7 +491,9 @@ onBasicSubmit (e) {
             </div>
           </div>
             <div className="field">
-            <label className="label">Surname: <div id={"last"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"last"+this.div_key}></div>
+				</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="New surname" value={this.state.lastBuff} onChange={this.onChangeLast} />
               <span className="icon is-small is-left">
@@ -454,7 +501,9 @@ onBasicSubmit (e) {
             </div>
           </div>
           <div className="field">
-            <label className="label">Bio: <div id={"bio"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"bio"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
               <span className="icon is-small is-left">
@@ -465,7 +514,9 @@ onBasicSubmit (e) {
           <br></br>
           <br></br>
             <div className="field">
-            <label className="label">Email: <div id={"email"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"email"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="email" placeholder="New E-mail" value={this.state.emailBuff} onChange={this.onChangeEmail} />
               <span className="icon is-small is-left">
