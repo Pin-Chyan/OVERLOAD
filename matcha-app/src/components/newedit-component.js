@@ -192,13 +192,13 @@ export default class Edit extends Component {
 	}
 	textRenderer(){
 		if (document.getElementById('name'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.name}</text>), document.getElementById('name'+this.div_key));
+			ReactDOM.render((<text>Name: {this.state.user.name}</text>), document.getElementById('name'+this.div_key));
 		if (document.getElementById('last'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.last}</text>), document.getElementById('last'+this.div_key));
+			ReactDOM.render((<text>Surname: {this.state.user.last}</text>), document.getElementById('last'+this.div_key));
 		if (document.getElementById('email'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.email}</text>), document.getElementById('email'+this.div_key));
+			ReactDOM.render((<text>Email: {this.state.user.email}</text>), document.getElementById('email'+this.div_key));
 		if (document.getElementById('bio'+this.div_key))
-			ReactDOM.render((<text>{this.state.user.bio}</text>), document.getElementById('bio'+this.div_key));
+			ReactDOM.render((<text>Bio: {this.state.user.bio}</text>), document.getElementById('bio'+this.div_key));
 	}
 	sleep = (milliseconds) => {
 		return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -460,7 +460,9 @@ onBasicSubmit (e) {
     return (
       <div className="container">
           <div className="field">
-            <label className="label">Name: <div id={"name"+this.div_key}></div></label>
+            <label className="label">
+				<div className="" id={"name"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="Change name" value={this.state.nameBuff} onChange={this.onChangeName} />
               <span className="icon is-small is-left">
@@ -468,7 +470,9 @@ onBasicSubmit (e) {
             </div>
           </div>
             <div className="field">
-            <label className="label">Surname: <div id={"last"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"last"+this.div_key}></div>
+				</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="New surname" value={this.state.lastBuff} onChange={this.onChangeLast} />
               <span className="icon is-small is-left">
@@ -476,7 +480,9 @@ onBasicSubmit (e) {
             </div>
           </div>
           <div className="field">
-            <label className="label">Bio: <div id={"bio"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"bio"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
               <span className="icon is-small is-left">
@@ -487,7 +493,9 @@ onBasicSubmit (e) {
           <br></br>
           <br></br>
             <div className="field">
-            <label className="label">Email: <div id={"email"+this.div_key}></div></label>
+            <label className="label">
+				<div id={"email"+this.div_key}></div>
+			</label>
             <div className="control has-icons-left has-icons-right">
               <input className="input" type="email" placeholder="New E-mail" value={this.state.emailBuff} onChange={this.onChangeEmail} />
               <span className="icon is-small is-left">
