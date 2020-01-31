@@ -25,6 +25,7 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/newedit" exact component={NewEdit} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
@@ -45,7 +46,6 @@ function App() {
           <Route path="/search" exact component={Search}/>
           <Route path="/" exact component={Home}/>
           <Route path="/edit" exact component={Edit} />
-          <Route path="/newedit" exact component={NewEdit} />
         </Authenticate>
       </Switch>
     </Router>
