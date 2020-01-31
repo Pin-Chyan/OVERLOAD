@@ -157,7 +157,7 @@ export default class User extends Component {
           this.setState({"user":userGet_res[0]})
           if (mode === 'init')
             this.userHistory_getter()
-        }).catch(err => {console.log('eve redirect' + err)})
+        }).catch(err => {this.props.history.push('/logout')})
     }
     eve_mount(){
       this.page_handler()

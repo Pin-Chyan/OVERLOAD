@@ -37,7 +37,7 @@ export default class Notifications extends Component {
             }
             else
                 this.userData_getter();
-        }).catch(err => {console.log('eve redirect' + err)});
+        }).catch(err => {this.props.history.push('/logout')});
     }
     userData_getter(){
         async function get_data(email,jwt,ip,target){
@@ -49,7 +49,7 @@ export default class Notifications extends Component {
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender ping sexual_pref fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 this.eve_mount();
-        }).catch(err => {console.log('eve redirect' + err)})
+        }).catch(err => {this.props.history.push('/logout')})
     }
     eve_mount(){
         this.page_handler()

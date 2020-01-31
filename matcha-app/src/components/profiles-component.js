@@ -71,13 +71,13 @@ export default class Profiles extends Component {
           addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
           }).catch(err => { console.log(err) })
         }).catch(err => {
-          console.log('fake eve redirect' + err)
+          this.props.history.push('/logout')
         })
       }).catch(err => {
-        console.log('fake eve redirect' + err)
+        this.props.history.push('/logout')
       })
     }).catch(err => {
-      console.log('fake eve redirect' + err)
+      this.props.history.push('/logout')
     })
   }
 

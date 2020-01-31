@@ -301,23 +301,14 @@ export default class cons extends Component {
                         <div className="column">
                             <article className="media center">
                                 <figure className="media-left">
-<<<<<<< HEAD
-                                    <figure>
-                                        <img className="image is-64x64 contain" alt="Asuna" src={this.state.target.img.img1} />
-=======
                                     <figure className="image is-64x64">
                                         <img className="image is-64x64 adjust" alt="Asuna" src={this.state.target.img.img1} />
->>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
                                     </figure>
                                 </figure>
                                 <div className="media-content">
                                     <div className="content">
                                         <p>
-<<<<<<< HEAD
-                                            <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-=======
                                             <strong>{this.state.target.name}</strong> <button>{this.state.target.last}</button><br />
->>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
                                             <span><time dateTime="2018-04-20"></time> target</span>
                                         </p>
                                     </div>

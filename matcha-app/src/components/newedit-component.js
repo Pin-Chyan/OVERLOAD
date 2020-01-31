@@ -50,7 +50,7 @@ export default class Edit extends Component {
 				this.eve_mount();
 			} else
 				this.userData_getter();
-		}).catch(err => {console.log('eve redirect' + err)});
+		}).catch(err => {this.props.history.push('/logout')});
 	}
 	userData_getter(){
 		async function get_data(email,jwt,ip,target){
@@ -62,7 +62,7 @@ export default class Edit extends Component {
 		get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
 				this.setState({"user":userGet_res[0]});
 				this.eve_mount();
-		}).catch(err => {console.log('eve redirect' + err)})
+		}).catch(err => {this.props.history.push('/logout')})
 	}
 	eve_mount() {
 		this.Page_states("init");

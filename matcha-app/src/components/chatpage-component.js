@@ -73,7 +73,7 @@ export default class ChatPage extends Component {
               this.setState({"user":userGet_res[0]});
               this.getChats()
               
-      }).catch(err => {console.log('eve redirect' + err)})
+      }).catch(err => {this.props.history.push('/logout')})
   }
 
   getChats () {
@@ -89,7 +89,7 @@ export default class ChatPage extends Component {
     getChatsData(this.ip, this.jwt, this.state.user.chatrooms).then(res => {
       this.setState({ chats: res})
       this.eve_mount()
-    }).catch(err => {console.log('eve redirect' + err)})
+    }).catch(err => {this.props.history.push('/logout')})
   }
 
   eve_mount(){
