@@ -77,6 +77,8 @@ export default class Edit extends Component {
 		if (state === 'init'){
 			if (document.getElementById('navMenu'+this.div_key))
 				ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
+			if (document.getElementById('cont'+this.div_key))
+				ReactDOM.render(this.container_constructor(), document.getElementById('cont'+this.div_key));
 		}
 	}
 
