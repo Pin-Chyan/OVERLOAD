@@ -29,7 +29,9 @@ export default class cons extends Component {
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
-        this.state = {};
+        this.state = {
+            "newmsg":''
+        };
         async function server_get(ip,jwt){
             let promise = await axios.post(ip+"/users/getEmail", {} ,{ headers: { authorization: `bearer ${jwt}` } });
             if (promise.status === 200)
@@ -145,7 +147,7 @@ export default class cons extends Component {
         if (document.getElementById('user_display_header'+this.div_key))
             ReactDOM.render(user, document.getElementById('user_display_header'+this.div_key));
         this.get_id();
-        this.notification_updater();
+        // this.notification_updater();
         var burger = document.querySelector('.burger');
         var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
         burger.addEventListener('click', function(){
@@ -225,7 +227,20 @@ export default class cons extends Component {
     sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
+    notification_updater() {
+        var email = this.state.user.email;
+        var token = this.jwt;
+        var ip = this.ip;
+        axios.post(ip + '/users/get_spec',{"email":email, "target": "notifications", "token":token}).then(res => {
+            var data = {};
+            data.count = res.data[0].notifications.length;
+            this.setState(data);
+            var nav_bar = this.nav_constructor();
+            if (document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
+        })
 
+    }
     getFormatedDate (ping) {
       const currDate = new Date(ping)
       let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 

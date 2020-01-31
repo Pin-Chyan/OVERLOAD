@@ -320,9 +320,9 @@ export default class User extends Component {
         
     viewedConstructor () {
       if (Array.isArray(this.state.viewedUsers) && this.state.viewedUsers.length) {
-          return this.state.viewedUsers.map(user => {
+          return this.state.viewedUsers.map((user,index) => {
             let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-            return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+            return <Profile key={"v" + index}img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
           })
       } else {
         return <div>Nobody has viewed your profile yet...</div>
@@ -331,9 +331,9 @@ export default class User extends Component {
 
     likedConstructor () {
       if (Array.isArray(this.state.likedUsers) && this.state.likedUsers.length) {
-        return this.state.likedUsers.map(user => {
+        return this.state.likedUsers.map((user,index) => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <Profile key={"l"+index} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>Nobody has liked your profile yet...</div>
@@ -342,9 +342,9 @@ export default class User extends Component {
 
     blockedConstructor () {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
-        return this.state.blockedUsers.map(user => {
+        return this.state.blockedUsers.map((user,index) => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <BlockedProfile unblock={this.unblockUser(user.email,user._id)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile key={"b" + index}unblock={this.unblockUser(user.email,user._id)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>
@@ -353,8 +353,8 @@ export default class User extends Component {
 
     listTags (tags) {
       if (Array.isArray(tags) && tags.length) {
-        return tags.map(tag => {
-          return <span className="tag is-warning" key={tag}>{tag}  </span>
+        return tags.map((tag,index) => {
+          return <span className="tag is-warning" key={"t"+index}>{tag}  </span>
         })
       } else {
         return <span>No tags ...</span>

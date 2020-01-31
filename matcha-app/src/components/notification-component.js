@@ -153,8 +153,8 @@ export default class Notifications extends Component {
 
     get_notifications(notifications_array) {
       if (notifications_array.length) {
-        return notifications_array.map((item) => {
-          return <div>{item.message}</div>
+        return notifications_array.map((item,index) => {
+          return <div key={index}>{item.message}</div>
         })
       } else {
         return <div>No messages yet...</div>

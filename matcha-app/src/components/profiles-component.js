@@ -258,8 +258,8 @@ export default class Profiles extends Component {
 
   listTags (tags) {
     if (Array.isArray(tags) && tags.length) {
-      return tags.map(tag => {
-        return <span className="tag is-warning">{tag}  </span>
+      return tags.map((tag,index) => {
+        return <span key={"t"+index} className="tag is-warning">{tag}  </span>
       })
     } else {
       return <span>No tags ...</span>

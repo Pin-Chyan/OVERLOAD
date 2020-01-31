@@ -89,7 +89,7 @@ export default class ChatPage extends Component {
     getChatsData(this.ip, this.jwt, this.state.user.chatrooms).then(res => {
       this.setState({ chats: res})
       this.eve_mount()
-    }).catch(err => {this.props.history.push('/logout')})
+    })//.catch(err => {this.props.history.push('/logout')})
   }
 
   eve_mount(){
@@ -104,7 +104,7 @@ export default class ChatPage extends Component {
   page_handler () {
     const nav_bar = this.nav_constructor()
     const cont = this.mid_constructor()
-    const chats = this.chatContructor()
+    const chats = this.chatConstructor()
     if (document.getElementById('navMenu'+this.div_key))
         ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
     if (document.getElementById('cont'+this.div_key))
@@ -148,7 +148,7 @@ export default class ChatPage extends Component {
           })
       }
   }
-
+  
   sleep = (milliseconds) => {
       return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
@@ -176,7 +176,21 @@ export default class ChatPage extends Component {
 
       )
   }
+  notification_updater() {
+    var email = this.state.user.email;
+    var token = this.jwt;
+    var ip = this.ip;
+    axios.post(ip + '/users/get_spec',{"email":email, "target": "notifications", "token":token}).then(res => {
+        var data = {};
+        data.count = res.data[0].notifications.length;
+        // this.state.count = data.count;
+        this.setState(data);
+        var nav_bar = this.nav_constructor();
+        if (document.getElementById('navMenu'+this.div_key))
+            ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
+    })
 
+}
   nav_constructor(){
       var element1 = (
           <div className="navbar-end">
@@ -205,7 +219,7 @@ export default class ChatPage extends Component {
     return formattedDate
   }
 
-  chatContructor () {
+  chatConstructor () {
     if (Array.isArray(this.state.chats) && this.state.chats.length) {
       return this.state.chats.map(room => {
         let img = room.img.img1 === 'null' ? this.nll : room.img.img1

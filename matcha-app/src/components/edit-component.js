@@ -74,7 +74,8 @@ export default class Edit extends Component {
         "bioBuff": '',
         "nameBuff": '',
         "emailBuff": '',
-        "tagBuff": '',
+		"tagBuff": '',
+		"search":''
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -107,15 +108,10 @@ export default class Edit extends Component {
 //
 
 	Page_states(state){
-		console.log('render');
 		if (state === 'init'){
-			// if (document.getElementById('navMenu'+this.div_key)){
-			// 	ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
-			// }
      		if (document.getElementById('mid_img'+this.div_key))
 				ReactDOM.render(this.image_edit_constructor(), document.getElementById('mid_img'+this.div_key));
 			this.imageRenderer(this.state.user.img,'init');
-			// this.notification_updater();
 		}
 	}
 	why(){
@@ -133,6 +129,22 @@ export default class Edit extends Component {
 		if (e.target.id === '/logout') window.location.replace('/logout');
 		else this.props.history.push({pathname:e.target.id});
 	}
+	searchHandle = e => {
+        this.setState({search:e.target.value});
+    }
+    keyHandle = e => {
+        if (e.key === 'Enter'){
+            var search_input = 'null';
+            if (this.state.search){
+                if (this.state.search.trim() !== '')
+                    search_input = this.state.search;
+            }
+            this.props.history.push({
+                pathname: '/search',
+                search_in: search_input 
+            });
+        }
+    }
 	imageHandler(e){
 		if (this.imgUploadBusy[parseInt(e.target.id)] === 0){
 			var target = 'in' + e.target.id[0];

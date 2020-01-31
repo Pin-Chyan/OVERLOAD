@@ -15,9 +15,9 @@ const fadeProperties = {
     infinite: true,
     indicators: true,
     autoplay: false,
-    onChange: (oldIndex, newIndex) => {
-      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    }
+    // onChange: (oldIndex, newIndex) => {
+    // //   console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    // }
   }
 
 export default class Home extends Component {
@@ -101,6 +101,8 @@ export default class Home extends Component {
             nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+            if (!localStorage.liked || !localStorage.likes)
+                this.sleep(500).then(() => {this.page_handler('found')})
             this.Carousel_handle(this.state.results[0]);
         }
         if (mode === 'not_found'){
@@ -142,7 +144,6 @@ export default class Home extends Component {
             burger.classList.toggle('is-active');
             nav.classList.toggle('is-active');
         })
-        console.log(burger);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +185,6 @@ export default class Home extends Component {
         axios.post(ip + '/users/get_spec',{"email":email, "target": "notifications", "token":token}).then(res => {
             var data = {};
             data.count = res.data[0].notifications.length;
-            // this.state.count = data.count;
             this.setState(data);
             var nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
@@ -247,8 +247,6 @@ export default class Home extends Component {
                     alert("User has been blocked")
                 }
             }
-            else
-                console.log("you missed the button!");
         }
         async_hell(this.ip,this.state.user.email,this.state.results[this.pos].email,this.jwt).then( res => {
             if (res === 'Prev' || res === 'Next'){
