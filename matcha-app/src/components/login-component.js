@@ -98,7 +98,7 @@ export default class Login extends Component {
                         {/* <Link to="/" className="navbar-item has-text-info">Home</Link>
                         <Link to="/user" className="navbar-item has-text-info">Profile</Link>
                         <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link> */}
-                        <Link to="/register" className="navbar-item has-text-info">Register</Link>
+                        <Link to="/register" className="navbar-item nav-color">Register</Link>
                     </div>
                 </div>
             </div>

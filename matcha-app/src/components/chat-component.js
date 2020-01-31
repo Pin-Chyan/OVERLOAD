@@ -280,12 +280,12 @@ export default class cons extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
-                <button className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+                <button className="navbar-item nav-color " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item nav-color " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item nav-color " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item nav-color " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item nav-color " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item nav-color " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -301,23 +301,14 @@ export default class cons extends Component {
                         <div className="column">
                             <article className="media center">
                                 <figure className="media-left">
-<<<<<<< HEAD
                                     <figure>
                                         <img className="image is-64x64 contain" alt="Asuna" src={this.state.target.img.img1} />
-=======
-                                    <figure className="image is-64x64">
-                                        <img className="image is-64x64 adjust" alt="Asuna" src={this.state.target.img.img1} />
->>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
                                     </figure>
                                 </figure>
                                 <div className="media-content">
                                     <div className="content">
                                         <p>
-<<<<<<< HEAD
-                                            <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
-=======
-                                            <strong>{this.state.target.name}</strong> <button>{this.state.target.last}</button><br />
->>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
+                                            <strong>{this.state.target.name}</strong> <p>{this.state.target.last}</p><br />
                                             <span><time dateTime="2018-04-20"></time> target</span>
                                         </p>
                                     </div>

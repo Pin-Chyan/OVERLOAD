@@ -275,6 +275,12 @@ h3 {
   width: 100%;
 }
 
+.nav-color {
+    background: transparent;
+    color: white;
+    border-color: transparent;
+}
+
 .each-fade h2 {
   width: 25%;
   display: flex;
@@ -325,6 +331,18 @@ h3 {
 .btn-right {
     float: right;
     position: relative;
+}
+
+.btn-hide {
+    background: transparent;
+    color: transparent;
+    border-color: transparent;
+    visibility: hidden;
+    width: 0px;
+}
+
+.btn-color {
+    
 }
 
 .contain {
