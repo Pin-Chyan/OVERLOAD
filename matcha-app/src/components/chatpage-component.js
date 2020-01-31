@@ -221,9 +221,9 @@ export default class ChatPage extends Component {
 
   chatConstructor () {
     if (Array.isArray(this.state.chats) && this.state.chats.length) {
-      return this.state.chats.map(room => {
+      return this.state.chats.map((room,index) => {
         let img = room.img.img1 === 'null' ? this.nll : room.img.img1
-        return <Profile ping={room.ping} Fdate={this.getFormatedDate} img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
+        return <Profile key={"r"+index} ping={room.ping} Fdate={this.getFormatedDate} img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
       })
     } else {
       return <div>No chats yet...</div>
