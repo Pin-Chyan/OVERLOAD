@@ -44,7 +44,9 @@ export default class Edit extends Component {
 		server_get(this.ip,this.jwt).then(res => {
 			///////////////////////////////////////////////////////////
 			//      <<<< begin binding after database online >>>>
-			this.eve_mount = this.eve_mount.bind(this);
+      this.eve_mount = this.eve_mount.bind(this);
+      this.onTagAdd = this.onTagAdd.bind(this)
+      this.onTagDel = this.onTagDel.bind(this)
 			this.userData_getter = this.userData_getter.bind(this);
      		this.imageUploader = this.imageUploader.bind(this);
      		this.onChangeName = this.onChangeName.bind(this)
@@ -285,7 +287,7 @@ onBasicSubmit (e) {
       user: newUser,
       lastBuff: '',
       nameBuff: '',
-	  bioBuff: ''})
+	    bioBuff: ''})
 	})
 }
 
@@ -318,11 +320,21 @@ onSubmitSexAndGender (e) {
 	})
 }
 
+onTagAdd (e) {
+  e.preventDefault()
+
+  
+}
+
+onTagDel (e) {
+  e.preventDefault()
+}
+
 
 listTags (tags) {
   if (Array.isArray(tags) && tags.length) {
     return tags.map(tag => {
-      return <span className="tag is-warning" key={tag}>{tag}  </span>
+      return <span className="tag is-warning" key={tag}>{tag}<button class="delete is-small"></button></span>
     })
   } else {
     return <span>No tags ...</span>
@@ -398,11 +410,21 @@ listTags (tags) {
               <br></br>
               <label className="label">Current tags:</label>
               {this.listTags(this.state.user.tag)}
+              <br></br>
+              <br></br>
+              <div className="field">
+                <label className="label" onClick={this.onTagAdd}>Add Tags:</label>
+                <div className="control has-icons-left has-icons-right">
+                  <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
+                <span className="icon is-small is-left"></span>
+                <button className="button is-rounded is-warning" onClick={this.onTagAdd}>Add</button>
+                </div>
+                </div>
+              </div>
             </div>
 					</div>
 				</div>
 			</div>
-				</div>
 			</section>
 		)
 	}
