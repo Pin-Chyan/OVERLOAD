@@ -16,16 +16,16 @@ const Profile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" alt="Profile img" src={props.img} />
         </figure>
       </figure>
       <div className="media-content">
         <div className="content">
           <p>
-            <a onClick={props.handleClick}>
+            <button onClick={props.handleClick}>
               <strong>{props.name} </strong>
               <p>{props.last}</p>
-            </a>
+            </button>
           </p>
         </div>
       </div>
@@ -38,18 +38,18 @@ const BlockedProfile = props => {
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" alt="Profile img" src={props.img} />
         </figure>
       </figure>
       <div className="media-content">
         <div className="content">
-            <div className='button is-rounded is-warning btn-right'>
+            <div className='button is-rounded is-warning btn-right' onClick={props.unblock}>
               Unblock
             </div>
-            <a onClick={props.handleClick}>
+            <button onClick={props.handleClick}>
               <strong>{props.name} </strong>
               <p>{props.last}</p>
-            </a>
+            </button>
         </div>
       </div>
     </article>
@@ -99,7 +99,7 @@ export default class User extends Component {
                 this.userHistory_getter()
             }
             else {
-              this.userData_getter()
+              this.userData_getter('init')
             }
         }).catch(err => {console.log('eve redirect' + err)});
     }
@@ -126,7 +126,7 @@ export default class User extends Component {
       async function getBlockedData (ip, token, blockedArray) {
         const promises = []
         for (let userid of blockedArray) {
-          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: userid, target: 'name last img' }, { headers: { authorization: `bearer ${token}` } })
+          const content = await Axios.post(ip + '/users/get_soft_by_id', { id: userid, target: 'name last img email' }, { headers: { authorization: `bearer ${token}` } })
           promises.push(content.data)
         }
         return promises
@@ -135,7 +135,7 @@ export default class User extends Component {
       async function getAllData (ip, token, likedArray, viewedArray, blockedArray) {
         const viewedRes = await getViewedData(ip, token, viewedArray)
         const likedRes = await getLikedData(ip, token, likedArray)
-        const blockedRes = await getLikedData(ip, token, blockedArray)
+        const blockedRes = await getBlockedData(ip, token, blockedArray)
         const response = [viewedRes, likedRes, blockedRes]
         return response
       }
@@ -146,16 +146,17 @@ export default class User extends Component {
       })
     }
 
-    userData_getter(){
+    userData_getter(mode){
         async function get_data(email,jwt,ip,target){
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked likes sexual_pref gender blocked").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked likes ping sexual_pref gender blocked fame").then(userGet_res => {
           this.setState({"user":userGet_res[0]})
-          this.userHistory_getter()
+          if (mode === 'init')
+            this.userHistory_getter()
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
@@ -183,7 +184,6 @@ export default class User extends Component {
             ReactDOM.render(liked, document.getElementById('liked'+this.div_key));
         if (document.getElementById('blocked'+this.div_key))
             ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key));
-        this.rgb_phaser([0,0,255,1,0],'other_page','other_page');
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,8 +193,8 @@ export default class User extends Component {
 
     redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
+            // user: this.state.user
         });
     }
 
@@ -202,7 +202,7 @@ export default class User extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
                 if (this.state.search.trim() !== '')
@@ -214,43 +214,6 @@ export default class User extends Component {
                 search_in: search_input 
             });
         }
-    }
-
-    rgb_phaser = (altitude,target,state_target) => {
-        if (   this[target][0] !== altitude[0] 
-            || this[target][1] !== altitude[1]
-            || this[target][2] !== altitude[2] ){
-            if (this[target][0] !== altitude[0]){
-                if (this.toPos(this[target][0] - altitude[0]) < altitude[3])
-                    this[target][0] = altitude[0];
-                else
-                    this[target][0] += this[target][0] > altitude[0] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][1] !== altitude[1]){
-                if (this.toPos(this[target][1] - altitude[1]) < altitude[3])
-                    this[target][1] = altitude[1];
-                else
-                    this[target][1] += this[target][1] > altitude[1] ? -1 * altitude[3] : 1 * altitude[3];
-            }
-            if (this[target][2] !== altitude[2]){
-                if (this.toPos(this[target][2] - altitude[2]) < altitude[3])
-                    this[target][2] = altitude[2];
-                else
-                    this[target][2] += this[target][2] > altitude[2] ? -1 * altitude[3] : 1* altitude[3];
-            }
-            altitude[3] += altitude[4];
-            this.setState({[state_target]:"rgb(" + this[target][0] + ", " + this[target][1] +", " + this[target][2] + ")"});
-            this.sleep(20).then(() => {
-                this.rgb_phaser(altitude,target,state_target);
-            });
-        } else
-            console.log("set " + target + " result posted to this.state." + state_target);
-    }
-    toPos(num){
-        if (num < 0)
-            return (num * -1);
-        else
-            return (num);
     }
     sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -298,12 +261,12 @@ export default class User extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -328,11 +291,31 @@ export default class User extends Component {
       document.getElementById(tabName).style.display = "block"
       e.currentTarget.className = 'tab  is-active'
     }
+
+    unblockUser = (email,id) => e => {
+      e.preventDefault();
+      async function unblock (ip, token, email, target) {
+        const promise = Axios.post(ip+'/users/unblock', { token, email, target })
+        if (promise.status === 200) {
+          return promise.data
+        }
+      }
+      unblock(this.ip, this.jwt, this.state.user.email, email).then(res => {
+        var arr = this.state.blockedUsers;
+        var i = arr.length;
+        while (i--){
+          if (arr[i]._id === id)
+            arr.splice(i,1);
+        }
+        this.setState({blockedUsers:arr});
+        const blocked = this.blockedConstructor();
+        ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key))
+      })
+    }
         
     viewedConstructor () {
       if (Array.isArray(this.state.viewedUsers) && this.state.viewedUsers.length) {
           return this.state.viewedUsers.map(user => {
-            console.log(user)
             let img = user.img.img1 === 'null' ? this.nll : user.img.img1
             return <Profile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
           })
@@ -356,10 +339,20 @@ export default class User extends Component {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
         return this.state.blockedUsers.map(user => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <BlockedProfile img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile unblock={this.unblockUser(user.email,user._id)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>
+      }
+    }
+
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
       }
     }
 
@@ -373,16 +366,16 @@ export default class User extends Component {
                 <nav className="tabs is-boxed is-small is-fullwidth">
                     <ul>
                       <li className="tab is-active" onClick={this.openTab('Preview')}>
-                        <a>Preview</a>
+                        <button>Preview</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Likes')}>
-                        <a>Who liked me</a>
+                        <button>Who liked me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Viewed by')}>
-                        <a>Who viewed me</a>
+                        <button>Who viewed me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Preferences')}>
-                        <a>Blocked users</a>
+                        <button>Blocked users</button>
                       </li>
                     </ul>
                 </nav>
@@ -401,16 +394,17 @@ export default class User extends Component {
                               <img alt="Asuna" src={display1} />
                             </figure>
                           </figure>
-                          <div className="media-content">
-                            <div className="content">
-                                <p>
-                                  <strong>{this.state.user.name}</strong> <a>{this.state.user.last}</a><br />
-                                  <span className="has-text-grey">{this.state.user.tag}<br />
-                                  <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                                </p>
-                            </div>
+                          <div className='media-content'>
+                            <div className='content'>
+                            <strong>{this.state.user.name} {this.state.user.last}  </strong>
+                              {this.state.user.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                              {this.state.user.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
+                              <br></br>
+                              <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{this.state.user.fame}</span><br />
+                            <span className='has-text-grey'>{this.listTags(this.state.user.tag)}</span>
                           </div>
-                        </article>
+                        </div>
+                      </article>
                     <br />
                     <hr />
                     <p>

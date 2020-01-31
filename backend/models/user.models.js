@@ -83,8 +83,7 @@ const userSchema = new Schema({
     default: 0
   },
   tag: {
-    type: Array,
-    default: ["start"]
+    type: Array
   },
   likes: {
     type: Array,

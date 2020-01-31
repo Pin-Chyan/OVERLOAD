@@ -8,29 +8,22 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-// List all current chats
-  // Get user
-  // Pull all chats
-  // Display list of chats
-// Add to navbar
-// Fix no results showing up
-
 const Profile = props => {
   return (
     <article className="media center">
       <figure className="media-left">
         <figure className="image is-64x64">
-          <img className="image is-64x64 m-scale" alt="Profile picture" src={props.img} />
+          <img className="image is-64x64 m-scale" src={props.img} alt="img of personal"/>
         </figure>
       </figure>
       <div className="media-content">
         <div className="content">
-          <p>
-              <a onClick={props.handleClick}>
-              <strong>{props.name}</strong>
-              <p>{props.last}</p>
-            </a>
-          </p>
+              <button onClick={props.handleClick}>
+              <strong>{props.name} {props.last}</strong><br />
+              <time dateTime='2018-04-20'>{props.ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
+              <time dateTime='2018-04-20'>{(((Date.now() - props.ping) <= 60000) && (props.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+              <time dateTime='2018-04-20'>{(((Date.now() - props.ping) > 60000) && (props.ping !== 0)) && <strong>last online: {props.Fdate(props.ping)}</strong>}</time>
+            </button>
         </div>
       </div>
     </article>
@@ -76,7 +69,7 @@ export default class ChatPage extends Component {
               return promise.data
       }
       ///      <<<< target will be customised for each page for optimisation >>>>
-      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref last img bio tag email").then(userGet_res => {
+      get_data(this.state.user.email,this.jwt,this.ip,"chatrooms viewed liked name gender sexual_pref ping last img bio tag email fame").then(userGet_res => {
               this.setState({"user":userGet_res[0]});
               this.getChats()
               
@@ -87,7 +80,7 @@ export default class ChatPage extends Component {
     async function getChatsData (ip, token, chatrooms) {
       const promises = []
       for (let userid of chatrooms) {
-        const content = await axios.post(ip + '/users/get_soft_by_id', { id: userid , target: 'name last img email' }, { headers: { authorization: `bearer ${token}` } })
+        const content = await axios.post(ip + '/users/get_soft_by_id', { id: userid , target: 'name last img email ping' }, { headers: { authorization: `bearer ${token}` } })
         promises.push(content.data)
       }
       return promises
@@ -128,8 +121,8 @@ export default class ChatPage extends Component {
 
   redirecthandler = e => {
       this.props.history.push({
-          pathname:e.target.id,
-          user: this.state.user
+          pathname:e.target.id
+          // user: this.state.user
       });
   }
 
@@ -188,22 +181,30 @@ export default class ChatPage extends Component {
                       <i className="fa fa-search"></i>
                   </span>
               </div>
-              <a className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-              <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
-              <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-              <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
-              <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-              <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
+              <button className="navbar-item " style={{color:this.state.other_page}} onClick="{}" ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+              <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
+              <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+              <button className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
+              <button className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+              <button className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
           </div>
       )
       return(element1);
+  }
+
+  getFormatedDate (ping) {
+    const currDate = new Date(ping)
+    let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+    + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+    + currDate.getSeconds()
+    return formattedDate
   }
 
   chatContructor () {
     if (Array.isArray(this.state.chats) && this.state.chats.length) {
       return this.state.chats.map(room => {
         let img = room.img.img1 === 'null' ? this.nll : room.img.img1
-        return <Profile img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
+        return <Profile ping={room.ping} Fdate={this.getFormatedDate} img={img} name={room.name} last={room.last} handleClick={() => { this.props.history.push('/chat/'+room.email) }} />
       })
     } else {
       return <div>No chats yet...</div>

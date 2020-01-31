@@ -10,13 +10,14 @@ import Inbox from './message-and-notification';
 import { Fade } from 'react-slideshow-image';
 
 const fadeProperties = {
-    // duration: 5000,
-    // transitionDuration: 500,
-    // infinite: true,
-    // indicators: true,
-    // onChange: (oldIndex, newIndex) => {
-    //   console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-    // }
+    duration: 5000,
+    transitionDuration: 500,
+    infinite: true,
+    indicators: true,
+    autoplay: false,
+    onChange: (oldIndex, newIndex) => {
+      console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+    }
   }
 
 export default class Home extends Component {
@@ -48,7 +49,6 @@ export default class Home extends Component {
             }
             if (this.props.location.user){
                 this.setState({"user":this.props.location.user});
-                console.log(this.props.location.user)
                 this.eve_mount();
             }
             else
@@ -62,7 +62,7 @@ export default class Home extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
                 this.setState({"user":userGet_res[0]});
                 if (reset === 0)
                     this.eve_mount();
@@ -76,13 +76,16 @@ export default class Home extends Component {
             }
         }
         var req = {};
-        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref,this.state.user.gender,-1,-1];
-        req.in = '';
+        req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-2,-2,-2,-2];
+        req.in = 'null';
+        req.tags = ['null'];
         get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
-            if (res !== 'no result'){
+            if (res.data !== 'no_res'){
                 this.setState({"results":res.data});
                 // this.Carousel_handle(this.state.results[0]);
                 this.page_handler('found');
+            } else if (res.data === 'no_res'){
+                this.page_handler('not_found');
             }
         })//.catch(err => {console.log('eve redirect' + err)})
     }
@@ -93,13 +96,22 @@ export default class Home extends Component {
 //
 
     page_handler(mode){
+        var nav_bar;
         if (mode === 'found'){
-            var nav_bar = this.nav_constructor();
+            nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             this.Carousel_handle(this.state.results[0]);
         }
-        this.userData_getter(1);
+        if (mode === 'not_found'){
+            nav_bar = this.nav_constructor();
+            if (document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+            // this.Carousel_handle(this.state.results[0]);
+            if (document.getElementById('cont' + this.div_key))
+                ReactDOM.render((<text>looks like theres no one here</text>), document.getElementById('cont' + this.div_key));
+        }
+        // this.userData_getter(1);
         this.notification_updater();
     }
 
@@ -132,7 +144,7 @@ export default class Home extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
+                // user: this.state.user,
                 search_in: search_input 
             });
         }
@@ -149,7 +161,7 @@ export default class Home extends Component {
             this.setState(data);
             var nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
-                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key));
         })
 
     }
@@ -192,7 +204,9 @@ export default class Home extends Component {
                 }
             }
             else if (buttonval === "Report"){
-                console.log("reported!");
+              axios.post(ip+'/users/report', { user, reported_email: target }, { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+                alert('You have reported them')
+              })
             }
             else if (buttonval === "Message"){
                 return ('redirect');
@@ -240,7 +254,10 @@ export default class Home extends Component {
     Carousel_handle(res){
         if (res){
             var carousel_data = {
+              "ping": res.ping,
+              "gender": res.gender,
               "id": res._id,
+              "fame": res.fame,
               "distance":res.location[0],
               "carousel_name":res.name,
               "carousel_last":res.last,
@@ -293,9 +310,8 @@ export default class Home extends Component {
                         <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
                     </div>
                 </nav>
-            <div id={"cont"+this.div_key} className="container"></div>
-        </section>
-
+                <div id={"cont"+this.div_key} className="container"></div>
+            </section>
         )
     }
 
@@ -308,16 +324,35 @@ export default class Home extends Component {
                         <i className="fa fa-search"></i>
                     </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         return(element1);
     }
+
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
+    getFormatedDate (ping) {
+      const currDate = new Date(ping)
+      let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+      + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+      + currDate.getSeconds()
+      return formattedDate
+    }
+
     mid_constructor(data){
         return (
             <div className="column is-centered shadow">
@@ -327,27 +362,27 @@ export default class Home extends Component {
                         <Fade {...fadeProperties}>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img1} />
+                                    <img src={data.carousel_img1} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img2} />
+                                    <img src={data.carousel_img2} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img3} />
+                                    <img src={data.carousel_img3} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img4} />
+                                    <img src={data.carousel_img4} alt={this.nll}/>
                                 </div>
                             </div>
                             <div className="each-fade">
                                 <div className="image-container">
-                                    <img src={data.carousel_img5} />
+                                    <img src={data.carousel_img5} alt={this.nll}/>
                                 </div>
                             </div>
                         </Fade>
@@ -370,15 +405,20 @@ export default class Home extends Component {
                     <img alt="Asuna" src={data.carousel_img1} />
                 </figure>
             </figure>
-            <div className="media-content">
-                <div className="content">
-                    <p>
-                        <strong>{data.distance + "km"}</strong> <a onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name}_{data.carousel_last}</a><br />
-                        <span className="has-text-grey">{data.carousel_tags}<br />
-                        <time dateTime="2018-04-20">Apr 20</time> · 20 min read</span>
-                    </p>
+              <div className='media-content'>
+                <div className='content'>
+                <strong>{data.distance + "km"}</strong> <br />
+                <strong onClick={() => {this.props.history.push('/profiles/'+data.id)}}>{data.carousel_name} {data.carousel_last}  </strong>
+                  {data.gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                  {data.gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
+                  <br></br>
+                  <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.fame}</span><br />
+                  <time dateTime='2018-04-20'>{data.ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
+                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) <= 60000) && (data.ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                  <time dateTime='2018-04-20'>{(((Date.now() - data.ping) > 60000) && (data.ping !== 0)) && <strong>last online: {this.getFormatedDate(data.ping)}</strong>}</time>
                 </div>
-            </div>
+                <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>
+              </div>
         </article>
         <br />
         <hr />
@@ -401,27 +441,27 @@ export default class Home extends Component {
         if (boolean === 1){
             return (
                 <div>
-                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-                <button id="5" value="view" className="button is-info fa fa-user"></button>
-                <button id="6" value="block" className="button is-black fa fa-user-times"></button>
-                <button id="8" value="Message" className="button is-info fa fa-comment"></button>
-                <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
+                    <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                    <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                    <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                    <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                    <button id="5" value="view" className="button is-info fa fa-user"></button>
+                    <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+                    <button id="8" value="Message" className="button is-info fa fa-comment"></button>
+                    <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
                 </div>
             )
         }
         else 
         return (
             <div>
-            <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
-            <button id="2" value="Next" className="button is-danger fa fa-times"></button>
-            <button id="3" value="Like" className="button is-success fa fa-heart"></button>
-            <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
-            <button id="5" value="view" className="button is-info fa fa-user"></button>
-            <button id="6" value="block" className="button is-black fa fa-user-times"></button>
-            <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
+                <button id="1" value="Prev" className="button is-warning fa fa-arrow-left"></button>
+                <button id="2" value="Next" className="button is-danger fa fa-times"></button>
+                <button id="3" value="Like" className="button is-success fa fa-heart"></button>
+                <button id="4" value="Unlike" className="button is-danger fa fa-heart-o"></button>
+                <button id="5" value="view" className="button is-info fa fa-user"></button>
+                <button id="6" value="block" className="button is-black fa fa-user-times"></button>
+                <button id="7" value="Report" className="button is-warning fa fa-exclamation"></button>
             </div>
         )
     }

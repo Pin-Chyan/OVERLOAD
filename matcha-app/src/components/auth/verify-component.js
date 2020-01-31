@@ -23,7 +23,7 @@ function DisplayStatus(props) {
 export default class Verify extends Component {
     constructor(props) {
         super(props);
-
+        this.load = require("../../images/load.gif");
         this.state = {
             verifStatus: ''
         }
@@ -64,8 +64,8 @@ export default class Verify extends Component {
                                     <hr></hr>
                                     <DisplayStatus status={this.state.status}/>
                                     <hr></hr>
-                                    <figure class="image"> {/* is-3by4 */}
-                            	    	<img src="https://4.bp.blogspot.com/-2VXza5uBojw/V4Wm50UyQRI/AAAAAAAAhFk/WMiIk3mKxWgYB9wDgK2HZFf8LYtSqe_DgCKgB/s1600/Omake%2BGif%2BAnime%2B-%2BAria%2BThe%2BAvvenire%2B-%2BEpisode%2B3%2B%255BBD%255D%2B-%2BAria%2BShachou%2Band%2BAlicia%2BPaperwork.gif" />
+                                    <figure className="image"> {/* is-3by4 */}
+                            	    	<img src="https://4.bp.blogspot.com/-2VXza5uBojw/V4Wm50UyQRI/AAAAAAAAhFk/WMiIk3mKxWgYB9wDgK2HZFf8LYtSqe_DgCKgB/s1600/Omake%2BGif%2BAnime%2B-%2BAria%2BThe%2BAvvenire%2B-%2BEpisode%2B3%2B%255BBD%255D%2B-%2BAria%2BShachou%2Band%2BAlicia%2BPaperwork.gif" alt={this.load}/>
                         		    </figure>
                                     <hr></hr>
                                         <Link to="/login" className="button is-warning is-rounded">Login-Page</Link>

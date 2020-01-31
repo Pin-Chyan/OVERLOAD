@@ -1,16 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-const sliderThumbStyles = (props) => (`
-  width: 15px;
-  height: 15px;
-  background: ${props.color};
-  cursor: pointer;
-  outline: 5px solid #333;
-  opacity: 0.8;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-`);
 
 // const Styles = styled.div`
 //   align-items: center;
@@ -112,6 +102,13 @@ export default class Slider extends React.Component {
         localStorage.setItem('max_fam', e.target.value);
       this.setState({"max_fam":e.target.value3})
     }
+    handleOnChange4 = (e) => {
+      if (e.target.value > 99)
+        localStorage.setItem('max_tag', 'anyone');
+      else
+        localStorage.setItem('max_tag', e.target.value);
+      this.setState({"max_fam":e.target.value4})
+    }
 
     render() {
         return (
@@ -131,6 +128,11 @@ export default class Slider extends React.Component {
                     </label>
                 </div>
                 <input type="range" min={0} max={1000} value={this.state.value3} className="slider" onChange={this.handleOnChange3} />
+                <div className="value center_b search-t">
+                    <label>Min tag: {localStorage.max_tag}
+                    </label>
+                </div>
+                <input type="range" min={0} max={100} value={this.state.value4} className="slider" onChange={this.handleOnChange4} />
             </this.Styles>
         )
     }

@@ -63,9 +63,9 @@ export default class Profiles extends Component {
     }
 
     getLoggedInUserEmail(this.ip, this.jwt).then(res => {
-      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender sexual_pref', this.jwt).then(res => {
+      getLoggendInUserData(this.ip, res.email, 'name email last bio tag img likes liked viewed gender ping sexual_pref fame location', this.jwt).then(res => {
         this.setState({ loggedInUser: res[0] })
-        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked').then(res => {
+        getViewedUser(this.ip, this.id, this.jwt, 'name email last bio tag img likes liked fame gender location ping').then(res => {
           this.setState({ viewedUser: res })
           this.pageHandler()
           addView(this.ip, this.state.loggedInUser.email, this.state.viewedUser.email, this.jwt).then(res => {
@@ -87,6 +87,23 @@ export default class Profiles extends Component {
   //                                           //
   // ///////////////////////////////////////////
 
+  searchHandle = e => {
+    this.setState({search:e.target.value});
+  }
+  keyHandle = e => {
+      if (e.key === 'Enter'){
+          var search_input = 'null';
+          if (this.state.search){
+              if (this.state.search.trim() !== '')
+                  search_input = this.state.search;
+          }
+          this.props.history.push({
+              pathname: '/search',
+              user: this.state.user,
+              search_in: search_input 
+          });
+      }
+  }
   navHandler () {
     const navbar = this.navConstructor()
     if (document.getElementById('navMenu' + this.div_key)) {
@@ -94,8 +111,27 @@ export default class Profiles extends Component {
     }
   }
 
+  calcDistance (lat1, lon1, lat2, lon2) {
+    var R = 6371;
+    var dLat = (lat2-lat1) * Math.PI / 180;
+    var dLon = (lon2-lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    if (d>1) return Math.round(d);
+    else if (d<=1) return Math.round(d*1000);
+    return d;
+  }
+
   carouselHandler (user) {
+    const distance = this.calcDistance(user.location[4], user.location[5], this.state.loggedInUser.location[4], this.state.loggedInUser.location[5])
     const carouselData = {
+      carousel_distance: distance,
+      carousel_fame: user.fame,
+      carousel_ping: user.ping,
+      carousel_gender: user.gender,
       carousel_name: user.name,
       carousel_last: user.last,
       carousel_bio: user.bio,
@@ -164,7 +200,9 @@ export default class Profiles extends Component {
           }
         }
       } else if (buttonval === 'Report') {
-          alert('reported!')
+        Axios.post(ip+'/users/report', { user, reported_email: target }, { headers: { Authorization: `bearer ${jwt}` } }).then(res => {
+          alert('You have reported them')
+        })
       } else if (buttonval === 'Message') {
           return ('redirect')
       } else {
@@ -198,14 +236,31 @@ export default class Profiles extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
-        <a className='navbar-item ' style={{ color: this.state.other_page }}><Inbox redirectHandler={() => this.props.history.push('/notification')} /></a>
-        <a className="navbar-item " style={{color: this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</a>
-        <a className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</a>
-        <a className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</a>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</button>
+        <button className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</button>
+        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</button>
       </div>
     )
+  }
+
+  listTags (tags) {
+    if (Array.isArray(tags) && tags.length) {
+      return tags.map(tag => {
+        return <span className="tag is-warning">{tag}  </span>
+      })
+    } else {
+      return <span>No tags ...</span>
+    }
+  }
+
+  getFormatedDate (ping) {
+    const currDate = new Date(ping)
+    let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+    + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+    + currDate.getSeconds()
+    return formattedDate
   }
 
   bodyConstructor (data) {
@@ -217,27 +272,27 @@ export default class Profiles extends Component {
               <Fade {...fadeProperties}>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img1} />
+                    <img src={data.carousel_img1} alt="profile img/img 1" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img2} />
+                    <img src={data.carousel_img2} alt="img2" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img3} />
+                    <img src={data.carousel_img3} alt="img3" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img4} />
+                    <img src={data.carousel_img4} alt="img4" />
                   </div>
                 </div>
                 <div className='each-fade'>
                   <div className='image-container'>
-                    <img src={data.carousel_img5} />
+                    <img src={data.carousel_img5} alt="img5" />
                   </div>
                 </div>
               </Fade>
@@ -256,19 +311,22 @@ export default class Profiles extends Component {
                 </figure>
                 <div className='media-content'>
                   <div className='content'>
-                    <p>
-                      <strong>{data.carousel_name}</strong> <a>{data.carousel_name}_{data.carousel_last}</a><br />
-                      <span className='has-text-grey'>{data.carousel_tag}<br />
-                        <time dateTime='2018-04-20'>Apr 20</time> · 20 min read</span>
-                    </p>
+                    <strong>{data.carousel_distance + 'km'}</strong> <br />
+                    <strong>{data.carousel_name} {data.carousel_last}  </strong>
+                    {data.carousel_gender === -1 && <span className='fa fa-mars' style={{ color: '#1E90FF' }} />}
+                    {data.carousel_gender === 1 && <span className='fa fa-venus' style={{ color: '#FF1493' }} />}
+                    <br></br>
+                    <span className='fa fa-fire is-danger' style={{ color: 'red' }}>{data.carousel_fame}</span><br />
+                    <time dateTime='2018-04-20'>{data.carousel_ping === 0 && <span>last online: <span style={{color: 'red'}}>never</span></span>}</time>
+                    <time dateTime='2018-04-20'>{(((Date.now() - data.carousel_ping) <= 60000) && (data.carousel_ping !== 0))&& <strong style={{color: 'green'}}>Online</strong>}</time>
+                    <time dateTime='2018-04-20'>{(((Date.now() - data.carousel_ping) > 60000) && (data.carousel_ping !== 0)) && <strong>last online: {this.getFormatedDate(data.carousel_ping)}</strong>}</time>
                   </div>
+                  <span className='has-text-grey'>{this.listTags(data.carousel_tag)}</span>
                 </div>
               </article>
               <br />
               <hr />
-              <p>
-                {data.bio}
-              </p>
+              {data.carousel_bio}
               <div>
                 {/* <Inbox /> */}
               </div>

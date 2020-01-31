@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import ReactDOM from 'react-dom'
 import "../styles/overload.css";
@@ -9,8 +8,6 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 // import "../styles/debug.css";
 import axios from 'axios';
 import Inbox from './message-and-notification';
-
-var load = require("../images/load.gif");
 
 //////////        <<Liam>>       //////////////
 // create a button on the home page that only renders
@@ -67,14 +64,14 @@ export default class cons extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last bio tag img liked likes viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"_id name email last likes liked gender bio tag img liked sexual_pref viewed fame ping").then(userGet_res => {
             this.setState({"user":userGet_res[0]});
             this.external_data1();
         }).catch(err => {console.log('eve redirect' + err)})
     }
     external_data1(){
         async function get_targetId(ip,target_email,email,jwt){
-            let promise = await axios.post(ip+"/users/get_soft",{"token":jwt,"email":email,"target_email":target_email, "target":"_id name last email img.img1"})
+            let promise = await axios.post(ip+"/users/get_soft",{"token":jwt,"email":email,"target_email":target_email, "target":"_id name last email img.img1 ping"})
             if (promise.status === 200)
                 return promise.data;
         }
@@ -139,8 +136,6 @@ export default class cons extends Component {
     page_handler(){
         var nav_bar = this.nav_constructor(1);
         var user = this.userDisplay_constructor();
-        var msgBox = this.msgBox_constructor();
-        var user = this.userDisplay_constructor();
         if (document.getElementById('navMenu'+this.div_key))
             ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key)); 
         if (document.getElementById('user_display_header'+this.div_key))
@@ -168,15 +163,15 @@ export default class cons extends Component {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
+                // user: this.state.user,
                 search_in: search_input 
             });
         }
@@ -224,6 +219,14 @@ export default class cons extends Component {
     }
     sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    getFormatedDate (ping) {
+      const currDate = new Date(ping)
+      let formattedDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" 
+      + currDate.getDate() + " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" 
+      + currDate.getSeconds()
+      return formattedDate
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,12 +280,12 @@ export default class cons extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments"></i></a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-                <a className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-                <a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i class="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item " style={{color:this.state.curr_page}}   id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -298,14 +301,23 @@ export default class cons extends Component {
                         <div className="column">
                             <article className="media center">
                                 <figure className="media-left">
+<<<<<<< HEAD
                                     <figure>
                                         <img className="image is-64x64 contain" alt="Asuna" src={this.state.target.img.img1} />
+=======
+                                    <figure className="image is-64x64">
+                                        <img className="image is-64x64 adjust" alt="Asuna" src={this.state.target.img.img1} />
+>>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
                                     </figure>
                                 </figure>
                                 <div className="media-content">
                                     <div className="content">
                                         <p>
+<<<<<<< HEAD
                                             <strong>{this.state.target.name}</strong> <a>{this.state.target.last}</a><br />
+=======
+                                            <strong>{this.state.target.name}</strong> <button>{this.state.target.last}</button><br />
+>>>>>>> 90f7b55b2e30d9284fbde9028f42db5b8824eb3d
                                             <span><time dateTime="2018-04-20"></time> target</span>
                                         </p>
                                     </div>
@@ -317,7 +329,8 @@ export default class cons extends Component {
             </div>
         )
     }
-    message_constructor(msg_data){
+    
+    message_constructor(msg_data) {
         var r_element1 = "<p class='has-text-right'>";
         var r_element2 = "<span class='tag chat-wrap is-info right_m'>";
         var r_element3 = "</span></p>";
@@ -326,18 +339,18 @@ export default class cons extends Component {
         var l_element3 = "</span></p>";
         var i = 0;
         var max = msg_data.length;
-        var res = '';
+        var result = '';
 
-        while(i < max){
-            if (msg_data[i].author != this.state.user.email)
-                var res = res+r_element1+r_element2+this.state.target.name+"\ "+msg_data[i].msg+r_element3;
+        while (i < max) {
+            if (msg_data[i].author !== this.state.user.email)
+                result = result + r_element1 + r_element2 + this.state.target.name + "\" " + msg_data[i].msg + r_element3;
             else
-                var res = res+l_element1+l_element2+this.state.user.name+"\ "+msg_data[i].msg+l_element3;
+                result = result + l_element1 + l_element2 + this.state.user.name + "\" " + msg_data[i].msg + l_element3;
             i++;
         }
-        return (res);
+        return (result);
     }
-    msgBox_constructor(){
+    msgBox_constructor() {
         return (
             <div className="field has-addons">
                 <div className="control chat-t">

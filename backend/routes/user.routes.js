@@ -295,10 +295,11 @@ router.route('/load_data').post( (req, res) => {
     var dlen = test_data.length;
     var i = 0;
     for (i  = 0; i < dlen; i++){
-        var new_user = test_data[i];
-        if (new_user.age < 18)
-            new_user.age = 18;
-        let user = new UserModels(new_user);
+        // var new_user = test_data[i];
+        // if (new_user.age < 18)
+        //     new_user.age = 18;
+        // let user = new UserModels(new_user);
+        let user = new UserModels(test_data[i]);
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
             if(err) throw err;
             user.password = hash;
@@ -385,7 +386,6 @@ router.route('/edit_spec').post( (req, res) => {
                     if (req.body.bio)
                         doc.bio = req.body.bio;
                     if (req.body.img){
-                        console.log('img found');
                         if (req.body.img.img1)
                             doc.img.img1 = req.body.img.img1;
                         if (req.body.img.img2)
@@ -397,7 +397,7 @@ router.route('/edit_spec').post( (req, res) => {
                         if (req.body.img.img5)
                             doc.img.img5 = req.body.img.img5;
                     }
-                    doc.save().then(r => {console.log('done');res.status(200).send("saved")}).catch(() => {console.log('caught');res.json("exeeded")});
+                    doc.save().then(r => {res.status(200).send("saved")}).catch(() => {console.log('caught');res.json("exeeded")});
                 })
             }
             else 
@@ -442,6 +442,32 @@ router.route('/block').post( (req, res) => {
                 res.json("user already blocked");
         })
     }).catch(err => {res.json(err)});
+})
+
+router.post('/report', verifyToken, (req, res) => {
+
+  if (!req.body.user || !req.token || !req.body.reported_email) {
+    return res.send('empty fields')
+  }
+  jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+        res.sendStatus(403);
+    } else {
+      let mailOptions = {
+        from: mailData.email,
+        to: "marthen.vandereems@gmail.com",
+        subject: 'User Reported',
+        html: `<h3>User ${req.body.reported_email} has been reported by ${req.body.user}</h3><p>`
+      };
+    
+      transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              return res.status(400).send(error);
+          }
+      });
+    return res.send('email sent');
+    }
+  })
 })
 
 router.route('/unblock').post( (req, res) => {

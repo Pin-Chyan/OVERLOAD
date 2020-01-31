@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ReactHtmlParser from 'react-html-parser';
-// import FilePickerManager from 'react-native-file-picker';
-import ReactDOM, { createPortal, render } from 'react-dom'
+import ReactDOM from 'react-dom';
 import "../styles/overload.css";
 import "../styles/helpers.css";
 import "../styles/index.css";
@@ -9,18 +7,7 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import Inbox from './message-and-notification';
-// import styled from 'styled-components';
-// import Slider from './Slider.js';
-var load2 = require("../images/load2.gif");
-var load3 = require("../images/scifi.gif");
-var nll = require("../images/chibi.jpg");
-var sec = require("../images/check.jpg");
 
-//[1,-1,-2,-2,10,-1,-1] search conditions
-
-// const Styles = styled.div`
-
-// `;
 
 export default class User extends Component {
 
@@ -55,25 +42,6 @@ export default class User extends Component {
             //      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
 			this.userData_getter = this.userData_getter.bind(this);
-			this.onChangeEmail = this.onChangeEmail.bind(this);
-            this.onChangeName = this.onChangeName.bind(this);
-            this.onChangeLast = this.onChangeLast.bind(this);
-			this.reset_state = this.reset_state.bind(this);
-			this.setpref = this.setpref.bind(this);
-			this.setpref_start = this.setpref_start.bind(this);
-			this.setgender = this.setgender.bind(this);
-			this.setgender_start = this.setgender_start.bind(this);
-            this.onChangeSurname = this.onChangeSurname.bind(this);
-            this.onChangePwd = this.onChangePwd.bind(this);
-            this.onChangePwdCon = this.onChangePwdCon.bind(this);
-            this.onChangebio = this.onChangebio.bind(this);
-            this.onChangeAge = this.onChangeAge.bind(this);
-            this.onSubmit = this.onSubmit.bind(this);
-            this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
-            this.onChangeTag = this.onChangeTag.bind(this);
-            this.setDefault = this.setDefault.bind(this);
-            this.setDefaultGender = this.setDefaultGender.bind(this);
-            this.onChangeGender = this.onChangeGender.bind(this);
             this.busy = 0;
             this.state = {
                 "res" : '',
@@ -94,7 +62,7 @@ export default class User extends Component {
                 return promise.data;
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
-        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref").then(userGet_res => {
+        get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
 				var obj = userGet_res[0];
 				obj.setpref = this.setpref_start(userGet_res[0].sexual_pref);
 				obj.setgender = this.setgender_start(userGet_res[0].gender);
@@ -104,8 +72,7 @@ export default class User extends Component {
     }
     eve_mount() {
         this.internal_color = [15,14,14];
-        this.state.res = '';
-        this.state.links = 'rgb(50, 170, 225)';
+        this.setState({"res":'',"links":'rgb(50, 170, 225)'});
         this.Page_states("init");
 	}
 
@@ -267,11 +234,12 @@ export default class User extends Component {
 								<i className="fa fa-search"></i>
 							</span>
 						</div>
-            <a className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</a>
-						<a className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</a>
-						<a className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</a>
+            			<button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
+            			<button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+						<button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
 					</div>
 				</div>
 			</div>
@@ -283,7 +251,7 @@ export default class User extends Component {
 					<div className="column bg_white">
 						<div className="column center">
 							<div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
-							<div id={'mid_text' + this.div_key}></div>
+							{/* <div id={'mid_text' + this.div_key}></div> */}
 						</div>
 					</div>
 				</div>
@@ -294,27 +262,8 @@ export default class User extends Component {
 		var element = (
 			<div className="tile is-parent is-vertical">
 			<article className="tile is-child notification light-yellow">
-				{/* <div className="file is-small">
-					<a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a>
-					<label onChange={this.globalhander} className="file-label">
-						<input id="1" className="file-input" type="file" name="resume" />
-						<span className="file-cta">
-							<span className="file-icon">
-								<i className="fa fa-upload"></i>
-							</span>
-							<span className="file-label">
-								Choose a file…
-					</span>
-						</span>
-					</label>
-					<button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button>
-					<div onClick={e => this.globalimg(e)}>
-						<button id="1" className="file-name" value="upload">upload</button>
-						<button id="1" className="file-name" value="delete">delete</button>
-					</div>
-				</div> */}
 				<figure className="image s-image">
-				<img id={img_num + this.div_key} alt="Asuna" class="m_image" src={new_img}/>
+				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
 				</figure>
 			</article>
 		</div>
@@ -336,24 +285,22 @@ export default class User extends Component {
 
 	redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
         });
     }
     searchHandle = e => {
         this.setState({search:e.target.value});
     }
     keyHandle = e => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             var search_input = 'null';
             if (this.state.search){
-                if (this.state.search.trim() != '')
+                if (this.state.search.trim() !== '')
                     search_input = this.state.search;
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
-                search_in: search_input 
+                search_in: search_input
             });
         }
     }
@@ -385,7 +332,7 @@ export default class User extends Component {
 		var poes = this.state;
 		poes.new_email = undefined;
 		poes.new_name = undefined;
-		poes.new_surname = undefined;
+		poes.new_last = undefined;
 		poes.bio = undefined;
 		poes.new_tag = undefined;
 		this.setState({poes})
@@ -481,29 +428,10 @@ export default class User extends Component {
             });
     }
 
-	setDefault (value) {
-		if (value === this.state.user.sexual_pref) {
-			return true
-		}
-		return false
-	  
-	}
-	
-
-	
-	setDefaultGender (value) {
-		
-	  if (value === this.state.user.gender) {
-		  
-		return true
-		
-	  }
-	  return false
-	}
-
 	tag_handle(tag_arr, new_tag, mode){
+		var tag
         if (mode === "upload"){
-            var tag  = tag_arr;
+        	tag  = tag_arr;
             new_tag = new_tag.trim();
             if (!tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
                 tag.push(new_tag);
@@ -511,7 +439,7 @@ export default class User extends Component {
             }
             return (tag);
         } else if (mode === "delete") {
-            var tag  = tag_arr;
+            tag  = tag_arr;
             new_tag = new_tag.trim();
             if (tag.find(function (res){return res === new_tag;}) && new_tag !== ''){
                 var pos = tag.findIndex(function (res){return res === new_tag;});
@@ -523,10 +451,11 @@ export default class User extends Component {
 	}
 
 	onTagSubmit = e => {
+		var new_tag
         if (this.state.new_tag)
-            var new_tag = this.state.new_tag;
+            new_tag = this.state.new_tag;
         else
-			var new_tag = '';
+			new_tag = '';
 		var res = this.tag_handle(this.state.user.tag,new_tag,e.target.id);
 		var obj = this.state.user;
 		obj.tag = res;
@@ -575,7 +504,7 @@ export default class User extends Component {
             if (this.state.new_email){
 				var tester = this.state.new_email;
 				axios.post(this.ip+"/users/check_dup", {"email":tester}).then(res => {
-					if (res.data != "none"){
+					if (res.data !== "none"){
 						alert("email already exists");
 					}
 					else {
@@ -595,24 +524,26 @@ export default class User extends Component {
 											axios.post('http://localhost:5001/auth/getToken', user)
 											.then(res => {
 												if (res.data.resCode === 1) {
+													console.log("rescode is 1 what?")
 													alert("You are not who you say you are!");
 													this.props.history.push("/logout");
 												} else {
+													console.log("changing email");
 													localStorage.setItem('token', res.data.token);
 													this.jwt = res.data.token;
 													state_data.email = this.state.new_email;
-													this.reset_state();
+													// this.reset_state();
 													this.setState({"user":state_data});
+													var mid_text = this.text_edit_constructor(this.state.user);
+													ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												}
-												var mid_text = this.text_edit_constructor(this.state.user);
-												ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
 												///
 											})
 										});
 									})
 								} else {
 									state_data.new_email = "email in use!";
-									this.reset_state();
+									// this.reset_state();
 									this.setState({"user":state_data});
 									var mid_text = this.text_edit_constructor(this.state.user);
 									ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -621,7 +552,7 @@ export default class User extends Component {
 							})
 						} else {
 							state_data.new_email = "Invalid email";
-							this.reset_state();
+							// this.reset_state();
 							this.setState({"user":state_data});
 							var mid_text = this.text_edit_constructor(this.state.user);
 							ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
@@ -630,14 +561,26 @@ export default class User extends Component {
 					}
 				})
 		}
-		this.reset_state();
+		// this.reset_state();
 		this.setState({"user":state_data});
 		var mid_text = this.text_edit_constructor(this.state.user);
 		ReactDOM.render(mid_text, document.getElementById('mid_text'+this.div_key));
     }
 
+    listTags (tags) {
+      if (Array.isArray(tags) && tags.length) {
+        return tags.map(tag => {
+          return <span class="tag is-warning">{tag}  </span>
+        })
+      } else {
+        return <span>No tags ...</span>
+      }
+    }
+
 	text_edit_constructor(user){
 		this.reset_state();
+		console.log(this.state.new_email);
+		console.log(user.email);
 		return (
 			<div>
 				<div className="field">
@@ -699,7 +642,7 @@ export default class User extends Component {
 					</div>
 				</div>
 				<div className="field">
-					<label className="label">Current Tags: {user.tag.toString()}</label>
+					<label className="label">Current Tags: {this.listTags(user.tag)}</label>
 					<div className="control">
 						<div className="field">
 							<label className="label">Tag Name</label>
