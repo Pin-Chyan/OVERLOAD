@@ -194,13 +194,13 @@ export default class Edit extends Component {
 	}
 	textRenderer(){
 		if (document.getElementById('name'+this.div_key))
-			ReactDOM.render((<text>Name: {this.state.user.name}</text>), document.getElementById('name'+this.div_key));
+			ReactDOM.render((<p>Name: {this.state.user.name}</p>), document.getElementById('name'+this.div_key));
 		if (document.getElementById('last'+this.div_key))
-			ReactDOM.render((<text>Surname: {this.state.user.last}</text>), document.getElementById('last'+this.div_key));
+			ReactDOM.render((<p>Surname: {this.state.user.last}</p>), document.getElementById('last'+this.div_key));
 		if (document.getElementById('email'+this.div_key))
-			ReactDOM.render((<text>Email: {this.state.user.email}</text>), document.getElementById('email'+this.div_key));
+			ReactDOM.render((<p>Email: {this.state.user.email}</p>), document.getElementById('email'+this.div_key));
 		if (document.getElementById('bio'+this.div_key))
-			ReactDOM.render((<text>Bio: {this.state.user.bio}</text>), document.getElementById('bio'+this.div_key));
+			ReactDOM.render((<p>Bio: {this.state.user.bio}</p>), document.getElementById('bio'+this.div_key));
 	}
 	sleep = (milliseconds) => {
 		return new Promise(resolve => setTimeout(resolve, milliseconds))

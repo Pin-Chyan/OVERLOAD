@@ -301,8 +301,7 @@ export default class Register extends Component {
                         <div className="field">
                             <label className="label">Email</label>
                             <div className="control has-icons-left has-icons-right">
-                                <input className="input" type="email" pla
-                                ceholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
+                                <input className="input" type="email" placeholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
                                 <span className="icon is-small is-left">
                                     <i className="fa fa-envelope"></i>
                                 </span>

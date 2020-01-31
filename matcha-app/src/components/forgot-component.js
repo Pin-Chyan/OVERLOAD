@@ -68,9 +68,8 @@ export default class Verify extends Component {
                         <div className="column is-half bg_white_1">
                             <div className="column center has-text-centered">
 								<hr></hr>
-                                <p>
 								<figure className="image"> {/* is-3by4 */}
-                            		<img src="https://media0.giphy.com/media/vsdTFrwHciR7G/source.gif" alt={this.load} />
+                            		<img src={require('../images/forgot.gif')} alt={this.load} />
                         		</figure>
 								<br></br>
 									<div className="media-content center_b">
@@ -84,8 +83,7 @@ export default class Verify extends Component {
 									<div className="field">
 										<label className="label">Email</label>
 										<div className="control has-icons-left has-icons-right">
-											<input className="input" type="email" pla
-											ceholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
+											<input className="input" type="email" placeholder="Email input" value={this.state.email} onChange={this.onChangeEmail} required />
 											<span className="icon is-small is-left">
 												<i className="fa fa-envelope"></i>
 											</span>
@@ -99,7 +97,6 @@ export default class Verify extends Component {
 										<button className="button is-warning is-rounded" onClick={this.onSubmit}>Send</button>
 									</div>
                                     <hr></hr>
-                                </p>
                             </div>
                             
                         </div>

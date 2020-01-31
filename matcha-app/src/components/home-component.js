@@ -110,7 +110,30 @@ export default class Home extends Component {
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
             // this.Carousel_handle(this.state.results[0]);
             if (document.getElementById('cont' + this.div_key))
-                ReactDOM.render((<text>looks like theres no one here</text>), document.getElementById('cont' + this.div_key));
+                ReactDOM.render((
+                <div className="container">
+                <div className="columns is-centered shadow">
+                    <div className="column is-half bg_white_1">
+                        <hr></hr>
+                        <figure className="image"> {/* is-3by4 */}
+                            <img src={require('../images/alone.gif')} alt="../images/load.gif" />
+                        </figure>
+                        <div className="column center has-text-centered">
+                            <hr></hr>
+                            <p>
+                                Sorry No Suitable Matches
+                            </p>
+                            <br></br>
+                            <br></br>
+                            <p>
+                                You Appear To Be A Specail Case.
+                            </p>
+                            <hr></hr>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>), document.getElementById('cont' + this.div_key));
         }
         // this.userData_getter(1);
         this.notification_updater();

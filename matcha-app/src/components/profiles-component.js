@@ -237,7 +237,7 @@ export default class Profiles extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
-        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></button>
+        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} ><Inbox /></button>
         <button className='navbar-item nav-color' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</button>
         <button className='navbar-item nav-color' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</button>
         <button className='navbar-item nav-color' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</button>

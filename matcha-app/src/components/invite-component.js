@@ -37,23 +37,29 @@ export default class Home extends Component {
                     <div className="column is-half bg_white_1">
                         <hr></hr>
                         <figure className="image"> {/* is-3by4 */}
-                            <img src="https://media2.giphy.com/media/aldA8c4X6mk9O/source.gif" alt="../images/load.gif" />
+                            <img src={require('../images/welcome.gif')} alt="../images/load.gif" />
                         </figure>
                         <div className="column center has-text-centered">
+                            <hr></hr>
                             <p>
-                                <hr></hr>
-                                Thank you for Register to LoveBug.
-                                <br></br>
-                                <br></br>
-                                An email was sent to confirm your email address.
-                                <br></br>
-                                <br></br>
-                                We hope you will find your matching lover as soon as possible.
-                                <br></br>
-                                <br></br>
-                                Keeping you happy everyday.
-                                <hr></hr>
+                                 Thank you for Register to LoveBug.
                             </p>
+                            <br></br>
+                            <br></br>
+                            <p>
+                                An email was sent to confirm your email address.
+                            </p>
+                            <br></br>
+                            <br></br>
+                            <p>
+                                We hope you will find your matching lover as soon as possible.
+                            </p>
+                            <br></br>
+                            <br></br>
+                            <p>
+                                Keeping you happy everyday.
+                            </p>
+                            <hr></hr>
                         </div>
                         
                     </div>
