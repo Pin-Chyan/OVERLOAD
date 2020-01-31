@@ -349,7 +349,7 @@ h3 {
     object-fit: contain;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1023px) {
 
 .bg_white_1 {
     width: auto !important;
@@ -373,7 +373,7 @@ h3 {
 
 .nav-color {
     background: transparent;
-    color: black;
+    color: black !important;
     border-color: transparent;
 }
 }
