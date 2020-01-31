@@ -12,7 +12,6 @@ export default class Notifications extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
-        localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
         this.nll = require("../images/chibi.jpg");
@@ -68,6 +67,12 @@ export default class Notifications extends Component {
           ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
       if (document.getElementById('cont'+this.div_key))
           ReactDOM.render(cont, document.getElementById('cont'+this.div_key))
+          var burger = document.querySelector('.burger');
+          var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+          burger.addEventListener('click', function(){
+              burger.classList.toggle('is-active');
+              nav.classList.toggle('is-active');
+          })
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

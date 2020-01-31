@@ -21,7 +21,6 @@ export default class Profiles extends Component {
   constructor (props) {
     super(props)
     this.div_key = Date.now();
-    localStorage.setItem('div_key',this.div_key);
     this.jwt = localStorage.token
     this.ip = require('../server.json').ip
     this.nll = require('../images/chibi.jpg')
@@ -110,6 +109,7 @@ export default class Profiles extends Component {
     if (document.getElementById('navMenu' + this.div_key)) {
       ReactDOM.render(navbar, document.getElementById('navMenu' + this.div_key))
     }
+    
   }
 
   calcDistance (lat1, lon1, lat2, lon2) {
@@ -154,7 +154,13 @@ export default class Profiles extends Component {
 
   pageHandler () {
     this.navHandler()
-    this.carouselHandler(this.state.viewedUser)
+    this.carouselHandler(this.state.viewedUser);
+    var burger = document.querySelector('.burger');
+    var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+    burger.addEventListener('click', function(){
+      burger.classList.toggle('is-active');
+      nav.classList.toggle('is-active');
+    })
   }
 
   handleRedirect (e) {

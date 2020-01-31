@@ -24,7 +24,6 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
-        localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
         this.nll = require("../images/chibi.jpg");
@@ -137,6 +136,13 @@ export default class Home extends Component {
         }
         // this.userData_getter(1);
         this.notification_updater();
+        var burger = document.querySelector('.burger');
+        var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+        burger.addEventListener('click', function(){
+            burger.classList.toggle('is-active');
+            nav.classList.toggle('is-active');
+        })
+        console.log(burger);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

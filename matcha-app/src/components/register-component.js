@@ -13,7 +13,6 @@ export default class Register extends Component {
     constructor(props) {
         super(props);
         this.div_key = Date.now();
-        localStorage.setItem('div_key',this.div_key);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeSurname = this.onChangeSurname.bind(this);
@@ -43,6 +42,12 @@ export default class Register extends Component {
             genderErr: '',
             imageErr: '',
         };
+            var burger = document.querySelector('.burger');
+            var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+            burger.addEventListener('click', function(){
+            burger.classList.toggle('is-active');
+            nav.classList.toggle('is-active');
+            })
     }
 
     

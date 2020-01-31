@@ -17,9 +17,9 @@ export default class Edit extends Component {
 	constructor(props){
 		super(props);
 		this.div_key = Date.now();
-		localStorage.setItem('div_key',this.div_key);
 		this.jwt = localStorage.token;
 		this.ip = require('../server.json').ip;
+		this.lol = 'is-active';
 		this.nll = require("../images/chibi.jpg");
 		this.load = require("../images/load.gif");
 		this.buffer = [];
@@ -33,7 +33,10 @@ export default class Edit extends Component {
 			"nameBuff": '',
       "emailBuff": '',
       "sexualBuff": '',
-      "genderBuff": ''
+      "genderBuff": '',
+			"burger": "navbar-burger burger ",
+			"bar": "navbar-menu ",
+			"lol": ""
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -50,14 +53,16 @@ export default class Edit extends Component {
 			this.userData_getter = this.userData_getter.bind(this);
      		this.imageUploader = this.imageUploader.bind(this);
      		this.onChangeName = this.onChangeName.bind(this)
-     		this.onChangeEmail = this.onChangeEmail.bind(this)
-     		this.onChangeLast = this.onChangeLast.bind(this)
-     		this.onChangeBio = this.onChangeBio.bind(this)
+     	this.onChangeEmail = this.onChangeEmail.bind(this)
+     	this.onChangeLast = this.onChangeLast.bind(this)
+     	this.onChangeBio = this.onChangeBio.bind(this)
       this.onBasicSubmit = this.onBasicSubmit.bind(this)
       this.onChangeGender = this.onChangeGender.bind(this)
       this.onChangeTag = this.onChangeTag.bind(this)
       this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this)
       this.onSubmitSexAndGender = this.onSubmitSexAndGender.bind(this)
+			this.onBasicSubmit = this.onBasicSubmit.bind(this)
+			this.why = this.why.bind(this);
 			this.busy = 0;
 			this.state = {
 				"res" : '',
@@ -69,7 +74,7 @@ export default class Edit extends Component {
         "emailBuff": '',
         "tagBuff": '',
         "sexualBuff": res.sexual_pref,
-        "genderBuff": res.gender
+        "genderBuff": res.gender,
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -102,12 +107,19 @@ export default class Edit extends Component {
 	Page_states(state){
 		console.log('render');
 		if (state === 'init'){
-			if (document.getElementById('navMenu'+this.div_key))
-				ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
+			// if (document.getElementById('navMenu'+this.div_key)){
+			// 	ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
+			// }
      		if (document.getElementById('mid_img'+this.div_key))
 				ReactDOM.render(this.image_edit_constructor(), document.getElementById('mid_img'+this.div_key));
 			this.imageRenderer(this.state.user.img,'init');
+			// this.notification_updater();
 		}
+	}
+	why(){
+		if (this.state.lol === 'is-active')
+			this.setState({"lol":""});
+		else this.setState({"lol":"is-active"})
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -342,7 +354,7 @@ onTagDel (e) {
 listTags (tags) {
   if (Array.isArray(tags) && tags.length) {
     return tags.map(tag => {
-      return <span className="tag is-warning" key={tag}>{tag}<button class="delete is-small"></button></span>
+      return <span className="tag is-warning" key={tag}>{tag}<button className="delete is-small"></button></span>
     })
   } else {
     return <span>No tags ...</span>
@@ -357,7 +369,34 @@ listTags (tags) {
 	render () {
 		return (
 			<section className="section hero">
-				<nav id={'navMenu'+this.div_key} className="navbar hero-head"></nav>
+				<nav id={'navMenu'+this.div_key} className="navbar hero-head">			<div className="container">
+				<div className="navbar-brand">
+					<figure className="navbar-item image">
+						<img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
+					</figure>
+					<span className={this.state.burger + this.state.lol} data-target="navMenu" onClick={this.why}>
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</div>
+				<div id={"navMenu"+this.div_key} className={this.state.bar + this.state.lol}>
+					<div className="navbar-end">
+						<div className="control is-small has-icons-right search-margin">
+						<input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+							<span className="icon is-small is-right">
+								<i className="fa fa-search"></i>
+							</span>
+						</div>
+            			<button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
+            			<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+						<button className="navbar-item nav-color" style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+					</div>
+				</div>
+			</div></nav>
 				<div id={'cont'+this.div_key}  className="container">
 				<div className="columns is-centered shadow">
 				<div className="column bg_white">
@@ -446,13 +485,13 @@ listTags (tags) {
 					<figure className="navbar-item image">
 						<img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
 					</figure>
-					<span className="navbar-burger burger" data-target="navMenu">
+					<span className={"navbar-burger burger "+this.lol} data-target="navMenu">
 						<span></span>
 						<span></span>
 						<span></span>
 					</span>
 				</div>
-				<div id="navMenu" className="navbar-menu">
+				<div id={"navMenu"+this.div_key} className={"navbar-menu "+this.lol}>
 					<div className="navbar-end">
 						<div className="control is-small has-icons-right search-margin">
 						<input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>

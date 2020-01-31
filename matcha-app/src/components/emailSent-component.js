@@ -8,10 +8,20 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default class EmailSent extends Component {
-    
+    constructor(props){
+        super(props);
+        this.div_key = Date.now();
+    }
+    componentDidMount(){
+        var burger = document.querySelector('.burger');
+		var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+		burger.addEventListener('click', function(){
+		burger.classList.toggle('is-active');
+		nav.classList.toggle('is-active');
+		})
+    }
+
     render () {
-        var div_key = Date.now();
-        localStorage.setItem('div_key',div_key);
         return (
             <section className="section hero">
         <nav className="navbar hero-head">
@@ -26,7 +36,7 @@ export default class EmailSent extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id={"navMenu" + div_key} className="navbar-menu">
+                <div id={"navMenu" + this.div_key} className="navbar-menu">
                     <div className="navbar-end">
                         <Link to="/login" className="navbar-item has-text-info">Login</Link>
                     </div>
