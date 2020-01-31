@@ -7,7 +7,6 @@ import Home from "./components/home-component.js";
 import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
-import NewEdit from "./components/newedit-component.js";
 import Authenticate from "./components/auth/auth-component.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
@@ -25,7 +24,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/newedit" exact component={NewEdit} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
@@ -35,8 +33,8 @@ function App() {
         <Route path="/verify/:vkey" component={Verify}/>
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
-        <Route path="/verify/:vkey" component={Verify}/>
         <Authenticate>
+          <Route path="/edit" exact component={Edit} />
           <Route path="/notification" exact component={Notification} />
           <Route path="/mychats" exact component={ChatPage} />
           <Route path="/profiles/:id" component={Profiles}/>
@@ -45,7 +43,6 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/>
           <Route path="/" exact component={Home}/>
-          <Route path="/edit" exact component={Edit} />
         </Authenticate>
       </Switch>
     </Router>
