@@ -25,6 +25,7 @@ router.post('/getNotifications', verifyToken, (req, res) => {
     })
 })
 
+
 router.post('/viewNotifications', verifyToken, (req, res) => {
   if (!req.token || !req.body.email) {
     return res.status(403).send('Missing fields')
