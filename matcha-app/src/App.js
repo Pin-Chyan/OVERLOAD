@@ -7,7 +7,6 @@ import Home from "./components/home-component.js";
 import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
-import NewEdit from "./components/newedit-component.js";
 import Authenticate from "./components/auth/auth-component.js";
 import invite from "./components/invite-component.js";
 import chat from "./components/chat-component.js";
@@ -35,7 +34,7 @@ function App() {
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
         <Authenticate>
-          <Route path="/edit" exact component={NewEdit} />
+          <Route path="/edit" exact component={Edit} />
           <Route path="/notification" exact component={Notification} />
           <Route path="/mychats" exact component={ChatPage} />
           <Route path="/profiles/:id" component={Profiles}/>
