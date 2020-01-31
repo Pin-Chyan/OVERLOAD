@@ -171,7 +171,7 @@ export default class cons extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                user: this.state.user,
+                // user: this.state.user,
                 search_in: search_input 
             });
         }

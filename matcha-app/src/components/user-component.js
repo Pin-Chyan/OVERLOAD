@@ -99,7 +99,7 @@ export default class User extends Component {
                 this.userHistory_getter()
             }
             else {
-              this.userData_getter()
+              this.userData_getter('init')
             }
         }).catch(err => {console.log('eve redirect' + err)});
     }
@@ -146,7 +146,7 @@ export default class User extends Component {
       })
     }
 
-    userData_getter(){
+    userData_getter(mode){
         async function get_data(email,jwt,ip,target){
             let promise = await axios.post(ip + '/users/get_spec',{"email":email, "target":target, "token":jwt});
             if (promise.status === 200)
@@ -155,7 +155,8 @@ export default class User extends Component {
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img viewed liked likes ping sexual_pref gender blocked fame").then(userGet_res => {
           this.setState({"user":userGet_res[0]})
-          this.userHistory_getter()
+          if (mode === 'init')
+            this.userHistory_getter()
         }).catch(err => {console.log('eve redirect' + err)})
     }
     eve_mount(){
@@ -192,8 +193,8 @@ export default class User extends Component {
 
     redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
+            // user: this.state.user
         });
     }
 
@@ -291,8 +292,8 @@ export default class User extends Component {
       e.currentTarget.className = 'tab  is-active'
     }
 
-    unblockUser = (email) => e => {
-      e.preventDefault()
+    unblockUser = (email,id) => e => {
+      e.preventDefault();
       async function unblock (ip, token, email, target) {
         const promise = Axios.post(ip+'/users/unblock', { token, email, target })
         if (promise.status === 200) {
@@ -300,7 +301,14 @@ export default class User extends Component {
         }
       }
       unblock(this.ip, this.jwt, this.state.user.email, email).then(res => {
-        const blocked = this.blockedConstructor()
+        var arr = this.state.blockedUsers;
+        var i = arr.length;
+        while (i--){
+          if (arr[i]._id === id)
+            arr.splice(i,1);
+        }
+        this.setState({blockedUsers:arr});
+        const blocked = this.blockedConstructor();
         ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key))
       })
     }
@@ -331,7 +339,7 @@ export default class User extends Component {
       if (Array.isArray(this.state.blockedUsers) && this.state.blockedUsers.length) {
         return this.state.blockedUsers.map(user => {
           let img = user.img.img1 === 'null' ? this.nll : user.img.img1
-          return <BlockedProfile unblock={this.unblockUser(user.email)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
+          return <BlockedProfile unblock={this.unblockUser(user.email,user._id)} img={img} name={user.name} last={user.last} handleClick={() => { this.props.history.push('/profiles/'+user._id) }} />
         })
       } else {
         return <div>You haven't blocked anyone yet...</div>

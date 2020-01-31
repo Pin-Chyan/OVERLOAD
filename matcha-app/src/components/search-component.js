@@ -201,8 +201,8 @@ page_handler(mode, data){
 
     listener = e => {
         this.props.history.push({
-            pathname:"/profiles/"+e.target.id,
-            user: this.state.user
+            pathname:"/profiles/"+e.target.id
+            // user: this.state.user
         });
     }
 

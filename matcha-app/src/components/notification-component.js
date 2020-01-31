@@ -76,8 +76,8 @@ export default class Notifications extends Component {
 
     redirecthandler = e => {
         this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
+            pathname:e.target.id
+            // user: this.state.user
         });
     }
 
