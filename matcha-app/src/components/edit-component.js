@@ -251,7 +251,7 @@ export default class User extends Component {
 					<div className="column bg_white">
 						<div className="column center">
 							<div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
-							<div id={'mid_text' + this.div_key}></div>
+							{/* <div id={'mid_text' + this.div_key}></div> */}
 						</div>
 					</div>
 				</div>
