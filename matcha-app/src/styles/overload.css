@@ -341,8 +341,8 @@ h3 {
     width: 0px;
 }
 
-.btn-color {
-
+.spacing {
+    margin-right: 2px;
 }
 
 .contain {
@@ -359,6 +359,18 @@ h3 {
     width: auto !important;
 }
 
+.bg_white_4 {
+    width: auto !important;
+}
+
+.bg_white_5 {
+    width: auto !important;
+}
+
+.bg_white_6 {
+    width: auto !important;
+}
+
 .container {
     margin: 1px;
 }
@@ -369,6 +381,12 @@ h3 {
 
 .chat-box {
     width: auto;
+}
+
+.tab {
+    margin-bottom: 5px;
+    color: white;
+    background: white;
 }
 
 .nav-color {

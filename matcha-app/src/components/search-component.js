@@ -602,8 +602,7 @@ page_handler(mode, data){
         return(res);
     }
     button_constructor(id){
-        var className = '"button is-warning is-rounded"';
-        return ('<button id=' + id +' class=' + className + '>view </button>');
+        return ('<button id=' + id +' class="button is-warning is-rounded">view </button>');
     }
     row_constructor(rows, columns, data, button){
         var i = 0;
@@ -615,7 +614,7 @@ page_handler(mode, data){
         var max = data.length;
         var image;
         while (j < rows){
-            res += '<div className="tile is-ancestor">';
+            res += '<div class="tile is-ancestor">';
             while (i < columns && data_pos < max){
                 if (data[data_pos].img.img1 === 'null')
                     image = this.nll;

@@ -350,7 +350,7 @@ export default class User extends Component {
     listTags (tags) {
       if (Array.isArray(tags) && tags.length) {
         return tags.map(tag => {
-          return <span className="tag is-warning">{tag}  </span>
+          return <span className="tag is-warning" key={tag}>{tag}  </span>
         })
       } else {
         return <span>No tags ...</span>
