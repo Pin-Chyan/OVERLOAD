@@ -7,6 +7,8 @@ import axios from 'axios';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import Inbox from './message-and-notification';
 
+
+
 export default class Edit extends Component {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -452,6 +454,27 @@ onBasicSubmit (e) {
             </div>
           </div>
           <button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
+          <br></br>
+          <br></br>
+          <label className='label'>
+            Sexual Preference
+          </label>
+          <select>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="bi">Bisexual</option>
+          </select>
+          <label className='label'>
+            Gender
+          </label>
+          <select>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <br></br>
+          <br></br>
+          <button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
+
       </div>
     )
   }
