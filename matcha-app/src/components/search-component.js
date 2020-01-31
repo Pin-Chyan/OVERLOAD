@@ -216,10 +216,8 @@ nav_render(mode){
     //      <<<< Page routers
 
     redirecthandler = e => {
-        this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
-        });
+        if (e.target.id === '/logout') window.location.replace('/logout');
+        else this.props.history.push({pathname:e.target.id});
     }
     //      the end >>>>
 

@@ -107,7 +107,7 @@ export default class Home extends Component {
             nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
                 ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
-            // this.Carousel_handle(this.state.results[0]);
+            this.Carousel_handle(this.state.results[0]);
             if (document.getElementById('cont' + this.div_key))
                 ReactDOM.render((
                 <div className="container">
@@ -156,10 +156,8 @@ export default class Home extends Component {
 //
 
     redirecthandler = e => {
-        this.props.history.push({
-            pathname:e.target.id,
-            user: this.state.user
-        });
+        if (e.target.id === '/logout') window.location.replace('/logout');
+        else this.props.history.push({pathname:e.target.id});
     }
 
     searchHandle = e => {
@@ -174,7 +172,6 @@ export default class Home extends Component {
             }
             this.props.history.push({
                 pathname: '/search',
-                // user: this.state.user,
                 search_in: search_input 
             });
         }

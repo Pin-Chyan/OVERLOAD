@@ -198,12 +198,10 @@ export default class User extends Component {
 //                      <<<< Page logic >>>>
 //
 
-    redirecthandler = e => {
-        this.props.history.push({
-            pathname:e.target.id
-            // user: this.state.user
-        });
-    }
+  redirecthandler = e => {
+    if (e.target.id === '/logout') window.location.replace('/logout');
+    else this.props.history.push({pathname:e.target.id});
+  }
 
     searchHandle = e => {
         this.setState({search:e.target.value});

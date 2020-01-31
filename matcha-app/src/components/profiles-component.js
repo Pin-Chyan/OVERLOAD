@@ -163,11 +163,15 @@ export default class Profiles extends Component {
     })
   }
 
-  handleRedirect (e) {
-    this.props.history.push({
-      pathname: e.target.id
-    })
-  }
+  // handleRedirect (e) {
+  //   this.props.history.push({
+  //     pathname: e.target.id
+  //   })
+  // }
+	handleRedirect = e => {
+		if (e.target.id === '/logout') window.location.replace('/logout');
+		else this.props.history.push({pathname:e.target.id});
+	}
 
   isUserLiked () {
     const likedArray = this.state.loggedInUser.liked

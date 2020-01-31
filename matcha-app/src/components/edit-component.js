@@ -60,7 +60,8 @@ export default class Edit extends Component {
       this.onBasicSubmit = this.onBasicSubmit.bind(this)
       this.onChangeGender = this.onChangeGender.bind(this)
       this.onChangeTag = this.onChangeTag.bind(this)
-      this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this)
+	  this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this)
+	  this.onEmailSubmit = this.onEmailSubmit.bind(this);
       this.onSubmitSexAndGender = this.onSubmitSexAndGender.bind(this)
 			this.onBasicSubmit = this.onBasicSubmit.bind(this)
 			this.why = this.why.bind(this);
@@ -129,10 +130,8 @@ export default class Edit extends Component {
 //
 
 	redirecthandler = e => {
-		this.props.history.push({
-			pathname:e.target.id,
-			user: this.state.user
-		});
+		if (e.target.id === '/logout') window.location.replace('/logout');
+		else this.props.history.push({pathname:e.target.id});
 	}
 	imageHandler(e){
 		if (this.imgUploadBusy[parseInt(e.target.id)] === 0){
@@ -242,6 +241,7 @@ onChangeEmail (e) {
   this.setState({
     emailBuff: e.target.value
   })
+  console.log(this.state.emailBuff);
 }
 
 onChangeBio (e) {
@@ -362,6 +362,37 @@ onTagAdd (e) {
     }
   }
 }
+onEmailSubmit (e) {
+	var new_email = this.state.emailBuff;
+	if (new_email){
+		if (new_email.match(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/)){
+			console.log('valid email');
+			async function uploadNewEmail(ip,data){
+				let prom = await axios.post(ip+'/users/edit_spec',data);
+				if (prom.status === 200)
+					return('lol');
+			}
+			async function checkemail(ip,data){
+				let prom = await axios.post(ip+'/users/email',data);
+				if (prom.status === 200)
+					return(prom.data)
+			}
+			checkemail(this.ip,{"email":new_email}).then(res => {
+				console.log(res);
+				if (res.present === 0){
+					localStorage.setItem('logged', 'die');
+					var data = {};
+					data.new_email = new_email;
+					data.email = this.state.user.email;
+					data.token = this.jwt;
+					uploadNewEmail(this.ip,data).then(() => {
+						window.location.replace('/logout');
+					}).catch(err => {alert('please try again')})
+				} else alert('email already exists');
+			})
+		} else console.log('invalid email');
+	} else console.log('empty email');
+}
 
 onTagDel (tag) {
   let data = {
@@ -460,6 +491,7 @@ listTags (tags) {
           			<br></br>
           			<br></br>
           			  <div className="field">
+          			  <label className="label">Warning changing your email will log you out</label>
           			  <label className="label">Email: {this.state.user.email}</label>
           			  <div className="control has-icons-left has-icons-right">
           			    <input className="input" type="email" placeholder="New E-mail" value={this.state.emailBuff} onChange={this.onChangeEmail} />

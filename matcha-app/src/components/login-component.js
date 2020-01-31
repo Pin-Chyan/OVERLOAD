@@ -12,7 +12,6 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.div_key = Date.now();
-        localStorage.setItem('div_key',this.div_key);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSumbit = this.onSumbit.bind(this);
@@ -53,6 +52,7 @@ export default class Login extends Component {
                     this.setState({ emailErr: "Email has not been confirmed!" });
                 } else {
                     localStorage.setItem('token', res.data.token);
+                    localStorage.setItem('logged', 'live');
                     window.location.replace('/');
                 }
             })
