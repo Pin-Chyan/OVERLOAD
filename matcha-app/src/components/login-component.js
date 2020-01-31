@@ -16,7 +16,6 @@ export default class Login extends Component {
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSumbit = this.onSumbit.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.state = {
           email: '',
           password: '',
@@ -55,13 +54,6 @@ export default class Login extends Component {
         } else {
             (user.email === '') ? this.setState({ emailErr: 'Please fill in your email!'}) : this.setState({ emailErr: ''});
             (user.password === '') ? this.setState({ passwordErr: 'Please fill in your password!'}) : this.setState({ passwordErr: ''});
-        }
-    }
-
-    handleKeyPress(e) {
-      console.log(e)
-        if (e.key === 'Enter') {
-            this.onSumbit();
         }
     }
 

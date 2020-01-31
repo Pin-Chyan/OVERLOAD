@@ -31,7 +31,9 @@ export default class Edit extends Component {
 			"lastBuff": '',
 			"bioBuff": '',
 			"nameBuff": '',
-			"emailBuff": '',
+      "emailBuff": '',
+      "sexualBuff": '',
+      "genderBuff": ''
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -49,16 +51,21 @@ export default class Edit extends Component {
      		this.onChangeEmail = this.onChangeEmail.bind(this)
      		this.onChangeLast = this.onChangeLast.bind(this)
      		this.onChangeBio = this.onChangeBio.bind(this)
-			this.onBasicSubmit = this.onBasicSubmit.bind(this)
+      this.onBasicSubmit = this.onBasicSubmit.bind(this)
+      this.onChangeGender = this.onChangeGender.bind(this)
+      this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this)
+      this.onSubmitSexAndGender = this.onSubmitSexAndGender.bind(this)
 			this.busy = 0;
 			this.state = {
 				"res" : '',
 				"html" : '',
-        		"user" : res,
-        		"lastBuff": '',
-        		"bioBuff": '',
-        		"nameBuff": '',
-        		"emailBuff": '',
+        "user" : res,
+        "lastBuff": '',
+        "bioBuff": '',
+        "nameBuff": '',
+        "emailBuff": '',
+        "sexualBuff": res.sexual_pref,
+        "genderBuff": res.gender
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -190,7 +197,6 @@ export default class Edit extends Component {
 			if (img['img'+i] || mode === 'init')
 				if (document.getElementById('img'+i+this.div_key))
 					ReactDOM.render((<img id={i} alt={this.load} className="m_image" src={img['img'+i] === 'null' ? this.nll : img['img'+i]}/>), document.getElementById('img'+i+this.div_key));
-
 		}
 	}
 	sleep = (milliseconds) => {
@@ -223,6 +229,18 @@ onChangeEmail (e) {
 onChangeBio (e) {
   this.setState({
     bioBuff: e.target.value
+  })
+}
+
+onChangeSexual_pref (e) {
+  this.setState({
+    sexualBuff: e.target.value
+  })
+}
+
+onChangeGender (e) {
+  this.setState({
+    genderBuff: e.target.value
   })
 }
 
@@ -269,6 +287,46 @@ onBasicSubmit (e) {
       nameBuff: '',
 	  bioBuff: ''})
 	})
+}
+
+onSubmitSexAndGender (e) {
+  e.preventDefault()
+
+  console.log(this.state.genderBuff)
+ // console.log(this.state.sexualBuff)
+
+
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
+
+  if (data.gender) {
+    data.gender = this.state.genderBuff
+  }
+  if (data.sexual_pref) {
+    data.gender = this.state.sexualBuff
+  }
+  
+  axios.post(this.ip+"/users/edit_spec", data).then(res => {
+    let newUser = this.state.user
+    newUser.sexual_pref = data.sexual_pref
+    newUser.gender = data.gender
+    this.setState({
+      user: newUser
+    })
+	})
+}
+
+
+listTags (tags) {
+  if (Array.isArray(tags) && tags.length) {
+    return tags.map(tag => {
+      return <span className="tag is-warning" key={tag}>{tag}  </span>
+    })
+  } else {
+    return <span>No tags ...</span>
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -322,7 +380,25 @@ onBasicSubmit (e) {
           			  </div>
           			</div>
           			<button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
-      			</div></div>
+      			</div>
+              <label className="label">Sexual Preferences:</label>
+              <form>
+                <select value={this.state.sexualBuff} onChange={this.onChangeSexual_pref}>
+                  <option value="-1">Male</option>
+                  <option value="1">Female</option>
+                  <option value="0">Bisexual</option>
+                </select>
+                <label className="label">Gender:</label>
+                <select value={this.state.genderBuff} onChange={this.onChangeGender}>
+                  <option value="-1">Male</option>
+                  <option value="1">Female</option>
+                </select>
+                <button className="button is-rounded is-warning" onClick={this.onSubmitSexAndGender}>Save</button>
+              </form>
+              <br></br>
+              <label className="label">Current tags:</label>
+              {this.listTags(this.state.user.tag)}
+            </div>
 					</div>
 				</div>
 			</div>
