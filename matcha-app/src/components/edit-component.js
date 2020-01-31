@@ -36,7 +36,8 @@ export default class Edit extends Component {
       "genderBuff": '',
 			"burger": "navbar-burger burger ",
 			"bar": "navbar-menu ",
-			"lol": ""
+      "lol": "",
+      "tagBuff": ''
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -74,8 +75,6 @@ export default class Edit extends Component {
         "nameBuff": '',
         "emailBuff": '',
         "tagBuff": '',
-        "sexualBuff": res.sexual_pref,
-        "genderBuff": res.gender,
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -92,7 +91,9 @@ export default class Edit extends Component {
 		}
 		///      <<<< target will be customised for each page for optimisation >>>>
 		get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
-				this.setState({"user":userGet_res[0]});
+        this.setState({"user":userGet_res[0]});
+        this.setState({ "sexualBuff": this.state.user.sexual_pref.toString() })
+        this.setState({ "genderBuff": this.state.user.gender.toString() })
 				this.eve_mount();
 		}).catch(err => {console.log(err);})//this.props.history.push('/logout')})
 	}
@@ -223,6 +224,7 @@ export default class Edit extends Component {
 //                      <<<< On change functions 
 //
 
+
 onChangeName (e) {
   this.setState({
     nameBuff: e.target.value
@@ -314,26 +316,23 @@ onBasicSubmit (e) {
 onSubmitSexAndGender (e) {
   e.preventDefault()
 
-  console.log(this.state.genderBuff)
- // console.log(this.state.sexualBuff)
-
-
   let data = {
     email : this.state.user.email,
     token : this.jwt
   }
 
-  if (data.gender) {
-    data.gender = this.state.genderBuff
+  if (this.state.sexualBuff !== '') {
+    data.gender = parseInt(this.state.genderBuff)
   }
-  if (data.sexual_pref) {
-    data.gender = this.state.sexualBuff
+  if (this.state.genderBuff !== '') {
+    data.sexual_pref = parseInt(this.state.sexualBuff)
   }
-  
+
   axios.post(this.ip+"/users/edit_spec", data).then(res => {
     let newUser = this.state.user
     newUser.sexual_pref = data.sexual_pref
     newUser.gender = data.gender
+    
     this.setState({
       user: newUser
     })
@@ -343,11 +342,25 @@ onSubmitSexAndGender (e) {
 onTagAdd (e) {
   e.preventDefault()
 
-  console.log(this.tagBuff)
-}
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
 
-onTagDel (e) {
-  e.preventDefault()
+  const newTag = this.state.tagBuff
+  if (newTag !== undefined ) {
+    if ((newTag.trim() !== '')) {
+      let found = ((this.state.user.tag).indexOf(newTag) !== -1)
+      if (found === false) {
+        let _user = this.state.user
+        _user.tag.push(newTag)
+        data.tag = _user.tag
+        axios.post(this.ip+"/users/edit_spec", data).then(res => {
+          this.setState({ user: _user, tagBuff: '' })
+        })
+     }
+    }
+  }
 }
 onEmailSubmit (e) {
 	var new_email = this.state.emailBuff;
@@ -381,10 +394,27 @@ onEmailSubmit (e) {
 	} else console.log('empty email');
 }
 
+onTagDel (tag) {
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
+
+  const index = (this.state.user.tag).indexOf(tag);
+  if (index > -1) {
+    let slicedUser = this.state.user
+    slicedUser.tag.splice(index, 1)
+    data.tag = slicedUser.tag
+    axios.post(this.ip+"/users/edit_spec", data).then(res => {
+      this.setState({ user: slicedUser })
+    })
+  }
+}
+
 listTags (tags) {
   if (Array.isArray(tags) && tags.length) {
     return tags.map(tag => {
-      return <span className="tag is-warning" key={tag}>{tag}<button className="delete is-small"></button></span>
+      return <span className="tag is-warning" key={tag}>{tag}<button onClick={() => {this.onTagDel(tag)}} className="delete is-small"></button></span>
     })
   } else {
     return <span>No tags ...</span>

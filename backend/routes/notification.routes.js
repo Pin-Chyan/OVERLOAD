@@ -26,22 +26,5 @@ router.post('/addNotification', verifyToken, (req, res) => {
     })
 })
 
-router.post('/getNotifications', verifyToken, (req, res) => {
-    if (!req.token || !req.body.email) {
-      return res.status(403).send('Missing fields')
-    }
-    jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
-    if (err && req.token !== "admin") {
-        return res.status(403).send("Invalid token")
-    }
-    UserModels.find({ "email": req.body.email}).exec().then(docs => { 
-        const user = docs[0]
-        if (!user) { 
-            res.status(404).send("User not found") 
-        }
-        return res.send(user.notifications)
-    })
-})
-})
 
-module.exports = router;
+
