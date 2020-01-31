@@ -55,6 +55,7 @@ export default class Edit extends Component {
      		this.onChangeBio = this.onChangeBio.bind(this)
       this.onBasicSubmit = this.onBasicSubmit.bind(this)
       this.onChangeGender = this.onChangeGender.bind(this)
+      this.onChangeTag = this.onChangeTag.bind(this)
       this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this)
       this.onSubmitSexAndGender = this.onSubmitSexAndGender.bind(this)
 			this.busy = 0;
@@ -66,6 +67,7 @@ export default class Edit extends Component {
         "bioBuff": '',
         "nameBuff": '',
         "emailBuff": '',
+        "tagBuff": '',
         "sexualBuff": res.sexual_pref,
         "genderBuff": res.gender
 			};
@@ -246,6 +248,12 @@ onChangeGender (e) {
   })
 }
 
+onChangeTag (e) {
+  this.setState({
+    tagBuff: e.target.value
+  })
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                       <<<< Submit functions
@@ -323,7 +331,7 @@ onSubmitSexAndGender (e) {
 onTagAdd (e) {
   e.preventDefault()
 
-  
+  console.log(this.tagBuff)
 }
 
 onTagDel (e) {
@@ -405,6 +413,8 @@ listTags (tags) {
                   <option value="-1">Male</option>
                   <option value="1">Female</option>
                 </select>
+                <br></br>
+                <br></br>
                 <button className="button is-rounded is-warning" onClick={this.onSubmitSexAndGender}>Save</button>
               </form>
               <br></br>
@@ -415,8 +425,9 @@ listTags (tags) {
               <div className="field">
                 <label className="label" onClick={this.onTagAdd}>Add Tags:</label>
                 <div className="control has-icons-left has-icons-right">
-                  <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
-                <span className="icon is-small is-left"></span>
+                  <input className="input" type="text" placeholder="New tag" value={this.state.tagBuff} onChange={this.onChangeTag} />
+                <br></br>
+                <br></br>
                 <button className="button is-rounded is-warning" onClick={this.onTagAdd}>Add</button>
                 </div>
                 </div>
