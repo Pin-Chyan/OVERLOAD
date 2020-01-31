@@ -42,25 +42,6 @@ export default class User extends Component {
             //      <<<< begin binding after database online >>>>
             this.eve_mount = this.eve_mount.bind(this);
 			this.userData_getter = this.userData_getter.bind(this);
-			this.onChangeEmail = this.onChangeEmail.bind(this);
-            this.onChangeName = this.onChangeName.bind(this);
-            this.onChangeLast = this.onChangeLast.bind(this);
-			this.reset_state = this.reset_state.bind(this);
-			this.setpref = this.setpref.bind(this);
-			this.setpref_start = this.setpref_start.bind(this);
-			this.setgender = this.setgender.bind(this);
-			this.setgender_start = this.setgender_start.bind(this);
-            this.onChangeSurname = this.onChangeSurname.bind(this);
-            this.onChangePwd = this.onChangePwd.bind(this);
-            this.onChangePwdCon = this.onChangePwdCon.bind(this);
-            this.onChangebio = this.onChangebio.bind(this);
-            this.onChangeAge = this.onChangeAge.bind(this);
-            this.onSubmit = this.onSubmit.bind(this);
-            this.onChangeSexual_pref = this.onChangeSexual_pref.bind(this);
-            this.onChangeTag = this.onChangeTag.bind(this);
-            this.setDefault = this.setDefault.bind(this);
-            this.setDefaultGender = this.setDefaultGender.bind(this);
-            this.onChangeGender = this.onChangeGender.bind(this);
             this.busy = 0;
             this.state = {
                 "res" : '',
