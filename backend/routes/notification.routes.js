@@ -50,5 +50,28 @@ router.post('/viewNotifications', verifyToken, (req, res) => {
   })
 })
 
+
+router.post('/getNotifications', verifyToken, (req, res) => {
+  if (!req.token || !req.body.email) {
+      return res.status(403).send('Missing fields')
+  }
+  jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+        return res.status(403).send("Invalid token")
+      }
+      UserModels.find({ "email": req.body.email}, "ping likes liked notifications").exec().then(docs => { 
+          var user = docs[0];
+          user.ping = Date.now();
+          user.save();
+          if (!user) { 
+              res.status(404).send("User not found")
+          } else {
+
+              return res.send(user);
+          }
+      }).catch(err => {res.json(err)})
+  })
+})
+
 module.exports = router
 
