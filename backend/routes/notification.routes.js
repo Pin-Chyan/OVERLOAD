@@ -26,28 +26,4 @@ router.post('/getNotifications', verifyToken, (req, res) => {
 })
 
 
-router.post('/viewNotifications', verifyToken, (req, res) => {
-  if (!req.token || !req.body.email) {
-    return res.status(403).send('Missing fields')
-  }
-  jwt.verify(req.token, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).send('Invalid token')
-    }
-    UserModels.findOne({ email: req.body.email }, 'notifications last').exec().then(docs => {
-      const user = docs
-      if (!user) {
-        res.status(404).send('User not found')
-      } else {
-        for (let i = 0; i < user.notifications.length; i++) {
-          const newElem = { message: user.notifications[i].message, viewed: true }
-          user.notifications.set(i, newElem)
-        }
-        user.save()
-        return res.send(user)
-      }
-    }).catch(err => { res.json(err) })
-  })
-})
 
-module.exports = router
