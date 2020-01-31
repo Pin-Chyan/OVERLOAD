@@ -61,7 +61,8 @@ export default class Edit extends Component {
 				this.eve_mount();
 			} else
 				this.userData_getter();
-		}).catch(err => {this.props.history.push('/logout')});
+    })
+    //.catch(err => {this.props.history.push('/logout')});
 	}
 	userData_getter(){
 		async function get_data(email,jwt,ip,target){
@@ -73,7 +74,8 @@ export default class Edit extends Component {
 		get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
 				this.setState({"user":userGet_res[0]});
 				this.eve_mount();
-		}).catch(err => {this.props.history.push('/logout')})
+    })
+    //.catch(err => {this.props.history.push('/logout')})
 	}
 	eve_mount() {
 		this.Page_states("init");
@@ -234,6 +236,12 @@ onChangeEmail (e) {
 onChangeBio (e) {
   this.setState({
     bioBuff: e.target.value
+  })
+}
+
+onChangeTag (e) {
+  this.setState({
+    tagBuff: e.target.value
   })
 }
 
@@ -415,6 +423,17 @@ onBasicSubmit (e) {
 		)
 		return (element);
   }
+
+  listTags (tags) {
+    if (Array.isArray(tags) && tags.length) {
+      return tags.map(tag => {
+        return <span class="tag is-warning">{tag}  </span>
+      })
+    } else {
+      return <span>No tags ...</span>
+    }
+  }
+
   mid_text_constructor () {
     return (
       <div className="container">
@@ -474,7 +493,17 @@ onBasicSubmit (e) {
           <br></br>
           <br></br>
           <button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
-
+          <label className='label'>
+            Current tags:
+          </label>
+          <span>
+            {this.listTags(this.state.user.tag)}
+          </span>
+          <br></br>
+          <br></br>
+          <div className="control has-icons-left has-icons-right">
+						<input className="input" type="text" placeholder="New tag" value={this.state.user.new_tag} onChange={this.onChangeTag} required />
+					</div>
       </div>
     )
   }
