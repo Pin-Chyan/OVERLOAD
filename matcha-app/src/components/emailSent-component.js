@@ -41,7 +41,7 @@ export default class EmailSent extends Component {
                                 <br></br>
                                 <br></br>
                                 <figure className="image">
-                                    <img src="https://data.whicdn.com/images/299576881/original.gif" alt="../images/load.gif" />
+                                    <img src={require('../images/email.gif')} alt="../images/load.gif" />
                                 </figure>
                                 <br></br>
                                 <br></br>

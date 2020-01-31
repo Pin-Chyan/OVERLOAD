@@ -37,15 +37,16 @@ export default class PasswordUpdated extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
                         <div className="column center has-text-centered">
-                            <p>
                                 <hr></hr>
+                                <figure className="image">
+                                    <img src={require('../images/Success.gif')} alt="../images/load.gif" />
+                                </figure>
                                 <br></br>
                                 <br></br>
                                 <h2>Your password was successfully updated.</h2>
                                 <br></br>
                                 <br></br>
                                 <hr></hr>
-                            </p>
                         </div>
                         
                     </div>
