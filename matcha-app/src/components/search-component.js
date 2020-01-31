@@ -501,23 +501,23 @@ page_handler(mode, data){
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-                 <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-                <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+                <button className="navbar-item nav-color "id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                 <button className="navbar-item nav-color " id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item nav-color " id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item nav-color " id='/user' onClick={this.redirecthandler}>Profile</button>
+                <button className="navbar-item nav-color " id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item nav-color " id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         var element2 = (
             <div  className="navbar-end">
             <div className="control is-small has-icons-right search-margin" ></div>
-            <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-            <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/' onClick={this.redirecthandler}>Home</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-            <button className="navbar-item nav-color" style={{color:this.state.links}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+            <button className="navbar-item nav-color "id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+            <button className="navbar-item nav-color " id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+            <button className="navbar-item nav-color " id='/' onClick={this.redirecthandler}>Home</button>
+            <button className="navbar-item nav-color " id='/user' onClick={this.redirecthandler}>Profile</button>
+            <button className="navbar-item nav-color " id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+            <button className="navbar-item nav-color " id='/logout' onClick={this.redirecthandler}>Logout</button>
         </div>
         )
         if (render){
@@ -602,7 +602,6 @@ page_handler(mode, data){
         return(res);
     }
     button_constructor(id){
-        var className = '"button is-warning is-rounded"';
         return ('<button id=' + id +' class="button is-warning is-rounded">view </button>');
     }
     row_constructor(rows, columns, data, button){

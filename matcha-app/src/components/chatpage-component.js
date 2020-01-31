@@ -182,12 +182,12 @@ export default class ChatPage extends Component {
                       <i className="fa fa-search"></i>
                   </span>
               </div>
-              <button className="navbar-item nav-color " style={{color:this.state.other_page}} onClick="{}" ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-              <button className="navbar-item nav-color " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-              <button className="navbar-item nav-color " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
-              <button className="navbar-item nav-color " style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
-              <button className="navbar-item nav-color " style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-              <button className="navbar-item nav-color " style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
+              <button className="navbar-item nav-color" style={{color:this.state.other_page}} ><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+              <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+              <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+              <button className="navbar-item nav-color" style={{color:this.state.curr_page}} id='/user' onClick={this.redirecthandler}>Profile</button>
+              <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+              <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/logout' onClick={this.redirecthandler}>Logout</button>
           </div>
       )
       return(element1);
