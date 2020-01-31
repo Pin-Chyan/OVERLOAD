@@ -73,8 +73,6 @@ export default class Edit extends Component {
         "nameBuff": '',
         "emailBuff": '',
         "tagBuff": '',
-        "sexualBuff": res.sexual_pref,
-        "genderBuff": res.gender,
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -91,7 +89,9 @@ export default class Edit extends Component {
 		}
 		///      <<<< target will be customised for each page for optimisation >>>>
 		get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender sexual_pref ping fame").then(userGet_res => {
-				this.setState({"user":userGet_res[0]});
+        this.setState({"user":userGet_res[0]});
+        this.setState({ "sexualBuff": this.state.user.sexual_pref.toString() })
+        this.setState({ "genderBuff": this.state.user.gender.toString() })
 				this.eve_mount();
 		}).catch(err => {console.log(err);})//this.props.history.push('/logout')})
 	}
@@ -224,6 +224,7 @@ export default class Edit extends Component {
 //                      <<<< On change functions 
 //
 
+
 onChangeName (e) {
   this.setState({
     nameBuff: e.target.value
@@ -314,22 +315,18 @@ onBasicSubmit (e) {
 onSubmitSexAndGender (e) {
   e.preventDefault()
 
-  console.log(this.state.genderBuff)
- // console.log(this.state.sexualBuff)
-
-
   let data = {
     email : this.state.user.email,
     token : this.jwt
   }
 
-  if (data.gender) {
-    data.gender = this.state.genderBuff
+  if (this.state.sexualBuff !== '') {
+    data.gender = parseInt(this.state.genderBuff)
   }
-  if (data.sexual_pref) {
-    data.gender = this.state.sexualBuff
+  if (this.state.genderBuff !== '') {
+    data.sexual_pref = parseInt(this.state.sexualBuff)
   }
-  
+
   axios.post(this.ip+"/users/edit_spec", data).then(res => {
     let newUser = this.state.user
     newUser.sexual_pref = data.sexual_pref
@@ -349,7 +346,6 @@ onTagAdd (e) {
 onTagDel (e) {
   e.preventDefault()
 }
-
 
 listTags (tags) {
   if (Array.isArray(tags) && tags.length) {
