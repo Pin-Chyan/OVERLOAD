@@ -34,21 +34,26 @@ export default class Inbox extends Component {
         if (promise.status === 200)
             return (promise.data);
     }
-    update(email,jwt,ip).then(res => {
-      let notifyCount = 0
-      for (let i = 0; i < res.notifications.length; i++) {
-        if (res.notifications[i].viewed === false) {
-          notifyCount++
+    if (localStorage.logged === 'live'){
+      update(email,jwt,ip).then(res => {
+        let notifyCount = 0
+        for (let i = 0; i < res.notifications.length; i++) {
+          if (res.notifications[i].viewed === false) {
+            notifyCount++
+          }
         }
-      }
-      this.setState({ notifyCount })
-      localStorage.setItem('liked', res.liked.toString());
-      localStorage.setItem('likes', res.likes.toString());
-      localStorage.setItem('notify', JSON.stringify(res.notifications));
-      this.sleep(200).then(() => {
-        this.ping(email,jwt,ip);
+        this.setState({ notifyCount })
+        localStorage.setItem('liked', res.liked.toString());
+        localStorage.setItem('likes', res.likes.toString());
+        localStorage.setItem('notify', JSON.stringify(res.notifications));
+        this.sleep(200).then(() => {
+          this.ping(email,jwt,ip);
+        })
+      }).catch(() => {
+        if (localStorage.logged === 'die') return;
+        else this.ping(decode(localStorage.token).email,localStorage.token,this.ip);
       })
-    }).catch(() => {this.ping(decode(localStorage.token).email,localStorage.token,this.ip)})
+    }
   }
   sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
