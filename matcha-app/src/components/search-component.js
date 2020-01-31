@@ -88,8 +88,10 @@ export default class User extends Component {
         if (this.props.location.search_in && this.props.location.search_in !== 'null'){
             this.req.in = this.props.location.search_in;
             this.searcher(this.req);
-        } else
+        } else {
             this.page_handler('init',{});
+            this.nav_render(2);
+        }
     }
 
 
@@ -102,7 +104,6 @@ page_handler(mode, data){
     var div_onload = (<div className="columns is-centered shadow"><div className="column bg_white_2"><div onClick={e => this.listener(e)} id={"result"+this.div_key}></div></div></div>);
     var div_load = (<div><img src={this.load3} alt={this.load1}></img></div>);
     var cont_div = 'cont' + this.div_key;
-    var menu_div = 'navMenu' + this.div_key;
     var res_div = 'result' + this.div_key;
     var body;
     var head;
@@ -111,8 +112,7 @@ page_handler(mode, data){
         this.rgb_phaser([15,14,14,1,0],'internal_color','res');
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
-        if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
+        // this.nav_render(2);
         this.sort_render(data);
         if (document.getElementById("filter"+this.div_key))
             ReactDOM.render(this.filter_constructor(2), document.getElementById("filter"+this.div_key))
@@ -126,17 +126,13 @@ page_handler(mode, data){
         this.sleep(3).then(() => {
             if (document.getElementById(cont_div))
                 ReactDOM.render(div_load, document.getElementById(cont_div));
-            if (document.getElementById(menu_div))
-                ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
+            // this.nav_render(2);
         });
     }
     else if (mode === 'init'){
-        if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(1), document.getElementById(menu_div));
+        // this.nav_render(2);
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
-        if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
         head = this.header_constructor("Whatcha waiting for");
         body = this.row_constructor(1,1,[{"name":"type in search bar and press enter to search","img":{"img1":this.load2}}],0);
         result = head.concat(body);
@@ -151,8 +147,7 @@ page_handler(mode, data){
         this.rgb_phaser([15,14,14,1,0],'internal_color','res');
         if (document.getElementById(cont_div))
             ReactDOM.render(div_onload, document.getElementById(cont_div));
-        if (document.getElementById(menu_div))
-            ReactDOM.render(this.nav_constructor(2), document.getElementById(menu_div));
+        // this.nav_render(2);
         body = this.row_constructor(1,1,[{"name":"try another term to find senpai's, redirecting in a sec","img":{"img1":this.nll}}],0);
         result = this.header_constructor("Cannot Notice senpai").concat(body);
         if (document.getElementById(res_div))
@@ -194,7 +189,18 @@ page_handler(mode, data){
     }
     this.busy = 0;
 }
-
+nav_render(mode){
+    // var burger = document.querySelector('.burger');
+    // burger.removeEventListener('click',function(){});
+    if (document.getElementById('navMenu' + this.div_key))
+        ReactDOM.render(this.nav_constructor(mode), document.getElementById('navMenu' + this.div_key));
+    var burger = document.querySelector('.burger');
+    var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+    burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+    })
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Page logic >>>>
@@ -477,7 +483,7 @@ page_handler(mode, data){
                         <span></span>
                     </span>
                 </div>
-                    <div id={"navMenu"+this.div_key} className="navbar-menu">{this.state.navmenu}</div>
+                    <div id={"navMenu"+this.div_key} className="navbar-menu"></div>
             </div>
         </nav>
             <div id={"filter"+this.div_key}></div>
@@ -542,7 +548,7 @@ page_handler(mode, data){
                             <button id="filter" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search using filters</button>
                             <div className="field">
                                 <label className="label center_b search-t" >Search by Tags</label>
-                                <label className="label center_b search-t" >Saparate multiple tags by commas</label>
+                                <label className="label center_b search-t" >Separate multiple tags by commas</label>
                                 <div className="control has-icons-left has-icons-right">
                                     <input className="input is-small" type="text" placeholder="Name" onChange={this.tagsearchHandle}/>
                                     <button id="tag_exclude" className="button is-rounded is-small" onClick={(e) => this.keyHandle(e)}>Search tags only</button>

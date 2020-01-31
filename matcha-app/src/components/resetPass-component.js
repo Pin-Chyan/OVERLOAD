@@ -53,8 +53,8 @@ export default class ResetPass extends Component {
         super(props);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-
+        this.onSubmit = this.onSubmit.bind(this);
+        this.div_key = Date.now();
         this.state = {
             passwordError: '',
             confirmPasswordError: '',

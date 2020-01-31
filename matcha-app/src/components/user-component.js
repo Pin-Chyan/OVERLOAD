@@ -185,6 +185,12 @@ export default class User extends Component {
             ReactDOM.render(liked, document.getElementById('liked'+this.div_key));
         if (document.getElementById('blocked'+this.div_key))
             ReactDOM.render(blocked, document.getElementById('blocked'+this.div_key));
+            var burger = document.querySelector('.burger');
+            nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+            burger.addEventListener('click', function(){
+              burger.classList.toggle('is-active');
+              nav.classList.toggle('is-active');
+        })
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
