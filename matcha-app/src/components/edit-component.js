@@ -262,25 +262,6 @@ export default class User extends Component {
 		var element = (
 			<div className="tile is-parent is-vertical">
 			<article className="tile is-child notification light-yellow">
-				{/* <div className="file is-small">
-					<a className="button is-light subtitle is-small" onClick={this.rm1} >Remove</a>
-					<label onChange={this.globalhander} className="file-label">
-						<input id="1" className="file-input" type="file" name="resume" />
-						<span className="file-cta">
-							<span className="file-icon">
-								<i className="fa fa-upload"></i>
-							</span>
-							<span className="file-label">
-								Choose a file…
-					</span>
-						</span>
-					</label>
-					<button className="file-name" onClick={this.fileUploadHandlerimg1}>Upload</button>
-					<div onClick={e => this.globalimg(e)}>
-						<button id="1" className="file-name" value="upload">upload</button>
-						<button id="1" className="file-name" value="delete">delete</button>
-					</div>
-				</div> */}
 				<figure className="image s-image">
 				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
 				</figure>

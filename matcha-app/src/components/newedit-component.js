@@ -23,8 +23,6 @@ export default class Edit extends Component {
 		this.ip = require('../server.json').ip;
 		this.nll = require("../images/chibi.jpg");
 		this.load = require("../images/load2.gif");
-		this.req = {};
-		this.req.targ = [[0,100],[0,100],-2,-2,-2,1,-1];
 		this.buffer = [];
 		this.state = {
 			new_sexual_pref: Number,
@@ -69,24 +67,99 @@ export default class Edit extends Component {
 	eve_mount() {
 		this.Page_states("init");
 	}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //						<<<< Page states >>>
 //
-Page_states(state){
-	console.log('render');
-}
+	Page_states(state){
+		console.log('render');
+		if (state === 'init'){
+			if (document.getElementById('navMenu'+this.div_key))
+				ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
+		}
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Render return >>>>
 //
-render () {
-	return (
-		<section className="section hero">
-			<nav id={'navMenu'+this.div_key} className="navbar hero-head"></nav>
-			<div id={'cont'+this.div_key}  className="container"></div>
-		</section>
-	)
-}
+
+	render () {
+		return (
+			<section className="section hero">
+				<nav id={'navMenu'+this.div_key} className="navbar hero-head"></nav>
+				<div id={'cont'+this.div_key}  className="container"></div>
+			</section>
+		)
+	}
+	nav_constructor(){
+		return (
+			<div className="container">
+				<div className="navbar-brand">
+					<figure className="navbar-item image">
+						<img src={require('../images/logo.png')} className="logo_use" alt="Why is this logo broken"/>
+					</figure>
+					<span className="navbar-burger burger" data-target="navMenu">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</div>
+				<div id="navMenu" className="navbar-menu">
+					<div className="navbar-end">
+						<div className="control is-small has-icons-right search-margin">
+						<input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" onChange={this.searchHandle} onKeyDown={(e) => this.keyHandle(e)}/>
+							<span className="icon is-small is-right">
+								<i className="fa fa-search"></i>
+							</span>
+						</div>
+            			<button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
+            			<button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+						<button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+						<button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+					</div>
+				</div>
+			</div>
+		)
+	}
+	container_constructor(){
+		return (
+			<div className="columns is-centered shadow">
+				<div className="column bg_white">
+					<div className="column center">
+						<div id={'mid_img' + this.div_key} className="tile is-ancestor"></div>
+						<div id={'mid_text' + this.div_key}></div>
+					</div>
+				</div>
+			</div>
+		)
+	}
+	image_constructor(new_img,img_num){
+		var element = (
+			<div className="tile is-parent is-vertical">
+			<article className="tile is-child notification light-yellow">
+				<figure className="image s-image">
+				<img id={img_num + this.div_key} alt="Asuna" className="m_image" src={new_img}/>
+				</figure>
+			</article>
+		</div>
+		)
+		return (element);
+	}
+	image_edit_constructor(images){
+		var element = (
+			<div className="tile is-vertical">
+				<div id={"tile1" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile2" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile3" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile4" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+				<div id={"tile5" + this.div_key} onClick={e => this.image_selector(e)} className="tile"></div>
+			</div>
+		)
+		return (element);
+	}
+
 }
