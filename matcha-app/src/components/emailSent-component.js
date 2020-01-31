@@ -37,7 +37,6 @@ export default class EmailSent extends Component {
                 <div className="columns is-centered shadow">
                     <div className="column is-half bg_white_1">
                         <div className="column center has-text-centered">
-                            <p>
                                 <hr></hr>
                                 <br></br>
                                 <br></br>
@@ -50,9 +49,7 @@ export default class EmailSent extends Component {
                                 <br></br>
                                 <br></br>
                                 <hr></hr>
-                            </p>
                         </div>
-                        
                     </div>
                 </div>
             </div>
