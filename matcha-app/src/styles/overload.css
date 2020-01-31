@@ -275,6 +275,12 @@ h3 {
   width: 100%;
 }
 
+.nav-color {
+    background: transparent;
+    color: white;
+    border-color: transparent;
+}
+
 .each-fade h2 {
   width: 25%;
   display: flex;
@@ -327,6 +333,18 @@ h3 {
     position: relative;
 }
 
+.btn-hide {
+    background: transparent;
+    color: transparent;
+    border-color: transparent;
+    visibility: hidden;
+    width: 0px;
+}
+
+.btn-color {
+
+}
+
 .contain {
     object-fit: contain;
 }
@@ -351,6 +369,12 @@ h3 {
 
 .chat-box {
     width: auto;
+}
+
+.nav-color {
+    background: transparent;
+    color: black;
+    border-color: transparent;
 }
 }
 

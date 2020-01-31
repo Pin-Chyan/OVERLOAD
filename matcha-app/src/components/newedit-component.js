@@ -17,6 +17,7 @@ export default class Edit extends Component {
 	constructor(props){
 		super(props);
 		this.div_key = Date.now();
+		localStorage.setItem('div_key',this.div_key);
 		this.jwt = localStorage.token;
 		this.ip = require('../server.json').ip;
 		this.nll = require("../images/chibi.jpg");
@@ -215,12 +216,12 @@ export default class Edit extends Component {
 								<i className="fa fa-search"></i>
 							</span>
 						</div>
-            			<button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
-            			<button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-						<button className="navbar-item " style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
-						<button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
-						<button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-						<button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+            			<button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
+            			<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
+						<button className="navbar-item nav-color" style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
+						<button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
 					</div>
 				</div>
 			</div>
@@ -258,7 +259,7 @@ export default class Edit extends Component {
 						<article className="tile is-child notification light-yellow">
 							<figure className="image s-image">
 								<div id={"img1"+this.div_key} onClick={e => this.imageHandler(e)}></div>
-								<input id="in1" type="file" onChange={e => this.fileHandler(e)}></input>
+								<input id="in1" className="btn-hide" type="file" onChange={e => this.fileHandler(e)}></input>
 							</figure>
 						</article>
 					</div>
@@ -268,7 +269,7 @@ export default class Edit extends Component {
 						<article className="tile is-child notification light-yellow">
 							<figure className="image s-image">
 							<div id={"img2"+this.div_key} onClick={e => this.imageHandler(e)}></div>
-							<input id="in2" type="file" onChange={e => this.fileHandler(e)}></input>
+							<input id="in2" className="btn-hide" type="file" onChange={e => this.fileHandler(e)}></input>
 							<button id="del2" onClick={e => this.deleteHandler(e)}>Remove</button>
 							</figure>
 						</article>
@@ -279,7 +280,7 @@ export default class Edit extends Component {
 						<article className="tile is-child notification light-yellow">
 							<figure className="image s-image">
 								<div id={"img3"+this.div_key} onClick={e => this.imageHandler(e)}></div>
-								<input id="in3" type="file" onChange={e => this.fileHandler(e)}></input>
+								<input id="in3" className="btn-hide" type="file" onChange={e => this.fileHandler(e)}></input>
 								<button id="del3" onClick={e => this.deleteHandler(e)}>Remove</button>
 							</figure>
 						</article>
@@ -290,7 +291,7 @@ export default class Edit extends Component {
 						<article className="tile is-child notification light-yellow">
 							<figure className="image s-image">
 								<div id={"img4"+this.div_key} onClick={e => this.imageHandler(e)}></div>
-								<input id="in4" type="file" onChange={e => this.fileHandler(e)}></input>
+								<input id="in4" className="btn-hide" type="file" onChange={e => this.fileHandler(e)}></input>
 								<button id="del4" onClick={e => this.deleteHandler(e)}>Remove</button>
 							</figure>
 						</article>
@@ -301,7 +302,7 @@ export default class Edit extends Component {
 						<article className="tile is-child notification light-yellow">
 							<figure className="image s-image">
 								<div id={"img5"+this.div_key} onClick={e => this.imageHandler(e)}></div>
-								<input id="in5" type="file" onChange={e => this.fileHandler(e)}></input>
+								<input id="in5" className="btn-hide" type="file" onChange={e => this.fileHandler(e)}></input>
 								<button id="del5" onClick={e => this.deleteHandler(e)}>Remove</button>
 							</figure>
 						</article>

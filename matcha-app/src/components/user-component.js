@@ -65,6 +65,7 @@ export default class User extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
+        localStorage.setItem('div_key',this.div_key);
         this.jwt = localStorage.token
         this.ip = require('../server.json').ip;
         this.state = {}
@@ -261,12 +262,12 @@ export default class User extends Component {
                             <i id="image" className="fa fa-search"></i>
                         </span>
                 </div>
-                <button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
-                <button className="navbar-item " style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
-                <button className="navbar-item " style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
-                <button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox redirectHandler={() => this.props.history.push('/notification')}/></button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}} id='/' onClick={this.redirecthandler}>Home</button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
+                <button className="navbar-item nav-color" style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
             </div>
         )
         if (render)
@@ -349,7 +350,7 @@ export default class User extends Component {
     listTags (tags) {
       if (Array.isArray(tags) && tags.length) {
         return tags.map(tag => {
-          return <span class="tag is-warning">{tag}  </span>
+          return <span className="tag is-warning">{tag}  </span>
         })
       } else {
         return <span>No tags ...</span>

@@ -20,7 +20,8 @@ const fadeProperties = {
 export default class Profiles extends Component {
   constructor (props) {
     super(props)
-    this.div_key = Date.now()
+    this.div_key = Date.now();
+    localStorage.setItem('div_key',this.div_key);
     this.jwt = localStorage.token
     this.ip = require('../server.json').ip
     this.nll = require('../images/chibi.jpg')
@@ -236,11 +237,11 @@ export default class Profiles extends Component {
             <i className='fa fa-search'></i>
           </span>
         </div>
-        <button className='navbar-item ' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></button>
-        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</button>
-        <button className='navbar-item ' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</button>
-        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</button>
-        <button className='navbar-item ' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</button>
+        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} onClick='{}'><Inbox /></button>
+        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} id='/' onClick={this.handleRedirect}>Home</button>
+        <button className='navbar-item nav-color' style={{ color: this.state.curr_page }} id='/user' onClick={this.handleRedirect}>Profile</button>
+        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} id='/edit' onClick={this.handleRedirect}>Profile Editor</button>
+        <button className='navbar-item nav-color' style={{ color: this.state.other_page }} id='/logout' onClick={this.handleRedirect}>Logout</button>
       </div>
     )
   }
