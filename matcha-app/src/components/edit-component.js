@@ -36,7 +36,8 @@ export default class Edit extends Component {
       "genderBuff": '',
 			"burger": "navbar-burger burger ",
 			"bar": "navbar-menu ",
-			"lol": ""
+      "lol": "",
+      "tagBuff": ''
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -331,6 +332,7 @@ onSubmitSexAndGender (e) {
     let newUser = this.state.user
     newUser.sexual_pref = data.sexual_pref
     newUser.gender = data.gender
+    
     this.setState({
       user: newUser
     })
@@ -340,17 +342,48 @@ onSubmitSexAndGender (e) {
 onTagAdd (e) {
   e.preventDefault()
 
-  console.log(this.tagBuff)
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
+
+  const newTag = this.state.tagBuff
+  if (newTag !== undefined ) {
+    if ((newTag.trim() !== '')) {
+      let found = ((this.state.user.tag).indexOf(newTag) !== -1)
+      if (found === false) {
+        let _user = this.state.user
+        _user.tag.push(newTag)
+        data.tag = _user.tag
+        axios.post(this.ip+"/users/edit_spec", data).then(res => {
+          this.setState({ user: _user, tagBuff: '' })
+        })
+     }
+    }
+  }
 }
 
-onTagDel (e) {
-  e.preventDefault()
+onTagDel (tag) {
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
+
+  const index = (this.state.user.tag).indexOf(tag);
+  if (index > -1) {
+    let slicedUser = this.state.user
+    slicedUser.tag.splice(index, 1)
+    data.tag = slicedUser.tag
+    axios.post(this.ip+"/users/edit_spec", data).then(res => {
+      this.setState({ user: slicedUser })
+    })
+  }
 }
 
 listTags (tags) {
   if (Array.isArray(tags) && tags.length) {
     return tags.map(tag => {
-      return <span className="tag is-warning" key={tag}>{tag}<button className="delete is-small"></button></span>
+      return <span className="tag is-warning" key={tag}>{tag}<button onClick={() => {this.onTagDel(tag)}} className="delete is-small"></button></span>
     })
   } else {
     return <span>No tags ...</span>
