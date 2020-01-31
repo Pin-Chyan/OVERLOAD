@@ -376,7 +376,8 @@ h3 {
 }
 
 .m_image {
-    width: 210px !important;
+    width: auto !important;
+    margin: auto;
 }
 
 .chat-box {
@@ -393,6 +394,10 @@ h3 {
     background: transparent;
     color: black !important;
     border-color: transparent;
+}
+
+.s-image {
+    width: auto !important;
 }
 }
 
