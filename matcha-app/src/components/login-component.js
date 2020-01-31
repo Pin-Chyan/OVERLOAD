@@ -17,21 +17,12 @@ export default class Login extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSumbit = this.onSumbit.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
-        
         this.state = {
-            email: '',
-            password: '',
-            emailErr: '',
-            passwordErr: ''
+          email: '',
+          password: '',
+          emailErr: '',
+          passwordErr: ''
         }
-    }
-
-    componentWillMount() {
-        document.addEventListener('keypress', this.handleKeyPress);
-    }
-
-    componentWillUnmount() {
-        document.addEventListener('keypress', this.handleKeyPress);
     }
 
     onChangeEmail(e) {
@@ -68,6 +59,7 @@ export default class Login extends Component {
     }
 
     handleKeyPress(e) {
+      console.log(e)
         if (e.key === 'Enter') {
             this.onSumbit();
         }
@@ -90,15 +82,6 @@ export default class Login extends Component {
                 </div>
                 <div id={"navMenu"+this.div_key} className="navbar-menu">
                     <div className="navbar-end">
-                        {/* <div className="control is-small has-icons-right search-margin">
-                            <input className="input is-hovered is-small is-rounded" type="text" placeholder="Search" />
-                            <span className="icon is-small is-right">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </div> */}
-                        {/* <Link to="/" className="navbar-item has-text-info">Home</Link>
-                        <Link to="/user" className="navbar-item has-text-info">Profile</Link>
-                        <Link to="/edit" className="navbar-item has-text-info">Profile Editor</Link> */}
                         <Link to="/register" className="navbar-item nav-color">Register</Link>
                     </div>
                 </div>
@@ -121,6 +104,7 @@ export default class Login extends Component {
                         </div>
                        
                         <div className="field">
+                          <form>
                             <label className="label">Password</label>
                             <div className="control has-icons-left">
                                 <input className="input" type="password" placeholder="Password" value={this.state.password} onChange={this.onChangePassword}/>
@@ -129,6 +113,7 @@ export default class Login extends Component {
                                 </span>
                             </div>
                             <p className="help is-danger">{this.state.passwordErr}</p>
+                          </form>
                         </div>
 
                         <div className="field is-grouped">
