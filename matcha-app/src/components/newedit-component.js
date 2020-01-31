@@ -38,12 +38,20 @@ export default class Edit extends Component {
 			//      <<<< begin binding after database online >>>>
 			this.eve_mount = this.eve_mount.bind(this);
 			this.userData_getter = this.userData_getter.bind(this);
-			this.imageUploader = this.imageUploader.bind(this);
+      this.imageUploader = this.imageUploader.bind(this);
+      this.onChangeName = this.onChangeName.bind(this)
+      this.onChangeEmail = this.onChangeEmail.bind(this)
+      this.onChangeLast = this.onChangeLast.bind(this)
+      this.onChangeBio = this.onChangeBio.bind(this)
+      this.onBasicSubmit = this.onBasicSubmit.bind(this)
 			this.busy = 0;
 			this.state = {
 				"res" : '',
 				"html" : '',
-				"user" : res
+        "user" : res,
+        "lastBuff": '',
+        "bioBuff": '',
+        "nameBuff": ''
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -78,8 +86,10 @@ export default class Edit extends Component {
 			if (document.getElementById('navMenu'+this.div_key))
 				ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key));
 			if (document.getElementById('cont'+this.div_key))
-				ReactDOM.render(this.container_constructor(), document.getElementById('cont'+this.div_key));
-			if (document.getElementById('mid_img'+this.div_key))
+        ReactDOM.render(this.container_constructor(), document.getElementById('cont'+this.div_key));
+      if (document.getElementById('mid_text'+this.div_key))
+        ReactDOM.render(this.mid_text_constructor(), document.getElementById('mid_text'+this.div_key));
+      if (document.getElementById('mid_img'+this.div_key))
 				ReactDOM.render(this.image_edit_constructor(), document.getElementById('mid_img'+this.div_key));
 			this.imageRenderer(this.state.user.img,'init');
 		}
@@ -179,7 +189,82 @@ export default class Edit extends Component {
 	}
 	sleep = (milliseconds) => {
 		return new Promise(resolve => setTimeout(resolve, milliseconds))
-	}
+  }
+  
+// ////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                      <<<< On change functions 
+//
+
+onChangeName (e) {
+  this.setState({
+    nameBuff: e.target.value
+  })
+}
+
+onChangeLast (e) {
+  this.setState({
+    lastBuff: e.target.value
+  })
+}
+
+onChangeEmail (e) {
+  this.setState({
+    emailBuff: e.target.value
+  })
+}
+
+onChangeBio (e) {
+  this.setState({
+    bioBuff: e.target.value
+  })
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                       <<<< Submit functions
+
+onBasicSubmit (e) {
+  e.preventDefault()
+  let msg = ''
+
+  let data = {
+    email : this.state.user.email,
+    token : this.jwt
+  }
+  
+  if (this.state.nameBuff) {
+    data.name = this.state.nameBuff.trim()
+    msg += ' name'
+  }
+  if (this.state.lastBuff) {
+    data.last = this.state.lastBuff
+    msg += ' surname'
+  }
+  if (this.state.bioBuff) {
+    data.bio = this.state.bioBuff
+    msg += ' bio'
+  }
+  axios.post(this.ip+"/users/edit_spec", data).then(res => {
+    alert('You have updated your'+msg)
+    let newUser = this.state.user
+    if (data.name) {
+      newUser.name = data.name
+    }
+    if (data.last) {
+      newUser.last = data.last
+    }
+    if (data.bio) {
+      newUser.bio = data.bio
+    }
+    this.setState({ 
+      user: newUser,
+      lastBuff: '',
+      nameBuff: '',
+      bioBuff: ''}
+      )
+    })
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -249,7 +334,8 @@ export default class Edit extends Component {
 			</div>
 		)
 		return (element);
-	}
+  }
+  
 	image_edit_constructor(){
 		var element = (
 			<div className="tile is-vertical">
@@ -310,6 +396,49 @@ export default class Edit extends Component {
 			</div>
 		)
 		return (element);
-	}
+  }
+  
+  mid_text_constructor () {
+    return (
+      <div className="container">
+          <div className="field">
+            <label className="label">Name: {this.state.user.name}</label>
+            <div className="control has-icons-left has-icons-right">
+              <input className="input" type="text" placeholder="Change name" value={this.state.nameBuff} onChange={this.onChangeName} />
+              <span className="icon is-small is-left">
+              </span>
+            </div>
+          </div>
+            <div className="field">
+            <label className="label">Surname: {this.state.user.last}</label>
+            <div className="control has-icons-left has-icons-right">
+              <input className="input" type="text" placeholder="New surname" value={this.state.lastBuff} onChange={this.onChangeLast} />
+              <span className="icon is-small is-left">
+              </span>
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Bio: {this.state.user.bio}</label>
+            <div className="control has-icons-left has-icons-right">
+              <input className="input" type="text" placeholder="New bio" value={this.state.bioBuff} onChange={this.onChangeBio} />
+              <span className="icon is-small is-left">
+              </span>
+            </div>
+          </div>
+          <button className="button is-rounded is-warning" onClick={this.onBasicSubmit}>Save</button>
+          <br></br>
+          <br></br>
+            <div className="field">
+            <label className="label">Email: {this.state.user.email}</label>
+            <div className="control has-icons-left has-icons-right">
+              <input className="input" type="email" placeholder="New E-mail" value={this.state.emailBuff} onChange={this.onChangeEmail} />
+              <span className="icon is-small is-left">
+              </span>
+            </div>
+          </div>
+          <button className="button is-rounded is-warning" onClick={this.onEmailSubmit}>Save</button>
+      </div>
+    )
+  }
 
 }
