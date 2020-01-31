@@ -386,7 +386,6 @@ router.route('/edit_spec').post( (req, res) => {
                     if (req.body.bio)
                         doc.bio = req.body.bio;
                     if (req.body.img){
-                        console.log('img found');
                         if (req.body.img.img1)
                             doc.img.img1 = req.body.img.img1;
                         if (req.body.img.img2)
@@ -398,7 +397,7 @@ router.route('/edit_spec').post( (req, res) => {
                         if (req.body.img.img5)
                             doc.img.img5 = req.body.img.img5;
                     }
-                    doc.save().then(r => {console.log('done');res.status(200).send("saved")}).catch(() => {console.log('caught');res.json("exeeded")});
+                    doc.save().then(r => {res.status(200).send("saved")}).catch(() => {console.log('caught');res.json("exeeded")});
                 })
             }
             else 

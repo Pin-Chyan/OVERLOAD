@@ -88,7 +88,12 @@ export default class Edit extends Component {
 //
 //						<<<< Page logic >>>>
 //
-
+	redirecthandler = e => {
+		this.props.history.push({
+			pathname:e.target.id,
+			user: this.state.user
+		});
+	}
 	imageHandler(e){
 		if (this.imgUploadBusy[parseInt(e.target.id)] === 0){
 			var target = 'in' + e.target.id[0];
@@ -212,9 +217,9 @@ export default class Edit extends Component {
 						</div>
             			<button className="navbar-item " style={{color:this.state.other_page}} id='/notification' onClick={this.redirecthandler}><Inbox /></button>
             			<button className="navbar-item " style={{color:this.state.other_page}}  id='/mychats' onClick={this.redirecthandler}><i className="fa fa-comments" id="/mychats"></i></button>
+						<button className="navbar-item " style={{color:this.state.other_page}} id='/search' onClick={this.redirecthandler}>Search</button>
 						<button className="navbar-item " style={{color:this.state.other_page}}  id='/' onClick={this.redirecthandler}>Home</button>
 						<button className="navbar-item " style={{color:this.state.curr_page}}  id='/user' onClick={this.redirecthandler}>Profile</button>
-						<button className="navbar-item " style={{color:this.state.other_page}}  id='/edit' onClick={this.redirecthandler}>Profile Editor</button>
 						<button className="navbar-item " style={{color:this.state.other_page}}  id='/logout' onClick={this.redirecthandler}>Logout</button>
 					</div>
 				</div>

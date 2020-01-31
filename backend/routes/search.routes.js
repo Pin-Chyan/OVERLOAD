@@ -51,7 +51,7 @@ function searchHandler(docs,user,search_req){
 
 function targHandler(doc,user,search_req){
     var res = [];
-    console.log(doc.name);
+    // console.log(doc.name);
     if (doc.email === user.email)
         return ([0]);
     if (doc.blocked.includes(user._id) || user.blocked.includes(doc._id))
