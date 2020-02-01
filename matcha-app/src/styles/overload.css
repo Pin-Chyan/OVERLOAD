@@ -290,6 +290,13 @@ h3 {
   background: #adceed;
 }
 
+.u-btn {
+    background: white;
+    color: black;
+    border-color: black;
+    width: 125px;
+}
+
 /*  */
 
 .form {
