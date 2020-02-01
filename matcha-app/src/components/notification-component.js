@@ -9,8 +9,9 @@ import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default class Notifications extends Component {
-    constructor(props){
+  constructor(props){
         super(props);
+        this._isMounted = false
         this.div_key = Date.now();
         this.jwt = localStorage.token;
         this.ip = require('../server.json').ip;
@@ -47,14 +48,25 @@ export default class Notifications extends Component {
         }
         ///      <<<< target will be customised for each page for optimisation >>>>
         get_data(this.state.user.email,this.jwt,this.ip,"name email last bio tag img likes liked viewed gender ping sexual_pref fame").then(userGet_res => {
-                this.setState({"user":userGet_res[0]});
-                this.eve_mount();
+          if (this._isMounted === true) {
+            this.setState({"user":userGet_res[0]});
+            this.eve_mount();
+          } else {
+            this.userData_getter()
+          }
         }).catch(err => {this.props.history.push('/logout')})
     }
     eve_mount(){
         this.page_handler()
     }
 
+    componentDidMount () {
+      this._isMounted = true
+    }
+
+    componentWillUnmount () {
+      this._isMounted = false
+    }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                      <<<< Page states >>>>

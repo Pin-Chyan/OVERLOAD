@@ -20,6 +20,7 @@ export default class Register extends Component {
         this.onChangePwdCon = this.onChangePwdCon.bind(this);
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeImg = this.onChangeImg.bind(this);
         this.setLocationFromIp = this.setLocationFromIp.bind(this);
 
         this.state = {
@@ -100,6 +101,15 @@ export default class Register extends Component {
 
     onChangeGender = e => {
         this.setState({gender: e.target.value});
+    }
+
+    onChangeImg = event => {
+      var file = event.target.files[0]
+      var reader = new FileReader()
+      reader.onload = (e) => {
+        this.setState({ img: e.target.result })
+      }
+      reader.readAsDataURL(file)
     }
 
     validateForm = () => {
@@ -189,7 +199,14 @@ export default class Register extends Component {
             } else {
                 this.setState({emailErr: ''});
             }
-        }
+          }
+
+          if (values.img === '') {
+            valid = false
+            this.setState({imageErr: 'Please upload an image!!!!'});
+          } else {
+            this.setState({imageErr: ''})
+          }
 
         if (values.gender === "") {
             valid = false;
@@ -220,7 +237,7 @@ export default class Register extends Component {
                             email: this.state.email,
                             sexual_pref: 0,
                             location: this.state.location,
-                            img1:"here is where the img must go"
+                            img1: this.state.img
                         }
                         axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
                         ).catch(err => (console.log("Error adding user" + err)));
@@ -331,6 +348,21 @@ export default class Register extends Component {
                                 </label>
                             </div>
                             <p className="help is-danger">{this.state.genderErr}</p>
+                        </div>
+
+                        <div className="field">
+                          <label className="file-label">
+                            <input className="file-input" type="file" name="resume" onChange={this.onChangeImg} />
+                            <span className="file-cta">
+                              <span className="file-icon">
+                                <i className="fa fa-upload"></i>
+                              </span>
+                              <span className="file-label">
+                                Upload on image…
+                              </span>
+                            </span>
+                          </label>
+                          <p className="help is-danger">{this.state.imageErr}</p>
                         </div>
 
                         <div className="field is-grouped">

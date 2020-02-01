@@ -34,7 +34,7 @@ function App() {
         <Route path="/resetPass/:vkey" component={ResetPass}/>
         <Route path="/passwordUpdated" component={PasswordUpdated}/>
         <Authenticate>
-          <Route path="/edit" exact component={Edit} />÷÷
+          <Route path="/edit" exact component={Edit} />
           <Route path="/notification" exact component={Notification} />
           <Route path="/mychats" exact component={ChatPage} />
           <Route path="/profiles/:id" component={Profiles}/>

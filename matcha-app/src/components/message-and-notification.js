@@ -8,12 +8,19 @@ const ip = require("../server.json").ip;
 export default class Inbox extends Component {
   constructor(props) {
     super(props)
+    this._isMounted = false
     this.ip = ip
     this.state ={
       notifyCount: 0
     }
   }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   componentDidMount () {
+    this._isMounted = true
     const jwt = localStorage.token
     if (!jwt) {
       this.props.redirectHandler()
@@ -42,7 +49,10 @@ export default class Inbox extends Component {
             notifyCount++
           }
         }
-        this.setState({ notifyCount })
+
+        if (this._isMounted === true) {
+          this.setState({ notifyCount })
+        }
         localStorage.setItem('liked', res.liked.toString());
         localStorage.setItem('likes', res.likes.toString());
         localStorage.setItem('notify', JSON.stringify(res.notifications));
