@@ -42,17 +42,17 @@ export default class Register extends Component {
             genderErr: '',
             imageErr: '',
         };
-            var burger = document.querySelector('.burger');
-            var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
-            burger.addEventListener('click', function(){
-            burger.classList.toggle('is-active');
-            nav.classList.toggle('is-active');
-            })
     }
 
     
     componentDidMount() {
-        this.setLocationFromIp()
+        this.setLocationFromIp();
+        var burger = document.querySelector('.burger');
+        var nav = document.querySelector('#'+burger.dataset.target+this.div_key);
+        burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+        })
     }
     async setLocationFromIp() {
         // Get user ip from cloudflare api
@@ -219,7 +219,8 @@ export default class Register extends Component {
                             age: this.state.age,
                             email: this.state.email,
                             sexual_pref: 0,
-                            location: this.state.location
+                            location: this.state.location,
+                            img1:"here is where the img must go"
                         }
                         axios.post(ip+"/users/add", dat).then( this.props.history.push('/invite')
                         ).catch(err => (console.log("Error adding user" + err)));
