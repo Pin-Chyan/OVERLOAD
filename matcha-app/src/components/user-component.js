@@ -370,17 +370,17 @@ export default class User extends Component {
                 <div>
                 <nav className="tabs is-boxed is-small is-fullwidth">
                     <ul>
-                      <li className="tab is-active" onClick={this.openTab('Preview')}>
-                        <button>Preview</button>
+                      <li className="tab" onClick={this.openTab('Preview')}>
+                        <button className="u-btn has-text-weight-medium is-size-7">Preview</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Likes')}>
-                        <button>Who liked me</button>
+                        <button className="u-btn has-text-weight-medium is-size-7">Who liked me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Viewed by')}>
-                        <button>Who viewed me</button>
+                        <button className="u-btn has-text-weight-medium is-size-7">Who viewed me</button>
                       </li>
                       <li className="tab" onClick={this.openTab('Preferences')}>
-                        <button>Blocked users</button>
+                        <button className="u-btn has-text-weight-medium is-size-7">Blocked users</button>
                       </li>
                     </ul>
                 </nav>
