@@ -6,7 +6,7 @@ import "../styles/index.css";
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-export default class Home extends Component {
+export default class Invite extends Component {
     constructor(props){
         super(props);
         this.div_key = Date.now();
