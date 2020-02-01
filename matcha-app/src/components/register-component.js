@@ -246,7 +246,7 @@ export default class Register extends Component {
                         <span></span>
                     </span>
                 </div>
-                <div id="navMenu" className="navbar-menu">
+                <div id={"navMenu"+this.div_key} className="navbar-menu">
                     <div className="navbar-end">
                         <Link to="/login" className="navbar-item nav-color">Login</Link>
                     </div>
