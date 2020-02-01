@@ -32,12 +32,12 @@ export default class Edit extends Component {
 			"bioBuff": '',
 			"nameBuff": '',
       "emailBuff": '',
-      "sexualBuff": '',
-      "genderBuff": '',
 			"burger": "navbar-burger burger ",
 			"bar": "navbar-menu ",
       "lol": "",
       "tagBuff": ''
+
+
 		};
 		this.busy = {};
 		async function server_get(ip,jwt){
@@ -75,7 +75,9 @@ export default class Edit extends Component {
         "nameBuff": '',
         "emailBuff": '',
 		"tagBuff": '',
-		"search":''
+    "search":'',
+    "sexualBuff": '',
+    "genderBuff": '',
 			};
 			if (this.props.location.user){
 				this.setState({"user":this.props.location.user});
@@ -125,10 +127,10 @@ export default class Edit extends Component {
 //						<<<< Page logic >>>>
 //
 
-	redirecthandler = e => {
-		if (e.target.id === '/logout') window.location.replace('/logout');
-		else this.props.history.push({pathname:e.target.id});
-	}
+redirecthandler = e => {
+  if (e.target.id === '/logout') window.location.replace('/logout');
+  else this.props.history.push({pathname:e.target.id});
+}
 	searchHandle = e => {
         this.setState({search:e.target.value});
     }

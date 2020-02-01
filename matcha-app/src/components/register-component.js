@@ -106,8 +106,14 @@ export default class Register extends Component {
     onChangeImg = event => {
       var file = event.target.files[0]
       var reader = new FileReader()
+      var splitFile = file.name.split('.')
+      var fileExt = splitFile[1]
       reader.onload = (e) => {
-        this.setState({ img: e.target.result })
+        if (fileExt === 'png' || fileExt === 'jpg' || fileExt === 'jpeg') {
+          this.setState({ img: e.target.result, imageErr: '' })
+        } else {
+          this.setState({ imageErr: 'Invalid file type' })
+        }
       }
       reader.readAsDataURL(file)
     }
@@ -203,7 +209,7 @@ export default class Register extends Component {
 
           if (values.img === '') {
             valid = false
-            this.setState({imageErr: 'Please upload an image!!!!'});
+            this.setState({imageErr: 'Please upload an image!'});
           } else {
             this.setState({imageErr: ''})
           }
