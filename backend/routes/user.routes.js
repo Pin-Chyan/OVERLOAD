@@ -246,7 +246,8 @@ router.route('/get_next').post( (req, res) => {
             res.status(400).send("no target");
 })
 
-router.route('/load_data').post( (req, res) => {
+router.route('/load_data').get( (req, res) => {
+    console.log('?');
     var dlen = test_data.length;
     var i = 0;
     for (i  = 0; i < dlen; i++){
@@ -256,6 +257,7 @@ router.route('/load_data').post( (req, res) => {
         // let user = new UserModels(new_user);
         let user = new UserModels(test_data[i]);
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
+            console.log(test_data[i]);
             if(err) throw err;
             user.password = hash;
             user.save().then(() => {console.log('added')}).catch(err => {console.log(err)});
