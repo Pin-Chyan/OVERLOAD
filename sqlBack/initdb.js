@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var usr = {
     host: "localhost",
-    port : 1111,
+    port : 3306,
     user: "senpai",
     password: "noticeme",
     database: "senpai"
@@ -28,7 +28,7 @@ con.connect(function(err) {
         console.log('notice me specifications :');
         console.log(usr);
         console.log(' ')
-        console.log('Senpai can now notice on port 1111');
+        console.log('Senpai can now notice on port ' + port);
         process.exit();
     })
   });
