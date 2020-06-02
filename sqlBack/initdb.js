@@ -9,32 +9,45 @@ var con = mysql.createConnection({
 });
 
 var tables = [
-    { table : "customers", schema : "(name VARCHAR(255), address VARCHAR(255))"}
+    { table : "customers", schema : "(name VARCHAR(255), address VARCHAR(255))"},
 ];
 
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected....");
-  drop_tables(con, tables);
-  build_tables(con, tables);
+  Promise.all(drop_tables(con, tables)).then((res) => {
+    console.log(res);
+    Promise.all(build_tables(con, tables)).then((res2) => {
+        console.log(res2);
+        console.log('done');
+        process.exit();
+    })
+  });
 });
 
 function drop_tables(senpai, tables){
+    var arr = [];
     tables.forEach(element => {
-        senpai.query("DROP TABLE " + element.table, function (err , res){ 
-            if (err) console.log("Error with query : "+ '" DROP TABLE ' + element.table + ' "');
-            else console.log('Dropped Table ' + element.table);
-        });
+        arr.push(req(senpai, "DROP TABLE " + element.table));
     });
+    return arr;
 }
 
 function build_tables(senpai, tables){
+    var arr = [];
     tables.forEach(element => {
-        senpai.query("CREATE TABLE " + element.table + element.schema , function (err , res){ 
-            if (err) console.log("Error with query :"+ '" CREATE TABLE ' + element.table + element.schema + ' "');
-            else console.log("Created Table " + element.table + " " + element.schema);
-        });
+        arr.push(req(senpai, "CREATE TABLE " + element.table + element.schema));
     });
+    return arr;
+}
+
+function req(senpai, query){
+    return new Promise((resolve) => {
+        senpai.query(query, (err, res) => {
+            if (err) resolve('Error :' + err['sqlMessage']);
+            else resolve(query);
+        })
+    })
 }
 
 
