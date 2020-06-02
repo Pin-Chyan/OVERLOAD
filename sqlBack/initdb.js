@@ -28,7 +28,7 @@ con.connect(function(err) {
         console.log('notice me specifications :');
         console.log(usr);
         console.log(' ')
-        console.log('Senpai can now notice on port ' + port);
+        console.log('Senpai can now notice on port ' + usr.port);
         process.exit();
     })
   });
