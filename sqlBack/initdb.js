@@ -10,9 +10,17 @@ var con = mysql.createConnection(usr);
 usr.password = 'notyourharem(this is not the actual password)';
 
 var tables = [
-    { table : "testTable", schema : "(name VARCHAR(255), address VARCHAR(255))"},
+    {
+        table : "users", 
+        schema : "(`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `username` VARCHAR(50) NOT NULL,`email` VARCHAR(100) NOT NULL,`password` VARCHAR(255) NOT NULL, `vkey` VARCHAR(50),`verified` tinyint(1) DEFAULT 0,`reg_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)"
+    },
+    // {
+    //     table : "likes",
+    //     schema : "(``)"
+    // },
 ];
 
+// User_id email(string)
 console.log("Contacting Senpai....");
 con.connect(function(err) {
   if (err) throw (["Cannot aquire senpai's attention", err.code, err.address + ':' + err.port]);
