@@ -10,7 +10,7 @@ var usr = {
     database : "oneechan",
 }
 
-var connection = async function senpai_prep(){
+async function senpai_prep(){
     console.log("Contacting senpai....");
     var res;
     var senpai = mysql.createConnection(usr);
@@ -34,7 +34,7 @@ function connect(conn){
     })
 }
 
-connection().then((senpai) => {
+senpai_prep().then((senpai) => {
     if (senpai == 'error')
         return ;
     host(senpai);
@@ -43,7 +43,7 @@ connection().then((senpai) => {
 function host(senpai){
     var http = require('http');
     http.createServer(function (req, res) {
-        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.writeHead(200, {'Content-Type': 'application/json'});
         request_api(senpai, req.url).then((result) => {
             res.write(result);
             res.end();
@@ -72,7 +72,7 @@ async function request_api(senpai, url){
 
 async function fetch(url, args){
     await sleep(1000).then(() => { console.log(args); });
-    return ('fetched');
+    return ("fetched");
 }
 async function read(url, args){
     await sleep(1000).then(() => { console.log(args); });
