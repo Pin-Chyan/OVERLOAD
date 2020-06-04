@@ -11,7 +11,8 @@ const usr = {
     password: "noticeme",
     database : "oneechan",
 }
-const senpai = mysql.createConnection(usr).connect((err) => {
+const senpai = mysql.createConnection(usr)
+senpai.connect((err) => {
     if (err) console.log(["Cannot aquire senpai's attention", err.code, err.address + ':' + err.port]);
     else host();
 })
@@ -22,9 +23,20 @@ function host(){
         console.log(`Server is running on port: ${port}`);
     });
 }
+function request(senpai, query){
+    return new Promise((resolve) => {
+        senpai.query(query, (err, res) => {
+            if (err) resolve(['Error','Error :' + err['sqlMessage']]);
+            else resolve(['Success', ' Query : "' + query + '" ']);
+        })
+    })
+}
 
 // routes
-app.get('/test', function(req,res){
+app.get('/test', (req,res) => {
+    request(senpai, "CREATE TABLE likes( `user_id` VARCHAR(255), `target` TEXT, `likedBy` TEXT)").then((res) => {
+        console.log(res);
+    })
     res.json('success');
 });
 
