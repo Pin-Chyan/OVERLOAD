@@ -10,19 +10,103 @@ var tables = [
     {
         name : "users", 
         schema : {
-            id : 'varchar(255)',
-            name : 'varchar(255)',
-            img : 'blob'
+            user_id : 'VARCHAR(255)',
+            name : 'VARCHAR(255)',
+            surname : 'VARCHAR(255)',
+            email : 'VARCHAR(255)',
+            verified: 'INT',
+            token: 'VARCHAR(255)',
+            password : 'VARCHAR(255)',
+            age : 'INT',
+            gender : 'INT',
+            sexual_pref : 'INT',
+            bio : 'VARCHAR(10000)'
         }
     },
     {
-        name : "users2", 
+        name : "likes", 
         schema : {
-            id : 'varchar(255)',
-            name : 'varchar(255)',
-            img : 'blob'
+            user_id : 'VARCHAR(255)',
+            target : 'TEXT',
+            likedBy : 'TEXT',
         }
     },
+    {
+        name : "image", 
+        schema : {
+            id : 'VARCHAR(255)',
+            img1 : 'TEXT',
+            img2 : 'TEXT',
+            img3 : 'TEXT',
+            img4 : 'TEXT',
+            img5 : 'TEXT',
+        }
+    },
+    {
+        name : "notifications", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            Notification : 'TEXT',
+            read : 'INT',
+        }
+    },
+    {
+        name : "viewed", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            viewers : 'TEXT',
+        }
+    },
+    {
+        name : "chatrooms", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            target_id : 'VARCHAR(255)',
+            chatroom_id : 'VARCHAR(255)'
+        }
+    },
+    {
+        name : "blocked", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            blocked : 'TEXT'
+        }
+    },
+    {
+        name : "locations", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            x : 'FLOAT',
+            y : 'FLOAT'
+        }
+    },
+    {
+        name : "tags", 
+        schema : {
+            user_id : 'VARCHAR(255)',
+            tag1 : 'VARCHAR(255)',
+            tag2 : 'VARCHAR(255)',
+            tag3 : 'VARCHAR(255)',
+            tag4 : 'VARCHAR(255)',
+            tag5 : 'VARCHAR(255)',
+        }
+    },
+    {
+        name : "messages", 
+        schema : {
+            chatroom_id : 'VARCHAR(255)',
+            from_id : 'VARCHAR(255)',
+            msg : 'VARCHAR(2000)',
+            read : 'INT',
+            timestamp : 'VARCHAR(255)'
+        }
+    },
+    {
+        name : "ping",
+        schema : {
+            ms : 'int'
+        }
+    }
 ];
 
 async function senpai_prep(){
