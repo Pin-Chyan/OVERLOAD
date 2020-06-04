@@ -76,12 +76,11 @@ function connect(conn){
     })
 }
 
-
 function req(senpai, query){
     return new Promise((resolve) => {
         senpai.query(query, (err, res) => {
             if (err) resolve(['Error','Error :' + err['sqlMessage']]);
-            else resolve(['Success','Query : ' + query]);
+            else resolve(['Success', ' Query : "' + query + '" ']);
         })
     })
 }
