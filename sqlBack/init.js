@@ -5,7 +5,6 @@ var usr = {
     user: "senpai",
     password: "noticeme"
 }
-
 var db_name = "oneechan"
 var tables = [
     {
