@@ -7,6 +7,7 @@ class ping{
     test(){
         return ('ping online');
     }
+    
 }
 
 module.exports = { ping };

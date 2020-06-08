@@ -22,6 +22,11 @@ class images{
             })
         })
     }
+
+    create(user_id);
+    // create 
+    // update 
+    // delete 
 }
 
 module.exports = { images };

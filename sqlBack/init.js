@@ -106,6 +106,13 @@ var tables = [
         schema : {
             ms : 'int'
         }
+    },
+    {
+        name : "test",
+        schema : {
+            integer : 'INT',
+            character : 'VARCHAR(255)'
+        }
     }
 ];
 

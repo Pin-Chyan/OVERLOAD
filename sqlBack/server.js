@@ -11,6 +11,7 @@ const notifications = require('./api/notificationsAPI');
 const ping = require('./api/pingAPI');
 const search = require('./api/searchAPI');
 const users = require('./api/usersAPI');
+const test = require('./api/testAPI');
 const port = 5001;
 const senpai = mysql.createConnection({
     host: process.env.HOST,
@@ -33,6 +34,7 @@ const notificationsAPI = new notifications.notificationsAPI(senpai);
 const pingAPI = new ping.pingAPI(senpai);
 const searchAPI = new search.searchAPI(senpai);
 const usersAPI = new users.usersAPI(senpai);
+const testAPI = new test.testAPI(senpai);
 // 
 app.use(cors());
 app.use(bodyParser());
@@ -55,5 +57,6 @@ app.post('/search', (req,res) => {
 app.post('/user', (req,res) => {
     usersAPI.query(req,res);
 });
-
-// authAPI.query(null, null);
+app.post('/test', (req, res) => {
+    testAPI.query(req, res);
+})
