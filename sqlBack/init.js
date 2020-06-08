@@ -4,7 +4,7 @@ var usr = {
     port : 3306,
     user: "senpai",
     password: "noticeme"
-}
+};
 var db_name = "oneechan"
 var tables = [
     {
@@ -185,7 +185,7 @@ function build_table(table){
         if (i != columns.length - 1)
             schema += ','; 
     })
-    schema += ")"
+    schema += ")";
     return (table.name + schema);
 }
 

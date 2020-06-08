@@ -21,7 +21,7 @@ class authAPI{
         // this.tags = new tagsCLass.tags(senpai);
         // this.users = new usersCLass.users(senpai);
         // this.viewed = new viewedClass.viewed(senpai);
-        this.test.bind(this);
+        // this.test.bind(this);
     }
 
     test(){
@@ -32,9 +32,9 @@ class authAPI{
         return ('lol');
     }
     query(req, res){
-        this.test();
-        console.log(this);
-        res.json('why');
+        // this.test();
+        // console.log(this.test());
+        res.json(this.test());
     }
 }
 

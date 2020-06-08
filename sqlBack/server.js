@@ -37,9 +37,23 @@ const usersAPI = new users.usersAPI(senpai);
 app.use(cors());
 app.use(bodyParser());
 app.use(express.json({limit: '50mb'}));
-app.post('/auth', authAPI.query);
-app.post('/chat', chatAPI.query);
-app.post('/notify', notificationsAPI.query);
-app.post('/ping', pingAPI.query);
-app.post('/search', searchAPI.query);
-app.post('/user', usersAPI.query)
+app.post('/auth', (req,res) => {
+    authAPI.query(req,res);
+});
+app.post('/chat', (req,res) => {
+    chatAPI.query(req,res);
+});
+app.post('/notify', (req,res) => {
+    notificationAPI.query(req,res);
+});
+app.post('/ping', (req,res) => {
+    pingAPI.query(req,res);
+});
+app.post('/search', (req,res) => {
+    searchAPI.query(req,res);
+});
+app.post('/user', (req,res) => {
+    usersAPI.query(req,res);
+});
+
+// authAPI.query(null, null);
