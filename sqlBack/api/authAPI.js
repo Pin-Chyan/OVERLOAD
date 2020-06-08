@@ -11,31 +11,27 @@ const viewedClass = require('./tableClasses/viewedClass');
 class authAPI{
 
     constructor(senpai){
-        // this.senpai = senpai;
-        // this.blocked = new blockedCLass.blocked(senpai);
-        // this.chatrooms = new chatroomsCLass.chatrooms(senpai);
-        // this.images = new imagesCLass.images(senpai);
-        // this.likes = new likesCLass.likes(senpai);
-        // this.locations = new locationsCLass.locations(senpai);
-        // this.ping = new pingCLass.ping(senpai);
-        // this.tags = new tagsCLass.tags(senpai);
-        // this.users = new usersCLass.users(senpai);
-        // this.viewed = new viewedClass.viewed(senpai);
-        // this.test.bind(this);
+        this.senpai = senpai;
+        this.blocked = new blockedCLass.blocked(senpai);
+        this.chatrooms = new chatroomsCLass.chatrooms(senpai);
+        this.images = new imagesCLass.images(senpai);
+        this.likes = new likesCLass.likes(senpai);
+        this.locations = new locationsCLass.locations(senpai);
+        this.ping = new pingCLass.ping(senpai);
+        this.tags = new tagsCLass.tags(senpai);
+        this.users = new usersCLass.users(senpai);
+        this.viewed = new viewedClass.viewed(senpai);
     }
 
-    test(){
-        return ('authAPI online');
-    }
-
-    whynot(){
-        return ('lol');
-    }
     query(req, res){
         // this.test();
         // console.log(this.test());
         res.json(this.test());
     }
+    test(){
+        return ('authAPI online');
+    }
+
 }
 
 module.exports = { authAPI };
