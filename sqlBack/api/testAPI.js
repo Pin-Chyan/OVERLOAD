@@ -23,14 +23,14 @@ class testAPI{
         this.viewed = new viewedClass.viewed(senpai);
     }
     // token will be in header
-    res = {
-        "action":"test",
-        "user": "userx",
-        "args":{
-            "testvar1":"value",
-            "testvar2":"value",
-        }
-    }
+    // res = {
+    //     "action":"test",
+    //     "user": "userx",
+    //     "args":{
+    //         "testvar1":"value",
+    //         "testvar2":"value",
+    //     }
+    // }
 
     query(req, res){
         var body = req.body;

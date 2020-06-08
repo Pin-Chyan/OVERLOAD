@@ -155,8 +155,6 @@ async function senpai_prep(){
     } else console.log("Aquired Senpais attention");
     // setting up tables
     res = await build_tables(senpai, tables);
-    // test
-    res = await insert_tag(senpai, 1, 1, 'soccer');
     console.log(res);
 }
 
@@ -196,18 +194,6 @@ function build_table(table){
     })
     schema += ")";
     return (table.name + schema);
-}
-
-function insert_tag(senpai, userid, num, name){
-    var pos = "tag" + num;
-    console.log(pos);
-    var sql = "INSERT INTO tags (?) VALUES (?))"
-    console.log(userid)
-    console.log(name);
-    senpai.query(sql,[pos, name], function(err,result){
-        if (err) throw err;
-        console.log("result.insertID")
-    });
 }
 
 senpai_prep().then((res) => { process.exit(); });
