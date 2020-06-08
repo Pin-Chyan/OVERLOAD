@@ -24,8 +24,6 @@ class authAPI{
     }
 
     query(req, res){
-        // this.test();
-        // console.log(this.test());
         res.json(this.test());
     }
     test(){
