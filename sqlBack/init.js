@@ -32,9 +32,9 @@ var tables = [
         }
     },
     {
-        name : "image", 
+        name : "images", 
         schema : {
-            id : 'VARCHAR(255)',
+            user_id : 'VARCHAR(255)',
             img1 : 'TEXT',
             img2 : 'TEXT',
             img3 : 'TEXT',
