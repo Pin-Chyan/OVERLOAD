@@ -23,7 +23,7 @@ class images{
         })
     }
 
-    create(user_id);
+    // create(user_id);
     // create 
     // update 
     // delete 

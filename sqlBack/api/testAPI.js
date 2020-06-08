@@ -24,11 +24,12 @@ class testAPI{
     }
     // token will be in header
     res = {
+        "route":"routename",
         "action":"test",
         "user": "userx",
         "args":{
-            "testvar1":"value",
-            "testvar2":"value",
+            "target":"value",
+            "likedby":"value",
         }
     }
 
@@ -36,6 +37,14 @@ class testAPI{
         var body = req.body;
         if (body.action == 'test'){
             res.json(this.test());
+        }
+        if (body.route == 'likes'){
+            if(body.action == 'update'){
+                this.likes.update(body.user, body.args.target, body.args.likedby)
+                .then((result) => {
+                    res.json(result);
+                });
+            }
         }
     }
 
