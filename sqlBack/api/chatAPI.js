@@ -24,7 +24,7 @@ class chatAPI{
     }
         
     query(req, res){
-        return this.test();
+        res.json(this.test());
     }
 
     test(){
