@@ -12,7 +12,7 @@ class authAPI{
 
     constructor(senpai){
         this.senpai = senpai;
-        this.blocked = new blockedCLass.blocked(senpai);
+        this.blocked =  new blockedCLass.blocked(senpai);
         this.chatrooms = new chatroomsCLass.chatrooms(senpai);
         this.images = new imagesCLass.images(senpai);
         this.likes = new likesCLass.likes(senpai);

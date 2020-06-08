@@ -44,7 +44,7 @@ app.post('/chat', (req,res) => {
     chatAPI.query(req,res);
 });
 app.post('/notify', (req,res) => {
-    notificationAPI.query(req,res);
+    notificationsAPI.query(req,res);
 });
 app.post('/ping', (req,res) => {
     pingAPI.query(req,res);
