@@ -88,7 +88,7 @@ var tables = [
             tag2 : 'VARCHAR(255)',
             tag3 : 'VARCHAR(255)',
             tag4 : 'VARCHAR(255)',
-            tag5 : 'VARCHAR(255)',
+            tag5 : 'VARCHAR(255)'
         }
     },
     {
