@@ -23,24 +23,42 @@ class testAPI{
         this.viewed = new viewedClass.viewed(senpai);
     }
     // token will be in header
-    res = {
-        "action":"test",
+    body = {
+        "controller":"async",
+        "action":"update",
         "user": "userx",
         "args":{
             "testvar1":"value",
             "testvar2":"value",
         }
     }
-
+    //
     query(req, res){
         var body = req.body;
-        if (body.action == 'test'){
+        if (body.controller == 'test'){
             res.json(this.test());
+        }
+        else if (body.controller == 'async_test'){
+            this.asynctest(body).then((result) => {
+                res.json(result);
+            })
+        }
+        else {
+            res.json({
+                "Status":"error unknown controller"
+            });
         }
     }
 
     test(){
         return ('testAPI online');
+    }
+
+    async asynctest(){
+        // var result = null;
+        var result = await this.images.create('userx');
+        console.log(result);
+        return (result);
     }
     
 }
