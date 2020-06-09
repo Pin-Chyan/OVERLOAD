@@ -13,6 +13,12 @@ class usersAPI{
         if (body.controller == 'add_defaults'){
             console.log(body.controller);
             this.add_defaults(body).then((result) => { res.json(result); });
+        } else if (body.controller == 'upload_img'){
+            console.log(body.controller);
+            this.upload_image(body).then((result) => { res.json(result); });
+        } else if (body.controller == 'get_img'){
+            console.log(body.controller);
+            this.get_image(body).then((result) => { res.json(result); });
         } else {
             res.json('error unknown controller');
         }
@@ -103,6 +109,26 @@ class usersAPI{
             i++;
         }
         
+    }
+
+    async upload_image(requestBody){
+        var i = 1;
+        var images = {};
+        while (i < 6){
+            if (requestBody.args["img" + i])
+                images["img" + i] = requestBody.args["img" + i];
+            i++;
+        }
+        var res = await this.request.update('images',images,{
+                "user_id":requestBody.user
+            }
+        );
+        return res;
+    }
+    async get_image(requestBody){
+        return this.request.read('images', {
+            "user_id":requestBody.user
+        });
     }
 }
 
