@@ -24,6 +24,11 @@ class testAPI{
                 res.json(result);
             })
         }
+        else if (body.route == 'likes'){
+        }
+        else {
+            res.json('error unknown controller');
+        }
     }
 
     async asynctest(){
