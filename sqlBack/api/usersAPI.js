@@ -12,8 +12,9 @@ class usersAPI{
         var body = req.body;
         if (body.controller == 'add_defaults'){
             this.add_defaults(body).then((result) => { res.json(result); });
+        } else {
+            res.json('error unknown controller');
         }
-        res.json(this.test());
     }
 
     async test(){
@@ -27,7 +28,6 @@ class usersAPI{
             res = await this.request.delete('users',{
                 "user_id":test_data[i].email
             });
-            // console.log(res);
             i++;
         }
         i = 0;
@@ -56,6 +56,7 @@ class usersAPI{
             console.log(res);
             i++;
         }
+        
     }
 }
 
