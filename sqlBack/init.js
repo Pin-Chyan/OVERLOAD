@@ -76,6 +76,10 @@ var tables = [
         name : "locations", 
         schema : {
             user_id : 'VARCHAR(255)',
+            country : 'VARCHAR(255)',
+            province : 'VARCHAR(255)',
+            city : 'VARCHAR(255)',
+            postal_code : 'VARCHAR(255)',
             x : 'FLOAT',
             y : 'FLOAT'
         }

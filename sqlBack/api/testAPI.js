@@ -1,4 +1,5 @@
 const request = require('./request');
+const test_data = require('./default_data.json');
 
 class testAPI{
 

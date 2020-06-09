@@ -27,7 +27,7 @@ class usersAPI{
             res = await this.request.delete('users',{
                 "user_id":test_data[i].email
             });
-            console.log(res);
+            // console.log(res);
             i++;
         }
         i = 0;
@@ -46,7 +46,7 @@ class usersAPI{
                 "bio": test_data[i].bio
             });
             i++;
-            console.log(res);
+            // console.log(res);
         }
         i = 0;
         while (i < test_data.length){
