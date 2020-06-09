@@ -1,4 +1,4 @@
-const request= require('./request');
+const request = require('./request');
 
 class testAPI{
 
@@ -7,15 +7,15 @@ class testAPI{
         this.request = new request.requestHandler(senpai);
     }
     // token will be in header
-    body = {
-        "controller":"async",
-        "action":"update",
-        "user": "userx",
-        "args":{
-            "testvar1":"value",
-            "testvar2":"value",
-        }
-    }
+    // body = {
+    //     "controller":"async",
+    //     "action":"update",
+    //     "user": "userx",
+    //     "args":{
+    //         "testvar1":"value",
+    //         "testvar2":"value",
+    //     }
+    // }
     //
     query(req, res){
         var body = req.body;
@@ -33,7 +33,7 @@ class testAPI{
             }
         );
         console.log(result);
-        result = await this.request.create(
+        var result = await this.request.create(
             'test',{
                 "user_id":"userx",
                 "num":43,

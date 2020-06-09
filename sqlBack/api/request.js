@@ -5,8 +5,21 @@ class requestHandler{
     }
 
     create(table, columnData){
-        var query = "INSERT INTO " + table + "(user_id,num,str) values('" + columnData.user_id + "','" + columnData.num + "','" + columnData.str + "')";
-        return this.request(query);
+        var query = "INSERT INTO ";
+        var col = table + "(";
+        var values = " values(";
+        var colKeys = Object.keys(columnData);
+        colKeys.forEach((element,i) => {
+            col += element;
+            values += "'" + columnData[element] + "'";
+            if (i != colKeys.length - 1){
+                col += ',';
+                values += ',';
+            }
+        });
+        col += ')';
+        values += ')';
+        return this.request(query + col + values);
     }
     read(table, locationData){
         var query = "SELECT * from " + table + " WHERE user_id = '" + locationData.user_id + "'";
@@ -14,7 +27,15 @@ class requestHandler{
     }
     update(table, columnData, locationData){
         var query = "UPDATE " + table + " SET num = '" + columnData.num + "' WHERE user_id = '" + locationData.user_id + "'";
-        return this.request(query);
+        query = "UPDATE " + table + " SET ";
+        var colKeys = Object.keys(columnData);
+        colKeys.forEach((element,i) => {
+            query += element + "=" + "'" + columnData[element] + "'";
+            if (i != colKeys.length - 1)
+                query += ',';
+        });
+        var location = " WHERE user_id='" + locationData.user_id + "'";
+        return this.request(query + location);
     }
     delete(table, locationData){
         var query = "DELETE FROM " + table + " WHERE user_id = '" + locationData.user_id + "'";
