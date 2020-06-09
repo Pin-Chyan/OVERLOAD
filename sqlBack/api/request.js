@@ -45,11 +45,11 @@ class requestHandler{
         return new Promise((resolve) => {
             this.senpai.query(query, (err, res) => {
                 if (err) resolve({
-                    "Status":"Error",
+                    "status":"Error",
                     "data": err['sqlMessage']
                 })
                 resolve({
-                    "Status":"Success",
+                    "status":"Success",
                     "data": res
                 });
             })

@@ -28,6 +28,15 @@ class usersAPI{
             res = await this.request.delete('users',{
                 "user_id":test_data[i].email
             });
+            res = await this.request.delete('tags',{
+                "user_id":test_data[i].email
+            });
+            res = await this.request.delete('images',{
+                "user_id":test_data[i].email
+            });
+            res = await this.request.delete('locations',{
+                "user_id":test_data[i].email
+            });
             i++;
         }
         i = 0;
@@ -45,12 +54,47 @@ class usersAPI{
                 "sexual_pref":test_data[i].sexual_pref,
                 "bio": test_data[i].bio
             });
-            i++;
-            // console.log(res);
+            res = await this.request.create('tags',{
+                "user_id":test_data[i].email,
+                "tag1":test_data[i].tag[0],
+                "tag2":test_data[i].tag[1],
+                "tag3":test_data[i].tag[2],
+                "tag4":test_data[i].tag[3],
+                "tag5":test_data[i].tag[4]
+            });
+            res = await this.request.create('images',{
+                "user_id":test_data[i].email,
+                "img1":test_data[i].img["img1"],
+                "img2":test_data[i].img["img2"],
+                "img3":test_data[i].img["img3"],
+                "img4":test_data[i].img["img4"],
+                "img5":test_data[i].img["img5"]
+            });
+            res = await this.request.create('locations',{
+                "user_id":test_data[i].email,
+                "country":test_data[i].location[0],
+                "province":test_data[i].location[1],
+                "city":test_data[i].location[2],
+                "postal_code":test_data[i].location[3],
+                "x":test_data[i].location[4],
+                "y":test_data[i].location[5]
+            })
         }
         i = 0;
         while (i < test_data.length){
             res = await this.request.read('users',{
+                "user_id":test_data[i].email
+            });
+            // console.log(res);
+            res = await this.request.read('tags',{
+                "user_id":test_data[i].email
+            });
+            // console.log(res);
+            res = await this.request.read('images',{
+                "user_id":test_data[i].email
+            });
+            // console.log(res);
+            res = await this.request.read('locations',{
                 "user_id":test_data[i].email
             });
             console.log(res);
