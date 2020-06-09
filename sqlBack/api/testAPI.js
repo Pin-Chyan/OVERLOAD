@@ -1,26 +1,10 @@
-const blockedCLass = require('./tableClasses/blockedClass');
-const chatroomsCLass = require('./tableClasses/chatroomsClass');
-const imagesCLass = require('./tableClasses/imagesClass');
-const likesCLass = require('./tableClasses/likesClass');
-const locationsCLass = require('./tableClasses/locationsClass');
-const pingCLass = require('./tableClasses/pingClass');
-const tagsCLass = require('./tableClasses/tagsClass');
-const usersCLass = require('./tableClasses/usersClass');
-const viewedClass = require('./tableClasses/viewedClass');
+const request= require('./request');
 
 class testAPI{
 
     constructor(senpai){
         this.senpai = senpai;
-        this.blocked = new blockedCLass.blocked(senpai);
-        this.chatrooms = new chatroomsCLass.chatrooms(senpai);
-        this.images = new imagesCLass.images(senpai);
-        this.likes = new likesCLass.likes(senpai);
-        this.locations = new locationsCLass.locations(senpai);
-        this.ping = new pingCLass.ping(senpai);
-        this.tags = new tagsCLass.tags(senpai);
-        this.users = new usersCLass.users(senpai);
-        this.viewed = new viewedClass.viewed(senpai);
+        this.request = new request.requestHandler(senpai);
     }
     // token will be in header
     body = {
@@ -36,28 +20,43 @@ class testAPI{
     query(req, res){
         var body = req.body;
         if (body.controller == 'test'){
-            res.json(this.test());
-        }
-        else if (body.controller == 'async_test'){
-            this.asynctest(body).then((result) => {
+            this.asynctest().then((result) => {
                 res.json(result);
             })
         }
-        else {
-            res.json({
-                "Status":"error unknown controller"
-            });
-        }
-    }
-
-    test(){
-        return ('testAPI online');
     }
 
     async asynctest(){
-        // var result = null;
-        var result = await this.images.create('userx');
+        var result = await this.request.delete(
+            'test',{
+                "user_id":"userx"
+            }
+        );
         console.log(result);
+        result = await this.request.create(
+            'test',{
+                "user_id":"userx",
+                "num":43,
+                "str":"notyourherem"
+            },
+        );
+        console.log(result);
+        result = await this.request.update(
+            "test",{
+                "num":69,
+                "str":"420"
+            },{
+                "user_id":"userx"
+            }
+        );
+        console.log(result);
+        result = await this.request.read(
+            'test',{
+                "user_id":"userx"
+            }
+        );
+        console.log(result);
+
         return (result);
     }
     

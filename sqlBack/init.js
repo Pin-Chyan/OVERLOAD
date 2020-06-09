@@ -88,7 +88,7 @@ var tables = [
             tag2 : 'VARCHAR(255)',
             tag3 : 'VARCHAR(255)',
             tag4 : 'VARCHAR(255)',
-            tag5 : 'VARCHAR(255)',
+            tag5 : 'VARCHAR(255)'
         }
     },
     {
@@ -110,8 +110,9 @@ var tables = [
     {
         name : "test",
         schema : {
-            integer : 'INT',
-            character : 'VARCHAR(255)'
+            user_id: 'VARCHAR(255)',
+            num : 'INT',
+            str : 'VARCHAR(255)'
         }
     }
 ];

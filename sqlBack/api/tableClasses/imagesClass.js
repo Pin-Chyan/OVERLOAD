@@ -9,7 +9,7 @@ class images{
     }
 
     create(user_id){
-        this.senpai.query();
+        // this.senpai.query();
         var query = "INSERT INTO images(user_id, img1, img2, img3, img4, img5) values('" + user_id + "','null','null','null','null','null')";
         return this.request(query);
     }
