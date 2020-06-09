@@ -11,6 +11,7 @@ class usersAPI{
     query(req, res){
         var body = req.body;
         if (body.controller == 'add_defaults'){
+            console.log(body.controller);
             this.add_defaults(body).then((result) => { res.json(result); });
         } else {
             res.json('error unknown controller');
@@ -78,22 +79,23 @@ class usersAPI{
                 "postal_code":test_data[i].location[3],
                 "x":test_data[i].location[4],
                 "y":test_data[i].location[5]
-            })
+            });
+            i++;
         }
         i = 0;
         while (i < test_data.length){
             res = await this.request.read('users',{
                 "user_id":test_data[i].email
             });
-            // console.log(res);
+            console.log(res);
             res = await this.request.read('tags',{
                 "user_id":test_data[i].email
             });
-            // console.log(res);
+            console.log(res);
             res = await this.request.read('images',{
                 "user_id":test_data[i].email
             });
-            // console.log(res);
+            console.log(res);
             res = await this.request.read('locations',{
                 "user_id":test_data[i].email
             });
