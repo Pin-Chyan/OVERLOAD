@@ -22,7 +22,14 @@ class requestHandler{
         return this.request(query + col + values);
     }
     read(table, locationData){
-        var query = "SELECT * from " + table + " WHERE user_id = '" + locationData.user_id + "'";
+        var query = "SELECT * from " + table + " WHERE ";
+        var locationKeys = Object.keys(locationData);
+        locationKeys.forEach((element,i) => {
+            query += element + "=" + "'" + locationData[element] + "'";
+            if (i != locationKeys.length - 1)
+                query += ' AND ';
+        });
+        console.log(query);
         return this.request(query);
     }
     update(table, columnData, locationData){
