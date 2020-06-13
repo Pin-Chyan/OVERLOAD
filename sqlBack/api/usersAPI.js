@@ -142,7 +142,7 @@ class usersAPI{
         var tags = {};
         while (i < 6){
             if (requestBody.args["tag" + i])
-                tags["tag" + i] = requestBody.args["tags" + i];
+                tags["tag" + i] = requestBody.args["tag" + i];
             i++;
         }
         var res = await this.request.update('tags', tags,{
@@ -155,8 +155,6 @@ class usersAPI{
             "user_id":requestBody.user
         });
     }
-
-    // async
 }
 
 module.exports = { usersAPI };
