@@ -19,6 +19,12 @@ class usersAPI{
         } else if (body.controller == 'get_img'){
             console.log(body.controller);
             this.get_image(body).then((result) => { res.json(result); });
+        } else if (body.controller == 'selected_tags'){
+            console.log(body.controller);
+            this.selected_tags(body).then((result) => {res.json(result); })
+        } else if (body.controller == 'get_tags'){
+            console.log(body.controller);
+            this.get_tags(body).then((result) => { res.json(result); })
         } else {
             res.json('error unknown controller');
         }
@@ -130,6 +136,27 @@ class usersAPI{
             "user_id":requestBody.user
         });
     }
+
+    async selected_tags(requestBody){
+        var i = 1;
+        var tags = {};
+        while (i < 6){
+            if (requestBody.args["tag" + i])
+                tags["tag" + i] = requestBody.args["tags" + i];
+            i++;
+        }
+        var res = await this.request.update('tags', tags,{
+                "user_id":requestBody.user
+        });
+    }
+
+    async get_tags(requestBody){
+        return this.request.read('tags', {
+            "user_id":requestBody.user
+        });
+    }
+
+    // async
 }
 
 module.exports = { usersAPI };
