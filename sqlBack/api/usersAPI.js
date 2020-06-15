@@ -19,6 +19,15 @@ class usersAPI{
         } else if (body.controller == 'get_img'){
             console.log(body.controller);
             this.get_image(body).then((result) => { res.json(result); });
+        } else if (body.controller == 'selected_tags'){
+            console.log(body.controller);
+            this.selected_tags(body).then((result) => {res.json(result); })
+        } else if (body.controller == 'get_tags'){
+            console.log(body.controller);
+            this.get_tags(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'update_likes'){
+            console.log(body.controller);
+            this.update_likes(body).then((result) => { res.json(result); })
         } else {
             res.json('error unknown controller');
         }
@@ -41,7 +50,10 @@ class usersAPI{
             res = await this.request.delete('images',{
                 "user_id":test_data[i].email
             });
-            res = await this.request.delete('locations',{
+            // res = await this.request.delete('locations',{
+            //     "user_id":test_data[i].email
+            // });
+            res = await this.request.delete('likes',{
                 "user_id":test_data[i].email
             });
             i++;
@@ -59,7 +71,13 @@ class usersAPI{
                 "age":test_data[i].age,
                 "gender":test_data[i].gender,
                 "sexual_pref":test_data[i].sexual_pref,
-                "bio": test_data[i].bio
+                "bio": test_data[i].bio,
+                "country":test_data[i].location[0],
+                "province":test_data[i].location[1],
+                "city":test_data[i].location[2],
+                "postal_code":test_data[i].location[3],
+                "x":test_data[i].location[4],
+                "y":test_data[i].location[5]
             });
             res = await this.request.create('tags',{
                 "user_id":test_data[i].email,
@@ -77,14 +95,10 @@ class usersAPI{
                 "img4":test_data[i].img["img4"],
                 "img5":test_data[i].img["img5"]
             });
-            res = await this.request.create('locations',{
+            res = await this.request.create('likes',{
                 "user_id":test_data[i].email,
-                "country":test_data[i].location[0],
-                "province":test_data[i].location[1],
-                "city":test_data[i].location[2],
-                "postal_code":test_data[i].location[3],
-                "x":test_data[i].location[4],
-                "y":test_data[i].location[5]
+                "target":"",
+                "likedby":""
             });
             i++;
         }
@@ -102,7 +116,11 @@ class usersAPI{
                 "user_id":test_data[i].email
             });
             console.log(res);
-            res = await this.request.read('locations',{
+            // res = await this.request.read('locations',{
+            //     "user_id":test_data[i].email
+            // });
+            // console.log(res);
+            res = await this.request.read('likes',{
                 "user_id":test_data[i].email
             });
             console.log(res);
@@ -131,6 +149,61 @@ class usersAPI{
         });
     }
 
+    async update_likes(requestBody){
+        var userdata = await this.request.read('likes',{
+            "user_id":requestBody.user
+        });
+        console.log(userdata);
+        var targets = userdata.data[0].target.split(',');
+        var likedby = userdata.data[0].likedBy.split(',');
+        if (targets.includes(requestBody.args.target) || likedby.includes(requestBody.user))
+            return ("Already liked");
+        if (requestBody.user_id == requestBody.args.target)
+            return ("You cannot like yourself");
+        //Adding users to tables
+        if (targets[0] == '')
+            targets[0] = requestBody.args.target;
+        else 
+            targets.push(requestBody.args.target);
+        if (likedby[0] == '')
+            likedby[0] = requestBody.user;
+        else
+            likedby.push(requestBody.user);
+        //converting back to string
+        var reqtargets = targets.toString();
+        var reqlikedby = likedby.toString();
+        //Actual request
+        var res = await this.request.update('likes', {
+            "target":reqtargets
+        }, {
+            "user_id":requestBody.user
+        });
+        var res2 = await this.request.update('likes', {
+            "likedby":reqlikedby
+        }, {
+            "user_id":requestBody.args.target
+        });
+        return ("likes updated");
+    }
+
+    async selected_tags(requestBody){
+        var i = 1;
+        var tags = {};
+        while (i < 6){
+            if (requestBody.args["tag" + i])
+                tags["tag" + i] = requestBody.args["tag" + i];
+            i++;
+        }
+        var res = await this.request.update('tags', tags,{
+                "user_id":requestBody.user
+        });
+    }
+
+    async get_tags(requestBody){
+        return this.request.read('tags', {
+            "user_id":requestBody.user
+        });
+    }
 }
 
 module.exports = { usersAPI };
