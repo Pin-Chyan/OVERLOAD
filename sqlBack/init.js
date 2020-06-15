@@ -20,7 +20,13 @@ var tables = [
             age : 'INT',
             gender : 'INT',
             sexual_pref : 'INT',
-            bio : 'VARCHAR(10000)'
+            bio : 'VARCHAR(10000)',
+            country : 'VARCHAR(255)',
+            province : 'VARCHAR(255)',
+            city : 'VARCHAR(255)',
+            postal_code : 'VARCHAR(255)',
+            x : 'FLOAT',
+            y : 'FLOAT'
         }
     },
     {
@@ -70,18 +76,6 @@ var tables = [
         schema : {
             user_id : 'VARCHAR(255)',
             blocked : 'TEXT'
-        }
-    },
-    {
-        name : "locations", 
-        schema : {
-            user_id : 'VARCHAR(255)',
-            country : 'VARCHAR(255)',
-            province : 'VARCHAR(255)',
-            city : 'VARCHAR(255)',
-            postal_code : 'VARCHAR(255)',
-            x : 'FLOAT',
-            y : 'FLOAT'
         }
     },
     {
