@@ -95,7 +95,7 @@ var tables = [
             chatroom_id : 'VARCHAR(255)',
             from_id : 'VARCHAR(255)',
             msg : 'VARCHAR(2000)',
-            read : 'INT',
+            viewed : 'INT',
             timestamp : 'VARCHAR(255)'
         }
     },

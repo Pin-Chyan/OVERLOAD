@@ -22,14 +22,15 @@ class requestHandler{
         return this.request(query + col + values);
     }
     read(table, locationData){
-        var query = "SELECT * from " + table + " WHERE ";
+        var query = "SELECT * from " + table;
         var locationKeys = Object.keys(locationData);
+        if (locationKeys.length != 0)
+            query += " WHERE ";
         locationKeys.forEach((element,i) => {
             query += element + "=" + "'" + locationData[element] + "'";
             if (i != locationKeys.length - 1)
                 query += ' AND ';
         });
-        console.log(query);
         return this.request(query);
     }
     update(table, columnData, locationData){
@@ -49,6 +50,7 @@ class requestHandler{
         return this.request(query);
     }
     request(query){
+        console.log(query);
         return new Promise((resolve) => {
             this.senpai.query(query, (err, res) => {
                 if (err) resolve({

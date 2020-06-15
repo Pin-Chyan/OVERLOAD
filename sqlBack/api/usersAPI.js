@@ -1,4 +1,4 @@
-const request= require('./request');
+const request = require('./request');
 const test_data = require('./default_data.json');
 
 class usersAPI{
@@ -25,6 +25,21 @@ class usersAPI{
         } else if (body.controller == 'get_tags'){
             console.log(body.controller);
             this.get_tags(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'msg'){
+            console.log(body.controller);
+            this.msg(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'send'){
+            console.log(body.controller);
+            this.send_message(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'db'){
+            console.log(body.controller);
+            this.db(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'get_chats'){
+            console.log(body.controller);
+            this.get_chats(body).then((result) => { res.json(result); })
+        } else if (body.controller == 'get_msg'){
+            console.log(body.controller);
+            this.get_msg(body).then((result) => { res.json(result); })
         } else {
             res.json('error unknown controller');
         }
@@ -47,10 +62,13 @@ class usersAPI{
             res = await this.request.delete('images',{
                 "user_id":test_data[i].email
             });
-            // res = await this.request.delete('locations',{
-            //     "user_id":test_data[i].email
-            // });
             res = await this.request.delete('likes',{
+                "user_id":test_data[i].email
+            });
+            res = await this.request.delete('chatrooms',{
+                "user_id":test_data[i].email
+            });
+            res = await this.request.delete('messages',{
                 "user_id":test_data[i].email
             });
             i++;
@@ -163,6 +181,74 @@ class usersAPI{
         return this.request.read('tags', {
             "user_id":requestBody.user
         });
+    }
+
+    async create_chatroom(requestBody){
+        return this.request.create('chatrooms',{
+            "user_id": requestBody.user,
+            "target_id": requestBody.args.target_id,
+            "chatroom_id": requestBody.user +'_' + requestBody.args.target_id
+        });
+    }
+
+    async send_message(requestBody){
+        return this.request.create('messages',{
+            "chatroom_id" : requestBody.user + '_' + requestBody.args.target_id,
+            "from_id": requestBody.user,
+            "msg": requestBody.args.msg,
+            "viewed" :0,
+            "timestamp":Date.now()
+        })
+    }
+
+    async get_chats(requestBody){
+        var createdby = await this.request.read('chatrooms',{
+            "user_id":requestBody.user
+        });
+        var addedto = await this.request.read('chatrooms',{
+            "target_id":requestBody.user
+        });
+        var status = 'error'
+        if (createdby.status == 'Success' && createdby.status == 'Success')
+            status = 'success';
+        return ({
+            status:status,
+            data: {
+                createdby : createdby,
+                addedto : addedto
+            }
+        })
+    }
+
+    async msg(requestBody){
+        var chatroom_id = requestBody.args.chatroom_id;
+        var chatroom = await this.get_msg(requestBody);
+        console.log(chatroom);
+        if (chatroom.data.length == 0){
+            chatroom_id = requestBody.user +'_' + requestBody.args.target_id;
+            chatroom = await this.request.create('chatrooms',{
+                "user_id": requestBody.user,
+                "target_id": requestBody.args.target_id,
+                "chatroom_id": chatroom_id
+            });
+        }
+        return this.request.create('messages',{
+            "chatroom_id" : chatroom_id,
+            "from_id": requestBody.user,
+            "msg": requestBody.args.msg,
+            "viewed" :0,
+            "timestamp":Date.now()
+        })
+    }
+
+    async get_msg(requestBody){
+        return this.request.read('messages',{
+            "chatroom_id":requestBody.args.chatroom_id
+        })
+    }
+
+    async db(requestBody){
+        return this.request.read(requestBody.args.db, {});
     }
 }
 
