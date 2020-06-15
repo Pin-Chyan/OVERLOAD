@@ -130,6 +130,7 @@ class usersAPI{
             "user_id":requestBody.user
         });
     }
+
 }
 
 module.exports = { usersAPI };
