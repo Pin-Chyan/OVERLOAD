@@ -7,7 +7,7 @@ class requestHandler{
     create(table, columnData){
         var query = "INSERT INTO ";
         var col = table + "(";
-        var values = " values(";
+        var values = " VALUES(";
         var colKeys = Object.keys(columnData);
         colKeys.forEach((element,i) => {
             col += element;
@@ -19,6 +19,7 @@ class requestHandler{
         });
         col += ')';
         values += ')';
+        console.log(query+col+values);
         return this.request(query + col + values);
     }
     read(table, locationData){
@@ -34,8 +35,8 @@ class requestHandler{
         return this.request(query);
     }
     update(table, columnData, locationData){
-        var query = "UPDATE " + table + " SET num = '" + columnData.num + "' WHERE user_id = '" + locationData.user_id + "'";
-        query = "UPDATE " + table + " SET ";
+        // var query = "UPDATE " + table + " SET num = '" + columnData.num + "' WHERE user_id = '" + locationData.user_id + "'";
+        var query = "UPDATE " + table + " SET ";
         var colKeys = Object.keys(columnData);
         colKeys.forEach((element,i) => {
             query += element + "=" + "'" + columnData[element] + "'";
