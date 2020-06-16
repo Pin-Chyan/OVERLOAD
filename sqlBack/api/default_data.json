@@ -635,7 +635,7 @@
         "gender"        : 1,
         "age"           : 21,
         "email"         : "BotGabe@gmail.com",
-        "sexual_pref"   : 0,
+        "sexual_pref"   : -2,
         "tag"           : [
             "ak-47", "Stern", "toggle", "walls"
         ],

@@ -28,9 +28,6 @@ class usersAPI{
         } else if (body.controller == 'msg'){
             console.log(body.controller);
             this.msg(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'send'){
-            console.log(body.controller);
-            this.send_message(body).then((result) => { res.json(result); })
         } else if (body.controller == 'db'){
             console.log(body.controller);
             this.db(body).then((result) => { res.json(result); })
@@ -173,32 +170,14 @@ class usersAPI{
             i++;
         }
         var res = await this.request.update('tags', tags,{
-                "user_id":requestBody.user
-        });
-    }
-
-    async get_tags(requestBody){
-        return this.request.read('tags', {
             "user_id":requestBody.user
         });
     }
 
-    async create_chatroom(requestBody){
-        return this.request.create('chatrooms',{
-            "user_id": requestBody.user,
-            "target_id": requestBody.args.target_id,
-            "chatroom_id": requestBody.user +'_' + requestBody.args.target_id
+    async get_tags(requestBody){
+        return this.request.aread('tags', {
+            "user_id":requestBody.user
         });
-    }
-
-    async send_message(requestBody){
-        return this.request.create('messages',{
-            "chatroom_id" : requestBody.user + '_' + requestBody.args.target_id,
-            "from_id": requestBody.user,
-            "msg": requestBody.args.msg,
-            "viewed" :0,
-            "timestamp":Date.now()
-        })
     }
 
     async get_chats(requestBody){
