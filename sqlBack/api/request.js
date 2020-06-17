@@ -35,7 +35,6 @@ class requestHandler{
         return this.request(query);
     }
     update(table, columnData, locationData){
-        // var query = "UPDATE " + table + " SET num = '" + columnData.num + "' WHERE user_id = '" + locationData.user_id + "'";
         var query = "UPDATE " + table + " SET ";
         var colKeys = Object.keys(columnData);
         colKeys.forEach((element,i) => {

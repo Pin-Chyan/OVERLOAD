@@ -11,13 +11,10 @@ class searchAPI{
         
     query(req, res){
         var body = req.body;
-        if (body.controller == 'search')
-            this.search(body).then((result) => { res.json(result); });
-        else if (body.controller == 'match')
-            this.match(body).then((result) => { res.json(result); });
-        else {
+        if (this[body.controller])
+            this[body.controller](body).then(result => { res.json(result); });
+        else
             res.json('error unknown controller');
-        }
     }
 
     test(){
