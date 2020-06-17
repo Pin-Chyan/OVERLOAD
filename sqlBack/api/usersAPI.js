@@ -10,45 +10,10 @@ class usersAPI{
         
     query(req, res){
         var body = req.body;
-        if (body.controller == 'add_defaults'){
-            console.log(body.controller);
-            this.add_defaults(body).then((result) => { res.json(result); });
-        } else if (body.controller == 'upload_img'){
-            console.log(body.controller);
-            this.upload_image(body).then((result) => { res.json(result); });
-        } else if (body.controller == 'get_img'){
-            console.log(body.controller);
-            this.get_image(body).then((result) => { res.json(result); });
-        } else if (body.controller == 'selected_tags'){
-            console.log(body.controller);
-            this.selected_tags(body).then((result) => {res.json(result); })
-        } else if (body.controller == 'get_tags'){
-            console.log(body.controller);
-            this.get_tags(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'msg'){
-            console.log(body.controller);
-            this.msg(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'db'){
-            console.log(body.controller);
-            this.db(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'get_chats'){
-            console.log(body.controller);
-            this.get_chats(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'get_msg'){
-            console.log(body.controller);
-            this.get_msg(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'update_likes'){
-            console.log(body.controller);
-            this.update_likes(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'remove_like'){
-            console.log(body.controller);
-            this.remove_like(body).then((result) => { res.json(result); })
-        } else if (body.controller == 'get_likes'){
-            console.log(body.controller);
-            this.get_likes(body).then((result) => { res.json(result); })
-        } else {
+        if (this[body.controller])
+            this[body.controller](body).then(result => { res.json(result); });
+        else
             res.json('error unknown controller');
-        }
     }
 
     async test(){
