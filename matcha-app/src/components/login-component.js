@@ -44,16 +44,34 @@ export default class Login extends Component {
         this.setState({ emailErr: '', passwordErr: ''});      
 
         if (!(user.email === "" || user.password === "")) {
-            axios.post(ip+'/auth/getToken', user)
+            console.log({
+                "controller":"login",
+                "user":user.email,
+                "args":{
+                    "password":user.password
+                }
+            });
+            axios.post(ip+'/auth', {
+                "controller":"login",
+                "user":user.email,
+                "args":{
+                    "password":user.password
+                },
+            })
             .then(res => {
-                if (res.data.resCode === 1) {
-                    this.setState({ emailErr: "Email or Password incorrect" });
-                } else if (res.data.resCode) {
-                    this.setState({ emailErr: "Email has not been confirmed!" });
-                } else {
-                    localStorage.setItem('token', res.data.token);
-                    localStorage.setItem('logged', 'live');
-                    window.location.replace('/');
+                console.log(res);
+                if (res.status == 200){
+                    if (res.data.resCode === 1) {
+                        this.setState({ emailErr: "Email or Password incorrect" });
+                    } else if (res.data.resCode) {
+                        this.setState({ emailErr: "Email has not been confirmed!" });
+                    } else {
+                        localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('user_id', user.email);
+                        localStorage.setItem('logged', 'live');
+                        window.location.replace('/');
+                        // console.log('logged in');
+                    }
                 }
             })
             .catch(err => {

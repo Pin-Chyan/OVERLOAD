@@ -21,9 +21,6 @@ class controllers{
             res.json('error unknown controller');
     }
 
-    test(){
-        return ('authAPI online');
-    }
     async login(requestBody){
         var user = await this.request.read('users',{
             "user_id": requestBody.user
@@ -39,6 +36,15 @@ class controllers{
                 "status":404,
                 "msg":"unknown user"
             });
+        if (user.data[0].verify == 0)
+            return ({
+                "status":200,
+                "data":{
+                    "resCode":2
+                }
+            });
+        console.log(requestBody.args.password);
+        console.log(user.data[0].password);
         if (requestBody.args.password == user.data[0].password){
             var assign_token = await this.request.update('users',{
                 "token":new_token
@@ -54,6 +60,13 @@ class controllers{
                 "status":200,
                 "data":{
                     "token":new_token
+                }
+            })
+        } else {
+            return ({
+                "status":200,
+                "data":{
+                    "resCode":1
                 }
             })
         }

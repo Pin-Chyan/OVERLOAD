@@ -20,10 +20,12 @@ import Search from "./components/search-component.js";
 import Profiles from "./components/profiles-component.js";
 import Notification from "./components/notification-component.js";
 import ChatPage from "./components/chatpage-component.js";
+import neweve from "./components/neweve";
 function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/neweve" exact component={neweve} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/invite" exact component={invite} />
