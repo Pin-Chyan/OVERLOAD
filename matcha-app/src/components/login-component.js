@@ -21,6 +21,8 @@ export default class Login extends Component {
           emailErr: '',
           passwordErr: ''
         }
+        if (localStorage.getItem('logged') == 'live')
+            window.location.replace('/');
     }
 
     componentDidMount(){
@@ -29,7 +31,7 @@ export default class Login extends Component {
 		burger.addEventListener('click', function(){
 		burger.classList.toggle('is-active');
 		nav.classList.toggle('is-active');
-		})
+        });
     }
     onChangeEmail(e) {
         this.setState({email: e.target.value});

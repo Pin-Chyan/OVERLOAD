@@ -35,25 +35,25 @@ export default class Home extends Component {
             if (promise.status === 200)
                 return promise.data;
         }
-        server_get(this.ip,this.jwt).then(res => {
-            ///      <<<< begin binding after database online >>>>
-            this.globalbtn_handler = this.globalbtn_handler.bind(this);
-            this.handleChange = this.handleChange.bind(this);
-            this.is_liked = this.is_liked.bind(this);
-            this.busy = 0;
-            this.curr_page = [0,0,0];
-            this.other_page = [0,0,0];
-            this.state = {
-                "user" : res,
-                "checked": false
-            }
-            if (this.props.location.user){
-                this.setState({"user":this.props.location.user});
-                this.eve_mount();
-            }
-            else
-                this.userData_getter(0);
-        }).catch(err => {console.log('eve redirect' + err)});
+        // server_get(this.ip,this.jwt).then(res => {
+        //     ///      <<<< begin binding after database online >>>>
+        //     this.globalbtn_handler = this.globalbtn_handler.bind(this);
+        //     this.handleChange = this.handleChange.bind(this);
+        //     this.is_liked = this.is_liked.bind(this);
+        //     this.busy = 0;
+        //     this.curr_page = [0,0,0];
+        //     this.other_page = [0,0,0];
+        //     this.state = {
+        //         "user" : res,
+        //         "checked": false
+        //     }
+        //     if (this.props.location.user){
+        //         this.setState({"user":this.props.location.user});
+        //         this.eve_mount();
+        //     }
+        //     else
+        //         this.userData_getter(0);
+        // }).catch(err => {console.log('eve redirect' + err)});
     }
     userData_getter(reset){
         async function get_data(email,jwt,ip,target){

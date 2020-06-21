@@ -20,8 +20,15 @@ class Authenticated extends Component {
         if(!jwt) {
             this.props.history.push('/login');
         } else {
-            axios.post(ip+'/users/getEmail',{} ,{ headers: { Authorization: `bearer ${jwt}` } }).then(res => {
-                this.setState({user: res.data.email});
+            axios.post(ip+'/users',{
+                "controller":"get",
+                "user":localStorage.getItem('user_id'),
+                "token":jwt
+            }).then(res => {
+                if (res.status != 200){
+                    localStorage.removeItem('token');
+                    this.props.history.push('/login');
+                }
             }).catch(err => {
                 localStorage.removeItem('token');
                 this.props.history.push('/login'); 
