@@ -2,7 +2,7 @@ const request = require('./request');
 const test_data = require('./default_data.json');
 const { maxHeaderSize } = require('http');
 
-class searchAPI{
+class controllers{
 
     constructor(senpai){
         this.senpai = senpai;
@@ -130,4 +130,4 @@ class searchAPI{
     }
 }
 
-module.exports = { searchAPI };
+module.exports = { controllers };

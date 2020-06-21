@@ -1,7 +1,7 @@
 const request = require('./request');
 const test_data = require('./default_data.json');
 
-class testAPI{
+class controllers{
 
     constructor(senpai){
         this.senpai = senpai;
@@ -68,4 +68,4 @@ class testAPI{
     
 }
 
-module.exports = { testAPI };
+module.exports = { controllers };

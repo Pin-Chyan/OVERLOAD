@@ -5,13 +5,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
-const auth = require('./api/authAPI');
-const chat = require('./api/chatAPI');
-const notifications = require('./api/notificationsAPI');
+const auth = require('./api/auth');
+const chat = require('./api/chat');
+const notify = require('./api/notify');
+const images = require('./api/images');
+const likes = require('./api/likes');
+const tags = require('./api/tags');
 const ping = require('./api/pingAPI');
-const search = require('./api/searchAPI');
-const users = require('./api/usersAPI');
-const test = require('./api/testAPI');
+const search = require('./api/search');
+const users = require('./api/users');
+const test = require('./api/test');
 const port = 5001;
 const senpai = mysql.createConnection({
     host: process.env.HOST,
@@ -28,35 +31,47 @@ senpai.connect((err) => {
     });
 })
 // build api classes
-const authAPI = new auth.authAPI(senpai);
-const chatAPI = new chat.chatAPI(senpai);
-const notificationsAPI = new notifications.notificationsAPI(senpai);
-const pingAPI = new ping.pingAPI(senpai);
-const searchAPI = new search.searchAPI(senpai);
-const usersAPI = new users.usersAPI(senpai);
-const testAPI = new test.testAPI(senpai);
+const authControllers = new auth.controllers(senpai);
+const chatControllers = new chat.controllers(senpai);
+const notifyControllers = new notify.controllers(senpai);
+const pingControllers = new ping.controllers(senpai);
+const likesControllers = new likes.controllers(senpai);
+const tagsControllers = new tags.controllers(senpai);
+const imagesControllers = new images.controllers(senpai);
+const searchControllers = new search.controllers(senpai);
+const usersControllers = new users.controllers(senpai);
+const testControllers = new test.controllers(senpai);
 // 
 app.use(cors());
 app.use(bodyParser());
 app.use(express.json({limit: '50mb'}));
 app.post('/auth', (req,res) => {
-    authAPI.query(req,res);
+    authControllers.query(req,res);
 });
 app.post('/chat', (req,res) => {
-    chatAPI.query(req,res);
+    chatControllers.query(req,res);
 });
 app.post('/notify', (req,res) => {
-    notificationsAPI.query(req,res);
+    notifyControllers.query(req,res);
 });
 app.post('/ping', (req,res) => {
-    pingAPI.query(req,res);
+    pingControllers.query(req,res);
 });
 app.post('/search', (req,res) => {
-    searchAPI.query(req,res);
+    searchControllers.query(req,res);
 });
-app.post('/user', (req,res) => {
-    usersAPI.query(req,res);
+app.post('/users', (req,res) => {
+    usersControllers.query(req,res);
 });
 app.post('/test', (req, res) => {
-    testAPI.query(req, res);
-})
+    testControllers.query(req, res);
+});
+app.post('/images', (req, res) => {
+    imagesControllers.query(req, res);
+});
+app.post('/likes', (req, res) => {
+    likesControllers.query(req, res);
+});
+app.post('/tags', (req, res) => {
+    tagsControllers.query(req, res);
+});

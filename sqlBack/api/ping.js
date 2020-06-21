@@ -1,7 +1,7 @@
 const request = require('./request');
 const test_data = require('./default_data.json');
 
-class chatAPI{
+class controllers{
 
     constructor(senpai){
         this.senpai = senpai;
@@ -13,9 +13,9 @@ class chatAPI{
     }
 
     test(){
-        return ('chatAPI online');
+        return ('pingAPI online');
     }
     
 }
 
-module.exports = { chatAPI };
+module.exports = { controllers };
