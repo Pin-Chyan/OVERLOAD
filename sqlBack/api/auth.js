@@ -11,10 +11,16 @@ class controllers{
     query(req, res){
         var body = req.body;
         if (this[body.controller])
-            this[body.controller](body).then(result => { res.json(result); });
+            this[body.controller](body).then(result => { 
+                if (result.status == 200)
+                    res.json(result.data);
+                else
+                    res.sendStatus(result.status);
+            });
         else
             res.json('error unknown controller');
     }
+
     test(){
         return ('authAPI online');
     }
@@ -25,12 +31,12 @@ class controllers{
         var new_token = Date.now();
         if (user.status == 'error')
             return ({
-                "status":"error",
+                "status":500,
                 "data":"server error"
             });
         if (user.data.length == 0)
             return ({
-                "status":"error",
+                "status":404,
                 "msg":"unknown user"
             });
         if (requestBody.args.password == user.data[0].password){
@@ -41,11 +47,11 @@ class controllers{
             });
             if (assign_token.status == 'error')
                 return ({
-                    "status":"error",
+                    "status":500,
                     "data":"server error"
                 });
             return ({
-                "status":"success",
+                "status":200,
                 "data":{
                     "token":new_token
                 }

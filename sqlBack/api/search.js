@@ -11,15 +11,35 @@ class controllers{
         
     query(req, res){
         var body = req.body;
-        if (this[body.controller])
-            this[body.controller](body).then(result => { res.json(result); });
-        else
-            res.json('error unknown controller');
+        this.auth(body).then((authResult) => {
+            console.log(authResult);
+            if (authResult.status != 200)
+                res.sendStatus(authResult.status);
+            else if (this[body.controller])
+                this[body.controller](body).then(result => { 
+                    if (result.status == 200)
+                        res.json(result.data);
+                    else
+                        res.sendStatus(result.status);
+                });
+            else
+                res.json('error unknown controller');
+        });
     }
-
-    test(){
-        return ('searchAPI online');
-    }
+    async auth(requestBody){
+        var user = await this.request.read('users',{
+            "user_id":requestBody.user
+        });
+        if (user.status == 'error')
+            return this.ret(500,'server error');
+        if (user.data.length == 0)
+            return this.ret(404,'unknown user');
+        if (requestBody.token == "admin")
+            return this.ret(200,'welp');
+        if (requestBody.token != user.data[0].token)
+            return this.ret(403,'invalid token');
+        return this.ret(200,'welp');
+    } // checks token
 
     async search(requestBody){
         var userData = await this.request.read('users',{});
@@ -33,7 +53,7 @@ class controllers{
                     validated.push(user);
         });
         return ({
-            status : 'success',
+            status : 200,
             data : this.packaging(validated, reqUser.data[0])
         })
     }
@@ -59,7 +79,7 @@ class controllers{
                         validated.push(match_user);
         });
         return ({
-            status : 'success',
+            status : 200,
             data : this.packaging(validated, user)
         });
     }

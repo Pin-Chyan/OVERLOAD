@@ -10,15 +10,36 @@ class controllers{
         
     query(req, res){
         var body = req.body;
-        if (this[body.controller])
-            this[body.controller](body).then(result => { res.json(result); });
-        else
-            res.json('error unknown controller');
+        this.auth(body).then((authResult) => {
+            console.log(authResult);
+            if (authResult.status != 200)
+                res.sendStatus(authResult.status);
+            else if (this[body.controller])
+                this[body.controller](body).then(result => { 
+                    if (result.status == 200)
+                        res.json(result.data);
+                    else
+                        res.sendStatus(result.status);
+                });
+            else
+                res.json('error unknown controller');
+        });
     }
+    async auth(requestBody){
+        var user = await this.request.read('users',{
+            "user_id":requestBody.user
+        });
+        if (user.status == 'error')
+            return this.ret(500,'server error');
+        if (user.data.length == 0)
+            return this.ret(404,'unknown user');
+        if (requestBody.token == "admin")
+            return this.ret(200,'welp');
+        if (requestBody.token != user.data[0].token)
+            return this.ret(403,'invalid token');
+        return this.ret(200,'welp');
+    } // checks token
 
-    test(){
-        return ('pingAPI online');
-    }
     async get_chats(requestBody){
         var createdby = await this.request.read('chatrooms',{
             "user_id":requestBody.user
@@ -26,9 +47,9 @@ class controllers{
         var addedto = await this.request.read('chatrooms',{
             "target_id":requestBody.user
         });
-        var status = 'error'
+        var status = 500;
         if (createdby.status == 'Success' && createdby.status == 'Success')
-            status = 'success';
+            status = 200;
         return ({
             status:status,
             data: {

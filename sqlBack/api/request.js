@@ -19,7 +19,6 @@ class requestHandler{
         });
         col += ')';
         values += ')';
-        console.log(query+col+values);
         return this.request(query + col + values);
     }
     read(table, locationData){
@@ -58,7 +57,7 @@ class requestHandler{
                     "data": err['sqlMessage']
                 })
                 resolve({
-                    "status":"Success",
+                    "status":200,
                     "data": res
                 });
             })

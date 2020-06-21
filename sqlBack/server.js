@@ -11,7 +11,8 @@ const notify = require('./api/notify');
 const images = require('./api/images');
 const likes = require('./api/likes');
 const tags = require('./api/tags');
-const ping = require('./api/pingAPI');
+const ping = require('./api/ping');
+const defaults = require('./api/defaults');
 const search = require('./api/search');
 const users = require('./api/users');
 const test = require('./api/test');
@@ -36,6 +37,7 @@ const chatControllers = new chat.controllers(senpai);
 const notifyControllers = new notify.controllers(senpai);
 const pingControllers = new ping.controllers(senpai);
 const likesControllers = new likes.controllers(senpai);
+const defaultsControllers = new defaults.controllers(senpai);
 const tagsControllers = new tags.controllers(senpai);
 const imagesControllers = new images.controllers(senpai);
 const searchControllers = new search.controllers(senpai);
@@ -74,4 +76,7 @@ app.post('/likes', (req, res) => {
 });
 app.post('/tags', (req, res) => {
     tagsControllers.query(req, res);
+});
+app.post('/defaults', (req, res) => {
+    defaultsControllers.query(req, res);
 });
