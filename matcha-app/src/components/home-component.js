@@ -79,15 +79,16 @@ export default class Home extends Component {
         req.targ = [[0,100],-2,-2,this.state.user.sexual_pref === 0 ? -2 : this.state.user.sexual_pref,this.state.user.gender,-2,-2,-2,-2];
         req.in = 'null';
         req.tags = ['null'];
-        get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
-            if (res.data !== 'no_res'){
-                this.setState({"results":res.data});
-                // this.Carousel_handle(this.state.results[0]);
-                this.page_handler('found');
-            } else if (res.data === 'no_res'){
-                this.page_handler('not_found');
-            }
-        }).catch(err => {this.props.history.push('/logout')})
+        this.page_handler('not_found');
+        // get_matches(this.state.user.email,this.jwt,this.ip,req).then(res => {
+            // if (res.data !== 'no_res'){
+            //     this.setState({"results":res.data});
+            //     // this.Carousel_handle(this.state.results[0]);
+            //     this.page_handler('found');
+            // } else if (res.data === 'no_res'){
+            //     this.page_handler('not_found');
+            // }
+        // }).catch(err => {this.props.history.push('/logout')})
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

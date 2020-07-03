@@ -72,7 +72,7 @@ export default class Login extends Component {
                         localStorage.setItem('user_id', user.email);
                         localStorage.setItem('logged', 'live');
                         window.location.replace('/');
-                        // console.log('logged in');
+                        console.log('logged in');
                     }
                 }
             })

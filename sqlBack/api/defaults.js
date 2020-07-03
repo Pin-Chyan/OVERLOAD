@@ -15,7 +15,7 @@ class controllers{
         else
             res.json('error unknown controller');
     }
-    async add_defaults(requestBody){
+    async add(requestBody){
         var res;
         var i = 0;
         while (i < test_data.length){
