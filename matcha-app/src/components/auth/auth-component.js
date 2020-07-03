@@ -37,11 +37,11 @@ class Authenticated extends Component {
     }
 
     render() {
-        if (this.state.user === undefined) {
-            return (
-                <div><h1>Loading...</h1></div>
-            );
-        }
+        // if (this.state.user === undefined) {
+        //     return (
+        //         <div><h1>Loading...</h1></div>
+        //     );
+        // }
         return (
         <div>
             {this.props.children}

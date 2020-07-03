@@ -101,7 +101,7 @@ export default class Home extends Component {
         if (mode === 'found'){
             nav_bar = this.nav_constructor();
             if (document.getElementById('navMenu'+this.div_key))
-                ReactDOM.render(nav_bar, document.getElementById('navMenu'+this.div_key))
+                ReactDOM.render(this.nav_constructor(), document.getElementById('navMenu'+this.div_key))
             if (!localStorage.liked || !localStorage.likes)
                 this.sleep(500).then(() => {this.page_handler('found')})
             this.Carousel_handle(this.state.results[0]);

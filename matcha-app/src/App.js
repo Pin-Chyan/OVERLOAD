@@ -4,6 +4,7 @@ import "./App.sass";
 
 import Register from "./components/register-component.js";
 import Home from "./components/home-component.js";
+import newHome from "./components/new-home.js";
 import Login from "./components/login-component.js";
 import User from "./components/user-component.js";
 import Edit from "./components/edit-component.js";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/logout" exact component={logout} />
           <Route path="/search" exact component={Search}/>
           <Route path="/" exact component={Home}/>
+          <Route path="/newHome" exact component={newHome}/>
         </Authenticate>
       </Switch>
     </Router>
