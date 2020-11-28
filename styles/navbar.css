@@ -1,0 +1,13 @@
+.gradient {
+	background-image: linear-gradient(to right,rgb(0, 128, 128) , rgb(0, 184, 230));
+	/*background-image: linear-gradient(to right ,rgb(49, 55, 87) ,rgb(153, 250, 252));*/
+	/*opacity: 0.7;*/
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,.7);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255,255,255,1);
+}

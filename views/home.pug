@@ -6,15 +6,48 @@ html(lang="en")
 		link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
 		link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
 		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster")
+		link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap")
+		link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat&display=swap")
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 		style
 			include ../styles/base.css
+			include ../styles/navbar.css
+			include ../styles/image.css
+			include ../styles/font.css
 		title Home
 	body
 		header
 			include ../views/commons/navbar
-		
+
 		article
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, aliquam provident suscipit, praesentium molestias blanditiis itaque harum obcaecati veritatis nemo animi doloremque totam voluptatibus dolore ipsa. Repudiandae animi a quisquam.
-		
+			div.text-center.div-50
+				//- UserName
+				h1.lobster-2 Kate Monrou
+
+				//- Profile Image
+				img.rounded.shadow-lg.mb-2.mt-2.w-100.h-100.img-500(src="https://i.pinimg.com/originals/35/26/fc/3526fca5af9eaa620475a131a62cf1e6.jpg" alt="Person_Img")
+
+				//- Personal Description
+				div
+					pre.caveat 9137 Harvard Ave. Los Angeles, CA 90019
+						br/
+						| 10 miles
+						hr/
+						
+					
+				//- Options
+				div.container.text-center(id="profileDetails")
+					div.cl-white.margin-zero(id="btnsDiv")
+						button.btn.btn-primary(type="button" id="likeBtn")
+							i(class="fa fa-heart")
+						button.btn.btn-warning(type="button" id="fame")
+							i 0
+						button.btn.btn-light(type="button" id="dislikeBtn"  onclick="updateUser()")
+							i(class="fa fa-thumbs-down")
+						button.btn.btn-danger(type="button" id="blockBtn")
+							i(class="fa fa-ban")
+
+
+			Lorem.caveat ipsum dolor sit amet consectetur adipisicing elit. Quaerat, aliquam provident suscipit, praesentium molestias blanditiis itaque harum obcaecati veritatis nemo animi doloremque totam voluptatibus dolore ipsa. Repudiandae animi a quisquam.
+
 		footer
