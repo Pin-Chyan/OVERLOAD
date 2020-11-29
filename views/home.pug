@@ -22,18 +22,23 @@ html(lang="en")
 		article
 			div.text-center.div-50
 				//- UserName
-				h1.lobster-2 Kate Monrou
+				h1.lobster-2 Kate Monrou, 25
 
 				//- Profile Image
 				img.rounded.shadow-lg.mb-2.mt-2.w-100.h-100.img-500(src="https://i.pinimg.com/originals/35/26/fc/3526fca5af9eaa620475a131a62cf1e6.jpg" alt="Person_Img")
 
 				//- Personal Description
 				div
-					pre.caveat 9137 Harvard Ave. Los Angeles, CA 90019
+					p.caveat 9137 Harvard Ave. Los Angeles, CA 90019
 						br/
 						| 10 miles
+						br/
+						| Female
+						br/
+						| Reading, Gaming
 						hr/
-						
+					//- About Me
+					p.caveat.overflow Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus suscipit reprehenderit nesciunt minus iste, deserunt perspiciatis repudiandae vel doloribus officia autem. Eum unde ipsum maxime magnam dolor modi, quasi voluptatum!
 					
 				//- Options
 				div.container.text-center(id="profileDetails")
@@ -48,6 +53,5 @@ html(lang="en")
 							i(class="fa fa-ban")
 
 
-			Lorem.caveat ipsum dolor sit amet consectetur adipisicing elit. Quaerat, aliquam provident suscipit, praesentium molestias blanditiis itaque harum obcaecati veritatis nemo animi doloremque totam voluptatibus dolore ipsa. Repudiandae animi a quisquam.
-
-		footer
+		footer.bg-dark
+			include ../views/commons/footer

@@ -13,7 +13,7 @@ app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
 
 router.get('/', function(req, res) {
-        res.render('home.pug');
+        res.redirect('/login');
 })
 
 router.get('/register', function(req, res) {
@@ -22,4 +22,16 @@ router.get('/register', function(req, res) {
 
 router.get('/login', function(req, res) {
         res.render('login.pug');
+})
+
+router.get('/home', function(req, res) {
+		res.render('home.pug');
+})
+
+router.get('/profile', function(req, res) {
+        res.render('profile.pug');
+})
+
+router.get('/chats', function(req, res) {
+        res.render('chats.pug');
 })
