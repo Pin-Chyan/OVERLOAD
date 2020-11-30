@@ -3,13 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const db = require('./db');
-
-
-const connection = new db.dbConn();
-connection.getConnection().connect((err) => {
-    console.log('connected');
-})
 
 const defaultRoute = require('./routes/defaultData.js');
 
