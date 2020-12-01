@@ -1,49 +1,52 @@
 require('dotenv').config();
 const router = require('express').Router();
-const test_data = require('../test/default.json');
-const db = require('../db');
-const userHandler = require('../user');
-const defaultData = require('../default.json');
+const defaultData = require('../init/default.json');
+
+const db = require('../database/db');
 const connection = new db.dbConn();
 
-
-router.route('/hi').post( (req, res) => {
-    console.log("HI");
-    res.json("yes");
-})
+const request = require('../database/request');
+const requestHandler = new request.handler(connection.getConnection());
 
 
 router.route('/testdata').post( (req, res) => {
-    console.log("HI");
     async function uploadDefault(senpai){
         var i = 0;
         var newUser;
         var res;
         while(i < defaultData.length){
-            newUser = new userHandler.userHandler(senpai);
-            res = await newUser.create(defaultData[i].email);
-            if (res == 'success'){
-                await newUser.insert("users","name",defaultData[i].name);
-                await newUser.insert("users","surname",defaultData[i].last);
-                await newUser.insert("users","password",defaultData[i].password);
-                await newUser.insert("users","gender",defaultData[i].gender);
-                await newUser.insert("users","age",defaultData[i].age);
-                await newUser.insert("users","sexual_pref",defaultData[i].sexual_pref);
-                await newUser.insert("users","tag",defaultData[i].tag.toString());
-                await newUser.insert("users","location",defaultData[i].location.toString());
-            }
+            newUser = defaultData[i];
             i++;
-        }
-        i = 0;
-        while(i < defaultData.length){
-            newUser = new userHandler.userHandler(senpai);
-            res = await newUser.init(defaultData[i].email);
-            if (res == 'success'){
-                newUser.get("users").then((res) => {
-                    console.log(res);
-                });
+
+            res = await requestHandler.newuser(newUser.email);
+            if (res == 'error')
+                continue;
+            res = await requestHandler.getUserID(newUser.email);
+            if (res == -1)
+                continue;
+
+            await requestHandler.update('users','name', newUser.name , res);
+            await requestHandler.update('users','surname', newUser.last , res);
+            await requestHandler.update('users','password', newUser.password , res);
+            await requestHandler.update('users','gender', newUser.gender , res);
+            await requestHandler.update('users','age', newUser.age , res);
+            await requestHandler.update('users','sexual_pref', newUser.sexual_pref , res);
+            await requestHandler.update('users','tag', newUser.tag.toString() , res);
+            await requestHandler.update('users','verified', 1 , res);
+            await requestHandler.update('users','location', newUser.location.toString() , res);
+            if (newUser.img){
+                if (newUser.img["img 1"])
+                    await requestHandler.update('users','img1', newUser.img["img 1"], res);
+                if (newUser.img["img 2"])
+                    await requestHandler.update('users','img2', newUser.img["img 2"], res);
+                if (newUser.img["img 3"])
+                    await requestHandler.update('users','img3', newUser.img["img 3"], res);
+                if (newUser.img["img 4"])
+                    await requestHandler.update('users','img4', newUser.img["img 4"], res);
+                if (newUser.img["img 5"])
+                    await requestHandler.update('users','img5', newUser.img["img 5"], res);
             }
-            i++;
+
         }
     }
     uploadDefault(connection.getConnection()).then(() => {

@@ -30,7 +30,12 @@ var tables = [
             sexual_pref : 'INT',
             tag : 'VARCHAR(255)',
             verified : 'INT',
-            location : 'VARCHAR(255)'
+            location : 'VARCHAR(255)',
+            img1 : 'TEXT',
+            img2 : 'TEXT',
+            img3 : 'TEXT',
+            img4 : 'TEXT',
+            img5 : 'TEXT'
         }
     }
 ];
