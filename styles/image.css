@@ -1,5 +1,9 @@
-.img-500{
+.img-500 {
     max-width: 400px;
     max-height: 600px;
     object-fit: scale-down;
+}
+
+.img-cover {
+	object-fit: cover;
 }
