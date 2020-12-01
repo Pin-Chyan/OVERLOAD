@@ -4,9 +4,10 @@ const router = require('express').Router();
 const db = require('../database/db');
 const connection = new db.dbConn();
 
-router.route('/testroute').get( (req, res) => {
+router.route('/token').get( (req, res) => {
     connection.get('users', req.body.id).then((request) => {
-        res.json(request.data);
+        console.log(req.body);
+        res.json(request.data[0].name + "'s token : " + request.data[0].token);
     })
 })
 

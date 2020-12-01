@@ -10,6 +10,7 @@ app.use(express.json({limit: '50mb'}));
 
 // use routes
 app.use('/default', require('./routes/defaultData.js'));
+app.use('/auth', require('./routes/auth.js'));
 
 app.listen(process.env.HOSTPORT, () => {
     console.log(`Server is running on port: ${process.env.HOSTPORT}`);

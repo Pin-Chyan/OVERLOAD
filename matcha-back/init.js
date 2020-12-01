@@ -1,15 +1,9 @@
-var mysql = require('mysql');
 const defaultData = require('./testdata/default.json');
+const mysql = require('mysql');
 const db = require('./database/db');
+
 require('dotenv').config();
 
-var usr = {
-    host: process.env.HOST,
-    port : process.env.PORT,
-    user: process.env.DBUSER,
-    password: process.env.PASS
-};
-var db_name = process.env.DB
 var tables = [
     {
         name : "users",
@@ -45,8 +39,8 @@ async function init(){
     await connectPromise(conn);
 
     // resetting db
-    await req(conn, "DROP DATABASE " + db_name);
-    await req(conn, "CREATE DATABASE " + db_name);
+    await req(conn, "DROP DATABASE " + process.env.DB);
+    await req(conn, "CREATE DATABASE " + process.env.DB);
 
     // connecting to new db
     const newConn = mysql.createConnection({
