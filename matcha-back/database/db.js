@@ -33,7 +33,8 @@ class dbConn{
         // sql query for creating a user using an email
         var query = "INSERT INTO users (email) VALUES('" + email + "')";
         var res = await this.request(query);
-        if (res.status == 200){
+        console.log(res);
+        if (res.status == 'success'){
             return 'sucess';
         } else {
             return 'error';
@@ -44,7 +45,7 @@ class dbConn{
     async getUserID(email){
         var query = "SELECT id from users WHERE email='" + email + "'";
         var res = await this.request(query);
-        if (res.status == 200){
+        if (res.status == 'success'){
             return res.data[0].id;
         } else {
             return -1;
@@ -68,6 +69,7 @@ class dbConn{
     // updates one value in any specified table and column (columns must be specified)
     update(table, column, data, id){
         var query = "UPDATE " + table + " SET " + column + "='" + data + "' WHERE id='" + id + "'";
+        console.log(query);
         return this.request(query);
     }
 

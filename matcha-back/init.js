@@ -38,14 +38,17 @@ async function uploadDefault(){
     const requestHandler = new db.dbConn();
     while(i < defaultData.length){
         newUser = defaultData[i];
+        // console.log(newUser);
         i++;
 
         res = await requestHandler.newuser(newUser.email);
-        if (res == 'error')
+        if (res == 'error'){
             continue;
+        }
         res = await requestHandler.getUserID(newUser.email);
-        if (res == -1)
+        if (res == -1){
             continue;
+        }
 
         await requestHandler.update('users','name', newUser.name , res);
         await requestHandler.update('users','surname', newUser.last , res);
@@ -68,7 +71,7 @@ async function uploadDefault(){
             if (newUser.img["img 5"])
                 await requestHandler.update('users','img5', newUser.img["img 5"], res);
         }
-        // console.log(await requestHandler.get('users', res));
+        console.log(await requestHandler.get('users', res));
     }
 }
 
@@ -117,4 +120,5 @@ function req(senpai, query){
         })
     })
 }
+
 init().then((res) => { console.log('done');process.exit(1); });
