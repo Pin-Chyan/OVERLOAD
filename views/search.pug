@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+html(lang="en")
+	head
+		include ../views/commons/header
+
+		title Home
+	body
+		header
+			include ../views/commons/navbar
+
+		article
+			.container.text-center
+				h1.mt-white.text-center.mt-5.display-3#heading.cl-white Search Engine
+
+			.container.my-3.mx-auto(style="max-width:750px")
+				button#SortFilter.btn.btn-info.btn-block.w-40(type='button', data-toggle="collapse", data-target=".multi-collapse", aria-expanded="false", aria-controls="Sort Filter") Sort/Filter
+				.row
+					.col-sm-11.py-2.mx-auto
+						#Sort.collapse.multi-collapse
+							.card.card-body.cont.recommend-card.text-center(style='max-width: 750px;')
+								h6(style="color: black !important") Sort By:
+								hr
+								#radio.funkyradio
+									.form-group
+										label.go-away(for="AgeGap") Age:
+										select(name="AgeGap" id="AgeGap")
+											option(value="none") Age Gap?
+											option(value="ascending") Ascending
+											option(value="descending") Descending
+									.form-group
+										label.go-away(for="popularity") Popularity:
+										select(name="popularity" id="popularity")
+											option(value="none") Popularity Factors
+											option(value="ascending") Ascending
+											option(value="descending") Descending
+									.form-group
+										label.go-away(for="distance") Distance:
+										select(name="distance" id="distance")          
+											option(value="none") Range
+											option(value="ascending") Ascending
+											option(value="descending") Descending
+									.form-group
+										label.go-away(for="sexualpref") Sexual Preference:
+										select(name="sp" id="sp")
+											option(value="none") Preference
+											option(value="0") Male
+											option(value="1") Female
+											option(value="2") Bisexual
+					.col-sm-11.py-2.mx-auto
+						#Filter.collapse.multi-collapse
+							.card.card-body.cont.recommend-card.text-center(style='max-width: 750px;')
+								.container
+									h6(style="color: black !important") Filter By:
+									br
+									input#minPop.form-control(type='text', placeholder='Minimum Popularity', name='fameMin')
+									small#fameHelpBlock.form-text.text-muted(style="color: black !important")
+										| Minimum Popularity level, 
+									b           
+									input#ageDiff.form-control(type='text', placeholder='Age Range', name='ageDiff')
+									small#ageHelpBlock.form-text.text-muted(style="color: black !important")
+										| A maximum age range, to display x years above and below your age.
+									b           
+									input#DistanceDiff.form-control(type='text', placeholder='Max Distance', name='DistanceDiff')
+									small#distanceHelpBlock.form-text.text-muted(style="color: black !important")
+										| The Maximum distance from you that you're willing to view people.
+									//-div#userInterests(onkeyup="updateInts()" class="IntDiv")
+									//-	p(id="contentInt" contenteditable="true" class="intInput" onclick="clearp()") Interests
+									//-small#interestHelpBlock.form-text.text-muted(style="color: black !important")
+									//-	| Interests seperated by commas. Example: food, coding, gaming
+							br
+							button#Submit.btn.btn-success.btn-block.btn-lg(type='button', onclick='applyFilters()', name='filterSort') Apply
+							//end of filt
+			.container
+				//- Create new row of matches
+				#matchesList.row.justify-content-center
+					.col-lg-4
+						img.shadow-lg.img-300(src="https://i.pinimg.com/564x/7c/32/31/7c32313848b48fb9a564cfa312999c84.jpg", alt="profile_img")
+						p.caveat.rem-profile Beatrice
+							br/
+							| 10 Miles
+							br/
+							| 19
+					.col-lg-4
+						img.shadow-lg.img-300(src="https://data.whicdn.com/images/116951962/original.jpg", alt="profile_img")
+						p.caveat.rem-profile Yuna
+							br/
+							| 17 Miles
+							br/
+							| 21
+					.col-lg-4
+						img.shadow-lg.img-300(src="https://i.pinimg.com/originals/41/68/d0/4168d07d150eeb2e029cff19cacb770c.jpg", alt="profile_img")
+						p.caveat.rem-profile Aniva
+							br/
+							| 5 Miles
+							br/
+							| 18
+					
+
+		footer.bg-dark
+			include ../views/commons/footer

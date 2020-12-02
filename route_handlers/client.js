@@ -35,3 +35,7 @@ router.get('/profile', function(req, res) {
 router.get('/chats', function(req, res) {
         res.render('chats.pug');
 })
+
+router.get('/search', function(req, res) {
+        res.render('search.pug');
+})

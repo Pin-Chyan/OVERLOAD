@@ -1,6 +1,12 @@
-.img-500 {
+.img-400 {
     max-width: 400px;
     max-height: 600px;
+    object-fit: scale-down;
+}
+
+.img-300 {
+    max-width: 300px;
+    max-height: 400px;
     object-fit: scale-down;
 }
 
