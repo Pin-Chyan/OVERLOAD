@@ -1,33 +1,9 @@
-const defaultData = require('./testdata/default.json');
+const defaultData = require('./database/default.json');
+const tables = require('./database/tables.json');
 const mysql = require('mysql');
 const db = require('./database/db');
 
 require('dotenv').config();
-
-var tables = [
-    {
-        name : "users",
-        schema : {
-            id: 'INT AUTO_INCREMENT primary key NOT NULL UNIQUE',
-            name : 'VARCHAR(255)',
-            surname : 'VARCHAR(255)',
-            password : 'VARCHAR(255)',
-            gender : 'INT',
-            age : 'INT',
-            email : 'VARCHAR(255) UNIQUE',
-            sexual_pref : 'INT',
-            tag : 'VARCHAR(255)',
-            verified : 'INT',
-            location : 'VARCHAR(255)',
-            token : 'VARCHAR(255)',
-            img1 : 'TEXT',
-            img2 : 'TEXT',
-            img3 : 'TEXT',
-            img4 : 'TEXT',
-            img5 : 'TEXT'
-        }
-    }
-];
 
 async function init(){
     const conn = mysql.createConnection({
@@ -92,7 +68,7 @@ async function uploadDefault(){
             if (newUser.img["img 5"])
                 await requestHandler.update('users','img5', newUser.img["img 5"], res);
         }
-        console.log(await requestHandler.get('users', res));
+        // console.log(await requestHandler.get('users', res));
     }
 }
 
@@ -112,6 +88,9 @@ function build_tables(senpai, tables){
     var arr = [];
     tables.forEach(element => {
         arr.push(req(senpai, "CREATE TABLE " + build_table(element)));
+        console.log();
+        console.log("CREATE TABLE " + build_table(element));
+        console.log();
     });
     return Promise.all(arr);
 }
