@@ -24,52 +24,58 @@ html(lang="en")
 								//- Name
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="name" placeholder="Kate")
+										input.form-control.form-control-sm(type="text" id="name" onchange="validName()" placeholder="Kate")
 
 								//- Email
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="email" placeholder="Katymonrou@gmail.com")
+										input.form-control.form-control-sm(type="text" id="email" onchange="verifyEmail()" placeholder="Katymonrou@gmail.com")
 
 								//- gender
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										select.form-control.form-control-sm(name="gender" id="gender" class="form-control")
-											option(value="0") Gender
-											option(value="1") Male
-											option(value="2") Female
-											option(value="3") Bisexual
+										.input-group.mb-2.mr-sm-2
+											.input-group-prepend.form-control-sm.p-0
+												.input-group-text
+													i.fa.fa-transgender
+											select.form-control.form-control-sm(name="gender" id="gender" class="form-control")
+												option(value="1") Male
+												option(value="2") Female
+												option(value="3") Bisexual
 
 								//- Password
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="password" placeholder="********")
+										input.form-control.form-control-sm(type="password" id="password" placeholder="********")
 
 							//- Right Col
 							.col-6
 								//- Surname
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="surname" placeholder="Monrou")
+										input.form-control.form-control-sm(type="text" id="surname" onchange="validSurname()" placeholder="Monrou")
 
 								//- Age
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="age" placeholder="25")
+										input.form-control.form-control-sm(type="text" id="age" onchange="verifyAge()" placeholder="25")
 
 								//- Sexual Pref
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										select.form-control.form-control-sm(name="sp" id="sp" class="form-control")
-											option(value="0") Sexual Preference
-											option(value="1") Male
-											option(value="2") Female
-											option(value="3") Bisexual
+										.input-group.mb-2.mr-sm-2
+											.input-group-prepend.form-control-sm.p-0
+												.input-group-text
+													i.fa.fa-heart
+											select.form-control.form-control-sm(name="sp" id="sp" class="form-control")
+												option(value="1") Male
+												option(value="2") Female
+												option(value="3") Bisexual
 								
 								//- Password Confirm
 								.form-group.row.mt-2.mb-2
 									.col-sm-10
-										input.form-control.form-control-sm(type="text" id="pwconfirm" placeholder="********")
+										input.form-control.form-control-sm(type="password" id="pwconfirm" onchange="verifyPass()" placeholder="********")
 
 						//- Address
 						.form-group.row.mt-2.mb-2
