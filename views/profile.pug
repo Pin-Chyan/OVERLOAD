@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+html(lang="en")
+	head
+		include ../views/commons/header
+
+		title Profile
+	body
+		header
+			include ../views/commons/navbar
+
+		article
+			.container
+				.row
+					.col-4
+						h1.lobster.mt-2.mb-2 Kate Monrou
+						img.rounded.shadow-lg.mb-2.mt-2.w-100.img-400(src="https://i.pinimg.com/originals/35/26/fc/3526fca5af9eaa620475a131a62cf1e6.jpg" alt="Person_Img")
+						h1.lobster.mt-2.mb-2 25
+
+					.col-8
+						h1.lobster.mt-2.mb-2 Details
+						.row.text-justify
+							//- Left Col
+							.col-6
+								//- Name
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="text" id="name" onchange="validName()" placeholder="Kate")
+
+								//- Email
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="text" id="email" onchange="verifyEmail()" placeholder="Katymonrou@gmail.com")
+
+								//- gender
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										.input-group.mb-2.mr-sm-2
+											.input-group-prepend.form-control-sm.p-0
+												.input-group-text
+													i.fa.fa-transgender
+											select.form-control.form-control-sm(name="gender" id="gender" class="form-control")
+												option(value="1") Male
+												option(value="2") Female
+												option(value="3") Bisexual
+
+								//- Password
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="password" id="password" placeholder="********")
+
+							//- Right Col
+							.col-6
+								//- Surname
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="text" id="surname" onchange="validSurname()" placeholder="Monrou")
+
+								//- Age
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="text" id="age" onchange="verifyAge()" placeholder="25")
+
+								//- Sexual Pref
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										.input-group.mb-2.mr-sm-2
+											.input-group-prepend.form-control-sm.p-0
+												.input-group-text
+													i.fa.fa-heart
+											select.form-control.form-control-sm(name="sp" id="sp" class="form-control")
+												option(value="1") Male
+												option(value="2") Female
+												option(value="3") Bisexual
+								
+								//- Password Confirm
+								.form-group.row.mt-2.mb-2
+									.col-sm-10
+										input.form-control.form-control-sm(type="password" id="pwconfirm" onchange="verifyPass()" placeholder="********")
+
+						//- Address
+						.form-group.row.mt-2.mb-2
+							.col-sm-11
+								input.form-control.form-control-sm(type="text" id="address" placeholder="9137 Harvard Ave. Los Angeles, CA 90019")
+						
+						//- Interests
+						.form-group.row.mt-2.mb-2
+							.col-sm-11
+								input.form-control.form-control-sm(type="text" id="interests" placeholder="anime, gaming, socailly awkward")
+						
+						//- Bio
+						.form-group.row.mt-2.mb-2
+							.col-sm-11
+								textarea.form-control.form-control-sm.overflow(type="text" id="bio" rows="5" placeholder="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus suscipit reprehenderit nesciunt minus iste, deserunt perspiciatis repudiandae vel doloribus officia autem. Eum unde ipsum maxime magnam dolor modi, quasi voluptatum!")
+						
+						//- Profile Image
+						.form-group.row.mt-2.mb-2
+							//-label.col-sm-2.col-form-label Profile Image
+							.col-sm-10
+								input.form-control-file.cl-white(type="file" id="img-1" name="n-img-1")
+						
+						//- Update Info Button
+						.form-group.row.mt-2.mb-2
+							//-label.col-sm-2.col-form-label Profile Image
+							.col-sm-11
+								button.btn.btn-lg.btn-block.gradient(class="" type="submit") Update Info
+            			
+
+
+		footer.bg-dark
+			include ../views/commons/footer
