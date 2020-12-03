@@ -63,12 +63,11 @@ html(lang="en")
 									input#DistanceDiff.form-control(type='text', placeholder='Max Distance', name='DistanceDiff')
 									small#distanceHelpBlock.form-text.text-muted(style="color: black !important")
 										| The Maximum distance from you that you're willing to view people.
-									//-div#userInterests(onkeyup="updateInts()" class="IntDiv")
-									//-	p(id="contentInt" contenteditable="true" class="intInput" onclick="clearp()") Interests
-									//-small#interestHelpBlock.form-text.text-muted(style="color: black !important")
-									//-	| Interests seperated by commas. Example: food, coding, gaming
+									input#interests.form-control.form-control-sm(type="text" placeholder="interests" data-role="tagsinput")
+									small#interestHelpBlock.form-text.text-muted(style="color: black !important")
+										| Interests seperated by commas. Example: food, coding, gaming
 							br
-							button#Submit.btn.btn-success.btn-block.btn-lg(type='button', onclick='applyFilters()', name='filterSort') Apply
+							button#Submit.btn.btn-info.btn-block.btn-lg(type='button', onclick='applyFilters()', name='filterSort') Apply
 							//end of filt
 			.container
 				//- Create new row of matches
@@ -94,7 +93,7 @@ html(lang="en")
 							| 5 Miles
 							br/
 							| 18
-					
+
 
 		footer.bg-dark
 			include ../views/commons/footer
