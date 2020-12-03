@@ -85,12 +85,13 @@ html(lang="en")
 						//- Interests
 						.form-group.row.mt-2.mb-2
 							.col-sm-11
-								input.form-control.form-control-sm(type="text" id="interests" placeholder="anime, gaming, socailly awkward")
+								input(type="text" id="interests" placeholder="interests" data-role="tagsinput")
 						
 						//- Bio
 						.form-group.row.mt-2.mb-2
 							.col-sm-11
 								textarea.form-control.form-control-sm.overflow(type="text" id="bio" rows="5" placeholder="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus suscipit reprehenderit nesciunt minus iste, deserunt perspiciatis repudiandae vel doloribus officia autem. Eum unde ipsum maxime magnam dolor modi, quasi voluptatum!")
+						
 						
 						//- Profile Image
 						.form-group.row.mt-2.mb-2
@@ -104,6 +105,16 @@ html(lang="en")
 							.col-sm-11
 								button.btn.btn-lg.btn-block.gradient(class="" type="submit") Update Info
             			
+						//- Testing case comment out if not in use
+						.form-group.row.mt-2.mb-2
+							.col-sm-11
+								textarea.form-control.form-control-sm.overflow(type="text" id="test" rows="5" placeholder="test case")
+						
+						//- Testing case button
+						.form-group.row.mt-2.mb-2
+							//-label.col-sm-2.col-form-label Profile Image
+							.col-sm-11
+								button.btn.btn-lg.btn-block.gradient(class="" type="submit" onclick="tags()") Show Tag Result
 
 
 		footer.bg-dark

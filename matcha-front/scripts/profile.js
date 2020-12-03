@@ -70,3 +70,12 @@ function validSurname(){
 	}
 	return true;
 }
+
+
+// Testing purposes for the tags
+function tags() {
+	var tags = $("input").tagsinput('items')
+	document.getElementById("test").placeholder = tags[8];
+	setTimeout('', 2000);
+	location.reload();
+}

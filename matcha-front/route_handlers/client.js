@@ -39,3 +39,11 @@ router.get('/chats', function(req, res) {
 router.get('/search', function(req, res) {
         res.render('search.pug');
 })
+
+router.get('/confirm', function(req,res) {
+	res.render('./validations/confirm.pug');
+})
+
+router.get('/sent', function(req,res) {
+	res.render('./validations/sent.pug');
+})

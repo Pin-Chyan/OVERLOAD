@@ -44,3 +44,12 @@ label{
 	margin-right: auto;
 	width: 50%;
 }
+
+.inv-struct {
+	max-width: 600px;
+	max-height: 350px;
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-45%, -50%);
+}
