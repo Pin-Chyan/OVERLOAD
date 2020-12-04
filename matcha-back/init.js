@@ -71,7 +71,7 @@ async function uploadDefault(){
             if (newUser.img["img 5"])
                 await requestHandler.update('users','img5', newUser.img["img 5"], res);
         }
-        console.log(await requestHandler.get('users', res));
+        // console.log(await requestHandler.get('users', res));
     }
 }
 

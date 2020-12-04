@@ -11,6 +11,7 @@ app.use(express.json({limit: '50mb'}));
 // using routes built in ./routes
 app.use('/default', require('./routes/defaultData.js'));
 app.use('/auth', require('./routes/auth.js'));
+app.use('/msg', require('./routes/msg.js'));
 
 // server start listening on specifies port
 app.listen(process.env.HOSTPORT, () => {

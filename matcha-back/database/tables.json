@@ -22,10 +22,26 @@
         }
     },
     {
-        "name":"testtable",
-        "schema": {
-            "id": "INT AUTO_INCREMENT primary key NOT NULL UNIQUE",
-            "data" : "text"
+        "name":"likes",
+        "schema":{
+            "id":"INT",
+            "liked":"INT"
+        }
+    },
+    {
+        "name":"notifications",
+        "schema":{
+            "id":"INT",
+            "msg":"VARCHAR(255)"
+        }
+    },
+    {
+        "name":"msg",
+        "schema":{
+            "sender":"INT",
+            "rec":"INT",    
+            "msg":"TEXT",
+            "time":"TEXT"
         }
     }
 ]
