@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { response } = require('express');
 const mysql = require('mysql');
 
 class dbConn{
@@ -29,13 +30,21 @@ class dbConn{
     }
 
     // these are specific methods for creating a new user in the user table
-    async newuser(email){
+    async newuser(userData){
         // sql query for creating a user using an email
-        var query = "INSERT INTO users (email) VALUES('" + email + "')";
+        const {name, surname, email, password} = userData;
+
+        let queryValues = "('" + email + "', ";
+        queryValues += "'" + name + "', ";
+        queryValues += "'" + surname + "', ";
+        queryValues += "'" + 0 + "', ";
+        queryValues += "'" + password + "');";
+    
+        var query = "INSERT INTO users (email, name, surname, verified, password) VALUES" + queryValues;
         var res = await this.request(query);
         // console.log(res);
         if (res.status == 'success'){
-            return 'sucess';
+            return 'success';
         } else {
             return 'error';
         }
@@ -45,8 +54,11 @@ class dbConn{
     async getUserID(email){
         var query = "SELECT id from users WHERE email='" + email + "'";
         var res = await this.request(query);
-        if (res.status == 'success'){
-            return res.data[0].id;
+        if (res.status === 'success'){
+            if (res.data.length > 0)
+                return res.data[0].id;
+            else
+                return -1;
         } else {
             return -1;
         }

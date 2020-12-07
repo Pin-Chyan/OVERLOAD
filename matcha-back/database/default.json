@@ -1,7 +1,7 @@
 [
     {
         "name"          : "Sgt.Bilko",
-        "last"          : "Solivari",
+        "surname"          : "Solivari",
         "password"      : "Noticeme",
         "gender"        : -1,
         "age"           : 21,
@@ -22,7 +22,7 @@
     },
     {
         "name"          : "CYKO",
-        "last"          : "lkrielin",
+        "surname"          : "lkrielin",
         "password"      : "Waifusocks11",
         "gender"        : -1,
         "age"           : 19,
@@ -43,7 +43,7 @@
     },
     {
         "name"          : "Banana",
-        "last"          : "King",
+        "surname"          : "King",
         "password"      : "Bunnyhops",
         "gender"        : -1,
         "age"           : 19,
@@ -64,7 +64,7 @@
     },
     {
         "name"          : "PC",
-        "last"          : "pitsai",
+        "surname"          : "pitsai",
         "password"      : "Waifubot",
         "gender"        : -1,
         "age"           : 19,
@@ -93,7 +93,7 @@
     },
     {
         "name"          : "katsuki",
-        "last"          : "bakugo",
+        "surname"          : "bakugo",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 18,
@@ -117,7 +117,7 @@
     },
     {
         "name"          : "megumin",
-        "last"          : "crimson",
+        "surname"          : "crimson",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 16,
@@ -141,7 +141,7 @@
     },
     {
         "name"          : "Asuna",
-        "last"          : "Yuuki",
+        "surname"          : "Yuuki",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 18,
@@ -165,7 +165,7 @@
     },
     {
         "name"          : "Remu",
-        "last"          : "N/A",
+        "surname"          : "N/A",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 17,
@@ -189,7 +189,7 @@
     },
     {
         "name"          : "Yuno",
-        "last"          : "Gasai",
+        "surname"          : "Gasai",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 14,
@@ -213,7 +213,7 @@
     },
     {
         "name"          : "Isla",
-        "last"          : "N/A",
+        "surname"          : "N/A",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 9,
@@ -237,7 +237,7 @@
     },
     {
         "name"          : "Zero Two",
-        "last"          : "N/A",
+        "surname"          : "N/A",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 20,
@@ -261,7 +261,7 @@
     },
     {
         "name"          : "Lalatina",
-        "last"          : "Dustiness Ford",
+        "surname"          : "Dustiness Ford",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 18,
@@ -285,7 +285,7 @@
     },
     {
         "name"          : "Rias",
-        "last"          : "Gremory",
+        "surname"          : "Gremory",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 19,
@@ -309,7 +309,7 @@
     },
     {
         "name"          : "Takagi",
-        "last"          : "N/A",
+        "surname"          : "N/A",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 22,
@@ -333,7 +333,7 @@
     },
     {
         "name"          : "Violet",
-        "last"          : "Evergarden",
+        "surname"          : "Evergarden",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 14,
@@ -357,7 +357,7 @@
     },
     {
         "name"          : "Akeno",
-        "last"          : "Himejima",
+        "surname"          : "Himejima",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 18,
@@ -381,7 +381,7 @@
     },
     {
         "name"          : "Liam",
-        "last"          : "Du Preez",
+        "surname"          : "Du Preez",
         "password"      : "IamFrench",
         "gender"        : -1,
         "age"           : 20,
@@ -405,7 +405,7 @@
     },
     {
         "name"          : "Tim",
-        "last"          : "Webb",
+        "surname"          : "Webb",
         "password"      : "BigAnimeTiddies4Life",
         "gender"        : -1,
         "age"           : 21,
@@ -429,7 +429,7 @@
     },
     {
         "name"          : "Albedo",
-        "last"          : "N/A",
+        "surname"          : "N/A",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 21,
@@ -453,7 +453,7 @@
     },
     {
         "name"          : "Yoko",
-        "last"          : "Littner",
+        "surname"          : "Littner",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 14,
@@ -477,7 +477,7 @@
     },
     {
         "name"          : "Mai",
-        "last"          : "Sakurajima",
+        "surname"          : "Sakurajima",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 18,
@@ -501,7 +501,7 @@
     },
     {
         "name"          : "Kazuto",
-        "last"          : "Kirigaya",
+        "surname"          : "Kirigaya",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 17,
@@ -525,7 +525,7 @@
     },
     {
         "name"          : "Levi",
-        "last"          : "Ackerman",
+        "surname"          : "Ackerman",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 34,
@@ -549,7 +549,7 @@
     },
     {
         "name"          : "Sebastian",
-        "last"          : "Michaelis",
+        "surname"          : "Michaelis",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 100,
@@ -573,7 +573,7 @@
     },
     {
         "name"          : "Rin",
-        "last"          : "Okumura",
+        "surname"          : "Okumura",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 16,
@@ -597,7 +597,7 @@
     },
     {
         "name"          : "Gilbert",
-        "last"          : "Bougainvillea",
+        "surname"          : "Bougainvillea",
         "password"      : "bot",
         "gender"        : -1,
         "age"           : 29,
@@ -621,7 +621,7 @@
     },
     {
         "name"          : "Bot",
-        "last"          : "Gabe",
+        "surname"          : "Gabe",
         "password"      : "bot",
         "gender"        : 1,
         "age"           : 21,

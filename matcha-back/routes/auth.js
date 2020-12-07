@@ -1,18 +1,55 @@
 require('dotenv').config();
 const router = require('express').Router();
 const db = require('../database/db');
+const bcrypt = require('bcrypt');
 
 
 // for db connection
 const connection = new db.dbConn();
 
-router.route('/token').get( (req, res) => {
+router.route('/validate').post( (req, res) => {
+    connection.getUserID(req.body.email).then((request) => {
+        console.log(request)
+        if (request == -1) {
+            res.json(-1);
+        } else {
+            connection.get('users', request).then((request2) => {
+                if (request2.data[0].verified == 0) {
+                    res.json(0);
+                } else {
+                    bcrypt.compare(req.body.password, request2.data[0].password, (err, isMatch) => {
+                        if (err) throw err;
 
-    // uses get method ot get a user with a specified id
-    connection.get('users', req.body.id).then((request) => {
+                        if (isMatch) {
+                            res.json(1);
+                        } else {
+                            res.json(-1);
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
 
-        // returns that users name and token
-        res.json(request.data[0].name + "'s token : " + request.data[0].token);
+router.route('/register').post((req, res) => {
+    const {name, surname, email, password} = req.body;
+    connection.newuser({name, surname, email, password}).then((request) => {
+        if (request != "error") {
+            res.json({"success" : true})
+        } else {
+            res.json({"success" : false, "error" : "Email already in use"});    
+        }
+    })
+})
+
+router.route('/exists').post((req, res) => {
+    connection.getUserID(req.body.email).then((request) => {
+        if (request != -1) {
+            res.json(false)
+        } else {
+            res.json(true)
+        }
     })
 })
 

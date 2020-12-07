@@ -41,7 +41,7 @@ async function uploadDefault(){
         // console.log(newUser);
         i++;
 
-        res = await requestHandler.newuser(newUser.email);
+        res = await requestHandler.newuser(newUser);
         if (res == 'error'){
             continue;
         }
@@ -50,9 +50,9 @@ async function uploadDefault(){
             continue;
         }
 
-        await requestHandler.update('users','name', newUser.name , res);
-        await requestHandler.update('users','surname', newUser.last , res);
-        await requestHandler.update('users','password', newUser.password , res);
+        // await requestHandler.update('users','name', newUser.name , res);
+        // await requestHandler.update('users','surname', newUser.last , res);
+        // await requestHandler.update('users','password', newUser.password , res);
         await requestHandler.update('users','gender', newUser.gender , res);
         await requestHandler.update('users','age', newUser.age , res);
         await requestHandler.update('users','sexual_pref', newUser.sexual_pref , res);
