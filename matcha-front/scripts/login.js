@@ -1,12 +1,12 @@
 function loginForm(){
 	if (validateForm()){
 		url_redirect({
-			url: "/ssn/login",
-			method: "get",
+			url: "/login",
+			method: "post",
 			data: {
 				"email": $("#email").val(),
 				"password": $("#password").val()
-			}
+		 	}
 		});
 	}
 }

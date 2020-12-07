@@ -1,8 +1,8 @@
 function compForm(){
 	if (validateForm()){
 		url_redirect({
-			url: "/ssn/register",
-			method: "get",
+			url: "/register",
+			method: "post",
 			data: {
 				"name": $("#name").val(),
 				"surname": $("#surname").val(),
@@ -87,6 +87,7 @@ function url_redirect(options) {
 	for (var data in options.data)
 		$form.append('<input type="hidden" name="' + data + '" value="' + options.data[data] + '" />');
 
-	$("body").append($form);
+    $("body").append($form);
+    console.log($form)
 	$form.submit();
 }
