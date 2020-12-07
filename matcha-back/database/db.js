@@ -42,7 +42,7 @@ class dbConn{
     
         var query = "INSERT INTO users (email, name, surname, verified, password) VALUES" + queryValues;
         var res = await this.request(query);
-        console.log(res);
+        // console.log(res);
         if (res.status == 'success'){
             return 'success';
         } else {
@@ -81,7 +81,6 @@ class dbConn{
     // updates one value in any specified table and column (columns must be specified)
     update(table, column, data, id){
         var query = "UPDATE " + table + " SET " + column + "='" + data + "' WHERE id='" + id + "'";
-        console.log(query);
         return this.request(query);
     }
 
