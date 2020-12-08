@@ -13,6 +13,7 @@ app.use('/auth', require('./routes/auth.js'));
 app.use('/msg', require('./routes/msg.js'));
 app.use('/usr', require('./routes/user.js'));
 app.use('/search', require('./routes/search.js'));
+app.use('/likes', require('./routes/likes.js'));
 
 // server start listening on specifies port
 app.listen(process.env.HOSTPORT, () => {
