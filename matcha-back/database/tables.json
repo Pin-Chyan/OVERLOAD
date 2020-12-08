@@ -29,6 +29,13 @@
         }
     },
     {
+        "name":"blocked",
+        "schema":{
+            "id":"INT",
+            "blocked":"INT"
+        }
+    },
+    {
         "name":"notifications",
         "schema":{
             "id":"INT",

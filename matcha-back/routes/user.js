@@ -3,7 +3,7 @@ const router = require('express').Router();
 const db = require('../database/db');
 
 // for db connection
-const connection = new db.dbConn();
+const connection = new db.dbConn(); 
 
 router.route('/me').get( (req, res) => {
     console.log(req.body);
