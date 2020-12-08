@@ -12,6 +12,15 @@ app.set('views', __dirname + './');
 app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
 
+var axios = require('axios');
+const apiUrl = 'http://localhost:5001';
+
 router.get('/getuser', (request, response) => {
-	response.json({ test: 123 });
+	axios({
+		method: 'get',
+		url: apiUrl + '/usr/me',
+		data: request.body
+	}).then(resultData => {
+		response.json(resultData.data);
+	})
 });

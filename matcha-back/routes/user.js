@@ -6,6 +6,7 @@ const db = require('../database/db');
 const connection = new db.dbConn();
 
 router.route('/me').get( (req, res) => {
+    console.log(req.body);
     if (!req.body.id){
         return end(res,401,"an id was not specified");
     }
@@ -15,6 +16,7 @@ router.route('/me').get( (req, res) => {
 
     // reading response
     request.then((result) => {
+        console.log(result.data[0].name);
         if (result.status == 'success')
             return end(res,200, result.data[0]);
         else 

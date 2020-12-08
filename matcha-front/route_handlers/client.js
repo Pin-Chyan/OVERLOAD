@@ -76,7 +76,7 @@ router.post('/register', urlcodedParser, function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-        res.render('login.pug');
+    res.render('login.pug');
 })
 
 router.post('/login',(req,res,next)=>{
@@ -94,19 +94,19 @@ router.get('/logout',(req,res)=>{
 })
 
 router.get('/home', ensureAuthenticated, function(req, res) {
-		res.render('home.pug');
+	res.render('home.pug');
 })
 
 router.get('/profile', ensureAuthenticated, function(req, res) {
-        res.render('profile.pug');
+    res.render('profile.pug');
 })
 
 router.get('/chats', ensureAuthenticated, function(req, res) {
-        res.render('chats.pug');
+    res.render('chats.pug');
 })
 
 router.get('/search', ensureAuthenticated, function(req, res) {
-        res.render('search.pug');
+    res.render('search.pug');
 })
 
 router.get('/confirm', function(req,res) {
