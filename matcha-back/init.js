@@ -2,6 +2,7 @@ const defaultData = require('./database/default.json');
 const tables = require('./database/tables.json');
 const mysql = require('mysql');
 const db = require('./database/db');
+var bcrypt = require('bcrypt');
 
 require('dotenv').config();
 
@@ -31,6 +32,20 @@ async function init(){
     await uploadDefault(newConn);
 }
 
+async function hashPassword (user) {
+    const password = user.password
+    const saltRounds = 10;
+  
+    const hashedPassword = await new Promise((resolve, reject) => {
+      bcrypt.hash(password, saltRounds, function(err, hash) {
+        if (err) reject(err)
+        resolve(hash)
+      });
+    })
+  
+    return hashedPassword
+}
+
 async function uploadDefault(){
     var i = 0;
     var newUser;
@@ -41,6 +56,8 @@ async function uploadDefault(){
         // console.log(newUser);
         i++;
 
+        newUser.password = await hashPassword(newUser)
+
         res = await requestHandler.newuser(newUser);
         if (res == 'error'){
             continue;
@@ -49,6 +66,7 @@ async function uploadDefault(){
         if (res == -1){
             continue;
         }
+
 
         // await requestHandler.update('users','name', newUser.name , res);
         // await requestHandler.update('users','surname', newUser.last , res);

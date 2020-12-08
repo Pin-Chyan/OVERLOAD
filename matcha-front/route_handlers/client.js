@@ -23,7 +23,7 @@ app.set('views', __dirname + './');
 app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
 
-router.get('/', ensureAuthenticated,function(req, res) {
+router.get('/', function(req, res) {
         res.redirect('/login');
 })
 
@@ -59,15 +59,15 @@ router.post('/register', urlcodedParser, function(req, res) {
                         res.redirect('/sent')
                     } else {
                         console.log(response.data.error)
-                        res.render('register', {
-                            errors: response.data.error,
-                            name: user.name,
-                            surname: user.surname,
-                            password:user.password
-                        })
+                        res.redirect('/register')
+                        // , {
+                        //     errors: response.data.error,
+                        //     name: user.name,
+                        //     surname: user.surname,
+                        //     password:user.password
+                        // }
+                        // )
                     }
-                }, (error) => {
-                    console.log(error)
                 })
         })
     })
