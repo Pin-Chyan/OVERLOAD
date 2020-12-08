@@ -68,9 +68,9 @@ async function uploadDefault(){
         }
 
 
-        // await requestHandler.update('users','name', newUser.name , res);
-        // await requestHandler.update('users','surname', newUser.last , res);
-        // await requestHandler.update('users','password', newUser.password , res);
+        await requestHandler.update('users','name', newUser.name , res);
+        await requestHandler.update('users','surname', newUser.last , res);
+        await requestHandler.update('users','password', newUser.password , res);
         await requestHandler.update('users','gender', newUser.gender , res);
         await requestHandler.update('users','age', newUser.age , res);
         await requestHandler.update('users','sexual_pref', newUser.sexual_pref , res);

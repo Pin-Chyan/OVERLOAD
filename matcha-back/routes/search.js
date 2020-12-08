@@ -23,8 +23,51 @@ router.route('/').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
+        var filterResult = filter(req.body.filterParams, result[0].data, result[1].data[0]);
+        console.log(filterResult);
+        res.json(filterResult);
     })
 })
+
+function filter(filterParams, searchData, userData){
+    if (filterParams.age){
+        searchData = filterAge(searchData, filterParams.age.min, filterParams.age.max);
+    }
+    if (filterParams.nameString){
+        searchData = filterNameString(searchData, filterParams.nameString);
+    }
+    return searchData;
+}
+
+function filterAge(searchData, ageMin, ageMax){
+    var newSearchData = [];
+    
+    var i = 0;
+    while (i < searchData.length){
+        if (searchData[i].age >= ageMin && searchData[i].age <= ageMax){
+            newSearchData.push(searchData[i]);
+        }
+        i++;
+    }
+    return newSearchData;
+}
+
+function filterNameString(searchData, nameString){
+    var newSearchData = [];
+    var name;
+    var surname;
+    var i = 0;
+    while (i < searchData.length){
+        name = searchData[i].name.toLowerCase();
+        surname = searchData[i].surname.toLowerCase();
+
+        if (name.includes(nameString) || surname.includes(nameString)){
+            newSearchData.push(searchData[i]);
+        }
+        i++;
+    }
+    return newSearchData;
+}
 
 function end(res, status, msg){
     res.status(status);

@@ -6,7 +6,7 @@ const db = require('../database/db');
 const connection = new db.dbConn();
 
 router.route('/send').post( (req, res) => {
-    // id,rec.msg
+    // id(your id), rec(the msg recipient id), msg
 
     // checking stuff
     if (!req.body.id || !req.body.rec){
@@ -34,7 +34,7 @@ router.route('/send').post( (req, res) => {
 })
 
 router.route('/get').get( (req, res) => {
-    // id, recip_id
+    // id(your id), rec(the msg recipient id)
 
     // checking stuff
     if (!req.body.id || !req.body.rec){
