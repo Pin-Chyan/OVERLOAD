@@ -12,20 +12,6 @@ app.set('views', __dirname + './');
 app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
 
-router.get('/ssn/register', function(req, res) {
-	console.log(req.query);
-	//if (!ssn.user || ssn.user == null){
-	//	res.redirect('/login');
-	//} else {
-		var item = req.query;
-		var hashPassword = passwordHash.generate(item.password);
-		console.log("password-hash: " + hashPassword);
-		//var personalInfo = new UserModel({
-		//	name: item.name,
-		//	surname: item.surname,
-		//	email: item.email,
-		//	password: hashPassword
-		//})
-		//res.redirect('/login');
-	//}
-})
+router.get('/getuser', (request, response) => {
+	response.json({ test: 123 });
+});
