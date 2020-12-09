@@ -5,13 +5,13 @@ const db = require('../database/db');
 const connection = new db.dbConn(); 
 
 router.route('/me').get( (req, res) => {
-    console.log(req.body);
-    if (!req.body.id){
+    console.log(req.query.id);
+    if (!req.query.id){
         return end(res,401,"an id was not specified");
     }
 
     // writing new message to DB
-    var request = connection.get('users', req.body.id);
+    var request = connection.get('users', req.query.id);
 
     // reading response
     request.then((result) => {
