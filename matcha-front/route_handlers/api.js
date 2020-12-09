@@ -1,4 +1,3 @@
-require('dotenv').config();
 const router = require('express').Router();
 
 router.use('/auth', require('./routes/auth.js'));

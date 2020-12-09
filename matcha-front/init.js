@@ -1,7 +1,7 @@
 const defaultData = require('./route_handlers/database/default.json');
 const tables = require('./route_handlers/database/tables.json');
 const mysql = require('mysql');
-const db = require('./api/database/db');
+const db = require('./route_handlers/database/db');
 const bcrypt = require('bcrypt');
 
 require('dotenv').config();

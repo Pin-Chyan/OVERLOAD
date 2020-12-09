@@ -1,11 +1,12 @@
 // server.js
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const app = express();
-const port = 5005;
+const port = process.env.WEBHOSTPORT;
 
 require("./route_handlers/config/passport.js")(passport);
 
