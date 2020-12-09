@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 var axios = require('axios');
-const apiUrl = 'http://localhost:5001';
+const apiUrl = 'http://localhost:5005/api';
 
 module.exports = function(passport) {
     passport.use(

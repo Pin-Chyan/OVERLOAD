@@ -1,0 +1,54 @@
+[
+    {
+        "name" : "users",
+        "schema" : {
+            "id": "INT AUTO_INCREMENT primary key NOT NULL UNIQUE",
+            "name" : "VARCHAR(255)",
+            "surname" : "VARCHAR(255)",
+            "password" : "VARCHAR(255)",
+            "gender" : "INT",
+            "age" : "INT",
+            "email" : "VARCHAR(255) UNIQUE",
+            "sexual_pref" : "INT",
+            "tag" : "VARCHAR(255)",
+            "verified" : "INT",
+            "location" : "VARCHAR(255)",
+            "token" : "VARCHAR(255)",
+            "img1" : "TEXT",
+            "img2" : "TEXT",
+            "img3" : "TEXT",
+            "img4" : "TEXT",
+            "img5" : "TEXT"
+        }
+    },
+    {
+        "name":"likes",
+        "schema":{
+            "id":"INT",
+            "liked":"INT"
+        }
+    },
+    {
+        "name":"blocked",
+        "schema":{
+            "id":"INT",
+            "blocked":"INT"
+        }
+    },
+    {
+        "name":"notifications",
+        "schema":{
+            "id":"INT",
+            "msg":"VARCHAR(255)"
+        }
+    },
+    {
+        "name":"msg",
+        "schema":{
+            "sender":"INT",
+            "rec":"INT",    
+            "msg":"TEXT",
+            "time":"TEXT"
+        }
+    }
+]

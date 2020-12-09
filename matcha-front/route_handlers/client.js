@@ -1,22 +1,14 @@
 const passport = require('passport');
-var express = require('express');
-var bcrypt = require('bcrypt')
-var app = express();
-var bodyParser = require('body-parser');
-var passwordHash = require('password-hash');
-var urlcodedParser = bodyParser.urlencoded({extended: false})
-var router = express.Router();
-var axios = require('axios');
-const { response } = require('express');
+const express = require('express');
+const bcrypt = require('bcrypt')
+const app = express();
+const bodyParser = require('body-parser');
+const urlcodedParser = bodyParser.urlencoded({extended: false})
+const router = express.Router();
+const axios = require('axios');
 const {ensureAuthenticated} = require('./config/auth') 
-// const session = require('express-session');
+const apiUrl = 'http://localhost:5005/api';
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// require("./config/passport.js")(passport);
-// var ssn;
-const apiUrl = 'http://localhost:5001';
 module.exports = router;
 app.set("view engine", "pug");
 app.set('views', __dirname + './');
@@ -24,11 +16,11 @@ app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
 
 router.get('/', function(req, res) {
-        res.redirect('/login');
+    res.redirect('/login');
 })
 
 router.get('/register', function(req, res) {
-		res.render('register.pug');
+	res.render('register.pug');
 })
 
 router.post('/register', urlcodedParser, function(req, res) {

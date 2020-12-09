@@ -1,18 +1,25 @@
 // server.js
-var express = require('express');
+const express = require('express');
 const session = require('express-session');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const passport = require('passport');
-var app = express();
-var port = 5005;
+const cors = require('cors');
+const app = express();
+const port = 5005;
 
-require("./route_handlers/config/passport.js")(passport)
+require("./route_handlers/config/passport.js")(passport);
 
-// our router
-var router = require('./route_handlers/client');
-var api = require('./route_handlers/api');
-// const { session } = require('passport');
+// for backend request body
+app.use(cors());
+
+
+// json size limiter and config
+app.use(express.json({limit: '50mb'}));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// session stuff
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -20,8 +27,11 @@ app.use(session({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', router);
-app.use('/', api);
+
+// route usage
+app.use('/api', require('./route_handlers/api'));
+app.use('/', require('./route_handlers/client'));
+
 
 // start the server
 app.listen(port, function() {
