@@ -79,3 +79,44 @@ function tags() {
 	setTimeout('', 2000);
 	location.reload();
 }
+
+// using for profile getting and posting
+
+getData();
+async function getData() {
+    const response = await fetch('api/usr/me?id=1');
+	const data = await response.json();
+	// document.getElementsByName("email")[0].placeholder="your message";
+	document.getElementById("name").placeholder = data.name;
+	document.getElementById("email").placeholder = data.email;
+	document.getElementById("surname").placeholder = data.surname;
+	document.getElementById("age").placeholder = data.age;
+	document.getElementById("address").placeholder = data.location;
+	var tags = [data.tag];
+	for (item of tags) {
+		const span = document.createElement('span');
+		
+		span.textContent = item;
+		
+		document.body.append(span);
+		document.getElementsByClassName("bootstrap-tagsinput").append("hello");
+	}
+    console.log(data);
+}
+
+testpost();
+async function testpost() {
+    const response = await fetch('api/usr/img', {
+        method : 'POST',
+        mode : 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+            'id':2,
+            'img1': 'https://pbs.twimg.com/profile_images/1087124894075236352/O9cDVYG__400x400.jpg'
+        })
+    })
+    const data = await response.json();
+    console.log(data);
+}
