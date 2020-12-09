@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const connection = new db.dbConn();
 
 router.route('/validate').post( (req, res) => {
-    console.log('validating route + ' + req.body.email);
     connection.getUserID(req.body.email).then((request) => {
         console.log(request);
         if (request == -1) {
