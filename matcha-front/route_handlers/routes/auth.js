@@ -8,7 +8,6 @@ const connection = new db.dbConn();
 
 router.route('/validate').post( (req, res) => {
     connection.getUserID(req.body.email).then((request) => {
-        console.log(request);
         if (request == -1) {
             res.json(-1);
         } else {
@@ -20,7 +19,7 @@ router.route('/validate').post( (req, res) => {
                         if (err) throw err;
 
                         if (isMatch) {
-                            res.json(1);
+                            res.json(request);
                         } else {
                             res.json(-1);
                         }
@@ -42,14 +41,17 @@ router.route('/register').post((req, res) => {
     })
 })
 
-router.route('/exists').post((req, res) => {
-    connection.getUserID(req.body.email).then((request) => {
-        if (request != -1) {
-            res.json(false)
-        } else {
-            res.json(true)
-        }
-    })
-})
+// router.route('/userExists').post((req, res) => {
+// 	console.log(req.body.id)
+// 	var query = "SELECT * from likes WHERE id= '"+req.body.id+"'";
+//     connection.request(query).then((request) => {
+// 		console.log(request)
+//         if (request != -1) {
+//             res.json(false)
+//         } else {
+//             res.json(true)
+//         }
+//     })
+// })
 
 module.exports = router;
