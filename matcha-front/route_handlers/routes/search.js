@@ -1,6 +1,4 @@
-require('dotenv').config();
 const router = require('express').Router();
-const { json } = require('body-parser');
 const db = require('../database/db');
 
 // for db connection

@@ -1,5 +1,3 @@
-require('dotenv').config();
-const { response } = require('express');
 const mysql = require('mysql');
 
 class dbConn{

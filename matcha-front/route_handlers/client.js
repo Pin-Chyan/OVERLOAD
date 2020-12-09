@@ -7,7 +7,7 @@ const urlcodedParser = bodyParser.urlencoded({extended: false})
 const router = express.Router();
 const axios = require('axios');
 const {ensureAuthenticated} = require('./config/auth') 
-const apiUrl = 'http://localhost:5005/api';
+const apiUrl = 'http://localhost:' + process.env.WEBHOSTPORT + '/api';
 
 module.exports = router;
 app.set("view engine", "pug");
