@@ -9,6 +9,7 @@
             "gender" : "INT",
             "age" : "INT",
             "email" : "VARCHAR(255) UNIQUE",
+            "fame" : "INT",
             "sexual_pref" : "INT",
             "tag" : "VARCHAR(255)",
             "verified" : "INT",
