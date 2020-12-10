@@ -5,12 +5,14 @@ const db = require('../database/db');
 const connection = new db.dbConn();
 
 router.route('/').get( (req, res) => {
-    if (!req.body.id){
+    // ?id=1&agemin=1&agemax=1&namestring=one&distancemax=1
+    console.log()
+    if (!req.query.id){
         return end(res,401,"an id was not specified");
     }
 
-    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id!='" + req.body.id + "'";
-    var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id='" + req.body.id + "'";
+    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id!='" + req.query.id + "'";
+    var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id='" + req.query.id + "'";
 
     var dataReqArr = [];
 
@@ -21,18 +23,19 @@ router.route('/').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
-        var filterResult = filter(req.body.filterParams, result[0].data, result[1].data[0]);
-        console.log(filterResult);
+        var filterResult = filter(req.query, result[0].data, result[1].data[0]);
+        // console.log(filterResult);
         res.json(filterResult);
     })
 })
 
-function filter(filterParams, searchData, userData){
-    if (filterParams.age){
-        searchData = filterAge(searchData, filterParams.age.min, filterParams.age.max);
+function filter(query, searchData, userData){
+    console.log(query);
+    if (query.agemin && query.agemax){
+        searchData = filterAge(searchData, query.agemin, query.agemax);
     }
-    if (filterParams.nameString){
-        searchData = filterNameString(searchData, filterParams.nameString);
+    if (query.namestring){
+        searchData = filterNameString(searchData, query.namestring);
     }
     return searchData;
 }
@@ -59,13 +62,19 @@ function filterNameString(searchData, nameString){
         name = searchData[i].name.toLowerCase();
         surname = searchData[i].surname.toLowerCase();
 
-        if (name.includes(nameString) || surname.includes(nameString)){
+        if (name.toLowerCase().includes(nameString.toLowerCase()) || surname.toLowerCase().includes(nameString.toLowerCase())){
             newSearchData.push(searchData[i]);
         }
         i++;
     }
     return newSearchData;
 }
+
+function filterDistance(searchData, mydata, distancemax){
+
+}
+
+
 
 function end(res, status, msg){
     res.status(status);
