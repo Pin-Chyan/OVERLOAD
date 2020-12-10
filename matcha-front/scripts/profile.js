@@ -87,19 +87,24 @@ async function getData() {
     const response = await fetch('api/usr/me?id=1');
 	const data = await response.json();
 	// document.getElementsByName("email")[0].placeholder="your message";
+	document.getElementById("name_head").textContent = data.name;
+	document.getElementById("age_head").textContent = data.age;
 	document.getElementById("name").placeholder = data.name;
 	document.getElementById("email").placeholder = data.email;
 	document.getElementById("surname").placeholder = data.surname;
 	document.getElementById("age").placeholder = data.age;
 	document.getElementById("address").placeholder = data.location;
+	document.getElementById("gender").value = data.gender;
+	document.getElementById("sp").value = data.sexual_pref;
+	document.getElementById("bio").placeholder = data.bio;
 	var tags = [data.tag];
 	for (item of tags) {
 		const span = document.createElement('span');
 		
 		span.textContent = item;
 		
-		document.body.append(span);
-		document.getElementsByClassName("bootstrap-tagsinput").append("hello");
+		document.getElementById("interestList").append(span);
+		// document.body.append(span);
 	}
     console.log(data);
 }
