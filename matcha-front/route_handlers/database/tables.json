@@ -11,6 +11,7 @@
             "email" : "VARCHAR(255) UNIQUE",
             "sexual_pref" : "INT",
             "tag" : "VARCHAR(255)",
+            "bio":"TEXT",
             "verified" : "INT",
             "location" : "VARCHAR(255)",
             "token" : "VARCHAR(255)",
