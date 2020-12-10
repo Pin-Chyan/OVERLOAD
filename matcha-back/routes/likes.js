@@ -37,20 +37,19 @@ async function liked_handler(req, res, check){
 
 }
 
-function fame_handle(req, fame){
-    // UserModels.findOne({"email": req.body.target}, "fame").exec().then(docs => {
-    //     if (fame === "decrease"){
-    //         docs.fame--;
-    //         docs.save().catch(err => {console.log(err)});
-    //     }
-    //     else if (fame === "increase"){
-    //         docs.fame++;
-    //         docs.save().catch(err => {console.log(err)});
-    //     }
-    //     else
-    //         throw err;
-    // }).catch(err => {console.log(err)})
-}
+router.route('/getfame').post( (req, res) => {
+
+    var query = "SELECT * from likes WHERE target= '"+req.body.id+"'";
+    var request = connection.request(query);
+
+    request.then((result) => {
+        var count = result.data.length;
+        if (result.status == 'success')
+            return end(res,200,count);
+        else
+            return end(res,500,"error");
+    });
+})
 
 async function unlike(req, res) {
     console.log("running unlike");
