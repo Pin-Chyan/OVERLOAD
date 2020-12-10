@@ -1,16 +1,19 @@
 const router = require('express').Router();
+const { log } = require('console');
 const db = require('../database/db');
 
 // for db connection
 const connection = new db.dbConn();
 
 router.route('/').get( (req, res) => {
-    if (!req.body.id){
+    // ?id=1&agemin=1&agemax=1&namestring=one&distancemax=1
+
+    if (!req.query.id){
         return end(res,401,"an id was not specified");
     }
 
-    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id!='" + req.body.id + "'";
-    var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, location from users Where id='" + req.body.id + "'";
+    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id!='" + req.query.id + "'";
+    var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id='" + req.query.id + "'";
 
     var dataReqArr = [];
 
@@ -21,18 +24,20 @@ router.route('/').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
-        var filterResult = filter(req.body.filterParams, result[0].data, result[1].data[0]);
-        console.log(filterResult);
+        var filterResult = filter(req.query, result[0].data, result[1].data[0]);
         res.json(filterResult);
     })
 })
 
-function filter(filterParams, searchData, userData){
-    if (filterParams.age){
-        searchData = filterAge(searchData, filterParams.age.min, filterParams.age.max);
+function filter(query, searchData, userData){
+    if (query.agemin && query.agemax){
+        searchData = filterAge(searchData, query.agemin, query.agemax);
     }
-    if (filterParams.nameString){
-        searchData = filterNameString(searchData, filterParams.nameString);
+    if (query.namestring){
+        searchData = filterNameString(searchData, query.namestring);
+    }
+    if (query.distancemax){
+        searchData = filterDistance(searchData, userData, query.distancemax);
     }
     return searchData;
 }
@@ -59,12 +64,46 @@ function filterNameString(searchData, nameString){
         name = searchData[i].name.toLowerCase();
         surname = searchData[i].surname.toLowerCase();
 
-        if (name.includes(nameString) || surname.includes(nameString)){
+        if (name.toLowerCase().includes(nameString.toLowerCase()) || surname.toLowerCase().includes(nameString.toLowerCase())){
             newSearchData.push(searchData[i]);
         }
         i++;
     }
     return newSearchData;
+}
+
+function filterDistance(searchData, mydata, distancemax){
+    var lat1 = mydata.location.split(',')[4];
+    var lon1 = mydata.location.split(',')[5];
+    var lat2;
+    var lon2;
+    var newSearchData = [];
+    var i = 0;
+    while (i < searchData.length){
+        lat2 = searchData[i].location.split(',')[4];
+        lon2 = searchData[i].location.split(',')[5];
+        if (distance(lat1,lon1,lat2,lon2) <= distancemax){
+            newSearchData.push(searchData[i]);
+        }
+        i++;
+    }
+    return newSearchData;
+}
+
+function distance(lat1,lon1,lat2,lon2) {
+	var R = 6371;
+	var dLat = (lat2-lat1) * Math.PI / 180;
+	var dLon = (lon2-lon1) * Math.PI / 180;
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+		Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+    if (d>1)
+        return Math.round(d);
+    else if (d<=1)
+        return Math.round(d*1000);
+	return d;
 }
 
 function end(res, status, msg){

@@ -36,6 +36,34 @@ async function liked_handler(req, res, check){
 
 }
 
+router.route('/unblock').post( (req, res) => {
+
+    var query = "DELETE from blocked WHERE blocked='"+req.body.target+"' AND id='"+req.body.id+"'";
+    var request = connection.request(query);
+
+    request.then((result) => {
+        if (result.status == 'success')
+            return end2(res, "User unblocked");
+        else
+            return end2(res, "error");
+    });
+})
+
+router.route('/block').post( (req, res) => {
+
+    var query = "SELECT * from blocked WHERE blocked= '"+req.body.target+"'";
+    var request = connection.request(query);
+
+    request.then((result) => {
+        if (result.data.length == 0){
+            block(req);
+            return end2(res, "user blocked")
+        }
+        else 
+            return end2(res,"User already blocked");
+    });
+})
+
 router.route('/getfame').post( (req, res) => {
 
     var query = "SELECT * from likes WHERE liked= '"+req.body.id+"'";
@@ -52,8 +80,19 @@ router.route('/getfame').post( (req, res) => {
     });
 })
 
+async function block(req) {
+
+    var query = "INSERT INTO blocked (id, blocked) VALUES('"+req.body.id+"','"+req.body.target+"')";
+
+    var request = await connection.request(query)
+
+    if (request.status == 'success')
+        return;
+    else
+        return end(res, 500, "error");
+}
+
 async function unlike(req, res) {
-    console.log("running unlike");
     var query = "DELETE from likes WHERE (id= '"+ req.body.id +"' AND liked= '"+ req.body.target +"')";
         
     // fame, match and blocked handler

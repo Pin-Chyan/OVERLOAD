@@ -73,6 +73,7 @@ async function uploadDefault(){
         await requestHandler.update('users','tag', newUser.tag.toString() , res);
         await requestHandler.update('users','verified', 1 , res);
         await requestHandler.update('users','location', newUser.location.toString() , res);
+        await requestHandler.update('users','bio', "this is the bio of the great lord " + newUser.name + ". The great lord " + newUser.name + " has been known for many things like " + newUser.tag.toString() , res);
         if (newUser.img){
             if (newUser.img["img 1"])
                 await requestHandler.update('users','img1', newUser.img["img 1"], res);
