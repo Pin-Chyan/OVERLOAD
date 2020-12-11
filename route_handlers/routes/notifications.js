@@ -7,8 +7,10 @@ router.route('/push').post((req, res) => {
 
 	if (socketId != undefined) {
 		io.to(socketId).emit('notification', req.body.message)
+		res.json('sent');
+	} else {
+		res.json('no socket available')
 	}
-    res.json('socket: ' + socketId);	
 })
 
 module.exports = router;
