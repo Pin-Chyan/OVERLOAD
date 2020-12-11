@@ -53,3 +53,22 @@ label{
 	left: 50%;
 	transform: translate(-45%, -50%);
 }
+
+#pageloader
+{
+  background: rgba( 25, 31, 38, 1 );
+  display: none;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+}
+
+#pageloader img
+{
+  /* left: 50%;
+  margin-left: -32px; */
+  margin-top: 250px;
+  /* position: absolute;
+  top: 50%; */
+}
