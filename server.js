@@ -38,6 +38,8 @@ app.use('/api', require('./route_handlers/api'));
 app.use('/', require('./route_handlers/client'));
 
 //socket stuff
+app.set('io', io);
+app.set('clients', socketClients)
 io.use(function(socket, next) {
 	sessionMiddleware(socket.request, socket.request.res, next);
 });
@@ -49,17 +51,16 @@ io.on('connection', function(socket) {
 
 	socket.request.session.save();
 	console.log("session at socket.io connection:\n", socket.request.session);
-	console.log(socketClients)
+	
+	socket.on('disconnect', function () {
+		for (socketid in socketClients) {
+			if (socketClients[socketid] == socket.id)
+				delete socketClients[socketid]
+		}
+	})
 });
 
-app.post('/api/notification/push', function(req, res) {
-	const socketId = socketClients[req.body.id]
-	
-	if (socketId != undefined) {
-		io.to(socketId).emit('notification', req.body.message)
-	}
-    res.json('session: ' + socketId);	
-})
+
 
 // start the server
 http.listen(port, function() {
