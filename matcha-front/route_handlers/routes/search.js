@@ -40,9 +40,9 @@ function filter(query, searchData, userData){
     if (query.distance){
         searchData = filterDistance(searchData, userData, query.distance);
     }
-    if (query.pop){
-        searchData = 
-    }
+    // if (query.pop){
+    //     searchData = 
+    // }
     return searchData;
 }
 
