@@ -24,30 +24,38 @@ router.route('/').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
+        addExtraData(result[0].data,result[1].data[0])
         var filterResult = filter(req.query, result[0].data, result[1].data[0]);
         res.json(filterResult);
     })
 })
 
 function filter(query, searchData, userData){
-    if (query.agemin && query.agemax){
-        searchData = filterAge(searchData, query.agemin, query.agemax);
+    if (query.ageRange){
+        searchData = filterAge(searchData, userData.age , query.ageRange);
     }
     if (query.namestring){
         searchData = filterNameString(searchData, query.namestring);
     }
-    if (query.distancemax){
-        searchData = filterDistance(searchData, userData, query.distancemax);
+    if (query.distance){
+        searchData = filterDistance(searchData, userData, query.distance);
+    }
+    if (query.pop){
+        searchData = 
     }
     return searchData;
 }
 
-function filterAge(searchData, ageMin, ageMax){
+function filterAge(searchData, userAge, ageRange){
     var newSearchData = [];
     
     var i = 0;
     while (i < searchData.length){
-        if (searchData[i].age >= ageMin && searchData[i].age <= ageMax){
+        console.log(searchData[i].age);
+        if (ageRange == 0){
+            if (searchData[i].age == userAge)
+            newSearchData.push(searchData[i]);
+        } else if (searchData[i].age >= (userAge - ageRange) && searchData[i].age <= (userAge + ageRange)){
             newSearchData.push(searchData[i]);
         }
         i++;
@@ -104,6 +112,30 @@ function distance(lat1,lon1,lat2,lon2) {
     else if (d<=1)
         return Math.round(d*1000);
 	return d;
+}
+
+async function addExtraData(searchData, myData){
+    var fame;
+    var distance;
+    var lat1 = myData.location.split(',')[4];
+    var lon1 = myData.location.split(',')[5];
+
+    var i = 0;
+    while (i < searchData.length){
+        fame = await getFame(searchData[i]);
+        distance = distance(lat1,lon1,searchData[i].location.split(',')[4],searchData[i].location.split(',')[5]);
+        searchData.fame = fame;
+        searchData.distance = distance;
+        i++;
+    }
+    return searchData;
+}
+
+async function getFame(id){
+    var query = "SELECT * from likes WHERE liked= '"+ id+"'";
+    var request = await connection.request(query);
+
+    return count = request.data.length;
 }
 
 function end(res, status, msg){
