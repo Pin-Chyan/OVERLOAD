@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require('../database/db');
 
 // for db connection
-const connection = new db.dbConn(); 
+const connection = new db.dbConn();
 
 router.route('/me').get( (req, res) => {
     if (!req.query.id){
@@ -19,6 +19,12 @@ router.route('/me').get( (req, res) => {
         else 
             return end(res,500,"error");
     });
+})
+
+router.route('/updateMe').get( (req, res) => {
+    if (!req.query.id){
+        return end(res,401,"an id was not specified");
+    }
 })
 
 router.route('/img').post( (req,res) => {

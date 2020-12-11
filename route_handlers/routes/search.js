@@ -5,6 +5,7 @@ const db = require('../database/db');
 // for db connection
 const connection = new db.dbConn();
 
+
 router.route('/').get( (req, res) => {
     // ?id=1&agemin=1&agemax=1&namestring=one&distancemax=1
 

@@ -1,4 +1,8 @@
 const router = require('express').Router();
+const db = require('../database/db');
+
+// for db connection
+const connection = new db.dbConn();
 
 router.route('/push').post((req, res) => {
 	let io = req.app.get('io');
