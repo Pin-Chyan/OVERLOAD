@@ -91,3 +91,57 @@ function senderMsg(msg){
 
     return sender;
 }
+
+function replaceList() {
+    var userBox = document.getElementById("userbox");
+    userBox.innerHTML = "";
+    // alert("Hello! I am an alert box!!");
+
+    i = 0;
+    while (i++ < 4) {
+        var listsUser = document.createElement("div");
+        listsUser.className = "list-group rounded-0";
+        listsUser.id = "matchedUsers";
+    
+        var userInfo = document.createElement("a");
+        userInfo.className = "list-group-item list-group-item-action base_color text-white rounded-0";
+        userInfo.href = "#";
+    
+        var media = document.createElement("div");
+        media.className = "media";
+    
+        var userImage = document.createElement("img");
+        userImage.setAttribute('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgMxCPwCb8MwLHvgmo-Wi8XRWvWFxmas8oUw&usqp=CAU');
+        userImage.setAttribute('alt', 'user');
+        userImage.setAttribute('height', '50px');
+        userImage.setAttribute('width', '50px');
+        userImage.className = "img-cover rounded-circle";
+        media.append(userImage);
+    
+        var box = document.createElement("div");
+        box.className = "media-body ml-4";
+    
+        var boxinfo = document.createElement("div");
+        boxinfo.className = "d-flex align-items-center justify-content-between mb-1";
+    
+        var name = document.createElement("h6");
+        name.className = "mb-0 text-dark";
+        name.textContent = "CYKO_2.0";
+        boxinfo.append(name);
+    
+        var date = document.createElement("small");
+        date.className = "small font-weight-bold text-dark";
+        date.textContent = "25 Des";
+        boxinfo.append(date);
+        box.append(boxinfo);
+    
+        var miniBio = document.createElement("p");
+        miniBio.className = "font-italic mb-0 text-small text-dark";
+        miniBio.textContent = "Just some bull";
+        box.append(miniBio);
+        media.append(box);
+        userInfo.append(media);
+        listsUser.append(userInfo);
+        userBox.append(listsUser);
+    }
+}
