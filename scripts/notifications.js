@@ -8,13 +8,13 @@ socket.on('notification', function(data) {
 
 getNotifications();
 async function getNotifications() {
-	const response = await fetch('api/notifications/?id=3');
+	const response = await fetch('api/notifications/?id=' + id);
 	notifications = await response.json();
-	console.log(notifications)
+	console.log(id)
 }
 
 async function removeDBNotifications() {
-	const response = await fetch('api/notifications/clear/?id=3');
+	const response = await fetch('api/notifications/clear/?id=' + id);
 }
 
 function updateNotifications(message) {

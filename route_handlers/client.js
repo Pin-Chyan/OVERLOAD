@@ -85,19 +85,27 @@ router.get('/logout',(req,res)=>{
 })
 
 router.get('/home', ensureAuthenticated, function(req, res) {
-	res.render('home.pug');
+	res.render('home.pug', {
+		id: req.session.passport.user
+	});
 })
 
 router.get('/profile', ensureAuthenticated, function(req, res) {
-    res.render('profile.pug');
+    res.render('profile.pug', {
+		id: req.session.passport.user
+	});
 })
 
 router.get('/chats', ensureAuthenticated, function(req, res) {
-    res.render('chats.pug');
+    res.render('chats.pug', {
+		id: req.session.passport.user
+	});
 })
 
 router.get('/search', ensureAuthenticated, function(req, res) {
-    res.render('search.pug');
+    res.render('search.pug', {
+		id: req.session.passport.user
+	});
 })
 
 router.get('/confirm', function(req,res) {
