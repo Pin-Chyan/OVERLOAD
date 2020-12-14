@@ -10,7 +10,7 @@ getNotifications();
 async function getNotifications() {
 	const response = await fetch('api/notifications/?id=' + id);
 	notifications = await response.json();
-	console.log(id)
+	updateNavCount();
 }
 
 async function removeDBNotifications() {
@@ -19,7 +19,21 @@ async function removeDBNotifications() {
 
 function updateNotifications(message) {
 	notifications.push(message);
-	// refresh element
+	updateNavCount();
+}
+
+function updateNavCount() {
+	$('#toast-test').empty()
+
+	var notifCount = document.getElementById('toast-test')
+	notifCount.textContent = "Notif"
+
+	if (notifications.length > 0) {
+		var countSpan = document.createElement("span")
+		countSpan.className = "badge";
+		countSpan.textContent = "" + notifications.length;
+		notifCount.append(countSpan);
+	}
 }
 
 function createNotification(msg) {
@@ -47,6 +61,8 @@ document.getElementById('toast-test').addEventListener('click', function () {
 		// read notifications from db
 		removeDBNotifications()
 		notifications = []
+		updateNavCount()
+		// updateNavCount()
 	} else {
 		notif.append(createNotification("No active notifications"));
 	}
