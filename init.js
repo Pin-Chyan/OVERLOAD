@@ -30,6 +30,7 @@ async function init(){
     await connectPromise(newConn);
     await build_tables(newConn, tables);
     await uploadDefault(newConn);
+    await randomMessageData(newConn);
 }
 
 async function hashPassword (user) {
@@ -88,6 +89,34 @@ async function uploadDefault(){
         }
         // console.log(await requestHandler.get('users', res));
     }
+}
+
+async function randomMessageData(newConn){
+    var i = 6000;
+    var query;
+    var users;
+    var time;
+    var timeString;
+    const requestHandler = new db.dbConn();
+    while (i--){
+        users = getTwoUsers();
+        time = new Date();
+        timeString = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate() + ' ' + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+        query = "INSERT INTO msg (sender,rec,msg,time) VALUES('" + users[0] + "','" + users[1] + "','" + "message " + Date.now() % 10000 + "','" + timeString + "')";
+        await requestHandler.request(query);
+        console.log("sent message from " + users[0] + " to " + users[1]);
+    }
+}
+
+function getTwoUsers(){
+    var maxUser = defaultData.length;
+
+    var user1 = Math.floor(Math.random() * maxUser);
+    var user2 = Math.floor(Math.random() * maxUser);
+    while (user1  == user2){
+        user2 = Math.floor(Math.random() * maxUser);
+    }
+    return [user1,user2];
 }
 
 function connectPromise(conn){

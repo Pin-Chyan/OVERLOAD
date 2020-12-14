@@ -1,0 +1,19 @@
+        // message
+        var sender_body = document.createElement("div");
+        sender_body.className = "media-body ml-3";
+
+        var sender_mes = document.createElement("div");
+        sender_mes.className = "bg-light rounded py-2 px-3 mb-2";
+
+        var text = document.createElement("p");
+        text.className = "text-small mb-0 text-muted";
+        text.textContent = "Test which is a new approach all solutions";
+        sender_mes.append(text);
+        sender_body.append(sender_mes);
+
+        var time = document.createElement("p");
+        time.className = "small text-muted";
+        time.textContent = "12:00 PM | Aug 13";
+        sender_body.append(time);
+        sender.append(sender_body);
+        motherOfAll.append(sender);
