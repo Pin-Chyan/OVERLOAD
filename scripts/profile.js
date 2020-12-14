@@ -1,3 +1,4 @@
+
 function updateInfo() {
 	var name = $("#name").val();
 	if (!name) {
@@ -7,13 +8,25 @@ function updateInfo() {
 	if (!surname) {
 		surname = document.getElementById("surname").placeholder;
 	}
+	// password checkup
 	var password = $("#password").val();
+	var cpassword = $("#pwconfirm").val();
+	// console.log(password + " = " + cpassword);
+	var res = password.localeCompare(cpassword);
+	if (res == 0) {
+		var password = $("#password").val();
+	} else {
+		var password = "";
+	}
 	var gender = $("#gender").val();
 	var age = $("#age").val();
 	if (!age) {
 		age = document.getElementById("age").placeholder;
 	}
 	var email = $("#email").val();
+	if (!email) {
+		email = document.getElementById("email").placeholder;
+	}
 	var sp = $("#sp").val();
 	// needs fix
 	var tag = $("#interests").tagsinput('items');
@@ -34,6 +47,19 @@ function updateInfo() {
 	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + "location: " + location + "\n" + 
 	"bio: " + bio + "\n" + "img: " + img + "\n");
 	$("#pageloader").fadeIn(0);
+	// const response = fetch('api/usr/updatedata', {
+    //     method : 'POST',
+    //     mode : 'cors',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body : JSON.stringify({
+	// 		'id':2,
+	// 		'name': name,
+	// 		'surname': surname,
+			
+    //     })
+    // })
 	setTimeout(continueExecution, 1000)
 }
 
@@ -69,22 +95,22 @@ async function getData() {
 	
 }
 
-
-function postInfo() {
-    const response = await fetch('api/usr/img', {
-        method : 'POST',
-        mode : 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({
-            'id':2,
-            'img1': 'https://pbs.twimg.com/profile_images/1087124894075236352/O9cDVYG__400x400.jpg'
-        })
-    })
-    const data = await response.json();
-	console.log(data);
-}
+// postInfo();
+// async function postInfo() {
+//     const response = await fetch('api/usr/img', {
+//         method : 'POST',
+//         mode : 'cors',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body : JSON.stringify({
+//             'id':2,
+//             'img1': 'https://pbs.twimg.com/profile_images/1087124894075236352/O9cDVYG__400x400.jpg'
+//         })
+//     })
+//     const data = await response.json();
+// 	console.log(data);
+// }
 
 
 
