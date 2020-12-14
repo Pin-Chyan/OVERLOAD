@@ -49,12 +49,12 @@ router.route('/get').get( (req, res) => {
     let io = req.app.get('io');
     let clients = req.app.get('clients');
 
-    if (!req.body.id || !req.body.rec){
+    if (!req.query.id || !req.query.rec){
         return end(res,401,"an id was not specified");
     }
 
     // building query
-    var query = "SELECT * from msg WHERE (sender='" + req.body.id + "' AND rec='" + req.body.rec + "') OR (sender='" + req.body.rec + "' AND rec='" + req.body.id + "')";
+    var query = "SELECT * from msg WHERE (sender='" + req.query.id + "' AND rec='" + req.query.rec + "') OR (sender='" + req.query.rec + "' AND rec='" + req.query.id + "')";
 
     // getting messages from DB
     var request = connection.request(query);
