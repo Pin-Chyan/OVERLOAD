@@ -92,19 +92,20 @@ async function uploadDefault(){
 }
 
 async function randomMessageData(newConn){
-    var i = 6000;
+    var i = 1;
     var query;
     var users;
     var time;
     var timeString;
     const requestHandler = new db.dbConn();
-    while (i--){
+    while (i <= 6000){
         users = getTwoUsers();
         time = new Date();
         timeString = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate() + ' ' + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-        query = "INSERT INTO msg (sender,rec,msg,time) VALUES('" + users[0] + "','" + users[1] + "','" + "message " + Date.now() % 10000 + "','" + timeString + "')";
+        query = "INSERT INTO msg (sender,rec,msg,time) VALUES('" + users[0] + "','" + users[1] + "','" + "the message that was sent from me to you , hope you get it on the other side regardless of what i do " + Date.now() % 10000 + "','" + timeString + "')";
         await requestHandler.request(query);
-        console.log("sent message from " + users[0] + " to " + users[1]);
+        console.log("sent message " + i + " from " + users[0] + " to " + users[1]);
+        i++;
     }
 }
 
@@ -113,7 +114,7 @@ function getTwoUsers(){
 
     var user1 = Math.floor(Math.random() * maxUser);
     var user2 = Math.floor(Math.random() * maxUser);
-    while (user1  == user2){
+    while (user1 == user2){
         user2 = Math.floor(Math.random() * maxUser);
     }
     return [user1,user2];
