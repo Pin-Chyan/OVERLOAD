@@ -39,7 +39,8 @@
     {
         "name":"notifications",
         "schema":{
-            "id":"INT",
+			"id":"INT AUTO_INCREMENT primary key NOT NULL UNIQUE",
+			"user_id":"INT",
             "msg":"VARCHAR(255)"
         }
     },
