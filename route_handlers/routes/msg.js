@@ -45,10 +45,6 @@ router.route('/send').post( (req, res) => {
 router.route('/get').get( (req, res) => {
     // id(your id), rec(the msg recipient id)
 
-    // checking stuff
-    let io = req.app.get('io');
-    let clients = req.app.get('clients');
-
     if (!req.query.id || !req.query.rec){
         return end(res,401,"an id was not specified");
     }
@@ -67,6 +63,50 @@ router.route('/get').get( (req, res) => {
             return end(res,500,"error");
     });
 })
+
+router.route('/recents').get( (req, res) => {
+    if (!req.query.id){
+        return end(res,401,"an id was not specified");
+    }
+
+    // building query
+    var query = "SELECT * from msg WHERE (sender='" + req.query.id +"' ) OR (rec='" + req.query.id + "')";
+
+    // getting messages from DB
+    var request = connection.request(query);
+
+    // reading response
+    request.then((result) => {
+        if (result.status == 'success'){
+            var availableChats = filterMessages(result.data);
+            return end(res,200, availableChats);
+        }
+        else
+            return end(res,500,"error");
+    });
+})
+
+function filterMessages(messageData){
+    var chats = [];
+    var i = 0; 
+    while (i < messageData.length){
+        if (!inChats(chats, messageData[i])){
+            chats.push(messageData[i]);
+        }
+        i++;
+    }
+    return chats;
+}
+
+function inChats(chats, msg){
+    var i = 0;
+    while (i < chats.length){
+        if ((msg.sender == chats[i].sender && msg.rec == chats[i].rec) || (msg.rec == chats[i].sender && msg.sender == chats[i].rec))
+            return true;
+        i++;
+    }
+    return false;
+}
 
 function end(res, status, msg){
     res.status(status);

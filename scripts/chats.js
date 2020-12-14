@@ -1,6 +1,6 @@
 loadChat(1);
 async function loadChat(rec){
-    const response = await fetch('/api/msg/get?id=2&rec=' + rec);
+    const response = await fetch('/api/msg/get?id=' + id + '&rec=' + rec);
     const data = await response.json();
     console.log(data);
 
@@ -15,8 +15,11 @@ async function loadChat(rec){
     });
 }
 
+loadRecents();
 async function loadRecents(){
-    
+    const response = await fetch('/api/msg/recents?id=2');
+    const data = await response.json();
+    console.log(data);
 }
 
 function recMsg(msg){
