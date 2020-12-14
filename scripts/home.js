@@ -15,6 +15,7 @@ async function getData() {
 
     // tags
     var tags = [data.tag];
+	document.getElementById("tags").innerHTML = "";
 	for (item of tags) {
 		const span = document.createElement('span');
 		

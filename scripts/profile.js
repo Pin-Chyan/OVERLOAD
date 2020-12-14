@@ -42,24 +42,38 @@ function updateInfo() {
 	if (!bio) {
 		bio = document.getElementById("bio").placeholder;
 	}
-	var img = $("#img-1").val();
+	var img = document.getElementById("img-1").files[0];
+	// var reader = new FileReader();
+	// reader.onloadend = function() {
+		// console.log('RESULT', reader.result)
+	// }
+	// var final_img = reader.readAsDataURL(img);
+	// console.log(final_img);
+	// img.src = URL.createObjectURL(this.files[0]);
 	console.log("name: " + name + "\n" + "surname: " + surname + "\n" + "password: " + password + "\n" + "gender: " + gender + "\n" + 
 	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + "location: " + location + "\n" + 
 	"bio: " + bio + "\n" + "img: " + img + "\n");
 	$("#pageloader").fadeIn(0);
-	// const response = fetch('api/usr/updatedata', {
-    //     method : 'POST',
-    //     mode : 'cors',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body : JSON.stringify({
-	// 		'id':2,
-	// 		'name': name,
-	// 		'surname': surname,
-			
-    //     })
-    // })
+	const response = fetch('api/usr/updatedata', {
+        method : 'POST',
+        mode : 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+			'id': id,
+			'name': name,
+			'surname': surname,
+			"password": password,
+			"gender": gender,
+			"age": age,
+			"email": email,
+			"sexual_pref": sp,
+			"tag" : tag,
+			"bio": bio,
+			"img1" : img,
+        })
+    })
 	setTimeout(continueExecution, 1000)
 }
 
@@ -87,6 +101,7 @@ async function getData() {
 	document.getElementById("sp").value = data.sexual_pref;
 	document.getElementById("bio").placeholder = data.bio;
 	var tags = [data.tag];
+	document.getElementById("interestList").innerHTML = "";
 	for (item of tags) {
 		document.getElementById("interestList").append(item);
 		// document.body.append(span);
