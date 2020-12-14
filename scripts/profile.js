@@ -49,7 +49,7 @@ function updateInfo() {
 	reader.readAsDataURL(img);
 	reader.onloadend = function() {
 		console.log(reader.result.toString());
-		fetch('api/usr/img', {
+		fetch('api/img', {
 			method : 'POST',
 			mode : 'cors',
 			headers: {
@@ -113,8 +113,6 @@ async function getData() {
 	document.getElementById("gender").value = data.gender;
 	document.getElementById("sp").value = data.sexual_pref;
 	document.getElementById("bio").placeholder = data.bio;
-	if (data.img1)
-		document.getElementById("img1").src = arrayBufferToString(data.img1.data);
 	var tags = [data.tag];
 	document.getElementById("interestList").innerHTML = "";
 	for (item of tags) {
@@ -123,6 +121,10 @@ async function getData() {
 	}
 	console.log(data);
 	
+	const responseImg = await fetch('api/img?id=' + id);
+	const dataImg = await responseImg.json();
+	console.log(dataImg);
+	document.getElementById("img1").src = dataImg;
 }
 
 function arrayBufferToString(buffer){

@@ -14,12 +14,14 @@
             "bio":"TEXT",
             "verified" : "INT",
             "location" : "VARCHAR(255)",
-            "token" : "VARCHAR(255)",
-            "img1" : "LONGBLOB",
-            "img2" : "LONGBLOB",
-            "img3" : "LONGBLOB",
-            "img4" : "LONGBLOB",
-            "img5" : "LONGBLOB"
+            "token" : "VARCHAR(255)"
+        }
+    },
+    {
+        "name":"img",
+        "schema":{
+            "id":"INT",
+            "img1":"LONGBLOB"
         }
     },
     {

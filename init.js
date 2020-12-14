@@ -75,18 +75,6 @@ async function uploadDefault(){
         await requestHandler.update('users','verified', 1 , res);
         await requestHandler.update('users','location', newUser.location.toString() , res);
         await requestHandler.update('users','bio', "this is the bio of the great lord " + newUser.name + ". The great lord " + newUser.name + " has been known for many things like " + newUser.tag.toString() , res);
-        if (newUser.img){
-            if (newUser.img["img 1"])
-                await requestHandler.update('users','img1', newUser.img["img 1"], res);
-            if (newUser.img["img 2"])
-                await requestHandler.update('users','img2', newUser.img["img 2"], res);
-            if (newUser.img["img 3"])
-                await requestHandler.update('users','img3', newUser.img["img 3"], res);
-            if (newUser.img["img 4"])
-                await requestHandler.update('users','img4', newUser.img["img 4"], res);
-            if (newUser.img["img 5"])
-                await requestHandler.update('users','img5', newUser.img["img 5"], res);
-        }
         // console.log(await requestHandler.get('users', res));
     }
 }

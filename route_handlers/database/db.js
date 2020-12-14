@@ -66,7 +66,7 @@ class dbConn{
 
     // inserts a new emtpy row into any specified table using a user id
     newrow(table, id){
-        var query = "INSERT INTO " + table + " (user_id) VALUES('" + id + "')";
+        var query = "INSERT INTO " + table + " (id) VALUES('" + id + "')";
         return this.request(query);
     }
 
