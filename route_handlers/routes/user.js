@@ -15,8 +15,10 @@ router.route('/me').get( (req, res) => {
 
     // reading response
     request.then((result) => {
-        if (result.status == 'success')
+        if (result.status == 'success'){
+            // console.log(result.data[0].img1.length);
             return end(res,200, result.data[0]);
+        }
         else 
             return end(res,500,"error");
     });
@@ -34,7 +36,7 @@ router.route('/updatedata').post( (req, res) => {
             promiseArr.push(connection.update('users', key , req.body[key], req.body.id));
     });
     Promise.all(promiseArr).then((result) => {
-        console.log(result);
+        // console.log(result);
         end(res, 200, "done");
     })
 })
@@ -78,6 +80,7 @@ router.route('/img').post( (req,res) => {
 
     Promise.all(imgReqPromiseArr).then((result) => {
         res.status(200);
+        console.log(result);
         res.json("image uploaded");
     })
 })

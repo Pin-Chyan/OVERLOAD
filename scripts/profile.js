@@ -43,17 +43,31 @@ function updateInfo() {
 		bio = document.getElementById("bio").placeholder;
 	}
 	var img = document.getElementById("img-1").files[0];
-	// var reader = new FileReader();
-	// reader.onloadend = function() {
-		// console.log('RESULT', reader.result)
-	// }
-	// var final_img = reader.readAsDataURL(img);
-	// console.log(final_img);
+	var reader = new FileReader();
+
+	// image reading and uploading
+	reader.readAsDataURL(img);
+	reader.onloadend = function() {
+		console.log(reader.result.toString());
+		fetch('api/usr/img', {
+			method : 'POST',
+			mode : 'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body : JSON.stringify({
+				'id': id,
+				"img1": reader.result,
+			})
+		})
+	}
+
+
 	// img.src = URL.createObjectURL(this.files[0]);
 	console.log("name: " + name + "\n" + "surname: " + surname + "\n" + "password: " + password + "\n" + "gender: " + gender + "\n" + 
 	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + "location: " + location + "\n" + 
 	"bio: " + bio + "\n" + "img: " + img + "\n");
-	$("#pageloader").fadeIn(0);
+	// $("#pageloader").fadeIn(0);
 	const response = fetch('api/usr/updatedata', {
         method : 'POST',
         mode : 'cors',
@@ -71,7 +85,6 @@ function updateInfo() {
 			"sexual_pref": sp,
 			"tag" : tag,
 			"bio": bio,
-			"img1" : img,
         })
     })
 	setTimeout(continueExecution, 1000)
@@ -80,7 +93,7 @@ function updateInfo() {
 function continueExecution()
 {
 	window.location.reload(true);
-   //finish doing things after the pause
+//    finish doing things after the pause
 }
 
 // using for profile getting and posting
@@ -100,6 +113,8 @@ async function getData() {
 	document.getElementById("gender").value = data.gender;
 	document.getElementById("sp").value = data.sexual_pref;
 	document.getElementById("bio").placeholder = data.bio;
+	if (data.img1)
+		document.getElementById("img1").src = arrayBufferToString(data.img1.data);
 	var tags = [data.tag];
 	document.getElementById("interestList").innerHTML = "";
 	for (item of tags) {
@@ -108,6 +123,15 @@ async function getData() {
 	}
 	console.log(data);
 	
+}
+
+function arrayBufferToString(buffer){
+    var arr = new Uint8Array(buffer);
+    var str = String.fromCharCode.apply(String, arr);
+    if(/[\u0080-\uffff]/.test(str)){
+        throw new Error("this string seems to contain (still encoded) multibytes");
+    }
+    return str;
 }
 
 // postInfo();

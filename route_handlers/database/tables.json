@@ -15,11 +15,11 @@
             "verified" : "INT",
             "location" : "VARCHAR(255)",
             "token" : "VARCHAR(255)",
-            "img1" : "TEXT",
-            "img2" : "TEXT",
-            "img3" : "TEXT",
-            "img4" : "TEXT",
-            "img5" : "TEXT"
+            "img1" : "LONGBLOB",
+            "img2" : "LONGBLOB",
+            "img3" : "LONGBLOB",
+            "img4" : "LONGBLOB",
+            "img5" : "LONGBLOB"
         }
     },
     {
