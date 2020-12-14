@@ -4,10 +4,19 @@ const db = require('../database/db');
 // for db connection
 const connection = new db.dbConn();
 
+
 router.route('/send').post( (req, res) => {
     // id(your id), rec(the msg recipient id), msg
-
+    // {}
     // checking stuff
+    let io = req.app.get('io');
+    let clients = req.app.get('clients');
+    const socketIdRec = clients[req.body.rec];
+    if (socketIdRec != undefined){
+        io.to(socketIdRec).emit('msg_notify', "recieved msg");
+        io.to(socketIdRec).emit('msg', req.body.msg);
+    }
+
     if (!req.body.id || !req.body.rec){
         return end(res,401,"an id was not specified");
     }
@@ -19,6 +28,7 @@ router.route('/send').post( (req, res) => {
     var time = new Date();
     var timeString = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate() + ' ' + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
     var query = "INSERT INTO msg (sender,rec,msg,time) VALUES('" + req.body.id + "','" + req.body.rec + "','" + req.body.msg + "','" + timeString + "')";
+    
     
     // writing new message to DB
     var request = connection.request(query);
@@ -36,6 +46,9 @@ router.route('/get').get( (req, res) => {
     // id(your id), rec(the msg recipient id)
 
     // checking stuff
+    let io = req.app.get('io');
+    let clients = req.app.get('clients');
+
     if (!req.body.id || !req.body.rec){
         return end(res,401,"an id was not specified");
     }

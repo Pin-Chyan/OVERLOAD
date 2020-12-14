@@ -4,10 +4,12 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const db = require('./route_handlers/database/db');
 const cors = require('cors');
+const { allowedNodeEnvironmentFlags } = require('process');
 const app = express();
 const port = process.env.WEBHOSTPORT;
-const socketPort = process.env.SOCKETMESSAGEPORT
+const socketPort = process.env.SOCKETMESSAGEPORT;
 var http = require('http').createServer(app);
 const io = require('socket.io')(http)
 require("./route_handlers/config/passport.js")(passport);
@@ -39,7 +41,7 @@ app.use('/', require('./route_handlers/client'));
 
 //socket stuff
 app.set('io', io);
-app.set('clients', socketClients)
+app.set('clients', socketClients);
 io.use(function(socket, next) {
 	sessionMiddleware(socket.request, socket.request.res, next);
 });
@@ -60,7 +62,9 @@ io.on('connection', function(socket) {
 	})
 });
 
-
+// database stuff
+const connection = new db.dbConn();
+app.set('connection',connection);
 
 // start the server
 http.listen(port, function() {
