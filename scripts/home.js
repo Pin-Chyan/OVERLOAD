@@ -1,6 +1,6 @@
 // getData();
 async function getData() {
-    const response = await fetch('api/usr/me?id=2');
+    const response = await fetch('api/usr/me?id=' + id);
     const data = await response.json();
     document.getElementById("name").innerHTML= data.name + ", " + data.age;
     document.getElementById("info").innerHTML= data.location;

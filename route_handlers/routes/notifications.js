@@ -49,4 +49,21 @@ router.route('/').get((req, res) => {
 	})
 })
 
+router.route('/clear').get((req, res) => {
+	let notfications = []
+
+	if (!req.query.id) {
+		return res.json('id missing')
+	}
+
+	const query = 'DELETE FROM notifications WHERE user_id=' + req.query.id;
+
+	connection.request(query).then((request) => {
+		if (request.status === 'success') {
+			return res.json('notifications cleared')
+		}
+		return res.json('could not delete notifications')
+	})
+})
+
 module.exports = router;

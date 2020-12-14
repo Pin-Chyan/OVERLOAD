@@ -7,11 +7,4 @@ div(aria-live="polite" aria-atomic="true" id="popover")
 			strong.mr-auto Notifcations
 			button(type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close")
 				span(aria-hidden="true") &times;
-		.toast-body
-			#toast_message lkjhdflkjhasdflkjh
-		script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js')
-		script.
-			var socket = io()
-			socket.on('notification', function(data) {
-				alert(data);
-			})
+		#notification-body
