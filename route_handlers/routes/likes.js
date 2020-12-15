@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const { default: Axios } = require('axios');
+const axios = require('axios');
+const apiUrl = 'http://localhost:' + process.env.WEBHOSTPORT + '/api';
 const db = require('../database/db');
 
 // for db connection
@@ -23,7 +26,6 @@ async function liked_handler(req, res, check){
 
     console.log(request.data);
     request.data.forEach(element => {
-        console.log("foreach works");
         if (element.liked == req.body.target){
             bool = 0;
             unlike(req, res);
@@ -35,16 +37,70 @@ async function liked_handler(req, res, check){
 
 }
 
+async function notification_handler(id) {
+    connection.get("users", id).then((result) => {
+        var msg = "You matched with "+result.data[0].name+"! send them a message.";
+        console.log(msg);
+    
+        axios({
+            method: 'post',
+            url: apiUrl + '/notifications/push',
+            data: {
+              id: id,
+              msg: msg
+            }
+        }).then((response) => {
+            if (response.status == 200){
+                console.log("success");
+            } else 
+                console.log("error")
+        });
+    })
+}
+
+async function addmatch(id1, id2){
+
+    var query = "INSERT INTO matches (id1, id2) VALUES ('"+id1+"','"+id2+"')";
+    var request = await connection.request(query);
+
+    if (request.status == "success"){
+        console.log("matches added to match box");
+    } else {
+        console.log("error in addmatch");
+    }
+}
+
+async function unmatch(req){
+
+    var query = "SELECT * from matches WHERE (id1='"+req.body.id+"' AND id2='"+req.body.target+"') OR (id1='"+req.body.target+"' AND id2='"+req.body.id+"')";
+    var request = await connection.request(query);
+
+    if (request.data.length > 0){
+        var newquery = "DELETE from matches WHERE (id1='"+req.body.id+"' AND id2='"+req.body.target+"') OR (id1='"+req.body.target+"' AND id2='"+req.body.id+"')";
+        var newrequest = await connection.request(newquery);
+
+        if (newrequest.status == "success"){
+            console.log("unmatched");
+        } else {
+            console.log("error in unmatch async func");
+        }
+    } else {
+        console.log("User's not matched");
+    }
+}
+
 async function checkMatch(req){
 
     var query = "SELECT * from likes WHERE liked='"+req.body.id+"' AND id='"+req.body.target+"'";
     var request = await connection.request(query);
 
     if (request.data.length > 0){
-        console.log(request.data.length);
-        console.log(request.data);
-    } else{
         console.log("match found");
+        addmatch(req.body.id, req.body.target);
+        notification_handler(req.body.id);
+        notification_handler(req.body.target);
+    } else{
+        console.log("no current match");
         console.log(request.data);
     }
 }
@@ -116,8 +172,10 @@ async function unlike(req, res) {
     var result = await connection.request(query);
 
     // reading response
-    if (result.status == 'success')
+    if (result.status == 'success'){
+        unmatch(req);
         return end(res,200,"User Unliked!");
+    }
     else 
         return end(res,500,"error");
 }
@@ -135,8 +193,10 @@ async function like(req, res) {
     var result = await connection.request(query);
 
     // reading response
-    if (result.status == 'success')
+    if (result.status == 'success'){
+        checkMatch(req);
         return end(res,200,"User liked");
+    }
     else 
         return end(res,500,"error");
 }
