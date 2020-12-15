@@ -1,0 +1,23 @@
+container-fluid.foot
+	footer.bg-dark.text-light.footer.gradient
+		.container-fluid.text-center
+			.footer-copyright.text-center.cl-white Find us More on:
+				.footer-margin 
+					i.fa.fa-facebook-official.w3-hover-opacity.cl-white
+					i.fa.fa-instagram.w3-hover-opacity.cl-white
+					i.fa.fa-snapchat.w3-hover-opacity.cl-white
+					i.fa.fa-pinterest-p.w3-hover-opacity.cl-white
+					i.fa.fa-twitter.w3-hover-opacity.cl-white
+					i.fa.fa-linkedin.w3-hover-opacity.cl-white
+
+	script(type='text/javascript', src="https://code.jquery.com/jquery-3.5.1.js")
+	//-script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous")
+	script(type='text/javascript', src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js")
+	script(type='text/javascript', src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
+	script(type='text/javascript', src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js")
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js')
+	script.
+		var id = '#{id}'
+	script
+		include ../../scripts/notifications.js
+		include ../../scripts/navbar.js
