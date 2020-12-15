@@ -14,7 +14,10 @@ router.route('/').get( (req, res) => {
     // reading response
     request.then((result) => {
         if (result.status == 'success'){
-            return end(res,200, result.data[0]["CONVERT(img1 USING utf8)"]);
+            if (result.data[0])
+                return end(res,200, result.data[0]["CONVERT(img1 USING utf8)"]);
+            else
+                return end(res,200, "");
         }
         else 
             return end(res,500,"error");

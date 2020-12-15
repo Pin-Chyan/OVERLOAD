@@ -20,6 +20,35 @@ async function loadRecents(){
     const response = await fetch('/api/msg/recents?id=2');
     const data = await response.json();
     console.log(data);
+
+    var userBox = document.getElementById("userbox");
+    userBox.innerHTML = "";
+
+    var i = 0;
+    var imgData;
+    var userData;
+    var recentsDiv;
+    while(i < data.length){
+        imgData = null;
+        userData = null;
+        recentsDiv = null;
+        if (data[i].sender == id){
+            console.log('im here');
+            imgData = await fetch('/api/img?id=' + data[i].rec);
+            imgData = await imgData.json();
+            userData = await fetch('/api/usr/me?id=' + data[i].rec);
+            userData = await userData.json();
+            recentsDiv = recentsTemplate(userData, imgData, data[i].rec, data[i]);
+        } else {
+            imgData = await fetch('/api/img?id=' + data[i].sender);
+            imgData = await imgData.json();
+            userData = await fetch('/api/usr/me?id=' + data[i].sender);
+            userData = await userData.json();
+            recentsDiv = recentsTemplate(userData, imgData, data[i].sender, data[i]);
+        }
+        userBox.append(recentsDiv);
+        i++;
+    }
 }
 
 function recMsg(msg){
@@ -92,7 +121,7 @@ function senderMsg(msg){
     return sender;
 }
 
-function recentsDiv(){
+function recentsTemplate(userData, imgData, userid, msg){
     var listsUser = document.createElement("div");
     listsUser.className = "list-group rounded-0";
     listsUser.id = "matchedUsers";
@@ -106,6 +135,8 @@ function recentsDiv(){
 
     var userImage = document.createElement("img");
     userImage.setAttribute('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgMxCPwCb8MwLHvgmo-Wi8XRWvWFxmas8oUw&usqp=CAU');
+    if (imgData)
+        userImage.setAttribute('src', imgData);
     userImage.setAttribute('alt', 'user');
     userImage.setAttribute('height', '50px');
     userImage.setAttribute('width', '50px');
@@ -120,75 +151,21 @@ function recentsDiv(){
 
     var name = document.createElement("h6");
     name.className = "mb-0 text-dark";
-    name.textContent = "CYKO_2.0";
+    name.textContent = userData.name;
     boxinfo.append(name);
 
     var date = document.createElement("small");
     date.className = "small font-weight-bold text-dark";
-    date.textContent = "25 Des";
+    date.textContent = msg.time;
     boxinfo.append(date);
     box.append(boxinfo);
 
     var miniBio = document.createElement("p");
     miniBio.className = "font-italic mb-0 text-small text-dark";
-    miniBio.textContent = "Just some bull";
+    miniBio.textContent = msg.msg;
     box.append(miniBio);
     media.append(box);
     userInfo.append(media);
     listsUser.append(userInfo);
-    userBox.append(listsUser);
+    return listsUser;
 }
-
-// function replaceList(name) {
-//     var userBox = document.getElementById("userbox");
-//     userBox.innerHTML = "";
-//     // alert("Hello! I am an alert box!!");
-
-//     i = 0;
-//     while (i++ < 4) {
-//         var listsUser = document.createElement("div");
-//         listsUser.className = "list-group rounded-0";
-//         listsUser.id = "matchedUsers";
-    
-//         var userInfo = document.createElement("a");
-//         userInfo.className = "list-group-item list-group-item-action base_color text-white rounded-0";
-//         userInfo.href = "#";
-    
-//         var media = document.createElement("div");
-//         media.className = "media";
-    
-//         var userImage = document.createElement("img");
-//         userImage.setAttribute('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgMxCPwCb8MwLHvgmo-Wi8XRWvWFxmas8oUw&usqp=CAU');
-//         userImage.setAttribute('alt', 'user');
-//         userImage.setAttribute('height', '50px');
-//         userImage.setAttribute('width', '50px');
-//         userImage.className = "img-cover rounded-circle";
-//         media.append(userImage);
-    
-//         var box = document.createElement("div");
-//         box.className = "media-body ml-4";
-    
-//         var boxinfo = document.createElement("div");
-//         boxinfo.className = "d-flex align-items-center justify-content-between mb-1";
-    
-//         var name = document.createElement("h6");
-//         name.className = "mb-0 text-dark";
-//         name.textContent = "CYKO_2.0";
-//         boxinfo.append(name);
-    
-//         var date = document.createElement("small");
-//         date.className = "small font-weight-bold text-dark";
-//         date.textContent = "25 Des";
-//         boxinfo.append(date);
-//         box.append(boxinfo);
-    
-//         var miniBio = document.createElement("p");
-//         miniBio.className = "font-italic mb-0 text-small text-dark";
-//         miniBio.textContent = "Just some bull";
-//         box.append(miniBio);
-//         media.append(box);
-//         userInfo.append(media);
-//         listsUser.append(userInfo);
-//         userBox.append(listsUser);
-//     }
-// }
