@@ -1,57 +1,84 @@
-loadChat(1);
-async function loadChat(rec){
-    const response = await fetch('/api/msg/get?id=' + id + '&rec=' + rec);
+// loadChat(1);
+async function loadChat(chatroom){
+    const response = await fetch('/api/msg/getmychatrooms?id=' + id);
     const data = await response.json();
-    console.log(data);
 
-    var chatDisplay = document.getElementById("chatDisplay");
-    chatDisplay.innerHTML = "";
-    data.forEach(msg => {
-        if (msg.sender == rec){
-            chatDisplay.append(senderMsg(msg));
-        } else {
-            chatDisplay.append(recMsg(msg));
+    var i = 0;
+    while(i < data.length){
+        if (data[i].id == chatroom){
+            console.log(data[i].msg);
+            var chatDisplay = document.getElementById("chatDisplay");
+            document.getElementById("sendButton").setAttribute('onclick', 'send(' + chatroom + ')');
+            chatDisplay.innerHTML = "";
+            data[i].msg.forEach(msg => {
+                if (msg.sender == id){
+                    chatDisplay.append(sentMsg(msg));
+                } else {
+                    chatDisplay.append(recMsg(msg));
+                }
+            });
         }
-    });
+        i++;
+    }
 }
 
 loadRecents();
 async function loadRecents(){
-    const response = await fetch('/api/msg/recents?id=2');
+    const response = await fetch('/api/msg/getmychatrooms?id=' + id);
     const data = await response.json();
-    console.log(data);
 
     var userBox = document.getElementById("userbox");
     userBox.innerHTML = "";
 
     var i = 0;
-    var imgData;
-    var userData;
     var recentsDiv;
     while(i < data.length){
-        imgData = null;
-        userData = null;
+
         recentsDiv = null;
-        if (data[i].sender == id){
-            console.log('im here');
-            imgData = await fetch('/api/img?id=' + data[i].rec);
-            imgData = await imgData.json();
-            userData = await fetch('/api/usr/me?id=' + data[i].rec);
-            userData = await userData.json();
-            recentsDiv = recentsTemplate(userData, imgData, data[i].rec, data[i]);
+        if (id == data[i].usr1.id){
+            recentsDiv = recentsTemplate(data[i].usr2, data[i].id, data[i].msg[data[i].msg.length - 1]);
         } else {
-            imgData = await fetch('/api/img?id=' + data[i].sender);
-            imgData = await imgData.json();
-            userData = await fetch('/api/usr/me?id=' + data[i].sender);
-            userData = await userData.json();
-            recentsDiv = recentsTemplate(userData, imgData, data[i].sender, data[i]);
+            recentsDiv = recentsTemplate(data[i].usr1, data[i].id, data[i].msg[data[i].msg.length - 1]);
         }
         userBox.append(recentsDiv);
         i++;
     }
+    await loadChat(data[0].id);
 }
 
-function recMsg(msg){
+async function send(chatroom){
+    var text = document.getElementById('inputMessage').value;
+
+    if (text != null){
+        const response = await fetch("/api/msg/send?id=" + id + "&chatroom=" + chatroom +"&msg=" + text);
+        placeSentMessage(text);
+    }
+}
+
+var socket = io();
+socket.on('message', function(data) {
+    console.log("socket");
+    console.log(data);
+    placeRecivedMessage(data);
+})
+
+function placeSentMessage(text){
+    var chatDisplay = document.getElementById("chatDisplay");
+    chatDisplay.append(sentMsg({
+        msg:text,
+        time:"now"
+    }))
+}
+
+function placeRecivedMessage(msg){
+    var chatDisplay = document.getElementById("chatDisplay");
+    chatDisplay.append(recMsg({
+        msg:msg.msg,
+        time:msg.time
+    }))
+}
+
+function sentMsg(msg){
     var receiver = document.createElement("div");
     receiver.className = "media w-50 ml-auto mb-3";
     receiver.id = "receiver_" + 1;
@@ -81,7 +108,7 @@ function recMsg(msg){
     return receiver;
 }
 
-function senderMsg(msg){
+function recMsg(msg){
     var sender = document.createElement("div");
     sender.className = "media w-50 mb-3";
     sender.id = "sender_" + 1;
@@ -121,7 +148,7 @@ function senderMsg(msg){
     return sender;
 }
 
-function recentsTemplate(userData, imgData, userid, msg){
+function recentsTemplate(userData, chatroom, msg){
     var listsUser = document.createElement("div");
     listsUser.className = "list-group rounded-0";
     listsUser.id = "matchedUsers";
@@ -129,14 +156,16 @@ function recentsTemplate(userData, imgData, userid, msg){
     var userInfo = document.createElement("a");
     userInfo.className = "list-group-item list-group-item-action base_color text-white rounded-0";
     userInfo.href = "#";
-
+    console.log();
+    userInfo.setAttribute('onclick', 'loadChat(' + chatroom + ')');
+    
     var media = document.createElement("div");
     media.className = "media";
 
     var userImage = document.createElement("img");
     userImage.setAttribute('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgMxCPwCb8MwLHvgmo-Wi8XRWvWFxmas8oUw&usqp=CAU');
-    if (imgData)
-        userImage.setAttribute('src', imgData);
+    if (userData.img1)
+        userImage.setAttribute('src', userData.img1);
     userImage.setAttribute('alt', 'user');
     userImage.setAttribute('height', '50px');
     userImage.setAttribute('width', '50px');

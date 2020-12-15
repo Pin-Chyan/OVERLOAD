@@ -9,7 +9,7 @@ router.route('/').get( (req, res) => {
     }
 
     // writing new message to DB
-    var request = connection.request("SELECT CONVERT(img1 USING utf8) from img WHERE id='" + req.query.id + "'");
+    var request = connection.request("SELECT CONVERT(img1 USING utf8) from users WHERE id='" + req.query.id + "'");
 
     // reading response
     request.then((result) => {
@@ -29,20 +29,19 @@ router.route('/').post( (req,res) => {
         return end(res,401,"an id was not specified");
     }
 
-    connection.update('img', 'img1', req.body.img1, req.body.id).then((result) => {
-        console.log(result.data.message);
-        if (result.data.message == "(Rows matched: 0  Changed: 0  Warnings: 0"){
-            connection.request("INSERT INTO img (id,img1) VALUES('" + id + "','" + req.body.img1 + "')").then((result2) => {
-                console.log(result2);
-                if (result2.status == 'success'){
-                    return end(res, 200, "done");
-                } else {
-                    return end(res, 500, "error");
-                }
-            });
-        } else {
-            return end(res,200,"done");
-        }
+    connection.update('users', 'img1', req.body.img1, req.body.id).then((result) => {
+        // if (result.data.message == "(Rows matched: 0  Changed: 0  Warnings: 0"){
+        //     connection.request("INSERT INTO img (id,img1) VALUES('" + id + "','" + req.body.img1 + "')").then((result2) => {
+        //         console.log(result2);
+        //         if (result2.status == 'success'){
+        //             return end(res, 200, "done");
+        //         } else {
+        //             return end(res, 500, "error");
+        //         }
+        //     });
+        // } else {
+        // }
+        return end(res,200,"done");
     })
 })
 

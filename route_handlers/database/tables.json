@@ -14,7 +14,7 @@
             "bio":"TEXT",
             "verified" : "INT",
             "location" : "VARCHAR(255)",
-            "token" : "VARCHAR(255)"
+            "img1":"LONGBLOB"
         }
     },
     {
@@ -54,10 +54,18 @@
         }
     },
     {
+        "name":"chatroom",
+        "schema":{
+            "id":"INT AUTO_INCREMENT primary key NOT NULL UNIQUE",
+            "usr1":"INT",
+            "usr2":"INT"    
+        },
+        "constraint":"CONSTRAINT UC_Person UNIQUE (usr1,usr2)"
+    },{
         "name":"msg",
         "schema":{
+            "chatroom":"INT",
             "sender":"INT",
-            "rec":"INT",    
             "msg":"TEXT",
             "time":"TEXT"
         }

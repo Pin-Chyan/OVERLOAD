@@ -30,7 +30,7 @@ async function init(){
     await connectPromise(newConn);
     await build_tables(newConn, tables);
     await uploadDefault(newConn);
-    await randomMessageData(newConn);
+    // await randomMessageData(newConn);
 }
 
 async function hashPassword (user) {
@@ -141,7 +141,10 @@ function build_table(table){
         if (i != columns.length - 1)
             schema += ','; 
     })
-    schema += ")";
+    if (table.constraint)
+        schema += ", " + table.constraint + " )";
+    else
+        schema += ")";
     return (table.name + schema);
 }
 
