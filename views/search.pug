@@ -73,26 +73,29 @@ html(lang="en")
 				//- Create new row of matches
 				#matchesList.row.justify-content-center
 					.col-lg-4
-						img.shadow-lg.img-300(src="https://i.pinimg.com/564x/7c/32/31/7c32313848b48fb9a564cfa312999c84.jpg", alt="profile_img")
+						a(href="/home")
+							img.shadow-lg.img-300(src="https://i.pinimg.com/564x/7c/32/31/7c32313848b48fb9a564cfa312999c84.jpg", alt="profile_img")
 						p.caveat.rem-profile Beatrice
-							br/
 							| 10 Miles
-							br/
 							| 19
 					.col-lg-4
-						img.shadow-lg.img-300(src="https://data.whicdn.com/images/116951962/original.jpg", alt="profile_img")
+						a(href="/home")
+							img.shadow-lg.img-300(src="https://data.whicdn.com/images/116951962/original.jpg", alt="profile_img")
 						p.caveat.rem-profile Yuna
 							br/
 							| 17 Miles
 							br/
 							| 21
 					.col-lg-4
-						img.shadow-lg.img-300(src="https://i.pinimg.com/originals/41/68/d0/4168d07d150eeb2e029cff19cacb770c.jpg", alt="profile_img")
+						a(href="/home")
+							img.shadow-lg.img-300(src="https://i.pinimg.com/originals/41/68/d0/4168d07d150eeb2e029cff19cacb770c.jpg", alt="profile_img")
 						p.caveat.rem-profile Aniva
 							br/
 							| 5 Miles
 							br/
 							| 18
+
+					button(onclick="replace()") replace
 
 
 		footer.bg-dark
