@@ -30,6 +30,13 @@
         }
     },
     {
+        "name":"viewed",
+        "schema":{
+            "id":"INT",
+            "viewed":"INT"
+        }
+    },
+    {
         "name":"blocked",
         "schema":{
             "id":"INT",
