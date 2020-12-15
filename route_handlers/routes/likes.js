@@ -4,15 +4,14 @@ const db = require('../database/db');
 // for db connection
 const connection = new db.dbConn();
 
+// JSON body scheme: 
+// {
+//      "id":1,
+//      "email": "your email",
+//      "target":user id
+// }
 
 router.route('/like').post( (req, res) => {
-    // JSON body scheme: 
-    // {
-    //      "id":1,
-    //      "email": "your email",
-    //      "target":user id
-    // }
-
     liked_handler(req, res,"add");
 });
 
@@ -34,6 +33,20 @@ async function liked_handler(req, res, check){
         like(req, res);
     }
 
+}
+
+async function checkMatch(req){
+
+    var query = "SELECT * from likes WHERE liked='"+req.body.id+"' AND id='"+req.body.target+"'";
+    var request = await connection.request(query);
+
+    if (request.data.length > 0){
+        console.log(request.data.length);
+        console.log(request.data);
+    } else{
+        console.log("match found");
+        console.log(request.data);
+    }
 }
 
 router.route('/unblock').post( (req, res) => {
