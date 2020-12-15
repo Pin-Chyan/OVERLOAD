@@ -4,15 +4,14 @@ const db = require('../database/db');
 // for db connection
 const connection = new db.dbConn();
 
+// JSON body scheme: 
+// {
+//      "id":1,
+//      "email": "your email",
+//      "target":user id
+// }
 
 router.route('/like').post( (req, res) => {
-    // JSON body scheme: 
-    // {
-    //      "id":1,
-    //      "email": "your email",
-    //      "target":user id
-    // }
-
     liked_handler(req, res,"add");
 });
 
@@ -34,6 +33,20 @@ async function liked_handler(req, res, check){
         like(req, res);
     }
 
+}
+
+async function checkMatch(req){
+
+    var query = "SELECT * from likes WHERE liked='"+req.body.id+"' AND id='"+req.body.target+"'";
+    var request = await connection.request(query);
+
+    if (request.data.length > 0){
+        console.log(request.data.length);
+        console.log(request.data);
+    } else{
+        console.log("match found");
+        console.log(request.data);
+    }
 }
 
 router.route('/unblock').post( (req, res) => {
@@ -128,28 +141,6 @@ async function like(req, res) {
         return end(res,500,"error");
 }
 
-
-
-//     UserModels.find({"email": req.body.target}, "_id liked name last").exec().then(docs => {
-//         UserModels.findOne({"email": req.body.email}, "_id likes name last blocked").exec().then(docs2 => {
-//             if (!docs2.likes.includes(docs[0]._id || !docs2.blocked.includes(docs._id))){
-//                 var sender = docs2.name+" "+docs2.last;
-//                 var reciever = docs[0].name+" "+docs[0].last;
-//                 fame_handle(req, "increase");
-//                 liked_handle(req, docs2._id,"add");
-//                 match_handle(req,docs[0]._id, sender, reciever);
-//                 var like = docs2.likes;
-//                 like.push(docs[0]._id);
-//                 docs2.likes = like;
-//                 docs2.save().then(r => {res.json("liked")}).catch(err => {res.json(err)});
-//             }
-//             else if (docs2.blocked.includes(docs._id))
-//                 res.json("You have been blocked by this user");
-//             else
-//                 res.json("Already Liked!");
-//         })
-//     }).catch(err => {res.json(err)})
-// })
 
 
 // router.route('/viewed').post( (req, res) => {

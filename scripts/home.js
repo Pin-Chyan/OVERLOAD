@@ -28,3 +28,15 @@ async function getData() {
     document.getElementById("bio").innerHTML= data.bio;
     console.log(data);
 }
+
+function like() {
+
+}
+
+function dislike() {
+
+}
+
+function block() {
+    
+}
