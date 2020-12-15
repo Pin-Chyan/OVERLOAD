@@ -105,6 +105,8 @@ function getTwoUsers(){
     while (user1 == user2){
         user2 = Math.floor(Math.random() * maxUser);
     }
+    if (user1 == 0 || user2 == 0)
+        return getTwoUsers();
     return [user1,user2];
 }
 
