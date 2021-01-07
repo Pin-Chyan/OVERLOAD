@@ -4,7 +4,7 @@ async function applyFilters(){
     var distance = document.getElementById('DistanceDiff').value;
     var tags = document.getElementById('interests').value;
 
-    var query = "/api/search?id=2";
+    var query = "/api/search?id=" + id;
 
     if (ageRange){
         query += "&ageRange=" + ageRange;

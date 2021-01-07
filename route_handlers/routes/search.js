@@ -13,7 +13,7 @@ router.route('/').get( (req, res) => {
         return end(res,401,"an id was not specified");
     }
 
-    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id!='" + req.query.id + "'";
+    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location, CONVERT(img1 USING utf8) as img1 from users Where id!='" + req.query.id + "'";
     var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id='" + req.query.id + "'";
 
     var dataReqArr = [];
@@ -39,7 +39,7 @@ router.route('/match').get( (req, res) => {
         return end(res,401,"an id was not specified");
     }
 
-    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id!='" + req.query.id + "'";
+    var getDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location, CONVERT(img1 USING utf8) as img1 from users Where id!='" + req.query.id + "'";
     var getMyDataReqQuery = "Select id, name, surname, gender, age, sexual_pref, tag, bio, location from users Where id='" + req.query.id + "'";
 
     var dataReqArr = [];
