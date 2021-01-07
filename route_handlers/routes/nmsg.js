@@ -124,7 +124,7 @@ async function sendMessage(req){
     if (chatroom.status != 'success' || chatroom.data.length == 0)
         return chatroom;
     
-    console.log(chatroom.data[0]);
+    // console.log(chatroom.data[0]);
     var time = new Date();
     var timeString = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate() + ' ' + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
     var message = {
@@ -133,15 +133,13 @@ async function sendMessage(req){
         msg:req.query.msg,
         time:timeString
     }
-    console.log(message);
+    // console.log(message);
     await saveToDb(message);
     await sendSocket(req, chatroom.data[0], message);
 }
 
 async function saveToDb(message){
-    var result = await connection.request("INSERT INTO msg (chatroom,sender,msg,time) VALUES('" + message.chatroom + "','" + message.sender + "','" + message.msg + "','" + message.time + "')");
-    console.log("save to db");
-    console.log(result);
+    await connection.request("INSERT INTO msg (chatroom,sender,msg,time) VALUES('" + message.chatroom + "','" + message.sender + "','" + message.msg + "','" + message.time + "')");
 }
 
 async function sendSocket(req, chatroom, message, res){

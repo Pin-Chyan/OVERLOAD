@@ -11,10 +11,11 @@ router.route('/me').get( (req, res) => {
     }
 
     // writing new message to DB
-    var request = connection.get('users', req.query.id);
+    var request = connection.request("SELECT *, CONVERT(img1 USING utf8) as img1 from users WHERE id='" + req.query.id + "'");
 
     // reading response
     request.then((result) => {
+        console.log(result.status);
         if (result.status == 'success'){
             // console.log(result.data[0].img1.length);
             return end(res,200, result.data[0]);
@@ -36,7 +37,7 @@ router.route('/updatedata').post( (req, res) => {
             promiseArr.push(connection.update('users', key , req.body[key], req.body.id));
     });
     Promise.all(promiseArr).then((result) => {
-        // console.log(result);
+        console.log(result);
         end(res, 200, "done");
     })
 })

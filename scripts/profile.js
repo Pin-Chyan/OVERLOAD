@@ -49,7 +49,7 @@ function updateInfo() {
 	reader.readAsDataURL(img);
 	reader.onloadend = function() {
 		console.log(reader.result.toString());
-		fetch('api/img', {
+		fetch('api/usr/updatedata', {
 			method : 'POST',
 			mode : 'cors',
 			headers: {
@@ -86,8 +86,10 @@ function updateInfo() {
 			"tag" : tag,
 			"bio": bio,
         })
-    })
-	setTimeout(continueExecution, 1000)
+	})
+	response.then(() => {
+		setTimeout(continueExecution, 1);
+	})
 }
 
 function continueExecution()
@@ -115,16 +117,20 @@ async function getData() {
 	document.getElementById("bio").placeholder = data.bio;
 	var tags = [data.tag];
 	document.getElementById("interestList").innerHTML = "";
+	if (data.img1){
+		console.log(data.img1);
+		document.getElementById("img1").src = data.img1;
+	}
 	for (item of tags) {
 		document.getElementById("interestList").append(item);
 		// document.body.append(span);
 	}
 	console.log(data);
 	
-	const responseImg = await fetch('api/img?id=' + id);
-	const dataImg = await responseImg.json();
-	console.log(dataImg);
-	document.getElementById("img1").src = dataImg;
+	// const responseImg = await fetch('api/img?id=' + id);
+	// const dataImg = await responseImg.json();
+	// console.log(dataImg);
+	// document.getElementById("img1").src = dataImg;
 }
 
 function arrayBufferToString(buffer){

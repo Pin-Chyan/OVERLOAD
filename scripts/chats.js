@@ -1,4 +1,29 @@
-// loadChat(1);
+loadRecents();
+
+async function loadRecents(){
+    const response = await fetch('/api/msg/getmychatrooms?id=' + id);
+    const data = await response.json();
+
+    var userBox = document.getElementById("userbox");
+    userBox.innerHTML = "";
+
+    var i = 0;
+    var recentsDiv;
+    console.log(data);
+    while(i < data.length){
+
+        recentsDiv = null;
+        if (id == data[i].usr1.id){
+            recentsDiv = recentsTemplate(data[i].usr2, data[i].id, data[i].msg[data[i].msg.length - 1]);
+        } else {
+            recentsDiv = recentsTemplate(data[i].usr1, data[i].id, data[i].msg[data[i].msg.length - 1]);
+        }
+        userBox.append(recentsDiv);
+        i++;
+    }
+    await loadChat(data[0].id);
+}
+
 async function loadChat(chatroom){
     const response = await fetch('/api/msg/getmychatrooms?id=' + id);
     const data = await response.json();
@@ -20,30 +45,6 @@ async function loadChat(chatroom){
         }
         i++;
     }
-}
-
-loadRecents();
-async function loadRecents(){
-    const response = await fetch('/api/msg/getmychatrooms?id=' + id);
-    const data = await response.json();
-
-    var userBox = document.getElementById("userbox");
-    userBox.innerHTML = "";
-
-    var i = 0;
-    var recentsDiv;
-    while(i < data.length){
-
-        recentsDiv = null;
-        if (id == data[i].usr1.id){
-            recentsDiv = recentsTemplate(data[i].usr2, data[i].id, data[i].msg[data[i].msg.length - 1]);
-        } else {
-            recentsDiv = recentsTemplate(data[i].usr1, data[i].id, data[i].msg[data[i].msg.length - 1]);
-        }
-        userBox.append(recentsDiv);
-        i++;
-    }
-    await loadChat(data[0].id);
 }
 
 async function send(chatroom){
@@ -185,13 +186,15 @@ function recentsTemplate(userData, chatroom, msg){
 
     var date = document.createElement("small");
     date.className = "small font-weight-bold text-dark";
-    date.textContent = msg.time;
+    if (msg)
+        date.textContent = msg.time;
     boxinfo.append(date);
     box.append(boxinfo);
 
     var miniBio = document.createElement("p");
     miniBio.className = "font-italic mb-0 text-small text-dark";
-    miniBio.textContent = msg.msg;
+    if (msg)
+        miniBio.textContent = msg.msg;
     box.append(miniBio);
     media.append(box);
     userInfo.append(media);
