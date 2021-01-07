@@ -25,18 +25,17 @@ html(lang="en")
 					hr/
 					//- About Me
 					p#bio.caveat.overflow Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus suscipit reprehenderit nesciunt minus iste, deserunt perspiciatis repudiandae vel doloribus officia autem. Eum unde ipsum maxime magnam dolor modi, quasi voluptatum!
-					
+					hr/
+					p#fame.caveat Fame: 0
 				//- Options
 				div.container.text-center(id="profileDetails")
 					div.cl-white.margin-zero(id="btnsDiv")
-						button.btn.btn-primary(type="button" id="likeBtn")
+						button.btn.btn-primary(type="button" id="likeBtn" onclick="like()")
 							i(class="fa fa-heart")
-						button.btn.btn-warning(type="button" id="fame")
-							i 0
-						button.btn.btn-light(type="button" id="dislikeBtn"  onclick="updateUser()")
-							i(class="fa fa-thumbs-down")
-						button.btn.btn-danger(type="button" id="blockBtn")
+						button.btn.btn-danger(type="button" id="blockBtn" onlcik="block()")
 							i(class="fa fa-ban")
+						button.btn.btn-warning(type="button" id="nextBtn" onlcik="next()")
+							i(class="fa fa-arrow-right")
 
 		footer.bg-dark
 			include ../views/commons/footer
