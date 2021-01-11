@@ -22,10 +22,10 @@ const connection = new db.dbConn();
 /////////
 
 router.route('/like').post( (req, res) => {
-    liked_handler(req, res,"add");
+    liked_handler(req, res);
 });
 
-async function liked_handler(req, res, check){
+async function liked_handler(req, res){
     //select all from likes where *id* = *your id*
     var bool = 1;
     var query = "SELECT * from likes WHERE id= '"+req.body.id+"'";
@@ -109,10 +109,13 @@ router.route('/block').post( (req, res) => {
     request.then((result) => {
         if (result.data.length == 0){
             block(req);
-            return end2(res, "user blocked")
+            console.log("userblocked");
+            return end2(res, "user blocked");
         }
-        else 
+        else {
+            console.log("user already blocked");
             return end2(res,"User already blocked");
+        }
     });
 })
 
