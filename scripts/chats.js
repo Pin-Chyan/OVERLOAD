@@ -9,7 +9,7 @@ async function loadRecents(){
 
     var i = 0;
     var recentsDiv;
-    console.log(data);
+    console.log(data);  
     while(i < data.length){
 
         recentsDiv = null;
@@ -21,7 +21,7 @@ async function loadRecents(){
         userBox.append(recentsDiv);
         i++;
     }
-    await loadChat(data[0].id);
+    await loadChat(data[0].id);  
 }
 
 async function loadChat(chatroom){
