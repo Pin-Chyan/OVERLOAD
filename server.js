@@ -25,10 +25,8 @@ const sessionMiddleware = session({
 app.use(cors());
 
 // json size limiter and config
-app.use(express.json({limit: '50mb'}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 
 // session stuff
 app.use(sessionMiddleware)
