@@ -170,10 +170,20 @@ async function checkMatch(req){
         addmatch(req.body.id, req.body.target);
         notification_handler(req.body.id);
         notification_handler(req.body.target);
+        makeChatroom(req.body.id, req.body.target);
     } else{
         console.log("no current match");
         console.log(request.data);
     }
+}
+
+async function makeChatroom(usr1, usr2){
+    var chatroom;
+    if (usr1 > usr2)
+        chatroom = await connection.request("INSERT INTO chatroom (usr1,usr2) VALUES('" + usr2 + "','" + usr1 + "')");
+    else
+        chatroom = await connection.request("INSERT INTO chatroom (usr1,usr2) VALUES('" + usr1 + "','" + usr2 + "')");
+    return chatroom;
 }
 
 async function addmatch(id1, id2){
