@@ -25,8 +25,9 @@ router.route('/').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
-        addExtraData(result[0].data, result[1].data[0]).then(() => {
-            var filterResult = filter(req.query, result[0].data, result[1].data[0]);
+        addExtraData(result[0].data, result[1].data[0]).then((newSearchData) => {
+            console.log(newSearchData);
+            var filterResult = filter(req.query, newSearchData, result[1].data[0]);
             res.json(filterResult);
         });
     })
@@ -51,12 +52,12 @@ router.route('/match').get( (req, res) => {
         if (result[0].status == 'error' || result[1].status == 'error'){
             end(res, 500, "error");
         }
-        addExtraData(result[0].data, result[1].data[0]).then(() => {
+        addExtraData(result[0].data, result[1].data[0]).then((newSearchData) => {
             var userData = result[1].data[0];
             req.query.distance = 50;
             if (userData.sexual_pref != 0)
                 req.query.gender = userData.sexual_pref;
-            var filterResult = filter(req.query, result[0].data, result[1].data[0]);
+            var filterResult = filter(req.query, newSearchData, result[1].data[0]);
             res.json(filterResult);
         });
     })
@@ -138,7 +139,6 @@ function filterFame(searchData, minFame){
     var i = 0;
     var newSearchData = [];
     while (i < searchData.length){
-        console.log(searchData.fame);
         if (searchData.fame >= minFame){
             newSearchData.push(searchData[i]);
         }
@@ -170,8 +170,8 @@ async function addExtraData(searchData, myData){
     while (i < searchData.length){
         fame = await getFame(searchData[i]);
         distance = calculateDistance(lat1,lon1,searchData[i].location.split(',')[4],searchData[i].location.split(',')[5]);
-        searchData.fame = fame;
-        searchData.distance = distance;
+        searchData[i].fame = fame;
+        searchData[i].distance = distance;
         i++;
     }
     return searchData;
