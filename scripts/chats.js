@@ -21,20 +21,28 @@ async function loadRecents(){
         userBox.append(recentsDiv);
         i++;
     }
-    await loadChat(data[0].id);  
+
+    if (data[0])
+        await loadChat(data[0].id);
+    else {
+        var chatDisplay = document.getElementById("chatDisplay");
+        document.getElementById("sendButton").setAttribute('onclick', 'send(null)');
+        chatDisplay.innerHTML = "";
+    }
 }
 
 async function loadChat(chatroom){
     const response = await fetch('/api/msg/getmychatrooms?id=' + id);
     const data = await response.json();
 
+    var chatDisplay = document.getElementById("chatDisplay");
+    document.getElementById("sendButton").setAttribute('onclick', 'send(' + chatroom + ')');
+    chatDisplay.innerHTML = "";
+
     var i = 0;
     while(i < data.length){
         if (data[i].id == chatroom){
             console.log(data[i].msg);
-            var chatDisplay = document.getElementById("chatDisplay");
-            document.getElementById("sendButton").setAttribute('onclick', 'send(' + chatroom + ')');
-            chatDisplay.innerHTML = "";
             data[i].msg.forEach(msg => {
                 if (msg.sender == id){
                     chatDisplay.append(sentMsg(msg));
@@ -48,12 +56,13 @@ async function loadChat(chatroom){
 }
 
 async function send(chatroom){
-    var text = document.getElementById('inputMessage').value;
-
+    
     if (text != null){
+        var text = document.getElementById('inputMessage').value;
         const response = await fetch("/api/msg/send?id=" + id + "&chatroom=" + chatroom +"&msg=" + text);
         placeSentMessage(text);
     }
+    
 }
 
 var socket = io();

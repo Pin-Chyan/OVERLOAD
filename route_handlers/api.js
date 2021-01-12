@@ -2,11 +2,10 @@ const router = require('express').Router();
 const { ensureAuthenticated } = require('./config/auth');
 
 router.use('/auth', require('./routes/auth.js'));
-router.use('/msg', require('./routes/nmsg.js'));
+router.use('/msg', require('./routes/msg.js'));
 router.use('/usr', require('./routes/user.js'));
 router.use('/search', require('./routes/search.js'));
 router.use('/likes', require('./routes/likes.js'));
-router.use('/img', require('./routes/img.js'));
 router.use('/notifications', require('./routes/notifications.js'));
 // router.use('/msg',  ensureAuthenticated, require('./routes/msg.js'));
 // router.use('/usr',  ensureAuthenticated, require('./routes/user.js'));
