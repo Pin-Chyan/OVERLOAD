@@ -86,7 +86,7 @@ router.get('/logout',(req,res)=>{
 
 router.get('/home', ensureAuthenticated, function(req, res) {
 	res.render('home.pug', {
-		id: req.session.passport.user
+        id: req.session.passport.user,
 	});
 })
 

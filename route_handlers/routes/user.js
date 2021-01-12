@@ -26,6 +26,7 @@ router.route('/me').get( (req, res) => {
 })
 
 router.route('/updatedata').post( (req, res) => {
+    const conn = new db.dbConn();
     if (!req.body.id){
         return end(res,401,"an id was not specified");
     }
@@ -34,7 +35,7 @@ router.route('/updatedata').post( (req, res) => {
     let keys = Object.keys(req.body);
     keys.forEach(key => {
         if (key != "id" && key != "password")
-            promiseArr.push(connection.update('users', key , req.body[key], req.body.id));
+            promiseArr.push(conn.update('users', key , req.body[key], req.body.id));
     });
     Promise.all(promiseArr).then((result) => {
         console.log(result);

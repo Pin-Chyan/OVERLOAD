@@ -1,9 +1,16 @@
+var i = 0;
+var id_2 = '';
+
 getData();
 async function getData() {
     // id of relative user found for match
     const response = await fetch('api/usr/me?id=' + id);
     const data = await response.json();
-
+    const getuser = await fetch('api/search/match?id=' + id);
+    const userdata = await getuser.json();
+    console.log(id);
+    id_2 = userdata[i].id;
+    console.log(id_2);
     // get fame via post
 	const fresponse = await fetch('api/likes/getfame', {
         method : 'POST',
@@ -13,25 +20,25 @@ async function getData() {
         },
         body : JSON.stringify({
             // id of the userfound in homepage
-			'id': id,
+			'id': id_2,
         })
     })
     const fdata = await fresponse.json();
 
 
-    document.getElementById("name").innerHTML= data.name + ", " + data.age;
-    document.getElementById("info").innerHTML= data.location;
+    document.getElementById("name").innerHTML= userdata[i].name + ", " + userdata[i].age;
+    document.getElementById("info").innerHTML= userdata[i].location;
 
     // gender
-    if (data.gender = 1) {
+    if (userdata[i].gender = 1) {
         document.getElementById("gender").innerHTML= "Female";
     }
-    if (data.gender = -1) {
+    if (userdata[i].gender = -1) {
         document.getElementById("gender").innerHTML= "Male";
     };
 
     // tags
-    var tags = [data.tag];
+    var tags = [userdata[i].tag];
 	document.getElementById("tags").innerHTML = "";
 	for (item of tags) {
 		const span = document.createElement('span');
@@ -42,10 +49,12 @@ async function getData() {
 		// document.body.append(span);
     }
     
-    document.getElementById("bio").innerHTML = data.bio;
+    document.getElementById("bio").innerHTML = userdata[i].bio;
     document.getElementById("fame").innerHTML = "Fame: " + fdata;
-    console.log(data);
-    console.log(fdata);
+    console.log(userdata[i]);
+    console.log(userdata);
+    // console.log(data);
+    // console.log(fdata);
 }
 
 function like() {
@@ -57,9 +66,11 @@ function like() {
         },
         body : JSON.stringify({
             // id of the userfound in homepage
-			'id': id,
+            'id': id,
+			'target': id_2,
         })
     })
+    getData();
 }
 
 function block() {
@@ -79,14 +90,6 @@ function block() {
 }
 
 function next() {
-    const response = fetch('api/', {
-        method : 'POST',
-        mode : 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({
-
-        })
-    })
+    i++;
+    getData();
 }
