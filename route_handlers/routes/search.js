@@ -26,7 +26,6 @@ router.route('/').get( (req, res) => {
             end(res, 500, "error");
         }
         addExtraData(result[0].data, result[1].data[0]).then((newSearchData) => {
-            console.log(newSearchData);
             var filterResult = filter(req.query, newSearchData, result[1].data[0]);
             res.json(filterResult);
         });
@@ -71,14 +70,12 @@ function filter(query, searchData, userData){
         searchData = filterNameString(searchData, query.nameString);
     }
     if (query.distance){
-        console.log(query.distance);
         searchData = filterDistance(searchData, userData, query.distance);
     }
     if (query.minFame){
         searchData = filterFame(searchData, query.minFame);
     }
     if (query.gender){
-        console.log(query.gender);
         searchData = filterGender(searchData, query.gender);
     }
     return searchData;
