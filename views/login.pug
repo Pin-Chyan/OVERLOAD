@@ -20,7 +20,9 @@ html(lang="en")
 					div
 						label.small(for="password") Password
 						input.form-control(id="password" type="password" name="password" placeholder="Secrets" onkeyup="valPassword()" autocomplete="password")
-						a.small(href="/register") Register
+						a.small(href="/forgot") Forgot Password
+						
+					a.small.btn.btn-primary(href="/register") Register
 
 					button.btn.btn-primary(onclick="loginForm()") submit 
 
