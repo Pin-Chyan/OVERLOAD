@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        include ../views/commons/header
+
+        title Home
+    body
+        header
+            include ../views/commons/navbar
+
+        article
+        .container
+            .row
+                .col-4
+                    h1#name_head.lobster.mt-2.mb-2 User-Image
+                    img.rounded.shadow-lg.mb-2.mt-2.w-100.img-400(id="img1" src="https://i.imgur.com/GnBY9ja.jpg" alt="Person_Img")
+
+                .col-8
+                    h1.lobster.mt-2.mb-2 Details
+                    hr
+                    h3.caveat Rikka Takanashi, 18
+                    hr
+                    h4.caveat Tōka and Rikka used to live together with their parents. After their father's death, the family of four shattered. Tōka started to live on her own because of her job and had to leave Rikka behind.
+                    h4.caveat Female
+                    h4.caveat Somewhere japan
+                    hr
+                    h4.caveat Fame: 2
+                    div.container.text-center(id="profileDetails")
+                        div.cl-white.margin-zero(id="btnsDiv")
+                            button.btn.btn-primary(type="button" id="likeBtn" onclick="like()")
+                                i(class="fa fa-heart")
+                            button.btn.btn-danger(type="button" id="blockBtn" onclick="block()")
+                                i(class="fa fa-ban")
+
+
+                    hr
+
+        footer.bg-dark
+            include ../views/commons/footer
+        script.
+            var id = '#{id}'
+        script
+            include ../scripts/match.js

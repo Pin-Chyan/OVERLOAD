@@ -162,3 +162,7 @@ router.get('/sent', function(req,res) {
 router.get('/forgot', function(req,res) {
 	res.render('./validations/forgot.pug');
 })
+
+router.get('/match', function(req,res) {
+	res.render('./match.pug');
+})
