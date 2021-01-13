@@ -145,7 +145,7 @@ async function notification_handler(id) {
             url: apiUrl + '/notifications/push',
             data: {
               id: id,
-              msg: msg
+              message: msg
             }
         }).then((response) => {
             if (response.status == 200){
