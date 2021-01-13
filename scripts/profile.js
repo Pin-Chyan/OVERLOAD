@@ -48,7 +48,6 @@ function updateInfo() {
 	// image reading and uploading
 	reader.readAsDataURL(img);
 	reader.onloadend = function() {
-		console.log(reader.result.toString());
 		fetch('api/usr/updatedata', {
 			method : 'POST',
 			mode : 'cors',
@@ -59,7 +58,8 @@ function updateInfo() {
 				'id': id,
 				"img1": reader.result,
 			})
-		})
+		});
+		setTimeout(continueExecution, 200);
 	}
 
 
@@ -68,7 +68,7 @@ function updateInfo() {
 	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + "location: " + location + "\n" + 
 	"bio: " + bio + "\n" + "img: " + img + "\n");
 	// $("#pageloader").fadeIn(0);
-	const response = fetch('api/usr/updatedata', {
+	fetch('api/usr/updatedata', {
         method : 'POST',
         mode : 'cors',
         headers: {
@@ -87,13 +87,12 @@ function updateInfo() {
 			"bio": bio,
         })
 	})
-	response.then(() => {
-		setTimeout(continueExecution, 1);
-	})
+	// response.then(() => {
+	// 	setTimeout(continueExecution, 1);
+	// })
 }
 
-function continueExecution()
-{
+function continueExecution(){
 	window.location.reload(true);
 //    finish doing things after the pause
 }
@@ -123,14 +122,8 @@ async function getData() {
 	}
 	for (item of tags) {
 		document.getElementById("interestList").append(item);
-		// document.body.append(span);
 	}
 	console.log(data);
-	
-	// const responseImg = await fetch('api/img?id=' + id);
-	// const dataImg = await responseImg.json();
-	// console.log(dataImg);
-	// document.getElementById("img1").src = dataImg;
 }
 
 function arrayBufferToString(buffer){

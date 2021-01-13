@@ -26,7 +26,6 @@ router.route('/').get( (req, res) => {
             end(res, 500, "error");
         }
         addExtraData(result[0].data, result[1].data[0]).then((newSearchData) => {
-            console.log(newSearchData);
             var filterResult = filter(req.query, newSearchData, result[1].data[0]);
             res.json(filterResult);
         });
@@ -64,21 +63,20 @@ router.route('/match').get( (req, res) => {
 })
 
 function filter(query, searchData, userData){
+    console.log(query);
     if (query.ageRange){
-        searchData = filterAge(searchData, userData.age , query.ageRange);
+        searchData = filterAge(searchData, parseInt(userData.age) , parseInt(query.ageRange));
     }
     if (query.nameString){
         searchData = filterNameString(searchData, query.nameString);
     }
     if (query.distance){
-        console.log(query.distance);
         searchData = filterDistance(searchData, userData, query.distance);
     }
     if (query.minFame){
         searchData = filterFame(searchData, query.minFame);
     }
     if (query.gender){
-        console.log(query.gender);
         searchData = filterGender(searchData, query.gender);
     }
     return searchData;
@@ -88,6 +86,7 @@ function filterAge(searchData, userAge, ageRange){
     var newSearchData = [];
     
     var i = 0;
+    var poes;
     while (i < searchData.length){
         if (ageRange == 0){
             if (searchData[i].age == userAge)
@@ -139,7 +138,8 @@ function filterFame(searchData, minFame){
     var i = 0;
     var newSearchData = [];
     while (i < searchData.length){
-        if (searchData.fame >= minFame){
+        console.log(searchData[i].name + " " + searchData[i].fame );
+        if (searchData[i].fame >= minFame){
             newSearchData.push(searchData[i]);
         }
         i++;
@@ -168,7 +168,7 @@ async function addExtraData(searchData, myData){
 
     var i = 0;
     while (i < searchData.length){
-        fame = await getFame(searchData[i]);
+        fame = await getFame(searchData[i].id);
         distance = calculateDistance(lat1,lon1,searchData[i].location.split(',')[4],searchData[i].location.split(',')[5]);
         searchData[i].fame = fame;
         searchData[i].distance = distance;
@@ -195,10 +195,10 @@ function calculateDistance(lat1,lon1,lat2,lon2) {
 
 
 async function getFame(id){
-    var query = "SELECT * from likes WHERE liked= '"+ id+"'";
+    var query =  "SELECT * from likes WHERE liked= '"+ id +"'";
     var request = await connection.request(query);
 
-    return count = request.data.length;
+    return request.data.length;
 }
 
 function end(res, status, msg){

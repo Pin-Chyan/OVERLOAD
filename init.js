@@ -75,6 +75,9 @@ async function uploadDefault(){
         await requestHandler.update('users','verified', 1 , res);
         await requestHandler.update('users','location', newUser.location.toString() , res);
         await requestHandler.update('users','bio', "this is the bio of the great lord " + newUser.name + ". The great lord " + newUser.name + " has been known for many things like " + newUser.tag.toString() , res);
+        requestHandler.request("set global max_allowed_packet = 1000 * 1024 * 1024").then((res) => {
+            console.log(res);
+        });
         // console.log(await requestHandler.get('users', res));
     }
 }

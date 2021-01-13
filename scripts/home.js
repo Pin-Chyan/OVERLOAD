@@ -37,6 +37,14 @@ async function getData() {
         document.getElementById("gender").innerHTML= "Male";
     };
 
+    // image
+    var img = document.getElementById('userimg');
+    if (userdata[i].img1 === undefined || userdata[i].img1 == null || userdata[i].img1 <= 0) {
+        img.src = "https://cdn.discordapp.com/attachments/631078804613496862/798850646421929994/Du_ylqyXQAAxIST.png";
+    } else {
+        img.src = userdata[i].img1;
+    }
+
     // tags
     var tags = [userdata[i].tag];
 	document.getElementById("tags").innerHTML = "";

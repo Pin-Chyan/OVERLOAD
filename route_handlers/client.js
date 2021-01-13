@@ -158,3 +158,7 @@ router.get('/confirm', function(req,res) {
 router.get('/sent', function(req,res) {
 	res.render('./validations/sent.pug');
 })
+
+router.get('/forgot', function(req,res) {
+	res.render('./validations/forgot.pug');
+})

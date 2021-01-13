@@ -15,7 +15,6 @@ router.route('/me').get( (req, res) => {
 
     // reading response
     request.then((result) => {
-        console.log(result.status);
         if (result.status == 'success'){
             // console.log(result.data[0].img1.length);
             return end(res,200, result.data[0]);
@@ -38,7 +37,6 @@ router.route('/updatedata').post( (req, res) => {
             promiseArr.push(conn.update('users', key , req.body[key], req.body.id));
     });
     Promise.all(promiseArr).then((result) => {
-        console.log(result);
         end(res, 200, "done");
     })
 })

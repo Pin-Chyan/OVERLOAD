@@ -228,8 +228,8 @@ router.route('/getfame').post( (req, res) => {
 
     request.then((result) => {
         var count = result.data.length;
-        console.log(result.data);
-        console.log(result.data.length);
+        // console.log(result.data);
+        // console.log(result.data.length);
         if (result.status == 'success')
             return end(res,200,count);
         else
