@@ -65,7 +65,7 @@ router.route('/match').get( (req, res) => {
 function filter(query, searchData, userData){
     console.log(query);
     if (query.ageRange){
-        searchData = filterAge(searchData, userData.age , query.ageRange);
+        searchData = filterAge(searchData, parseInt(userData.age) , parseInt(query.ageRange));
     }
     if (query.nameString){
         searchData = filterNameString(searchData, query.nameString);
@@ -86,6 +86,7 @@ function filterAge(searchData, userAge, ageRange){
     var newSearchData = [];
     
     var i = 0;
+    var poes;
     while (i < searchData.length){
         if (ageRange == 0){
             if (searchData[i].age == userAge)
@@ -137,6 +138,7 @@ function filterFame(searchData, minFame){
     var i = 0;
     var newSearchData = [];
     while (i < searchData.length){
+        console.log(searchData[i].name + " " + searchData[i].fame );
         if (searchData[i].fame >= minFame){
             newSearchData.push(searchData[i]);
         }
@@ -166,7 +168,7 @@ async function addExtraData(searchData, myData){
 
     var i = 0;
     while (i < searchData.length){
-        fame = await getFame(searchData[i]);
+        fame = await getFame(searchData[i].id);
         distance = calculateDistance(lat1,lon1,searchData[i].location.split(',')[4],searchData[i].location.split(',')[5]);
         searchData[i].fame = fame;
         searchData[i].distance = distance;
@@ -193,10 +195,10 @@ function calculateDistance(lat1,lon1,lat2,lon2) {
 
 
 async function getFame(id){
-    var query = "SELECT * from likes WHERE liked= '"+ id+"'";
+    var query =  "SELECT * from likes WHERE liked= '"+ id +"'";
     var request = await connection.request(query);
 
-    return count = request.data.length;
+    return request.data.length;
 }
 
 function end(res, status, msg){
