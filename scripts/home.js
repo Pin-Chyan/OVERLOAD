@@ -39,10 +39,10 @@ async function getData() {
 
     // image
     var img = document.getElementById('userimg');
-    if (userdata[i].img1.src.value === undefined || userdata[i].img1.src.value == null || userdata[i].img1.src.value <= 0) {
+    if (userdata[i].img1 === undefined || userdata[i].img1 == null || userdata[i].img1 <= 0) {
         img.src = "https://cdn.discordapp.com/attachments/631078804613496862/798850646421929994/Du_ylqyXQAAxIST.png";
     } else {
-        img.src = userdata[i].img1.src;
+        img.src = userdata[i].img1;
     }
 
     // tags
