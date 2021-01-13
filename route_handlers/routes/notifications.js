@@ -4,6 +4,7 @@ const db = require('../database/db');
 const connection = new db.dbConn();
 
 router.route('/push').post((req, res) => {
+	console.log(req.body)
 	let id = req.body.id;
 	let io = req.app.get('io');
 	let clients = req.app.get('clients');
@@ -13,18 +14,15 @@ router.route('/push').post((req, res) => {
 		io.to(socketId).emit('notification', req.body.message)
 		res.json('sent');
 	} else {
-		connection.newrow('notifications', id).then((request) => {
+		let queryValues = "('" + id + "', ";
+		queryValues += "'" + req.body.message + "');";
+		connection.request("INSERT INTO notifications (user_id, msg) VALUES" + queryValues).then((request) => {
+			console.log(' ---> test')
+			console.log(request)
 			if (request.status === 'success') {
-				let dbId = request.data.insertId;
-				connection.update('notifications', 'msg', req.body.message, dbId).then((request2) => {
-					if (request2.status === 'success') {
-						res.json('added to database')
-					} else {
-						res.json('could not get id')
-					}
-				})
+				res.json('added to database')
 			} else {
-				res.json('failed to add to create new row')
+				res.json('failed to add notification to db')
 			}
 		})
 	}
