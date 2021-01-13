@@ -63,6 +63,7 @@ router.route('/match').get( (req, res) => {
 })
 
 function filter(query, searchData, userData){
+    console.log(query);
     if (query.ageRange){
         searchData = filterAge(searchData, userData.age , query.ageRange);
     }
@@ -136,7 +137,7 @@ function filterFame(searchData, minFame){
     var i = 0;
     var newSearchData = [];
     while (i < searchData.length){
-        if (searchData.fame >= minFame){
+        if (searchData[i].fame >= minFame){
             newSearchData.push(searchData[i]);
         }
         i++;

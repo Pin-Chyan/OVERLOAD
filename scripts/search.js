@@ -75,12 +75,12 @@ async function applyFilters(){
         userArray.sort(compareValues('distance', 'desc'));
     }
 
-    if(document.getElementById('sP').value == "ascending") {
-        userArray.sort(compareValues('sexual_pref', 'asc'));
-    }
-    if(document.getElementById('sP').value == "descending") {
-        userArray.sort(compareValues('sexual_pref', 'desc'));
-    }
+    // if(document.getElementById('sP').value == "ascending") {
+    //     userArray.sort(compareValues('sexual_pref', 'asc'));
+    // }
+    // if(document.getElementById('sP').value == "descending") {
+    //     userArray.sort(compareValues('sexual_pref', 'desc'));
+    // }
 
     var arrayLength = userArray.length;
     for (var i = 0; i < arrayLength; i++) {
