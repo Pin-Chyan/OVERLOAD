@@ -12,6 +12,7 @@
             "sexual_pref" : "INT",
             "tag" : "VARCHAR(255)",
             "bio":"TEXT",
+            "token":"TEXT",
             "verified" : "INT",
             "location" : "VARCHAR(255)",
             "img1":"LONGBLOB"

@@ -30,15 +30,16 @@ class dbConn{
     // these are specific methods for creating a new user in the user table
     async newuser(userData){
         // sql query for creating a user using an email
-        const {name, surname, email, password} = userData;
+        const {name, surname, email, password, token} = userData;
 
         let queryValues = "('" + email + "', ";
         queryValues += "'" + name + "', ";
         queryValues += "'" + surname + "', ";
+        queryValues += "'" + token + "', ";
         queryValues += "'" + 0 + "', ";
         queryValues += "'" + password + "');";
     
-        var query = "INSERT INTO users (email, name, surname, verified, password) VALUES" + queryValues;
+        var query = "INSERT INTO users (email, name, surname, token, verified, password) VALUES" + queryValues;
         var res = await this.request(query);
         // console.log(res);
         if (res.status == 'success'){

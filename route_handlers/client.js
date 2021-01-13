@@ -1,3 +1,4 @@
+require('dotenv').config();
 const passport = require('passport');
 const express = require('express');
 const bcrypt = require('bcrypt')
@@ -8,6 +9,16 @@ const router = express.Router();
 const axios = require('axios');
 const {ensureAuthenticated} = require('./config/auth');
 const apiUrl = 'http://localhost:' + process.env.WEBHOSTPORT + '/api';
+const nodemailer = require("nodemailer");
+const { response } = require('express');
+
+const smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: process.env.MAILADDR,
+        pass: process.env.MAILPASS
+    }
+});
 
 module.exports = router;
 app.set("view engine", "pug");
@@ -31,6 +42,8 @@ router.post('/register', urlcodedParser, function(req, res) {
             (err, hash) => {
                 if (err) throw err;
                 user.password = hash;
+                const rand = ()=>Math.random(0).toString(36).substr(2);
+                token = (rand()+rand()+rand()+rand()).substr(0, 14);
 
                 axios({
                     method: 'post',
@@ -39,15 +52,28 @@ router.post('/register', urlcodedParser, function(req, res) {
                       name: user.name,
                       surname: user.surname,
                       email: user.email,
-                      password: user.password
+                      password: user.password,
+                      token
                     }
                 }).then((response) => {
                     if (response.data.success == true) {
-                        console.log("added user")
-                        console.log("need to send confimation email")
-                        // -------------------------------------
-                        // ----> SEND CONFIRMATION EMAIL <------
-                        // -------------------------------------
+                        console.log("added user2")
+                        console.log("need to send confimation email2")
+                        host = "localhost:" + process.env.WEBHOSTPORT;
+                        link= "http://" + host + "/confirm?token=" + token
+                        mailOptions = {
+                            to : user.email,
+                            subject : "Please confirm your Email account",
+                            html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+                        }
+                        smtpTransport.sendMail(mailOptions, function(error, response){
+                            if (error){
+                                console.log(error);
+                                res.end("error");
+                            } else{
+                                console.log("Message sent: " + response.message);
+                            }
+                        })  
                         res.redirect('/sent')
                     } else {
                         console.log(response.data.error)
@@ -109,7 +135,24 @@ router.get('/search', ensureAuthenticated, function(req, res) {
 })
 
 router.get('/confirm', function(req,res) {
-	res.render('./validations/confirm.pug');
+    console.log(req.query.token)
+    axios({
+        method: 'post',
+        url: apiUrl + '/auth/confirmToken',
+        data: {
+            token: req.query.token
+        }
+    }).then((response) => {
+        console.log(response.data.status)
+        if (response.data.status == 'success') {
+            res.render('./validations/confirm.pug');
+        } else {
+            res.render('./validations/invalid.pug');
+        }
+    }).catch(err => {
+        console.log(err)        
+        res.render('./validations/invalid.pug');
+    })
 })
 
 router.get('/sent', function(req,res) {
