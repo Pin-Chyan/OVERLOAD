@@ -116,6 +116,12 @@ router.get('/home', ensureAuthenticated, function(req, res) {
 	});
 })
 
+router.get('/match', ensureAuthenticated, function(req, res) {
+	res.render('match.pug', {
+        id: req.session.passport.user,
+	});
+})
+
 router.get('/profile', ensureAuthenticated, function(req, res) {
     res.render('profile.pug', {
 		id: req.session.passport.user
@@ -163,6 +169,3 @@ router.get('/forgot', function(req,res) {
 	res.render('./validations/forgot.pug');
 })
 
-router.get('/match', function(req,res) {
-	res.render('./match.pug');
-})
