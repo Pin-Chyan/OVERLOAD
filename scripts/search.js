@@ -90,7 +90,7 @@ async function applyFilters(){
         col.className = "col-lg-4";
         
         var anchor = document.createElement("a");
-        anchor.setAttribute("href","/home");
+        anchor.setAttribute("href","/match?"+ userArray[i].id);
 
         var img = document.createElement("img");
         img.className = "shadow-lg img-300";
