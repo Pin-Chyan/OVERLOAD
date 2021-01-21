@@ -3,32 +3,20 @@ html(lang="en")
 	head
 		include ../../views/commons/header
 
-		title Forget
+		title Forgot Password
 	body
 		header
 			div
-				h1.text-center.lobster Forgot
-
+				h1.text-center.lobster Forgot Password
 		article
-			.inv-struct
-				img.w-100.h-100.img-600(src="https://31.media.tumblr.com/932282b60ac3ed2bd6b05e54d67d39ab/tumblr_nqzeccsnO01se0at2o1_500.gif", alt="gif")
-				h1.lobster Hi Email been sent to change forgotten password
-				a.caveat.rem-validation(href="/login") Back To Mactha
+			div.row.justify-content-center.align-items-center.text-center
+				div
+					div
+						label.small(for="email") Email
+						input.form-control(id="email" type="text" name="email" placeholder="email@gmail.com" autocomplete="email")
+					button.btn.btn-primary(onclick="resetForm()") submit 
+		footer 
+			include ../../views/commons/footer
 
-		footer
-
-		script(
-			src="https://code.jquery.com/jquery-3.5.1.js"
-			integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-			crossorigin="anonymous"
-		)
-		script(
-			src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"
-		)
-		script(
-			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-		)
-		script(
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-		)
-
+		script
+			include include ../../../../scripts/reset.js

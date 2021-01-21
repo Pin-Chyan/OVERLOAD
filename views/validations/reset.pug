@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+html(lang="en")
+	head
+		include ../../views/commons/header
+
+		title Forgot Password
+	body
+		header
+			div
+				h1.text-center.lobster Reset Password
+		article
+			div.row.justify-content-center.align-items-center.text-center
+				div
+					div
+						label.small(for="password") Password
+						input.form-control(id="password" type="password" name="password" placeholder="Secrets" onkeyup="valPassword()" autocomplete="password")
+					div
+						label.small(for="password") Confirm Password
+						input.form-control(id="cpassword" type="password" name="password" placeholder="Secrets 2" onkeyup="valcPassword()" autocomplete="confirm password")
+					button.btn.btn-primary(onclick="resetPasswordForm()") submit 
+		footer 
+			include ../../views/commons/footer
+
+		script
+			include include ../../../../scripts/reset.js

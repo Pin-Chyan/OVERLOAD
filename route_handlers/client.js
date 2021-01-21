@@ -11,6 +11,8 @@ const {ensureAuthenticated} = require('./config/auth');
 const apiUrl = 'http://localhost:' + process.env.WEBHOSTPORT + '/api';
 const nodemailer = require("nodemailer");
 const { response } = require('express');
+const crypto = require('crypto');
+const { generate } = require('password-hash');
 
 const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
@@ -25,6 +27,29 @@ app.set("view engine", "pug");
 app.set('views', __dirname + './');
 app.engine('pug', require('pug').__express);
 router.use('/images', express.static(__dirname + './../images'));
+
+function sendMail(details) {
+    mailOptions = {
+        to : details.email,
+        subject : details.subject,
+        html : details.message 
+    }
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if (error){
+            console.log(error);
+        } else{
+            console.log("Message sent: " + response.message);
+        }
+    })
+}
+
+function generateToken(email) {
+    const rand = ()=>Math.random(0).toString(36).substr(2);
+    const hashed = crypto.createHash('md5').update(email).digest('hex')
+    const token = rand() + hashed + rand()
+
+    return token
+}
 
 router.get('/', function(req, res) {
     res.redirect('/login');
@@ -42,8 +67,7 @@ router.post('/register', urlcodedParser, function(req, res) {
             (err, hash) => {
                 if (err) throw err;
                 user.password = hash;
-                const rand = ()=>Math.random(0).toString(36).substr(2);
-                token = (rand()+rand()+rand()+rand()).substr(0, 14);
+                const token = generateToken(user.email);
 
                 axios({
                     method: 'post',
@@ -57,23 +81,13 @@ router.post('/register', urlcodedParser, function(req, res) {
                     }
                 }).then((response) => {
                     if (response.data.success == true) {
-                        console.log("added user2")
-                        console.log("need to send confimation email2")
                         host = "localhost:" + process.env.WEBHOSTPORT;
-                        link= "http://" + host + "/confirm?token=" + token
-                        mailOptions = {
-                            to : user.email,
-                            subject : "Please confirm your Email account",
-                            html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
-                        }
-                        smtpTransport.sendMail(mailOptions, function(error, response){
-                            if (error){
-                                console.log(error);
-                                res.end("error");
-                            } else{
-                                console.log("Message sent: " + response.message);
-                            }
-                        })  
+                        link = "http://" + host + "/confirm?token=" + token
+                        sendMail({
+                            email: user.email,
+                            subject: "Please confirm your Email account",
+                            message: "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+                        })
                         res.redirect('/sent')
                     } else {
                         console.log(response.data.error)
@@ -89,8 +103,33 @@ router.post('/register', urlcodedParser, function(req, res) {
                 })
         })
     })
+})
 
+router.post('/reset', urlcodedParser, function(req, res) {
+    let {password} = req.body;
+    const token = req.query.token;
 
+    console.log(token)
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt,
+            (err, hash) => {
+                if (err) throw err;
+                password = hash;
+
+                axios({
+                    method: 'post',
+                    url: apiUrl + '/auth/resetPassword',
+                    data: {
+                        password,
+                        token
+                    }
+                }).then((response) => {
+                    console.log(response.data.status)
+                    res.redirect('/login')
+                })
+        })
+    })
 })
 
 router.get('/login', function(req, res) {
@@ -161,11 +200,50 @@ router.get('/confirm', function(req,res) {
     })
 })
 
+
+
 router.get('/sent', function(req,res) {
-	res.render('./validations/sent.pug');
+    res.render('./validations/sent.pug');
 })
 
 router.get('/forgot', function(req,res) {
-	res.render('./validations/forgot.pug');
+    res.render('./validations/forgot.pug');
+})
+
+router.get('/reset', function(req,res) {
+    res.render('./validations/reset.pug');
+})
+
+router.post('/forgot', function(req,res) {
+    const token = generateToken(req.body.email)
+
+    axios({
+        method: 'post',
+        url: apiUrl + '/auth/setResetToken',
+        data: {
+            email: req.body.email,
+            token
+        }
+    }).then((response) => {
+        console.log(response.data.status)
+        if (response.data.status == 'success') {
+            host = "localhost:" + process.env.WEBHOSTPORT;
+            link = "http://" + host + "/reset?token=" + token
+            
+            sendMail({
+                email: req.body.email,
+                subject: "Reset Password",
+                message: "Hello,<br> Please Click on the link to reset your password.<br><a href="+link+">Click here to verify</a>"
+            })
+            res.render('./validations/forgot-sent.pug')
+        } else {
+            res.render('./validations/invalid.pug');
+        }
+    }).catch(err => {
+        // console.log(err)        
+        res.render('./validations/invalid.pug');
+    })
+    
+    // res.render('./validations/forgot-sent.pug')
 })
 

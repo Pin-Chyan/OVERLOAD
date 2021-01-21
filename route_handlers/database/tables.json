@@ -13,6 +13,7 @@
             "tag" : "VARCHAR(255)",
             "bio":"TEXT",
             "token":"TEXT",
+            "resetToken":"TEXT",
             "verified" : "INT",
             "location" : "VARCHAR(255)",
             "img1":"LONGBLOB"
