@@ -7,13 +7,13 @@ create .env file (replace the '<tags>' with your relevant information)
 env file contents :
 <br>
 ```
-HOST = <ip of your pc/localhost>
-WEBHOSTPORT = <port to host website>
-DBPORT = <database port>
-DBUSER = <database username> 
-PASS = <database password>
-DB = <database name>
-SOCKETMESSAGEPORT = <port of socket> 
+HOST=<ip of your pc/localhost>
+WEBHOSTPORT=<port to host website>
+DBPORT=<database port>
+DBUSER=<database username> 
+PASS=<database password>
+DB=<database name>
+SOCKETMESSAGEPORT=<port of socket> 
 ````
 
  * run : `npm install`

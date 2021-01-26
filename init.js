@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 
+console.log
+
 async function init(){
     const conn = mysql.createConnection({
         host: process.env.HOST,

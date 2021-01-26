@@ -34,10 +34,10 @@ function updateInfo() {
 	if (!tag || tag == "") {
 		tag = document.getElementById("interestList").textContent;
 	}
-	var location = $("#address").val();
-	if (!location) {
-		location = document.getElementById("address").placeholder;
-	}
+	// var location = $("#address").val();
+	// if (!location) {
+	// 	location = document.getElementById("address").placeholder;
+	// }
 	var bio = $("#bio").val();
 	if (!bio) {
 		bio = document.getElementById("bio").placeholder;
@@ -46,26 +46,28 @@ function updateInfo() {
 	var reader = new FileReader();
 
 	// image reading and uploading
-	reader.readAsDataURL(img);
-	reader.onloadend = function() {
-		fetch('api/usr/updatedata', {
-			method : 'POST',
-			mode : 'cors',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body : JSON.stringify({
-				'id': id,
-				"img1": reader.result,
-			})
-		});
-		setTimeout(continueExecution, 200);
+	if (img){
+		reader.readAsDataURL(img);
+		reader.onloadend = function() {
+			fetch('api/usr/updatedata', {
+				method : 'POST',
+				mode : 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body : JSON.stringify({
+					'id': id,
+					"img1": reader.result,
+				})
+			});
+			setTimeout(continueExecution, 200);
+		}
 	}
 
 
 	// img.src = URL.createObjectURL(this.files[0]);
 	console.log("name: " + name + "\n" + "surname: " + surname + "\n" + "password: " + password + "\n" + "gender: " + gender + "\n" + 
-	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + "location: " + location + "\n" + 
+	"age: " + age + "\n" + "email: " + email + "\n" + "sp: " + sp + "\n" + "tag: " + tag  + "\n" + 
 	"bio: " + bio + "\n" + "img: " + img + "\n");
 	// $("#pageloader").fadeIn(0);
 	fetch('api/usr/updatedata', {
@@ -110,7 +112,6 @@ async function getData() {
 	document.getElementById("email").placeholder = data.email;
 	document.getElementById("surname").placeholder = data.surname;
 	document.getElementById("age").placeholder = data.age;
-	document.getElementById("address").placeholder = data.location;
 	document.getElementById("gender").value = data.gender;
 	document.getElementById("sp").value = data.sexual_pref;
 	document.getElementById("bio").placeholder = data.bio;
