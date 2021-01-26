@@ -3,7 +3,7 @@ I will assume node and npm is installed your machnine.
  * `sudo apt update`
  * `sudo apt install npm`
 
-create .env file
+create .env file (replace the '<tags>' with your relevant information)
 env file contents :
 <br>
 ```
