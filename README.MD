@@ -7,10 +7,10 @@ env file contents :
 HOST = <ip of your pc/localhost>
 WEBHOSTPORT = <port to host website>
 DBPORT = <database port>
-DBUSER = <database username> pitsai
+DBUSER = <database username> 
 PASS = <database password>
 DB = <database name>
-SOCKETMESSAGEPORT = <port of socket> 5002
+SOCKETMESSAGEPORT = <port of socket> 
 `
 
 run : npm install
