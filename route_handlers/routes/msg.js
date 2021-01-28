@@ -111,10 +111,11 @@ async function getData(chatrooms){
 // send messages
 router.route('/send').get( (req, res) => {
     if (!req.query.chatroom || !req.query.id || !req.query.msg){
+        console.log(req.query);
         return end(res, 400, "no");
     }
     sendMessage(req).then((result) => {
-        return end(res, 400, "yes");
+        return end(res, 200, "yes");
     })
 })
 
@@ -152,8 +153,10 @@ async function sendSocket(req, chatroom, message, res){
     else
         socketId = clients[chatroom.usr1];
 
-    if (socketId != undefined)
+    if (socketId != undefined){
         io.to(socketId).emit('message', message)
+        io.to(socketId).emit('notification', "you received a message")
+    }
 }
 
 function end(res, status, msg){

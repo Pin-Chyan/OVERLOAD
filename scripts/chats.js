@@ -22,9 +22,9 @@ async function loadRecents(){
         i++;
     }
 
-    if (data[0])
+    if (data[0]){
         await loadChat(data[0].id);
-    else {
+    } else {
         var chatDisplay = document.getElementById("chatDisplay");
         document.getElementById("sendButton").setAttribute('onclick', 'send(null)');
         chatDisplay.innerHTML = "";
@@ -42,6 +42,7 @@ async function loadChat(chatroom){
     var i = 0;
     while(i < data.length){
         if (data[i].id == chatroom){
+            console.log("msg");
             console.log(data[i].msg);
             data[i].msg.forEach(msg => {
                 if (msg.sender == id){
@@ -56,10 +57,10 @@ async function loadChat(chatroom){
 }
 
 async function send(chatroom){
-    
+    var text = document.getElementById('inputMessage').value;
+
     if (text != null){
-        var text = document.getElementById('inputMessage').value;
-        const response = await fetch("/api/msg/send?id=" + id + "&chatroom=" + chatroom +"&msg=" + text);
+        await fetch("/api/msg/send?id=" + id + "&chatroom=" + chatroom +"&msg=" + text);
         placeSentMessage(text);
     }
     
