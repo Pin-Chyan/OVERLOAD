@@ -16,7 +16,7 @@ html(lang="en")
 				div
 					div
 						label.small(for="name") Name
-						input.form-control(id="name" type="text" name="name" placeholder="Name" onkeyup="valName()"  autocomplete="given-name")
+						input.form-control.wide300(id="name" type="text" name="name" placeholder="Name" onkeyup="valName()"  autocomplete="given-name")
 					div
 						label.small(for="surname") Surname
 						input.form-control(id="surname" type="text" name="surname" placeholder="Surname" onkeyup="valSurname()" autocomplete="family-name")
@@ -29,10 +29,11 @@ html(lang="en")
 					div
 						label.small(for="cpassword") Confirm Password
 						input.form-control(id="cpassword" type="password" name="cpassword" placeholder="Secrets 2.0" onkeyup="valcPassword()")
-					
+
 					a.small.btn.btn-primary(href="/login") Login
 
 					button.btn.btn-primary(onclick="compForm()") submit 
+					p.hide.caveat#hide password between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter
 
 
 		footer

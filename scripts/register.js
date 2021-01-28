@@ -56,12 +56,15 @@ function valEmail(){
 }
 
 function valPassword(){
+	var pwformat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 	var password = $("#password").val();
-	if (!password) {
+	if (!password || !password.match(pwformat)) {
 		$("#password").css("border", "2px solid red");
+		document.getElementById("hide").style.display = "block";
 		return false;
 	}else{
 		$("#password").css("border", "1px solid green");
+		document.getElementById("hide").style.display = "none";
 	}
 	return true;
 }

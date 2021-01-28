@@ -73,3 +73,13 @@ label{
   /* position: absolute;
   top: 50%; */
 }
+
+.hide {
+	display: none;
+	width: 300px
+	/* display: block; */
+}
+
+.wide300 {
+	width: 300px
+}
