@@ -1,5 +1,5 @@
 function compForm(){
-	if (validateForm()){
+	if (validateForm()) {
 		url_redirect({
 			url: "/register",
 			method: "post",
@@ -82,15 +82,38 @@ function valcPassword(){
 }
 
 function url_redirect(options) {
+
 	var $form = $("<form />");
 
 	$form.attr("action", options.url);
 	$form.attr("method", options.method);
+	position = null;
 
 	for (var data in options.data)
 		$form.append('<input type="hidden" name="' + data + '" value="' + options.data[data] + '" />');
 
-    $("body").append($form);
-    console.log($form)
-	$form.submit();
+	// Get geolocation
+	if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition((position) => {
+			$form.append('<input type="hidden" name=long value="' + position.coords.longitude + '" />');
+			$form.append('<input type="hidden" name=lat value="' + position.coords.latitude + '" />');
+			$("body").append($form);
+			console.log($form)
+			$form.submit();
+		}, (error) => {
+			$form.append('<input type="hidden" name=long value="' + null + '" />');
+			$form.append('<input type="hidden" name=lat value="' + null + '" />');
+			$("body").append($form);
+			console.log($form)
+			$form.submit();
+		})
+    } else {
+		$form.append('<input type="hidden" name=long value="' + null + '" />');
+		$form.append('<input type="hidden" name=geolocation value="' + null + '" />');
+		$("body").append($form);
+		console.log($form)
+		$form.submit();
+    }
 }
+

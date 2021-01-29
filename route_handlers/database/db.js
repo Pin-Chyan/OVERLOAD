@@ -37,9 +37,10 @@ class dbConn{
         queryValues += "'" + surname + "', ";
         queryValues += "'" + token + "', ";
         queryValues += "'" + 0 + "', ";
+        queryValues += "'" + location + "', ";
         queryValues += "'" + password + "');";
     
-        var query = "INSERT INTO users (email, name, surname, token, verified, password) VALUES" + queryValues;
+        var query = "INSERT INTO users (email, name, surname, token, verified, location, password) VALUES" + queryValues;
         var res = await this.request(query);
         // console.log(res);
         if (res.status == 'success'){

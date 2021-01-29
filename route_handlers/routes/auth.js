@@ -28,8 +28,8 @@ router.route('/validate').post( (req, res) => {
 })
 
 router.route('/register').post((req, res) => {
-    const {name, surname, email, password, token} = req.body;
-    connection.newuser({name, surname, email, password, token}).then((request) => {
+    const {name, surname, email, password, token, location} = req.body;
+    connection.newuser({name, surname, email, password, token, location}).then((request) => {
         if (request != "error") {
             res.json({"success" : true})
         } else {
