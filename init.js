@@ -56,6 +56,7 @@ async function uploadDefault(){
     const requestHandler = new db.dbConn();
     while(i < defaultData.length){
         newUser = defaultData[i];
+        console
         // console.log(newUser);
         i++;
 
