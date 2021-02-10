@@ -6,7 +6,7 @@ class dbConn{
         // specifies connection parameters
         this.conn = mysql.createConnection({
             host: process.env.HOST,
-            port: process.env.PORT,
+            port: process.env.DBPORT,
             user: process.env.DBUSER,
             password: process.env.PASS,
             database: process.env.DB

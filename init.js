@@ -11,7 +11,7 @@ console.log
 async function init(){
     const conn = mysql.createConnection({
         host: process.env.HOST,
-        port : process.env.PORT,
+        port : process.env.DBPORT,
         user: process.env.DBUSER,
         password: process.env.PASS
     });
@@ -24,7 +24,7 @@ async function init(){
     // connecting to new db
     const newConn = mysql.createConnection({
         host: process.env.HOST,
-        port : process.env.PORT,
+        port : process.env.DBPORT,
         user: process.env.DBUSER,
         password: process.env.PASS,
         database: process.env.DB
